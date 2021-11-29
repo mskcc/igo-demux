@@ -6,6 +6,8 @@ from airflow.operators.bash import BashOperator
 from airflow.decorators import dag, task
 from airflow.models import Variable
 
+sequencers = {"sequencers":[{"name":"ayyan","path":"/igo/sequencers/ayyan","last_file":"RTAComplete.txt"},{"name":"diana","path":"/igo/sequencers/diana","last_file":"CopyComplete.txt"},{"name":"michelle","path":"/igo/sequencers/michelle","last_file":"CopyComplete.txt"},{"name":"ruth","path":"/igo/sequencers/ruth","last_file":"CopyComplete.txt"},{"name":"johnsawyers","path":"/igo/sequencers/johnsawyers","last_file":"RTAComplete.txt"},{"name":"pepe","path":"/igo/sequencers/pepe/output","last_file":"CopyComplete.txt"},{"name":"scott","path":"/igo/sequencers/scott","last_file":"RunCompletionStatus.xml"}]}
+
 @dag(dag_id='find_completed_runs', schedule_interval=None, start_date=datetime(2021, 1, 1), catchup=False, tags=['find_completed_runs'])
 def find_completed_runs():
     """
@@ -14,13 +16,14 @@ def find_completed_runs():
     so a later task can start the demux for the sample sheet.
     """
     @task()
-    def find_runs(config_file):
+    def find_completed_runs():
         """
         #### Find Runs task
         Finds the list of runs which are recently completed.
         """
-        sequencers = sequencer.read_config(config_file)
-        time_to_search = Variable.get("completed_run_search_interval_mins", defalt_var=30)
+        print("Processing sequencer list: {}".format(sequencers))
+        
+        time_to_search = Variable.get("completed_run_search_interval_mins", default_var=30)
         completed_runs_path = sequencer.find_completed_runs(sequencers, time_to_search)
 
         for run_path in completed_runs_path:
@@ -28,10 +31,14 @@ def find_completed_runs():
 
     def copy_samplesheet(completed_run_path):
         print("Preparing sample sheet(s) for completed run:" + completed_run_path)
+
         completed_run = str(os.path.split(completed_run_path).tail)
         samplesheet = "SampleSheet_" + completed_run + ".csv"
-        orig_samplesheet = "/pskis34/LIMS/LIMS_SampleSheets/" + samplesheet
-        dest_samplesheet = "/igo/work/igo/SampleSheetCopies/" + samplesheet
+
+        orig_samplesheet_dir = Variable.get("original_samplesheet_dir", default_var="/pskis34/LIMS/LIMS_SampleSheets/")
+        orig_samplesheet =  orig_samplesheet_dir + samplesheet
+        dest_samplesheet_dir = Variable.get("destination_samplesheet_dir", default_var="/igo/work/igo/SampleSheetCopies/")
+        dest_samplesheet =  dest_samplesheet_dir + samplesheet
         
         cp_command = "cp {} {}".format(orig_samplesheet, dest_samplesheet)
         print("Copying sample sheet:" + cp_command)
@@ -42,12 +49,14 @@ def find_completed_runs():
 
         # TODO Split sample sheet for DLP, PED-PEG & 10X
 
-        # append new sample sheet to sample sheets variable list
-        samplesheets_list = Variable.get("samplesheets")
+        # append new sample sheet and completed run path to list
+        samplesheets_list = Variable.get("ready_to_demux")
         samplesheets_list.append(dest_samplesheet)
-        Variable.set("samplesheets", samplesheets_list)
+        samplesheets_list.append(completed_run_path)
+        Variable.set("ready_to_demux", samplesheets_list)
         print("Current sample sheet list ready for demux: " + samplesheets_list)
+        # TODO call demux DAG
         
-    find_runs("dag_runs.conf")
+    find_completed_runs()
 
 find_completed_runs = find_completed_runs()
