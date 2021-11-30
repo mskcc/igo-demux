@@ -49,13 +49,16 @@ def find_completed_runs():
 
         # TODO Split sample sheet for DLP, PED-PEG & 10X
 
-        # append new sample sheet and completed run path to list
         samplesheets_list = Variable.get("ready_to_demux")
         samplesheets_list.append(dest_samplesheet)
         samplesheets_list.append(completed_run_path)
         Variable.set("ready_to_demux", samplesheets_list)
-        print("Current sample sheet list ready for demux: " + samplesheets_list)
-        # TODO call demux DAG
+        
+        print("DAG CONF:" + dag_conf)
+        trigger_dag_demux = TriggerDagRunOperator(
+            task_id='demux_run',
+            trigger_dag_id='demux_run',
+        )
         
     find_completed_runs()
 
