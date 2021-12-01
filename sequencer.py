@@ -13,6 +13,8 @@ def read_config(config_file):
     return data
 
 def find_completed_runs(sequencers, mins_ago):
+    time_minutes_ago = datetime.datetime.now() - datetime.timedelta(minutes=int(mins_ago))
+
     ready_to_demux = list()
     for sequencer in sequencers["sequencers"]:
         print(" ", sequencer["name"])
@@ -20,7 +22,6 @@ def find_completed_runs(sequencers, mins_ago):
         last_file = sequencer["last_file"]
         if os.path.isdir(sequencer_path):
             runs = os.listdir(sequencer_path)
-            time_minutes_ago = datetime.datetime.now() - datetime.timedelta(minutes=mins_ago)
             for run_folder in runs:
                 full_run_path = os.path.join(sequencer_path,run_folder,last_file)
                 if os.path.isfile(full_run_path):

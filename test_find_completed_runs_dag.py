@@ -2,13 +2,6 @@ import find_completed_runs_dag
 import json
 import os
 
-def test_read_config():
-    config = find_completed_runs_dag.read_config("dag_run.conf")
-    assert 7 == len(config["sequencers"])
-
-def test_find_completed_runs():
-    find_completed_runs_dag.find_completed_runs(find_completed_runs_dag.read_config("dag_run.conf"), 30)
-    assert 0 == 0
 
 def test_create_sequencer_done_file(tmpdir):
     sequencer_json = '{"sequencers":[{"name": "sequencer_a","path":\"'+str(tmpdir.realpath())+'/sequencer_a\","last_file": "RTAComplete.txt"}]}'
