@@ -1,8 +1,9 @@
 import sequencer
 import os
-from datetime import datetime
+import datetime
+import json
 
-from airflow.operators.trigger_dagrun import TriggerDagRunOperator
+from airflow.providers.http.operators.http import SimpleHttpOperator
 from airflow.operators.bash import BashOperator
 from airflow import DAG
 from airflow.models import Variable
@@ -13,7 +14,7 @@ sequencers = {"sequencers":[{"name":"ayyan","path":"/igo/sequencers/ayyan","last
 with DAG(
     dag_id='find_completed_runs', 
     schedule_interval=None, 
-    start_date=datetime(2021, 1, 1), 
+    start_date=datetime.datetime(2021, 1, 1), 
     catchup=False,
     tags=["find_completed_runs"],
 ) as dag:
@@ -28,11 +29,11 @@ with DAG(
     print("Searching for runs completed in the last {} minutes, variable completed_run_search_interval_mins".format(time_to_search))
     completed_runs_path = sequencer.find_completed_runs(sequencers, time_to_search)
 
+
     for run_path in completed_runs_path:
-        completed_run_path = os.path.dirname(run_path)# remove file name from example: /igo/sequencers/michelle/211129_MICHELLE_0461_AHMJFJDSX2/CopyComplete.txt
-
+        # remove file name from path, for example: /igo/sequencers/michelle/211129_MICHELLE_0461_AHMJFJDSX2/CopyComplete.txt
+        completed_run_path = os.path.dirname(run_path)
         print("Copying sample sheet(s) for completed run:" + completed_run_path)
-
         completed_run = str(os.path.basename(completed_run_path))
         samplesheet = "SampleSheet_" + completed_run + ".csv"
 
@@ -44,20 +45,29 @@ with DAG(
         cp_command = "cp {} {}".format(orig_samplesheet, dest_samplesheet)
         print("Copying sample sheet:" + cp_command)
         run_cp_task = BashOperator(
-            task_id='copy_samplesheet',
+            task_id='copy_samplesheet_'+completed_run, # make the task_id unique for each run
             bash_command=cp_command,
         )
 
         # TODO Split sample sheet for DLP, PED-PEG & 10X
+        
+        demux_dict = {}
+        demux_dict['samplesheet'] = dest_samplesheet
+        demux_dict['sequencer_path'] = completed_run_path
+        demux_args_json = json.dumps(demux_dict)
 
-        #samplesheets_list = list()
-        #samplesheets_list.append(dest_samplesheet)
-        #samplesheets_list.append(completed_run_path)
-        #Variable.set("ready_to_demux", samplesheets_list)
+        future = '"'+(datetime.datetime.now() + datetime.timedelta(seconds=60)).strftime("%Y-%m-%dT%H:%M:%SZ")+'"'
+        # Airflow required arguments to trigger a dag - execution date and conf arguments
+        dag_json = '{"execution_date": '+future +',"conf": '+demux_args_json+'}'
+        print("Calling demux with execution time and args:" + dag_json)
 
-        #trigger_dag_demux = TriggerDagRunOperator(
-        #    task_id='demux_run',
-        #    trigger_dag_id='demux_run',
-        #)
+        trigger_dag_demux = SimpleHttpOperator(
+            task_id="start_demux_"+completed_run,
+            http_conn_id='airflow-api',
+            endpoint='api/v1/dags/demux_run/dagRuns',
+            method='POST',
+            headers={'Content-Type': 'application/json'},
+            data=dag_json,
+        )
 
-        run_cp_task 
+        run_cp_task >> trigger_dag_demux
