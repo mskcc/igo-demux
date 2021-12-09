@@ -1,45 +1,60 @@
 import os
-
+from pprint import pprint
 from datetime import datetime, timedelta
 
 from airflow import DAG
-from airflow.decorators import task
-from airflow.operators.bash import BashOperator
-from airflow.models import Variable
+from airflow.operators.python import PythonOperator
+from airflow.models.param import Param
+
 
 with DAG(
-    dag_id='demux_run',
-    tags=['demux_run'],
+    dag_id="demux_run",
+    schedule_interval=None,
+    start_date=datetime(2021, 1, 1),
+    catchup=False,
+    tags=["demux_run"],
 ) as dag:
     """
     Runs the demux such as: 
-    bsub -n48 -q dragen $JOB /opt/edico/bin/dragen --bcl-conversion-only true --bcl-sampleproject-subdirectories --force
+    bsub -n48 -q dragen /opt/edico/bin/dragen --bcl-conversion-only true --bcl-sampleproject-subdirectories true --force
       --bcl-input-directory /igo/sequencers/johnsawyers/211108_JOHNSAWYERS_0312 
       --output-directory /igo/staging/FASTQ/JOHNSAWYERS_0312 
       --sample-sheet /home/igo/DividedSampleSheets/SampleSheet_211108_JOHNSAWYERS_0312.csv 
     """
-    # get the sample sheet path and bcl directory
-    samplesheets_list = Variable.get("ready_to_demux")
-    sample_sheet_path = samplesheets_list.pop(0)
-    sequencer_run_dir = samplesheets_list.pop(0)
-    Variable.set("ready_to_demux", samplesheets_list)
-    
-    sample_sheet = os.path.basename(sample_sheet_path)
-    sample_sheet_no_ext = os.path.splitext(sample_sheet)[0]
 
-    output_directory = "/igo/staging/FASTQ/" + str.replace(sample_sheet_no_ext("SampleSheet_","")) + "_DGN"
-    job_name = "demux_" + sample_sheet
-    
-    # build the demux command
-    command = "bsub -n48 -q dragen /opt/edico/bin/dragen --bcl-conversion-only true --force --bcl-sampleproject-subdirectories --bcl-input-directory {} --output-directory {} --sample-sheet {}"
-    print("Running demux: " + command)
-    
-    demux_command = BashOperator(
-        task_id='demux_command',
-        bash_command=command,
+    def demux(ds, **kwargs):
+        samplesheet_path = kwargs["params"]["samplesheet"]
+        samplesheet = os.path.basename(samplesheet_path)
+        samplesheet_no_ext = os.path.splitext(samplesheet)[0]  # SampleSheet_210331_MICHELLE_0360_BH5KFYDRXY
+        sequencer_and_run = samplesheet_no_ext[19:]            # remoove 'SampleSheet_210331_'
+        sequencer_path = kwargs["params"]["sequencer_path"]
+
+        output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DGN"
+        bsub_command = "bsub -n48 -q dragen -e error.log -o output.log "
+        command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --force --bcl-sampleproject-subdirectories --bcl-input-directory {} --output-directory {} --sample-sheet {}".format(
+            sequencer_path, output_directory, samplesheet_path)
+        print("Running demux: " + command)
+        #TODO execute and wait for return value
+        return command
+
+    demux_run = PythonOperator(
+        task_id='start_the_demux',
+        python_callable=demux,
     )
-    
-    demux_command
 
-if __name__ == "__main__":
-    dag.cli()
+    demux_run
+""" 
+Read the input arguments such as:
+
+    'params': {'samplesheet': '/igo/work/igo/SampleSheetCopies/SampleSheet_211206_JOHNSAWYERS_0317_000000000-K3LFK.csv',
+             'sequencer_path': '/igo/sequencers/johnsawyers/211206_JOHNSAWYERS_0317_000000000-K3LFK'},
+"""
+
+# build the demux command
+
+# demux_command = BashOperator(
+#    task_id='demux_command',
+#    bash_command=command,
+# )
+
+# demux_command
