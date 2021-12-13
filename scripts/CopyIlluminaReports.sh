@@ -4,10 +4,10 @@
 DIR=/igo/staging/FASTQ
 cd $DIR
 
-FASTQ_DIRS=$(find . -mindepth 1 -maxdepth 1 -cmin -123)
-for x in ${FASTQ_DIRS}; do
-  dirName="$(echo $x| cut -d'/' -f 2)"
-  runLong="$(echo $x| cut -d'_' -f 3)"
+FASTQ_DIRS=$(find /igo/staging/FASTQ -mindepth 1 -maxdepth 1 -cmin -223)
+for fastq_dir in ${FASTQ_DIRS}; do
+  dirName="$(echo $fastq_dir| cut -d'/' -f 2)"
+  runLong="$(echo $fastq_dir| cut -d'_' -f 3)"
   if [[ "$runLong" == *"-"* ]]; then  # dir names are either like PITT_0276_BH2JK3BBXY or VIC_2421_000000000-C3W3G
     runName=$runLong
   elif [[ -z $(echo ${dirname} | grep PEPE) ]]; then
@@ -20,16 +20,17 @@ for x in ${FASTQ_DIRS}; do
   echo "For Run $runName whole name $runLong"
   part1="/Reports/html/"
   part2="/all/all/all/laneBarcode.html"
-  filename=$x$part1$runName$part2
-  csv="/Reports/Demultiplex_Stats.csv"
-  filename_dragen=$x$csv
-
+  filename=$fastq_dir$part1$runName$part2
+  
   homedir="/home/igo/html/"
   html="_laneBarcode.html"
   htmlnewfile="_laneBarcode_.html"
   copiedname=$homedir$runName$html
 
-  dragen_replay=$x"/dragen-replay.json"
+  csv="/Reports/Demultiplex_Stats.csv"
+  filename_dragen=$fastq_dir$csv
+  dragen_replay=$fastq_dir"/dragen-replay.json"
+  echo $dragen_replay
   
   # Check for bcl2fastq laneBarcode.html existence
   if [ -f $filename ]; then
@@ -53,7 +54,7 @@ for x in ${FASTQ_DIRS}; do
     toName=$toDir$dirName$html
     enrichedName=$homedir$runName$htmlnewfile
 
-    touch $enrichedName -r $filename #set correct timestamp on new html file
+    touch $filename_dragen -r $filename #set correct timestamp on new html file
     echo "scp $enrichedName to $toName"
     scp -p $enrichedName igo@igo:$toName
   else
