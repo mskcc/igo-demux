@@ -4,7 +4,7 @@
 DIR=/igo/staging/FASTQ
 cd $DIR
 
-FASTQ_DIRS=$(find /igo/staging/FASTQ -mindepth 1 -maxdepth 1 -cmin -223)
+FASTQ_DIRS=$(find /igo/staging/FASTQ -mindepth 1 -maxdepth 1 -cmin -123)
 for fastq_dir in ${FASTQ_DIRS}; do
   dirName="$(echo $fastq_dir| cut -d'/' -f 2)"
   runLong="$(echo $fastq_dir| cut -d'_' -f 3)"
@@ -54,7 +54,7 @@ for fastq_dir in ${FASTQ_DIRS}; do
     toName=$toDir$dirName$html
     enrichedName=$homedir$runName$htmlnewfile
 
-    touch $filename_dragen -r $filename #set correct timestamp on new html file
+    touch $enrichedName -r $filename_dragen #set correct timestamp on new html file
     echo "scp $enrichedName to $toName"
     scp -p $enrichedName igo@igo:$toName
   else
