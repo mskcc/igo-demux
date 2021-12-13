@@ -1,0 +1,10646 @@
+[
+	{
+		"INDEXTAG" : "TAAGGCGA",
+		"INDEXID" : "AD2.1"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG",
+		"INDEXID" : "AD2.10"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA",
+		"INDEXID" : "AD2.11"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA",
+		"INDEXID" : "AD2.12"
+	},
+	{
+		"INDEXTAG" : "GTCGTGAT",
+		"INDEXID" : "AD2.13"
+	},
+	{
+		"INDEXTAG" : "ACCACTGT",
+		"INDEXID" : "AD2.14"
+	},
+	{
+		"INDEXTAG" : "TGGATCTG",
+		"INDEXID" : "AD2.15"
+	},
+	{
+		"INDEXTAG" : "CCGTTTGT",
+		"INDEXID" : "AD2.16"
+	},
+	{
+		"INDEXTAG" : "TGCTGGGT",
+		"INDEXID" : "AD2.17"
+	},
+	{
+		"INDEXTAG" : "GAGGGGTT",
+		"INDEXID" : "AD2.18"
+	},
+	{
+		"INDEXTAG" : "AGGTTGGG",
+		"INDEXID" : "AD2.19"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG",
+		"INDEXID" : "AD2.2"
+	},
+	{
+		"INDEXTAG" : "GTGTGGTG",
+		"INDEXID" : "AD2.20"
+	},
+	{
+		"INDEXTAG" : "TGGGTTTC",
+		"INDEXID" : "AD2.21"
+	},
+	{
+		"INDEXTAG" : "TGGTCACA",
+		"INDEXID" : "AD2.22"
+	},
+	{
+		"INDEXTAG" : "TTGACCCT",
+		"INDEXID" : "AD2.23"
+	},
+	{
+		"INDEXTAG" : "CCACTCCT",
+		"INDEXID" : "AD2.24"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA",
+		"INDEXID" : "AD2.3"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC",
+		"INDEXID" : "AD2.4"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT",
+		"INDEXID" : "AD2.5"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG",
+		"INDEXID" : "AD2.6"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC",
+		"INDEXID" : "AD2.7"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG",
+		"INDEXID" : "AD2.8"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT",
+		"INDEXID" : "AD2.9"
+	},
+	{
+		"INDEXTAG" : "ATCACGAT",
+		"INDEXID" : "AR001"
+	},
+	{
+		"INDEXTAG" : "CGATGTAT",
+		"INDEXID" : "AR002"
+	},
+	{
+		"INDEXTAG" : "TTAGGCAT",
+		"INDEXID" : "AR003"
+	},
+	{
+		"INDEXTAG" : "TGACCAAT",
+		"INDEXID" : "AR004"
+	},
+	{
+		"INDEXTAG" : "ACAGTGAT",
+		"INDEXID" : "AR005"
+	},
+	{
+		"INDEXTAG" : "GCCAATAT",
+		"INDEXID" : "AR006"
+	},
+	{
+		"INDEXTAG" : "CAGATCAT",
+		"INDEXID" : "AR007"
+	},
+	{
+		"INDEXTAG" : "ACTTGAAT",
+		"INDEXID" : "AR008"
+	},
+	{
+		"INDEXTAG" : "GATCAGAT",
+		"INDEXID" : "AR009"
+	},
+	{
+		"INDEXTAG" : "TAGCTTAT",
+		"INDEXID" : "AR010"
+	},
+	{
+		"INDEXTAG" : "GGCTACAT",
+		"INDEXID" : "AR011"
+	},
+	{
+		"INDEXTAG" : "CTTGTAAT",
+		"INDEXID" : "AR012"
+	},
+	{
+		"INDEXTAG" : "AGTCAACA",
+		"INDEXID" : "AR013"
+	},
+	{
+		"INDEXTAG" : "AGTTCCGT",
+		"INDEXID" : "AR014"
+	},
+	{
+		"INDEXTAG" : "ATGTCAGA",
+		"INDEXID" : "AR015"
+	},
+	{
+		"INDEXTAG" : "CCGTCCCG",
+		"INDEXID" : "AR016"
+	},
+	{
+		"INDEXTAG" : "GTCCGCAC",
+		"INDEXID" : "AR018"
+	},
+	{
+		"INDEXTAG" : "GTGAAACG",
+		"INDEXID" : "AR019"
+	},
+	{
+		"INDEXTAG" : "GTGGCCTT",
+		"INDEXID" : "AR020"
+	},
+	{
+		"INDEXTAG" : "GTTTCGGA",
+		"INDEXID" : "AR021"
+	},
+	{
+		"INDEXTAG" : "CGTACGTA",
+		"INDEXID" : "AR022"
+	},
+	{
+		"INDEXTAG" : "GAGTGGAT",
+		"INDEXID" : "AR023"
+	},
+	{
+		"INDEXTAG" : "ACTGATAT",
+		"INDEXID" : "AR025"
+	},
+	{
+		"INDEXTAG" : "ATTCCTTT",
+		"INDEXID" : "AR027"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-ATCCGTAC",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_A1"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-GCGTAACT",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_A17"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-AGAGACCT",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_A25"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CCAACGAA",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_A33"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CTGTCCAT",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_A41"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-GAGGCTTA",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_A9"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-AGCATTCC",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_B1"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CATTCTCC",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_B17"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TAGAGGTC",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_B25"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TGCCATCA",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_B33"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-GGTACACT",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_B41"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-AACCTGGT",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_B9"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TCCTGAGT",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_C1"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CGTGTCAA",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_C17"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-GCCTACTA",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_C33"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CGTACTCT",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_C41"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TCGTAGTC",
+		"INDEXID" : "Archer_P7_1-MBC_Adaptor_C9"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-GACTTCGT",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_A10"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-GTGATCCA",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_A18"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-GTTCACAG",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_A2"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TGTGCATG",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_A26"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-CTCATTGG",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_A34"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-AGGCACTT",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_A42"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TCAGGTGT",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_B10"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-AGGTGTAG",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_B18"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-GGCTTGTT",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_B2"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-CGATTACG",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_B26"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TCGAGACA",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_B34"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-GCAGACTT",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_B42"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TGTGAGCA",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_C10"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-GTAGCGAA",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_C18"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-ACGGTACA",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_C2"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-AGTCAAGG",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_C34"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TTCGAACG",
+		"INDEXID" : "Archer_P7_2-MBC_Adaptor_C42"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-GTCGTTGT",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_A11"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-GTGCAGTT",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_A19"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-ATAAGCGG",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_A27"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TGCTACGA",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_A3"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-CCTCAGAA",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_A35"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-CGTCATAC",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_A43"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TACCATGG",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_B11"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-ACTCTACG",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_B19"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TCTACCTG",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_B27"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TTGGACAC",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_B3"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-GTCAGGTA",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_B35"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-GTCTAACC",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_B43"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-ATTGCTGC",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_C11"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-ACACGAAG",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_C19"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-CAGAACGT",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_C3"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-GCGAGAAT",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_C35"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-AAGGCTTC",
+		"INDEXID" : "Archer_P7_3-MBC_Adaptor_C43"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-TCTGCTTC",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_A12"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GACCGTAA",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_A20"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CATTCCAC",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_A28"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GGATTGAG",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_A36"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-AGACTCAC",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_A4"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GTCGATCA",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_A44"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CTATGCTG",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_B12"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GTGTATGC",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_B20"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-ACCTATCC",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_B28"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CTCTCAGT",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_B36"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GTTGATCG",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_B4"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CTCATGAC",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_B44"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GAACTTGC",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_C12"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CAATCACC",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_C20"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GGTTCGAT",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_C36"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CTCCAACT",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_C4"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-AACGTGTG",
+		"INDEXID" : "Archer_P7_4-MBC_Adaptor_C44"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-GAGGACTT",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_A13"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TGATCGTC",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_A21"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TCCATGTC",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_A29"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-CCACTTGT",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_A37"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-GTACGTCA",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_A45"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-ATCCAAGC",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_A5"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-CTGCCATA",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_B13"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-GTTCAGCT",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_B21"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-CACTAGGA",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_B29"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TACTTCGG",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_B37"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-ACAAGCTG",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_B45"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TCACTACG",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_B5"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-ACGAGACT",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_C13"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-CTCTCTTG",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_C21"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TCCATAGG",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_C37"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-GGTACCTT",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_C45"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-GTTGCAGA",
+		"INDEXID" : "Archer_P7_5-MBC_Adaptor_C5"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TCCTCGAT",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_A14"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-GTTCAAGG",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_A22"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CATGTGAC",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_A30"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TATGACGG",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_A38"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CGACGATT",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_A46"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CGCATTCA",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_A6"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TGGACGAT",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_B14"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-ATAGCCTC",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_B22"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CCTTAGAG",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_B30"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-GTATCCTG",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_B38"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TAGGTACC",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_B46"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-GTGGAGAA",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_B6"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-ACCAGTTC",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_C14"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CGTATCGA",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_C22"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-ATCAGACC",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_C30"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TGACCGAA",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_C38"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CACAGGAA",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_C46"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CTACAGGT",
+		"INDEXID" : "Archer_P7_6-MBC_Adaptor_C6"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CCATTCGT",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_A23"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-AGGAGATC",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_A31"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CTTCCGTT",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_A39"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CACACACA",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_B15"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-TGCTTCCT",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_B23"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CTCCTACA",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_B31"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-ACGCAGAT",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_B39"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CAGTGTTC",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_B47"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-TAGTGCTG",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_B7"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CAAGTCAG",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_C15"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-TGAGGATC",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_C23"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CCACATTG",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_C31"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CCATGGTA",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_C39"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CATGCCAT",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_C47"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CTGACTCT",
+		"INDEXID" : "Archer_P7_7-MBC_Adaptor_C7"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-TTCTAGGC",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_A16"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-AGTATGCC",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_A24"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GTCAGTTG",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_A32"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GGTTACAC",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_A40"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-CTGTAGCT",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_A48"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-AACTACGG",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_A8"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GTTACCAC",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_B16"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-TGCTGATC",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_B24"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-CGTGTATC",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_B32"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GGTCATTC",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_B40"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-CTGACAAC",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_B48"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GCACACAA",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_B8"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GTAGTCTG",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_C16"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-AGTTGCGT",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_C24"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GGTCTACT",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_C32"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-CGAGTTAC",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_C40"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GGATACAG",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_C48"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-TGGTACCT",
+		"INDEXID" : "Archer_P7_8-MBC_Adaptor_C8"
+	},
+	{
+		"INDEXTAG" : "TTGAACCG",
+		"INDEXID" : "Bachovchin_1"
+	},
+	{
+		"INDEXTAG" : "CCTCTGTA",
+		"INDEXID" : "Bachovchin_10"
+	},
+	{
+		"INDEXTAG" : "TTGACAAT",
+		"INDEXID" : "Bachovchin_11"
+	},
+	{
+		"INDEXTAG" : "AAGACATA",
+		"INDEXID" : "Bachovchin_12"
+	},
+	{
+		"INDEXTAG" : "AATCCAAT",
+		"INDEXID" : "Bachovchin_13"
+	},
+	{
+		"INDEXTAG" : "CCGAGTAT",
+		"INDEXID" : "Bachovchin_14"
+	},
+	{
+		"INDEXTAG" : "TTCTCATA",
+		"INDEXID" : "Bachovchin_15"
+	},
+	{
+		"INDEXTAG" : "AACTGTGC",
+		"INDEXID" : "Bachovchin_16"
+	},
+	{
+		"INDEXTAG" : "AATCCACG",
+		"INDEXID" : "Bachovchin_17"
+	},
+	{
+		"INDEXTAG" : "TTCTACTA",
+		"INDEXID" : "Bachovchin_18"
+	},
+	{
+		"INDEXTAG" : "AATCGTGC",
+		"INDEXID" : "Bachovchin_19"
+	},
+	{
+		"INDEXTAG" : "AATCCAGC",
+		"INDEXID" : "Bachovchin_2"
+	},
+	{
+		"INDEXTAG" : "GGCTACCG",
+		"INDEXID" : "Bachovchin_20"
+	},
+	{
+		"INDEXTAG" : "AAGAACTA",
+		"INDEXID" : "Bachovchin_21"
+	},
+	{
+		"INDEXTAG" : "AACTTGTA",
+		"INDEXID" : "Bachovchin_22"
+	},
+	{
+		"INDEXTAG" : "CCAGTGAT",
+		"INDEXID" : "Bachovchin_23"
+	},
+	{
+		"INDEXTAG" : "TTGATGCG",
+		"INDEXID" : "Bachovchin_24"
+	},
+	{
+		"INDEXTAG" : "GGTCGTGC",
+		"INDEXID" : "Bachovchin_25"
+	},
+	{
+		"INDEXTAG" : "GGAGTGTA",
+		"INDEXID" : "Bachovchin_26"
+	},
+	{
+		"INDEXTAG" : "CCGAACAT",
+		"INDEXID" : "Bachovchin_27"
+	},
+	{
+		"INDEXTAG" : "GGTCCACG",
+		"INDEXID" : "Bachovchin_28"
+	},
+	{
+		"INDEXTAG" : "GGCTCAAT",
+		"INDEXID" : "Bachovchin_29"
+	},
+	{
+		"INDEXTAG" : "CCGAGTTA",
+		"INDEXID" : "Bachovchin_3"
+	},
+	{
+		"INDEXTAG" : "AACTCACG",
+		"INDEXID" : "Bachovchin_30"
+	},
+	{
+		"INDEXTAG" : "AATCTGAT",
+		"INDEXID" : "Bachovchin_31"
+	},
+	{
+		"INDEXTAG" : "AATCACTA",
+		"INDEXID" : "Bachovchin_32"
+	},
+	{
+		"INDEXTAG" : "AACTGTTA",
+		"INDEXID" : "Bachovchin_4"
+	},
+	{
+		"INDEXTAG" : "TTGAGTAT",
+		"INDEXID" : "Bachovchin_5"
+	},
+	{
+		"INDEXTAG" : "TTCTCAGC",
+		"INDEXID" : "Bachovchin_6"
+	},
+	{
+		"INDEXTAG" : "CCTCCAAT",
+		"INDEXID" : "Bachovchin_7"
+	},
+	{
+		"INDEXTAG" : "TTAGACTA",
+		"INDEXID" : "Bachovchin_8"
+	},
+	{
+		"INDEXTAG" : "GGTCACCG",
+		"INDEXID" : "Bachovchin_9"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-AGATCTCG",
+		"INDEXID" : "bc096-bc096"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-TAGTTGCG",
+		"INDEXID" : "bc096-bc209"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-GAGATACG",
+		"INDEXID" : "bc096-bc210"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-AGGTGTAC",
+		"INDEXID" : "bc096-bc211"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-TAATGCCG",
+		"INDEXID" : "bc096-bc212"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-TCAGACGA",
+		"INDEXID" : "bc096-bc213"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-GATAGGCT",
+		"INDEXID" : "bc096-bc214"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-TGGTACAG",
+		"INDEXID" : "bc096-bc215"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-CAAGGTCT",
+		"INDEXID" : "bc096-bc216"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-CGTATTCG",
+		"INDEXID" : "bc096-bc217"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-CTCCTAGA",
+		"INDEXID" : "bc096-bc218"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-CATGAGGA",
+		"INDEXID" : "bc096-bc219"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-TGACTGAC",
+		"INDEXID" : "bc096-bc220"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-GTCGGTAA",
+		"INDEXID" : "bc096-bc221"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-AGGTCACT",
+		"INDEXID" : "bc096-bc222"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-GAATCCGA",
+		"INDEXID" : "bc096-bc223"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC-GTACCTTG",
+		"INDEXID" : "bc096-bc224"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-AGATCTCG",
+		"INDEXID" : "bc209-bc096"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-TAGTTGCG",
+		"INDEXID" : "bc209-bc209"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-GAGATACG",
+		"INDEXID" : "bc209-bc210"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-AGGTGTAC",
+		"INDEXID" : "bc209-bc211"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-TAATGCCG",
+		"INDEXID" : "bc209-bc212"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-TCAGACGA",
+		"INDEXID" : "bc209-bc213"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-GATAGGCT",
+		"INDEXID" : "bc209-bc214"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-TGGTACAG",
+		"INDEXID" : "bc209-bc215"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-CAAGGTCT",
+		"INDEXID" : "bc209-bc216"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-CGTATTCG",
+		"INDEXID" : "bc209-bc217"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-CTCCTAGA",
+		"INDEXID" : "bc209-bc218"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-CATGAGGA",
+		"INDEXID" : "bc209-bc219"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-TGACTGAC",
+		"INDEXID" : "bc209-bc220"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-GTCGGTAA",
+		"INDEXID" : "bc209-bc221"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-AGGTCACT",
+		"INDEXID" : "bc209-bc222"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-GAATCCGA",
+		"INDEXID" : "bc209-bc223"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA-GTACCTTG",
+		"INDEXID" : "bc209-bc224"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-AGATCTCG",
+		"INDEXID" : "bc210-bc096"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-TAGTTGCG",
+		"INDEXID" : "bc210-bc209"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-GAGATACG",
+		"INDEXID" : "bc210-bc210"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-AGGTGTAC",
+		"INDEXID" : "bc210-bc211"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-TAATGCCG",
+		"INDEXID" : "bc210-bc212"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-TCAGACGA",
+		"INDEXID" : "bc210-bc213"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-GATAGGCT",
+		"INDEXID" : "bc210-bc214"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-TGGTACAG",
+		"INDEXID" : "bc210-bc215"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-CAAGGTCT",
+		"INDEXID" : "bc210-bc216"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-CGTATTCG",
+		"INDEXID" : "bc210-bc217"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-CTCCTAGA",
+		"INDEXID" : "bc210-bc218"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-CATGAGGA",
+		"INDEXID" : "bc210-bc219"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-TGACTGAC",
+		"INDEXID" : "bc210-bc220"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-GTCGGTAA",
+		"INDEXID" : "bc210-bc221"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-AGGTCACT",
+		"INDEXID" : "bc210-bc222"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-GAATCCGA",
+		"INDEXID" : "bc210-bc223"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC-GTACCTTG",
+		"INDEXID" : "bc210-bc224"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-AGATCTCG",
+		"INDEXID" : "bc211-bc096"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-TAGTTGCG",
+		"INDEXID" : "bc211-bc209"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-GAGATACG",
+		"INDEXID" : "bc211-bc210"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-AGGTGTAC",
+		"INDEXID" : "bc211-bc211"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-TAATGCCG",
+		"INDEXID" : "bc211-bc212"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-TCAGACGA",
+		"INDEXID" : "bc211-bc213"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-GATAGGCT",
+		"INDEXID" : "bc211-bc214"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-TGGTACAG",
+		"INDEXID" : "bc211-bc215"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-CAAGGTCT",
+		"INDEXID" : "bc211-bc216"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-CGTATTCG",
+		"INDEXID" : "bc211-bc217"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-CTCCTAGA",
+		"INDEXID" : "bc211-bc218"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-CATGAGGA",
+		"INDEXID" : "bc211-bc219"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-TGACTGAC",
+		"INDEXID" : "bc211-bc220"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-GTCGGTAA",
+		"INDEXID" : "bc211-bc221"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-AGGTCACT",
+		"INDEXID" : "bc211-bc222"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-GAATCCGA",
+		"INDEXID" : "bc211-bc223"
+	},
+	{
+		"INDEXTAG" : "GTACACCT-GTACCTTG",
+		"INDEXID" : "bc211-bc224"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-AGATCTCG",
+		"INDEXID" : "bc212-bc096"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-TAGTTGCG",
+		"INDEXID" : "bc212-bc209"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-GAGATACG",
+		"INDEXID" : "bc212-bc210"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-AGGTGTAC",
+		"INDEXID" : "bc212-bc211"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-TAATGCCG",
+		"INDEXID" : "bc212-bc212"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-TCAGACGA",
+		"INDEXID" : "bc212-bc213"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-GATAGGCT",
+		"INDEXID" : "bc212-bc214"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-TGGTACAG",
+		"INDEXID" : "bc212-bc215"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-CAAGGTCT",
+		"INDEXID" : "bc212-bc216"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-CGTATTCG",
+		"INDEXID" : "bc212-bc217"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-CTCCTAGA",
+		"INDEXID" : "bc212-bc218"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-CATGAGGA",
+		"INDEXID" : "bc212-bc219"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-TGACTGAC",
+		"INDEXID" : "bc212-bc220"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-GTCGGTAA",
+		"INDEXID" : "bc212-bc221"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-AGGTCACT",
+		"INDEXID" : "bc212-bc222"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-GAATCCGA",
+		"INDEXID" : "bc212-bc223"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA-GTACCTTG",
+		"INDEXID" : "bc212-bc224"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-AGATCTCG",
+		"INDEXID" : "bc213-bc096"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-TAGTTGCG",
+		"INDEXID" : "bc213-bc209"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-GAGATACG",
+		"INDEXID" : "bc213-bc210"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-AGGTGTAC",
+		"INDEXID" : "bc213-bc211"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-TAATGCCG",
+		"INDEXID" : "bc213-bc212"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-TCAGACGA",
+		"INDEXID" : "bc213-bc213"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-GATAGGCT",
+		"INDEXID" : "bc213-bc214"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-TGGTACAG",
+		"INDEXID" : "bc213-bc215"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-CAAGGTCT",
+		"INDEXID" : "bc213-bc216"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-CGTATTCG",
+		"INDEXID" : "bc213-bc217"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-CTCCTAGA",
+		"INDEXID" : "bc213-bc218"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-CATGAGGA",
+		"INDEXID" : "bc213-bc219"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-TGACTGAC",
+		"INDEXID" : "bc213-bc220"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-GTCGGTAA",
+		"INDEXID" : "bc213-bc221"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-AGGTCACT",
+		"INDEXID" : "bc213-bc222"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-GAATCCGA",
+		"INDEXID" : "bc213-bc223"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA-GTACCTTG",
+		"INDEXID" : "bc213-bc224"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-AGATCTCG",
+		"INDEXID" : "bc214-bc096"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-TAGTTGCG",
+		"INDEXID" : "bc214-bc209"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-GAGATACG",
+		"INDEXID" : "bc214-bc210"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-AGGTGTAC",
+		"INDEXID" : "bc214-bc211"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-TAATGCCG",
+		"INDEXID" : "bc214-bc212"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-TCAGACGA",
+		"INDEXID" : "bc214-bc213"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-GATAGGCT",
+		"INDEXID" : "bc214-bc214"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-TGGTACAG",
+		"INDEXID" : "bc214-bc215"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-CAAGGTCT",
+		"INDEXID" : "bc214-bc216"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-CGTATTCG",
+		"INDEXID" : "bc214-bc217"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-CTCCTAGA",
+		"INDEXID" : "bc214-bc218"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-CATGAGGA",
+		"INDEXID" : "bc214-bc219"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-TGACTGAC",
+		"INDEXID" : "bc214-bc220"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-GTCGGTAA",
+		"INDEXID" : "bc214-bc221"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-AGGTCACT",
+		"INDEXID" : "bc214-bc222"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-GAATCCGA",
+		"INDEXID" : "bc214-bc223"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-GTACCTTG",
+		"INDEXID" : "bc214-bc224"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-AGATCTCG",
+		"INDEXID" : "bc215-bc096"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-TAGTTGCG",
+		"INDEXID" : "bc215-bc209"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-GAGATACG",
+		"INDEXID" : "bc215-bc210"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-AGGTGTAC",
+		"INDEXID" : "bc215-bc211"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-TAATGCCG",
+		"INDEXID" : "bc215-bc212"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-TCAGACGA",
+		"INDEXID" : "bc215-bc213"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-GATAGGCT",
+		"INDEXID" : "bc215-bc214"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-TGGTACAG",
+		"INDEXID" : "bc215-bc215"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-CAAGGTCT",
+		"INDEXID" : "bc215-bc216"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-CGTATTCG",
+		"INDEXID" : "bc215-bc217"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-CTCCTAGA",
+		"INDEXID" : "bc215-bc218"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-CATGAGGA",
+		"INDEXID" : "bc215-bc219"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-TGACTGAC",
+		"INDEXID" : "bc215-bc220"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-GTCGGTAA",
+		"INDEXID" : "bc215-bc221"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-AGGTCACT",
+		"INDEXID" : "bc215-bc222"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-GAATCCGA",
+		"INDEXID" : "bc215-bc223"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-GTACCTTG",
+		"INDEXID" : "bc215-bc224"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-AGATCTCG",
+		"INDEXID" : "bc216-bc096"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-TAGTTGCG",
+		"INDEXID" : "bc216-bc209"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-GAGATACG",
+		"INDEXID" : "bc216-bc210"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-AGGTGTAC",
+		"INDEXID" : "bc216-bc211"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-TAATGCCG",
+		"INDEXID" : "bc216-bc212"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-TCAGACGA",
+		"INDEXID" : "bc216-bc213"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-GATAGGCT",
+		"INDEXID" : "bc216-bc214"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-TGGTACAG",
+		"INDEXID" : "bc216-bc215"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-CAAGGTCT",
+		"INDEXID" : "bc216-bc216"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-CGTATTCG",
+		"INDEXID" : "bc216-bc217"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-CTCCTAGA",
+		"INDEXID" : "bc216-bc218"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-CATGAGGA",
+		"INDEXID" : "bc216-bc219"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-TGACTGAC",
+		"INDEXID" : "bc216-bc220"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-GTCGGTAA",
+		"INDEXID" : "bc216-bc221"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-AGGTCACT",
+		"INDEXID" : "bc216-bc222"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-GAATCCGA",
+		"INDEXID" : "bc216-bc223"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG-GTACCTTG",
+		"INDEXID" : "bc216-bc224"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-AGATCTCG",
+		"INDEXID" : "bc217-bc096"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-TAGTTGCG",
+		"INDEXID" : "bc217-bc209"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-GAGATACG",
+		"INDEXID" : "bc217-bc210"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-AGGTGTAC",
+		"INDEXID" : "bc217-bc211"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-TAATGCCG",
+		"INDEXID" : "bc217-bc212"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-TCAGACGA",
+		"INDEXID" : "bc217-bc213"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-GATAGGCT",
+		"INDEXID" : "bc217-bc214"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-TGGTACAG",
+		"INDEXID" : "bc217-bc215"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-CAAGGTCT",
+		"INDEXID" : "bc217-bc216"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-CGTATTCG",
+		"INDEXID" : "bc217-bc217"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-CTCCTAGA",
+		"INDEXID" : "bc217-bc218"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-CATGAGGA",
+		"INDEXID" : "bc217-bc219"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-TGACTGAC",
+		"INDEXID" : "bc217-bc220"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-GTCGGTAA",
+		"INDEXID" : "bc217-bc221"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-AGGTCACT",
+		"INDEXID" : "bc217-bc222"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-GAATCCGA",
+		"INDEXID" : "bc217-bc223"
+	},
+	{
+		"INDEXTAG" : "CGAATACG-GTACCTTG",
+		"INDEXID" : "bc217-bc224"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-AGATCTCG",
+		"INDEXID" : "bc218-bc096"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-TAGTTGCG",
+		"INDEXID" : "bc218-bc209"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-GAGATACG",
+		"INDEXID" : "bc218-bc210"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-AGGTGTAC",
+		"INDEXID" : "bc218-bc211"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-TAATGCCG",
+		"INDEXID" : "bc218-bc212"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-TCAGACGA",
+		"INDEXID" : "bc218-bc213"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-GATAGGCT",
+		"INDEXID" : "bc218-bc214"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-TGGTACAG",
+		"INDEXID" : "bc218-bc215"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-CAAGGTCT",
+		"INDEXID" : "bc218-bc216"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-CGTATTCG",
+		"INDEXID" : "bc218-bc217"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-CTCCTAGA",
+		"INDEXID" : "bc218-bc218"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-CATGAGGA",
+		"INDEXID" : "bc218-bc219"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-TGACTGAC",
+		"INDEXID" : "bc218-bc220"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-GTCGGTAA",
+		"INDEXID" : "bc218-bc221"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-AGGTCACT",
+		"INDEXID" : "bc218-bc222"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-GAATCCGA",
+		"INDEXID" : "bc218-bc223"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG-GTACCTTG",
+		"INDEXID" : "bc218-bc224"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-AGATCTCG",
+		"INDEXID" : "bc219-bc096"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-TAGTTGCG",
+		"INDEXID" : "bc219-bc209"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-GAGATACG",
+		"INDEXID" : "bc219-bc210"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-AGGTGTAC",
+		"INDEXID" : "bc219-bc211"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-TAATGCCG",
+		"INDEXID" : "bc219-bc212"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-TCAGACGA",
+		"INDEXID" : "bc219-bc213"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-GATAGGCT",
+		"INDEXID" : "bc219-bc214"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-TGGTACAG",
+		"INDEXID" : "bc219-bc215"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-CAAGGTCT",
+		"INDEXID" : "bc219-bc216"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-CGTATTCG",
+		"INDEXID" : "bc219-bc217"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-CTCCTAGA",
+		"INDEXID" : "bc219-bc218"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-CATGAGGA",
+		"INDEXID" : "bc219-bc219"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-TGACTGAC",
+		"INDEXID" : "bc219-bc220"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-GTCGGTAA",
+		"INDEXID" : "bc219-bc221"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-AGGTCACT",
+		"INDEXID" : "bc219-bc222"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-GAATCCGA",
+		"INDEXID" : "bc219-bc223"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG-GTACCTTG",
+		"INDEXID" : "bc219-bc224"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-AGATCTCG",
+		"INDEXID" : "bc220-bc096"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-TAGTTGCG",
+		"INDEXID" : "bc220-bc209"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-GAGATACG",
+		"INDEXID" : "bc220-bc210"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-AGGTGTAC",
+		"INDEXID" : "bc220-bc211"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-TAATGCCG",
+		"INDEXID" : "bc220-bc212"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-TCAGACGA",
+		"INDEXID" : "bc220-bc213"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-GATAGGCT",
+		"INDEXID" : "bc220-bc214"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-TGGTACAG",
+		"INDEXID" : "bc220-bc215"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-CAAGGTCT",
+		"INDEXID" : "bc220-bc216"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-CGTATTCG",
+		"INDEXID" : "bc220-bc217"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-CTCCTAGA",
+		"INDEXID" : "bc220-bc218"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-CATGAGGA",
+		"INDEXID" : "bc220-bc219"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-TGACTGAC",
+		"INDEXID" : "bc220-bc220"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-GTCGGTAA",
+		"INDEXID" : "bc220-bc221"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-AGGTCACT",
+		"INDEXID" : "bc220-bc222"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-GAATCCGA",
+		"INDEXID" : "bc220-bc223"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA-GTACCTTG",
+		"INDEXID" : "bc220-bc224"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-AGATCTCG",
+		"INDEXID" : "bc221-bc096"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-TAGTTGCG",
+		"INDEXID" : "bc221-bc209"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-GAGATACG",
+		"INDEXID" : "bc221-bc210"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-AGGTGTAC",
+		"INDEXID" : "bc221-bc211"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-TAATGCCG",
+		"INDEXID" : "bc221-bc212"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-TCAGACGA",
+		"INDEXID" : "bc221-bc213"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-GATAGGCT",
+		"INDEXID" : "bc221-bc214"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-TGGTACAG",
+		"INDEXID" : "bc221-bc215"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-CAAGGTCT",
+		"INDEXID" : "bc221-bc216"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-CGTATTCG",
+		"INDEXID" : "bc221-bc217"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-CTCCTAGA",
+		"INDEXID" : "bc221-bc218"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-CATGAGGA",
+		"INDEXID" : "bc221-bc219"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-TGACTGAC",
+		"INDEXID" : "bc221-bc220"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-GTCGGTAA",
+		"INDEXID" : "bc221-bc221"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-AGGTCACT",
+		"INDEXID" : "bc221-bc222"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-GAATCCGA",
+		"INDEXID" : "bc221-bc223"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC-GTACCTTG",
+		"INDEXID" : "bc221-bc224"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-AGATCTCG",
+		"INDEXID" : "bc222-bc096"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-TAGTTGCG",
+		"INDEXID" : "bc222-bc209"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-GAGATACG",
+		"INDEXID" : "bc222-bc210"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-AGGTGTAC",
+		"INDEXID" : "bc222-bc211"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-TAATGCCG",
+		"INDEXID" : "bc222-bc212"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-TCAGACGA",
+		"INDEXID" : "bc222-bc213"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-GATAGGCT",
+		"INDEXID" : "bc222-bc214"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-TGGTACAG",
+		"INDEXID" : "bc222-bc215"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-CAAGGTCT",
+		"INDEXID" : "bc222-bc216"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-CGTATTCG",
+		"INDEXID" : "bc222-bc217"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-CTCCTAGA",
+		"INDEXID" : "bc222-bc218"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-CATGAGGA",
+		"INDEXID" : "bc222-bc219"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-TGACTGAC",
+		"INDEXID" : "bc222-bc220"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-GTCGGTAA",
+		"INDEXID" : "bc222-bc221"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-AGGTCACT",
+		"INDEXID" : "bc222-bc222"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-GAATCCGA",
+		"INDEXID" : "bc222-bc223"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT-GTACCTTG",
+		"INDEXID" : "bc222-bc224"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-AGATCTCG",
+		"INDEXID" : "bc223-bc096"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-TAGTTGCG",
+		"INDEXID" : "bc223-bc209"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-GAGATACG",
+		"INDEXID" : "bc223-bc210"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-AGGTGTAC",
+		"INDEXID" : "bc223-bc211"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-TAATGCCG",
+		"INDEXID" : "bc223-bc212"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-TCAGACGA",
+		"INDEXID" : "bc223-bc213"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-GATAGGCT",
+		"INDEXID" : "bc223-bc214"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-TGGTACAG",
+		"INDEXID" : "bc223-bc215"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-CAAGGTCT",
+		"INDEXID" : "bc223-bc216"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-CGTATTCG",
+		"INDEXID" : "bc223-bc217"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-CTCCTAGA",
+		"INDEXID" : "bc223-bc218"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-CATGAGGA",
+		"INDEXID" : "bc223-bc219"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-TGACTGAC",
+		"INDEXID" : "bc223-bc220"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-GTCGGTAA",
+		"INDEXID" : "bc223-bc221"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-AGGTCACT",
+		"INDEXID" : "bc223-bc222"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-GAATCCGA",
+		"INDEXID" : "bc223-bc223"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-GTACCTTG",
+		"INDEXID" : "bc223-bc224"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-AGATCTCG",
+		"INDEXID" : "bc224-bc096"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-TAGTTGCG",
+		"INDEXID" : "bc224-bc209"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-GAGATACG",
+		"INDEXID" : "bc224-bc210"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-AGGTGTAC",
+		"INDEXID" : "bc224-bc211"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-TAATGCCG",
+		"INDEXID" : "bc224-bc212"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-TCAGACGA",
+		"INDEXID" : "bc224-bc213"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-GATAGGCT",
+		"INDEXID" : "bc224-bc214"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-TGGTACAG",
+		"INDEXID" : "bc224-bc215"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-CAAGGTCT",
+		"INDEXID" : "bc224-bc216"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-CGTATTCG",
+		"INDEXID" : "bc224-bc217"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-CTCCTAGA",
+		"INDEXID" : "bc224-bc218"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-CATGAGGA",
+		"INDEXID" : "bc224-bc219"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-TGACTGAC",
+		"INDEXID" : "bc224-bc220"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-GTCGGTAA",
+		"INDEXID" : "bc224-bc221"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-AGGTCACT",
+		"INDEXID" : "bc224-bc222"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-GAATCCGA",
+		"INDEXID" : "bc224-bc223"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC-GTACCTTG",
+		"INDEXID" : "bc224-bc224"
+	},
+	{
+		"INDEXTAG" : "ACGATCAG-ACGATCAG",
+		"INDEXID" : "bc401-bc401"
+	},
+	{
+		"INDEXTAG" : "TCGAGAGT-TCGAGAGT",
+		"INDEXID" : "bc402-bc402"
+	},
+	{
+		"INDEXTAG" : "CTAGCTCA-CTAGCTCA",
+		"INDEXID" : "bc403-bc403"
+	},
+	{
+		"INDEXTAG" : "ATCGTCTC-ATCGTCTC",
+		"INDEXID" : "bc404-bc404"
+	},
+	{
+		"INDEXTAG" : "TCGACAAG-TCGACAAG",
+		"INDEXID" : "bc405-bc405"
+	},
+	{
+		"INDEXTAG" : "CCTTGGAA-CCTTGGAA",
+		"INDEXID" : "bc406-bc406"
+	},
+	{
+		"INDEXTAG" : "ATCATGCG-ATCATGCG",
+		"INDEXID" : "bc407-bc407"
+	},
+	{
+		"INDEXTAG" : "TGTTCCGT-TGTTCCGT",
+		"INDEXID" : "bc408-bc408"
+	},
+	{
+		"INDEXTAG" : "ATTAGCCG-ATTAGCCG",
+		"INDEXID" : "bc409-bc409"
+	},
+	{
+		"INDEXTAG" : "CGATCGAT-CGATCGAT",
+		"INDEXID" : "bc410-bc410"
+	},
+	{
+		"INDEXTAG" : "GATCTTGC-GATCTTGC",
+		"INDEXID" : "bc411-bc411"
+	},
+	{
+		"INDEXTAG" : "AGGATAGC-AGGATAGC",
+		"INDEXID" : "bc412-bc412"
+	},
+	{
+		"INDEXTAG" : "GTAGCGTA-GTAGCGTA",
+		"INDEXID" : "bc413-bc413"
+	},
+	{
+		"INDEXTAG" : "AGAGTCCA-AGAGTCCA",
+		"INDEXID" : "bc414-bc414"
+	},
+	{
+		"INDEXTAG" : "GCTACTCT-GCTACTCT",
+		"INDEXID" : "bc415-bc415"
+	},
+	{
+		"INDEXTAG" : "CTCTGGAT-CTCTGGAT",
+		"INDEXID" : "bc416-bc416"
+	},
+	{
+		"INDEXTAG" : "AGATCGTC-AGATCGTC",
+		"INDEXID" : "bc417-bc417"
+	},
+	{
+		"INDEXTAG" : "GCTCAGTT-GCTCAGTT",
+		"INDEXID" : "bc418-bc418"
+	},
+	{
+		"INDEXTAG" : "GTCCTAAG-GTCCTAAG",
+		"INDEXID" : "bc419-bc419"
+	},
+	{
+		"INDEXTAG" : "TATGGCAC-TATGGCAC",
+		"INDEXID" : "bc420-bc420"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC-TCGGATTC",
+		"INDEXID" : "bc421-bc421"
+	},
+	{
+		"INDEXTAG" : "AACAGCGA-AACAGCGA",
+		"INDEXID" : "bc422-bc422"
+	},
+	{
+		"INDEXTAG" : "CCAACGAA-CCAACGAA",
+		"INDEXID" : "bc423-bc423"
+	},
+	{
+		"INDEXTAG" : "CAGTGCTT-CAGTGCTT",
+		"INDEXID" : "bc424-bc424"
+	},
+	{
+		"INDEXTAG" : "GATCAAGG-GATCAAGG",
+		"INDEXID" : "bc425-bc425"
+	},
+	{
+		"INDEXTAG" : "TCTTCGAC-TCTTCGAC",
+		"INDEXID" : "bc426-bc426"
+	},
+	{
+		"INDEXTAG" : "ATCGTGGT-ATCGTGGT",
+		"INDEXID" : "bc427-bc427"
+	},
+	{
+		"INDEXTAG" : "CGGTAATC-CGGTAATC",
+		"INDEXID" : "bc428-bc428"
+	},
+	{
+		"INDEXTAG" : "AGTTGTGC-AGTTGTGC",
+		"INDEXID" : "bc429-bc429"
+	},
+	{
+		"INDEXTAG" : "AATGACGC-AATGACGC",
+		"INDEXID" : "bc430-bc430"
+	},
+	{
+		"INDEXTAG" : "TACCGGAT-TACCGGAT",
+		"INDEXID" : "bc431-bc431"
+	},
+	{
+		"INDEXTAG" : "TTGCAACG-TTGCAACG",
+		"INDEXID" : "bc432-bc432"
+	},
+	{
+		"INDEXTAG" : "CACTTCAC-CACTTCAC",
+		"INDEXID" : "bc433-bc433"
+	},
+	{
+		"INDEXTAG" : "TAGCCATG-TAGCCATG",
+		"INDEXID" : "bc434-bc434"
+	},
+	{
+		"INDEXTAG" : "ACAGGCAT-ACAGGCAT",
+		"INDEXID" : "bc435-bc435"
+	},
+	{
+		"INDEXTAG" : "AGGTGTTG-AGGTGTTG",
+		"INDEXID" : "bc436-bc436"
+	},
+	{
+		"INDEXTAG" : "CAGTCACA-CAGTCACA",
+		"INDEXID" : "bc437-bc437"
+	},
+	{
+		"INDEXTAG" : "TCGATGAC-TCGATGAC",
+		"INDEXID" : "bc438-bc438"
+	},
+	{
+		"INDEXTAG" : "GAAGTGCT-GAAGTGCT",
+		"INDEXID" : "bc439-bc439"
+	},
+	{
+		"INDEXTAG" : "CTTCCTTC-CTTCCTTC",
+		"INDEXID" : "bc440-bc440"
+	},
+	{
+		"INDEXTAG" : "CGAACAAC-CGAACAAC",
+		"INDEXID" : "bc441-bc441"
+	},
+	{
+		"INDEXTAG" : "AACAACCG-AACAACCG",
+		"INDEXID" : "bc442-bc442"
+	},
+	{
+		"INDEXTAG" : "ACCTCAGT-ACCTCAGT",
+		"INDEXID" : "bc443-bc443"
+	},
+	{
+		"INDEXTAG" : "CGTCTTCA-CGTCTTCA",
+		"INDEXID" : "bc444-bc444"
+	},
+	{
+		"INDEXTAG" : "TGCGTAAC-TGCGTAAC",
+		"INDEXID" : "bc445-bc445"
+	},
+	{
+		"INDEXTAG" : "AACACGCT-AACACGCT",
+		"INDEXID" : "bc446-bc446"
+	},
+	{
+		"INDEXTAG" : "ACTCGATC-ACTCGATC",
+		"INDEXID" : "bc447-bc447"
+	},
+	{
+		"INDEXTAG" : "TGAGCTGT-TGAGCTGT",
+		"INDEXID" : "bc448-bc448"
+	},
+	{
+		"INDEXTAG" : "TACTGCTC-TACTGCTC",
+		"INDEXID" : "bc449-bc449"
+	},
+	{
+		"INDEXTAG" : "GACGAACT-GACGAACT",
+		"INDEXID" : "bc450-bc450"
+	},
+	{
+		"INDEXTAG" : "CTTCGCAA-CTTCGCAA",
+		"INDEXID" : "bc451-bc451"
+	},
+	{
+		"INDEXTAG" : "ATGGCGAT-ATGGCGAT",
+		"INDEXID" : "bc452-bc452"
+	},
+	{
+		"INDEXTAG" : "ACATGCCA-ACATGCCA",
+		"INDEXID" : "bc453-bc453"
+	},
+	{
+		"INDEXTAG" : "GTCAACAG-GTCAACAG",
+		"INDEXID" : "bc454-bc454"
+	},
+	{
+		"INDEXTAG" : "GTGGTATG-GTGGTATG",
+		"INDEXID" : "bc455-bc455"
+	},
+	{
+		"INDEXTAG" : "CCAACTTC-CCAACTTC",
+		"INDEXID" : "bc456-bc456"
+	},
+	{
+		"INDEXTAG" : "GACGTCAT-GACGTCAT",
+		"INDEXID" : "bc457-bc457"
+	},
+	{
+		"INDEXTAG" : "ACGTCCAA-ACGTCCAA",
+		"INDEXID" : "bc458-bc458"
+	},
+	{
+		"INDEXTAG" : "GATCCACT-GATCCACT",
+		"INDEXID" : "bc459-bc459"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC-AGCCTATC",
+		"INDEXID" : "bc460-bc460"
+	},
+	{
+		"INDEXTAG" : "AGCTACCA-AGCTACCA",
+		"INDEXID" : "bc461-bc461"
+	},
+	{
+		"INDEXTAG" : "AGATTGCG-AGATTGCG",
+		"INDEXID" : "bc462-bc462"
+	},
+	{
+		"INDEXTAG" : "CACACATC-CACACATC",
+		"INDEXID" : "bc463-bc463"
+	},
+	{
+		"INDEXTAG" : "GAGCAATC-GAGCAATC",
+		"INDEXID" : "bc464-bc464"
+	},
+	{
+		"INDEXTAG" : "ATAGAGCG-ATAGAGCG",
+		"INDEXID" : "bc465-bc465"
+	},
+	{
+		"INDEXTAG" : "GACCGATA-GACCGATA",
+		"INDEXID" : "bc466-bc466"
+	},
+	{
+		"INDEXTAG" : "CAGACGTT-CAGACGTT",
+		"INDEXID" : "bc467-bc467"
+	},
+	{
+		"INDEXTAG" : "CTGAACGT-CTGAACGT",
+		"INDEXID" : "bc468-bc468"
+	},
+	{
+		"INDEXTAG" : "TTGGACTG-TTGGACTG",
+		"INDEXID" : "bc469-bc469"
+	},
+	{
+		"INDEXTAG" : "GTCTGCAA-GTCTGCAA",
+		"INDEXID" : "bc470-bc470"
+	},
+	{
+		"INDEXTAG" : "CCACATTG-CCACATTG",
+		"INDEXID" : "bc471-bc471"
+	},
+	{
+		"INDEXTAG" : "GATGGAGT-GATGGAGT",
+		"INDEXID" : "bc472-bc472"
+	},
+	{
+		"INDEXTAG" : "AGGTCAAC-AGGTCAAC",
+		"INDEXID" : "bc473-bc473"
+	},
+	{
+		"INDEXTAG" : "TACACACG-TACACACG",
+		"INDEXID" : "bc474-bc474"
+	},
+	{
+		"INDEXTAG" : "CAAGTCGT-CAAGTCGT",
+		"INDEXID" : "bc475-bc475"
+	},
+	{
+		"INDEXTAG" : "AGCTAGTG-AGCTAGTG",
+		"INDEXID" : "bc476-bc476"
+	},
+	{
+		"INDEXTAG" : "CTCCTAGT-CTCCTAGT",
+		"INDEXID" : "bc477-bc477"
+	},
+	{
+		"INDEXTAG" : "ACTCCTAC-ACTCCTAC",
+		"INDEXID" : "bc478-bc478"
+	},
+	{
+		"INDEXTAG" : "CAATCAGG-CAATCAGG",
+		"INDEXID" : "bc479-bc479"
+	},
+	{
+		"INDEXTAG" : "TCGTGCAT-TCGTGCAT",
+		"INDEXID" : "bc480-bc480"
+	},
+	{
+		"INDEXTAG" : "TAACGTCG-TAACGTCG",
+		"INDEXID" : "bc481-bc481"
+	},
+	{
+		"INDEXTAG" : "AAGGCGTA-AAGGCGTA",
+		"INDEXID" : "bc482-bc482"
+	},
+	{
+		"INDEXTAG" : "TCTTACGG-TCTTACGG",
+		"INDEXID" : "bc483-bc483"
+	},
+	{
+		"INDEXTAG" : "CGTGTGAT-CGTGTGAT",
+		"INDEXID" : "bc484-bc484"
+	},
+	{
+		"INDEXTAG" : "AACAGGTG-AACAGGTG",
+		"INDEXID" : "bc485-bc485"
+	},
+	{
+		"INDEXTAG" : "AGTCGAAG-AGTCGAAG",
+		"INDEXID" : "bc486-bc486"
+	},
+	{
+		"INDEXTAG" : "TGGAAGCA-TGGAAGCA",
+		"INDEXID" : "bc487-bc487"
+	},
+	{
+		"INDEXTAG" : "CTCGTTCT-CTCGTTCT",
+		"INDEXID" : "bc488-bc488"
+	},
+	{
+		"INDEXTAG" : "ACGAGAAC-ACGAGAAC",
+		"INDEXID" : "bc489-bc489"
+	},
+	{
+		"INDEXTAG" : "AAGCCTGA-AAGCCTGA",
+		"INDEXID" : "bc490-bc490"
+	},
+	{
+		"INDEXTAG" : "CTACAAGG-CTACAAGG",
+		"INDEXID" : "bc491-bc491"
+	},
+	{
+		"INDEXTAG" : "CGATGTTC-CGATGTTC",
+		"INDEXID" : "bc492-bc492"
+	},
+	{
+		"INDEXTAG" : "ACCGGTTA-ACCGGTTA",
+		"INDEXID" : "bc493-bc493"
+	},
+	{
+		"INDEXTAG" : "GAACGGTT-GAACGGTT",
+		"INDEXID" : "bc494-bc494"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA-CTGTACCA",
+		"INDEXID" : "bc495-bc495"
+	},
+	{
+		"INDEXTAG" : "GCGCATAT-GCGCATAT",
+		"INDEXID" : "bc496-bc496"
+	},
+	{
+		"INDEXTAG" : "TACAAGAC",
+		"INDEXID" : "CF12"
+	},
+	{
+		"INDEXTAG" : "TCGCCTTG",
+		"INDEXID" : "CF8_1"
+	},
+	{
+		"INDEXTAG" : "ACAGGTAT",
+		"INDEXID" : "CF8_10"
+	},
+	{
+		"INDEXTAG" : "AGGTAAGG",
+		"INDEXID" : "CF8_11"
+	},
+	{
+		"INDEXTAG" : "AACAATGG",
+		"INDEXID" : "CF8_12"
+	},
+	{
+		"INDEXTAG" : "ACTGTATC",
+		"INDEXID" : "CF8_13"
+	},
+	{
+		"INDEXTAG" : "AGGTCGCA",
+		"INDEXID" : "CF8_14"
+	},
+	{
+		"INDEXTAG" : "AGGTTATC",
+		"INDEXID" : "CF8_15"
+	},
+	{
+		"INDEXTAG" : "CAACTCTC",
+		"INDEXID" : "CF8_16"
+	},
+	{
+		"INDEXTAG" : "CCAACATT",
+		"INDEXID" : "CF8_17"
+	},
+	{
+		"INDEXTAG" : "CTAACTCG",
+		"INDEXID" : "CF8_18"
+	},
+	{
+		"INDEXTAG" : "ATTCCTCT",
+		"INDEXID" : "CF8_19"
+	},
+	{
+		"INDEXTAG" : "ATAGCGTC",
+		"INDEXID" : "CF8_2"
+	},
+	{
+		"INDEXTAG" : "CTACCAGG",
+		"INDEXID" : "CF8_20"
+	},
+	{
+		"INDEXTAG" : "GGTACTCA",
+		"INDEXID" : "CF8_21"
+	},
+	{
+		"INDEXTAG" : "GCAGTCAT",
+		"INDEXID" : "CF8_22"
+	},
+	{
+		"INDEXTAG" : "GTCTAGCA",
+		"INDEXID" : "CF8_23"
+	},
+	{
+		"INDEXTAG" : "GTGCCATC",
+		"INDEXID" : "CF8_24"
+	},
+	{
+		"INDEXTAG" : "GAAGAAGT",
+		"INDEXID" : "CF8_3"
+	},
+	{
+		"INDEXTAG" : "ATTCTAGG",
+		"INDEXID" : "CF8_4"
+	},
+	{
+		"INDEXTAG" : "CGTTACCA",
+		"INDEXID" : "CF8_5"
+	},
+	{
+		"INDEXTAG" : "GTCTGATG",
+		"INDEXID" : "CF8_6"
+	},
+	{
+		"INDEXTAG" : "TTACGCAC",
+		"INDEXID" : "CF8_7"
+	},
+	{
+		"INDEXTAG" : "TTGAATAG",
+		"INDEXID" : "CF8_8"
+	},
+	{
+		"INDEXTAG" : "TCCTTGGT",
+		"INDEXID" : "CF8_9"
+	},
+	{
+		"INDEXTAG" : "CTAACTGG",
+		"INDEXID" : "CR13"
+	},
+	{
+		"INDEXTAG" : "CTCTACTT",
+		"INDEXID" : "CR14"
+	},
+	{
+		"INDEXTAG" : "GATCGTGT",
+		"INDEXID" : "CR15"
+	},
+	{
+		"INDEXTAG" : "ATTACTCG-TATAGCCT",
+		"INDEXID" : "D701-D501"
+	},
+	{
+		"INDEXTAG" : "ATTACTCG-ATAGAGGC",
+		"INDEXID" : "D701-D502"
+	},
+	{
+		"INDEXTAG" : "ATTACTCG-CCTATCCT",
+		"INDEXID" : "D701-D503"
+	},
+	{
+		"INDEXTAG" : "ATTACTCG-GGCTCTGA",
+		"INDEXID" : "D701-D504"
+	},
+	{
+		"INDEXTAG" : "ATTACTCG-AGGCGAAG",
+		"INDEXID" : "D701-D505"
+	},
+	{
+		"INDEXTAG" : "ATTACTCG-TAATCTTA",
+		"INDEXID" : "D701-D506"
+	},
+	{
+		"INDEXTAG" : "ATTACTCG-CAGGACGT",
+		"INDEXID" : "D701-D507"
+	},
+	{
+		"INDEXTAG" : "ATTACTCG-GTACTGAC",
+		"INDEXID" : "D701-D508"
+	},
+	{
+		"INDEXTAG" : "TCCGGAGA-TATAGCCT",
+		"INDEXID" : "D702-D501"
+	},
+	{
+		"INDEXTAG" : "TCCGGAGA-ATAGAGGC",
+		"INDEXID" : "D702-D502"
+	},
+	{
+		"INDEXTAG" : "TCCGGAGA-CCTATCCT",
+		"INDEXID" : "D702-D503"
+	},
+	{
+		"INDEXTAG" : "TCCGGAGA-GGCTCTGA",
+		"INDEXID" : "D702-D504"
+	},
+	{
+		"INDEXTAG" : "TCCGGAGA-AGGCGAAG",
+		"INDEXID" : "D702-D505"
+	},
+	{
+		"INDEXTAG" : "TCCGGAGA-TAATCTTA",
+		"INDEXID" : "D702-D506"
+	},
+	{
+		"INDEXTAG" : "TCCGGAGA-CAGGACGT",
+		"INDEXID" : "D702-D507"
+	},
+	{
+		"INDEXTAG" : "TCCGGAGA-GTACTGAC",
+		"INDEXID" : "D702-D508"
+	},
+	{
+		"INDEXTAG" : "CGCTCATT-TATAGCCT",
+		"INDEXID" : "D703-D501"
+	},
+	{
+		"INDEXTAG" : "CGCTCATT-ATAGAGGC",
+		"INDEXID" : "D703-D502"
+	},
+	{
+		"INDEXTAG" : "CGCTCATT-CCTATCCT",
+		"INDEXID" : "D703-D503"
+	},
+	{
+		"INDEXTAG" : "CGCTCATT-GGCTCTGA",
+		"INDEXID" : "D703-D504"
+	},
+	{
+		"INDEXTAG" : "CGCTCATT-AGGCGAAG",
+		"INDEXID" : "D703-D505"
+	},
+	{
+		"INDEXTAG" : "CGCTCATT-TAATCTTA",
+		"INDEXID" : "D703-D506"
+	},
+	{
+		"INDEXTAG" : "CGCTCATT-CAGGACGT",
+		"INDEXID" : "D703-D507"
+	},
+	{
+		"INDEXTAG" : "CGCTCATT-GTACTGAC",
+		"INDEXID" : "D703-D508"
+	},
+	{
+		"INDEXTAG" : "GAGATTCC-TATAGCCT",
+		"INDEXID" : "D704-D501"
+	},
+	{
+		"INDEXTAG" : "GAGATTCC-ATAGAGGC",
+		"INDEXID" : "D704-D502"
+	},
+	{
+		"INDEXTAG" : "GAGATTCC-CCTATCCT",
+		"INDEXID" : "D704-D503"
+	},
+	{
+		"INDEXTAG" : "GAGATTCC-GGCTCTGA",
+		"INDEXID" : "D704-D504"
+	},
+	{
+		"INDEXTAG" : "GAGATTCC-AGGCGAAG",
+		"INDEXID" : "D704-D505"
+	},
+	{
+		"INDEXTAG" : "GAGATTCC-TAATCTTA",
+		"INDEXID" : "D704-D506"
+	},
+	{
+		"INDEXTAG" : "GAGATTCC-CAGGACGT",
+		"INDEXID" : "D704-D507"
+	},
+	{
+		"INDEXTAG" : "GAGATTCC-GTACTGAC",
+		"INDEXID" : "D704-D508"
+	},
+	{
+		"INDEXTAG" : "ATTCAGAA-TATAGCCT",
+		"INDEXID" : "D705-D501"
+	},
+	{
+		"INDEXTAG" : "ATTCAGAA-ATAGAGGC",
+		"INDEXID" : "D705-D502"
+	},
+	{
+		"INDEXTAG" : "ATTCAGAA-CCTATCCT",
+		"INDEXID" : "D705-D503"
+	},
+	{
+		"INDEXTAG" : "ATTCAGAA-GGCTCTGA",
+		"INDEXID" : "D705-D504"
+	},
+	{
+		"INDEXTAG" : "ATTCAGAA-AGGCGAAG",
+		"INDEXID" : "D705-D505"
+	},
+	{
+		"INDEXTAG" : "ATTCAGAA-TAATCTTA",
+		"INDEXID" : "D705-D506"
+	},
+	{
+		"INDEXTAG" : "ATTCAGAA-CAGGACGT",
+		"INDEXID" : "D705-D507"
+	},
+	{
+		"INDEXTAG" : "ATTCAGAA-GTACTGAC",
+		"INDEXID" : "D705-D508"
+	},
+	{
+		"INDEXTAG" : "GAATTCGT-TATAGCCT",
+		"INDEXID" : "D706-D501"
+	},
+	{
+		"INDEXTAG" : "GAATTCGT-ATAGAGGC",
+		"INDEXID" : "D706-D502"
+	},
+	{
+		"INDEXTAG" : "GAATTCGT-CCTATCCT",
+		"INDEXID" : "D706-D503"
+	},
+	{
+		"INDEXTAG" : "GAATTCGT-GGCTCTGA",
+		"INDEXID" : "D706-D504"
+	},
+	{
+		"INDEXTAG" : "GAATTCGT-AGGCGAAG",
+		"INDEXID" : "D706-D505"
+	},
+	{
+		"INDEXTAG" : "GAATTCGT-TAATCTTA",
+		"INDEXID" : "D706-D506"
+	},
+	{
+		"INDEXTAG" : "GAATTCGT-CAGGACGT",
+		"INDEXID" : "D706-D507"
+	},
+	{
+		"INDEXTAG" : "GAATTCGT-GTACTGAC",
+		"INDEXID" : "D706-D508"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT-TATAGCCT",
+		"INDEXID" : "D707-D501"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT-ATAGAGGC",
+		"INDEXID" : "D707-D502"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT-CCTATCCT",
+		"INDEXID" : "D707-D503"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT-GGCTCTGA",
+		"INDEXID" : "D707-D504"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT-AGGCGAAG",
+		"INDEXID" : "D707-D505"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT-TAATCTTA",
+		"INDEXID" : "D707-D506"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT-CAGGACGT",
+		"INDEXID" : "D707-D507"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT-GTACTGAC",
+		"INDEXID" : "D707-D508"
+	},
+	{
+		"INDEXTAG" : "TAATGCGC-TATAGCCT",
+		"INDEXID" : "D708-D501"
+	},
+	{
+		"INDEXTAG" : "TAATGCGC-ATAGAGGC",
+		"INDEXID" : "D708-D502"
+	},
+	{
+		"INDEXTAG" : "TAATGCGC-CCTATCCT",
+		"INDEXID" : "D708-D503"
+	},
+	{
+		"INDEXTAG" : "TAATGCGC-GGCTCTGA",
+		"INDEXID" : "D708-D504"
+	},
+	{
+		"INDEXTAG" : "TAATGCGC-AGGCGAAG",
+		"INDEXID" : "D708-D505"
+	},
+	{
+		"INDEXTAG" : "TAATGCGC-TAATCTTA",
+		"INDEXID" : "D708-D506"
+	},
+	{
+		"INDEXTAG" : "TAATGCGC-CAGGACGT",
+		"INDEXID" : "D708-D507"
+	},
+	{
+		"INDEXTAG" : "TAATGCGC-GTACTGAC",
+		"INDEXID" : "D708-D508"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG-TATAGCCT",
+		"INDEXID" : "D709-D501"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG-TATAGCCT",
+		"INDEXID" : "D709-D501"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG-ATAGAGGC",
+		"INDEXID" : "D709-D502"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG-CCTATCCT",
+		"INDEXID" : "D709-D503"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG-GGCTCTGA",
+		"INDEXID" : "D709-D504"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG-AGGCGAAG",
+		"INDEXID" : "D709-D505"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG-TAATCTTA",
+		"INDEXID" : "D709-D506"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG-CAGGACGT",
+		"INDEXID" : "D709-D507"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG-GTACTGAC",
+		"INDEXID" : "D709-D508"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA-TATAGCCT",
+		"INDEXID" : "D710-D501"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA-TATAGCCT",
+		"INDEXID" : "D710-D501"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA-ATAGAGGC",
+		"INDEXID" : "D710-D502"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA-CCTATCCT",
+		"INDEXID" : "D710-D503"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA-GGCTCTGA",
+		"INDEXID" : "D710-D504"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA-AGGCGAAG",
+		"INDEXID" : "D710-D505"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA-TAATCTTA",
+		"INDEXID" : "D710-D506"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA-CAGGACGT",
+		"INDEXID" : "D710-D507"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA-GTACTGAC",
+		"INDEXID" : "D710-D508"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC-TATAGCCT",
+		"INDEXID" : "D711-D501"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC-TATAGCCT",
+		"INDEXID" : "D711-D501"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC-ATAGAGGC",
+		"INDEXID" : "D711-D502"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC-CCTATCCT",
+		"INDEXID" : "D711-D503"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC-GGCTCTGA",
+		"INDEXID" : "D711-D504"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC-AGGCGAAG",
+		"INDEXID" : "D711-D505"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC-TAATCTTA",
+		"INDEXID" : "D711-D506"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC-CAGGACGT",
+		"INDEXID" : "D711-D507"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC-GTACTGAC",
+		"INDEXID" : "D711-D508"
+	},
+	{
+		"INDEXTAG" : "AGCGATAG-TATAGCCT",
+		"INDEXID" : "D712-D501"
+	},
+	{
+		"INDEXTAG" : "AGCGATAG-ATAGAGGC",
+		"INDEXID" : "D712-D502"
+	},
+	{
+		"INDEXTAG" : "AGCGATAG-CCTATCCT",
+		"INDEXID" : "D712-D503"
+	},
+	{
+		"INDEXTAG" : "AGCGATAG-GGCTCTGA",
+		"INDEXID" : "D712-D504"
+	},
+	{
+		"INDEXTAG" : "AGCGATAG-AGGCGAAG",
+		"INDEXID" : "D712-D505"
+	},
+	{
+		"INDEXTAG" : "AGCGATAG-TAATCTTA",
+		"INDEXID" : "D712-D506"
+	},
+	{
+		"INDEXTAG" : "AGCGATAG-CAGGACGT",
+		"INDEXID" : "D712-D507"
+	},
+	{
+		"INDEXTAG" : "AGCGATAG-GTACTGAC",
+		"INDEXID" : "D712-D508"
+	},
+	{
+		"INDEXTAG" : "ACTGTGTC",
+		"INDEXID" : "Duplex-CL1"
+	},
+	{
+		"INDEXTAG" : "CGTTATGC",
+		"INDEXID" : "Duplex-CL2"
+	},
+	{
+		"INDEXTAG" : "ACCTCTGT",
+		"INDEXID" : "Duplex-CL3"
+	},
+	{
+		"INDEXTAG" : "CTTAGTGG",
+		"INDEXID" : "Duplex-CL4"
+	},
+	{
+		"INDEXTAG" : "ACGGAACA",
+		"INDEXID" : "Duplex-CL5"
+	},
+	{
+		"INDEXTAG" : "CAGGTATC",
+		"INDEXID" : "Duplex-CL6"
+	},
+	{
+		"INDEXTAG" : "TTACGGCT",
+		"INDEXID" : "Duplex-CL7"
+	},
+	{
+		"INDEXTAG" : "TTCAGGAG",
+		"INDEXID" : "Duplex-CL8"
+	},
+	{
+		"INDEXTAG" : "ATCTAGCC",
+		"INDEXID" : "FP1"
+	},
+	{
+		"INDEXTAG" : "TTACTTCT",
+		"INDEXID" : "FP10"
+	},
+	{
+		"INDEXTAG" : "TGACGCGC",
+		"INDEXID" : "FP11"
+	},
+	{
+		"INDEXTAG" : "AATGATCT",
+		"INDEXID" : "FP12"
+	},
+	{
+		"INDEXTAG" : "AAGCGTAC",
+		"INDEXID" : "FP13"
+	},
+	{
+		"INDEXTAG" : "TTATCAGT",
+		"INDEXID" : "FP14"
+	},
+	{
+		"INDEXTAG" : "GTCATCGC",
+		"INDEXID" : "FP15"
+	},
+	{
+		"INDEXTAG" : "CCGTCTCT",
+		"INDEXID" : "FP16"
+	},
+	{
+		"INDEXTAG" : "TTCGCTAC",
+		"INDEXID" : "FP17"
+	},
+	{
+		"INDEXTAG" : "ACGCTCTT",
+		"INDEXID" : "FP18"
+	},
+	{
+		"INDEXTAG" : "CAGTACGC",
+		"INDEXID" : "FP19"
+	},
+	{
+		"INDEXTAG" : "TATCTCTT",
+		"INDEXID" : "FP2"
+	},
+	{
+		"INDEXTAG" : "GTACTGAT",
+		"INDEXID" : "FP20"
+	},
+	{
+		"INDEXTAG" : "GGATATAC",
+		"INDEXID" : "FP21"
+	},
+	{
+		"INDEXTAG" : "CATAGCTT",
+		"INDEXID" : "FP22"
+	},
+	{
+		"INDEXTAG" : "GAGGCATC",
+		"INDEXID" : "FP23"
+	},
+	{
+		"INDEXTAG" : "ATAAGGAT",
+		"INDEXID" : "FP24"
+	},
+	{
+		"INDEXTAG" : "CTCCGATC",
+		"INDEXID" : "FP25"
+	},
+	{
+		"INDEXTAG" : "TATTCGAT",
+		"INDEXID" : "FP26"
+	},
+	{
+		"INDEXTAG" : "TCTTAATC",
+		"INDEXID" : "FP27"
+	},
+	{
+		"INDEXTAG" : "CGCCTGAT",
+		"INDEXID" : "FP28"
+	},
+	{
+		"INDEXTAG" : "AGAATATC",
+		"INDEXID" : "FP29"
+	},
+	{
+		"INDEXTAG" : "TAGATGCC",
+		"INDEXID" : "FP3"
+	},
+	{
+		"INDEXTAG" : "GCGGAGAT",
+		"INDEXID" : "FP30"
+	},
+	{
+		"INDEXTAG" : "CATGGCCG",
+		"INDEXID" : "FP31"
+	},
+	{
+		"INDEXTAG" : "GTCACGTA",
+		"INDEXID" : "FP32"
+	},
+	{
+		"INDEXTAG" : "TGCAACCG",
+		"INDEXID" : "FP33"
+	},
+	{
+		"INDEXTAG" : "CCTGTTGA",
+		"INDEXID" : "FP34"
+	},
+	{
+		"INDEXTAG" : "AGCCCAAG",
+		"INDEXID" : "FP35"
+	},
+	{
+		"INDEXTAG" : "GCTTGGTA",
+		"INDEXID" : "FP36"
+	},
+	{
+		"INDEXTAG" : "TCGGGAAG",
+		"INDEXID" : "FP37"
+	},
+	{
+		"INDEXTAG" : "CGAACGTA",
+		"INDEXID" : "FP38"
+	},
+	{
+		"INDEXTAG" : "GATTTAAG",
+		"INDEXID" : "FP39"
+	},
+	{
+		"INDEXTAG" : "CGCTCCTT",
+		"INDEXID" : "FP4"
+	},
+	{
+		"INDEXTAG" : "AGAACTGA",
+		"INDEXID" : "FP40"
+	},
+	{
+		"INDEXTAG" : "CCGCCTTG",
+		"INDEXID" : "FP41"
+	},
+	{
+		"INDEXTAG" : "TGATGCAA",
+		"INDEXID" : "FP42"
+	},
+	{
+		"INDEXTAG" : "GGCGGTTG",
+		"INDEXID" : "FP43"
+	},
+	{
+		"INDEXTAG" : "ACTACCAA",
+		"INDEXID" : "FP44"
+	},
+	{
+		"INDEXTAG" : "AATAATTG",
+		"INDEXID" : "FP45"
+	},
+	{
+		"INDEXTAG" : "GTCGTCAA",
+		"INDEXID" : "FP46"
+	},
+	{
+		"INDEXTAG" : "AAATCTCA",
+		"INDEXID" : "FP47"
+	},
+	{
+		"INDEXTAG" : "GTGCGCGG",
+		"INDEXID" : "FP48"
+	},
+	{
+		"INDEXTAG" : "TTTAGTCA",
+		"INDEXID" : "FP49"
+	},
+	{
+		"INDEXTAG" : "CGAGCGCC",
+		"INDEXID" : "FP5"
+	},
+	{
+		"INDEXTAG" : "CACGCCGG",
+		"INDEXID" : "FP50"
+	},
+	{
+		"INDEXTAG" : "CCCGATCA",
+		"INDEXID" : "FP51"
+	},
+	{
+		"INDEXTAG" : "TGTATCGG",
+		"INDEXID" : "FP52"
+	},
+	{
+		"INDEXTAG" : "CTTTCAGA",
+		"INDEXID" : "FP53"
+	},
+	{
+		"INDEXTAG" : "TACCGGCG",
+		"INDEXID" : "FP54"
+	},
+	{
+		"INDEXTAG" : "GAAAGAGA",
+		"INDEXID" : "FP55"
+	},
+	{
+		"INDEXTAG" : "CTGGCTAG",
+		"INDEXID" : "FP56"
+	},
+	{
+		"INDEXTAG" : "AGGGAAGA",
+		"INDEXID" : "FP57"
+	},
+	{
+		"INDEXTAG" : "GACCGTAG",
+		"INDEXID" : "FP58"
+	},
+	{
+		"INDEXTAG" : "TCCCTAGA",
+		"INDEXID" : "FP59"
+	},
+	{
+		"INDEXTAG" : "TCGAGAGT",
+		"INDEXID" : "FP6"
+	},
+	{
+		"INDEXTAG" : "AGTTATAG",
+		"INDEXID" : "FP60"
+	},
+	{
+		"INDEXTAG" : "GCTCGGCC",
+		"INDEXID" : "FP7"
+	},
+	{
+		"INDEXTAG" : "AGCTCAGT",
+		"INDEXID" : "FP8"
+	},
+	{
+		"INDEXTAG" : "ACTGCCGC",
+		"INDEXID" : "FP9"
+	},
+	{
+		"INDEXTAG" : "CCTAGAAT",
+		"INDEXID" : "Garippa_1"
+	},
+	{
+		"INDEXTAG" : "GATCGTGT",
+		"INDEXID" : "Glickman100"
+	},
+	{
+		"INDEXTAG" : "TGTATGCT",
+		"INDEXID" : "Glickman_210"
+	},
+	{
+		"INDEXTAG" : "GCGTAGCA",
+		"INDEXID" : "Glickman_240"
+	},
+	{
+		"INDEXTAG" : "CGATCATG",
+		"INDEXID" : "Glickman_373"
+	},
+	{
+		"INDEXTAG" : "ACCGCGCG",
+		"INDEXID" : "Glickman_473"
+	},
+	{
+		"INDEXTAG" : "CTCTACTT",
+		"INDEXID" : "Glickman_57"
+	},
+	{
+		"INDEXTAG" : "AAGATCTC",
+		"INDEXID" : "Glickman_598"
+	},
+	{
+		"INDEXTAG" : "TCGGAACA",
+		"INDEXID" : "Glickman_930"
+	},
+	{
+		"INDEXTAG" : "CTCCGGAA",
+		"INDEXID" : "Glickman_949"
+	},
+	{
+		"INDEXTAG" : "AACGTGAT",
+		"INDEXID" : "IDT1"
+	},
+	{
+		"INDEXTAG" : "ACAAGCTA",
+		"INDEXID" : "IDT10"
+	},
+	{
+		"INDEXTAG" : "CGGTGGTG",
+		"INDEXID" : "IDT100"
+	},
+	{
+		"INDEXTAG" : "TATTGTGC",
+		"INDEXID" : "IDT101"
+	},
+	{
+		"INDEXTAG" : "AGAAACCT",
+		"INDEXID" : "IDT102"
+	},
+	{
+		"INDEXTAG" : "CGCCATGC",
+		"INDEXID" : "IDT103"
+	},
+	{
+		"INDEXTAG" : "TCTTTCCT",
+		"INDEXID" : "IDT104"
+	},
+	{
+		"INDEXTAG" : "GCGGTTGC",
+		"INDEXID" : "IDT105"
+	},
+	{
+		"INDEXTAG" : "ATCCCAAT",
+		"INDEXID" : "IDT106"
+	},
+	{
+		"INDEXTAG" : "TCGACCAC",
+		"INDEXID" : "IDT107"
+	},
+	{
+		"INDEXTAG" : "CTCTTGGT",
+		"INDEXID" : "IDT108"
+	},
+	{
+		"INDEXTAG" : "AGCTGCAC",
+		"INDEXID" : "IDT109"
+	},
+	{
+		"INDEXTAG" : "CTGTAGCC",
+		"INDEXID" : "IDT11"
+	},
+	{
+		"INDEXTAG" : "TCTCCGGT",
+		"INDEXID" : "IDT110"
+	},
+	{
+		"INDEXTAG" : "CTAGTCAC",
+		"INDEXID" : "IDT111"
+	},
+	{
+		"INDEXTAG" : "GAGAAGGT",
+		"INDEXID" : "IDT112"
+	},
+	{
+		"INDEXTAG" : "CCGTGGTC",
+		"INDEXID" : "IDT113"
+	},
+	{
+		"INDEXTAG" : "TACCACCA",
+		"INDEXID" : "IDT114"
+	},
+	{
+		"INDEXTAG" : "TTACAGTC",
+		"INDEXID" : "IDT115"
+	},
+	{
+		"INDEXTAG" : "CAGTTAAT",
+		"INDEXID" : "IDT116"
+	},
+	{
+		"INDEXTAG" : "AATGTGTC",
+		"INDEXID" : "IDT117"
+	},
+	{
+		"INDEXTAG" : "TTCAACCT",
+		"INDEXID" : "IDT118"
+	},
+	{
+		"INDEXTAG" : "GCTTCTCG",
+		"INDEXID" : "IDT119"
+	},
+	{
+		"INDEXTAG" : "AGTACAAG",
+		"INDEXID" : "IDT12"
+	},
+	{
+		"INDEXTAG" : "ATAATATA",
+		"INDEXID" : "IDT120"
+	},
+	{
+		"INDEXTAG" : "CGAAGTCG",
+		"INDEXID" : "IDT121"
+	},
+	{
+		"INDEXTAG" : "AAGAGTAG",
+		"INDEXID" : "IDT122"
+	},
+	{
+		"INDEXTAG" : "ACGTTCAT",
+		"INDEXID" : "IDT123"
+	},
+	{
+		"INDEXTAG" : "CTAATCGA",
+		"INDEXID" : "IDT124"
+	},
+	{
+		"INDEXTAG" : "ATCCTTCG",
+		"INDEXID" : "IDT125"
+	},
+	{
+		"INDEXTAG" : "GATTACGA",
+		"INDEXID" : "IDT126"
+	},
+	{
+		"INDEXTAG" : "TGATCAGG",
+		"INDEXID" : "IDT127"
+	},
+	{
+		"INDEXTAG" : "CCGCGGCA",
+		"INDEXID" : "IDT128"
+	},
+	{
+		"INDEXTAG" : "ACTAGAGG",
+		"INDEXID" : "IDT129"
+	},
+	{
+		"INDEXTAG" : "AACAACCA",
+		"INDEXID" : "IDT13"
+	},
+	{
+		"INDEXTAG" : "GTATATAA",
+		"INDEXID" : "IDT130"
+	},
+	{
+		"INDEXTAG" : "CGTTACTA",
+		"INDEXID" : "IDT131"
+	},
+	{
+		"INDEXTAG" : "AATATGCA",
+		"INDEXID" : "IDT132"
+	},
+	{
+		"INDEXTAG" : "CAGCTAGG",
+		"INDEXID" : "IDT133"
+	},
+	{
+		"INDEXTAG" : "TGCGCTAA",
+		"INDEXID" : "IDT134"
+	},
+	{
+		"INDEXTAG" : "GTACATCT",
+		"INDEXID" : "IDT135"
+	},
+	{
+		"INDEXTAG" : "ACGTAATA",
+		"INDEXID" : "IDT136"
+	},
+	{
+		"INDEXTAG" : "GAGTGCGA",
+		"INDEXID" : "IDT137"
+	},
+	{
+		"INDEXTAG" : "GGTCGTGT",
+		"INDEXID" : "IDT138"
+	},
+	{
+		"INDEXTAG" : "GGACTGAG",
+		"INDEXID" : "IDT139"
+	},
+	{
+		"INDEXTAG" : "AACCGAGA",
+		"INDEXID" : "IDT14"
+	},
+	{
+		"INDEXTAG" : "CATGCATA",
+		"INDEXID" : "IDT140"
+	},
+	{
+		"INDEXTAG" : "ATTCGGAG",
+		"INDEXID" : "IDT141"
+	},
+	{
+		"INDEXTAG" : "GATCGGCA",
+		"INDEXID" : "IDT142"
+	},
+	{
+		"INDEXTAG" : "GAGAGCTG",
+		"INDEXID" : "IDT143"
+	},
+	{
+		"INDEXTAG" : "ATAGCTAA",
+		"INDEXID" : "IDT144"
+	},
+	{
+		"INDEXTAG" : "AGAGACTG",
+		"INDEXID" : "IDT145"
+	},
+	{
+		"INDEXTAG" : "TCGATGCA",
+		"INDEXID" : "IDT146"
+	},
+	{
+		"INDEXTAG" : "TCTCTCTG",
+		"INDEXID" : "IDT147"
+	},
+	{
+		"INDEXTAG" : "CGCTATAA",
+		"INDEXID" : "IDT148"
+	},
+	{
+		"INDEXTAG" : "TCAGGCCA",
+		"INDEXID" : "IDT149"
+	},
+	{
+		"INDEXTAG" : "AACGCTTA",
+		"INDEXID" : "IDT15"
+	},
+	{
+		"INDEXTAG" : "CGGACTGG",
+		"INDEXID" : "IDT150"
+	},
+	{
+		"INDEXTAG" : "CTGAACCA",
+		"INDEXID" : "IDT151"
+	},
+	{
+		"INDEXTAG" : "GCCTGTGG",
+		"INDEXID" : "IDT152"
+	},
+	{
+		"INDEXTAG" : "GACTTCCA",
+		"INDEXID" : "IDT153"
+	},
+	{
+		"INDEXTAG" : "CTTCAGTG",
+		"INDEXID" : "IDT154"
+	},
+	{
+		"INDEXTAG" : "CCACCGGA",
+		"INDEXID" : "IDT155"
+	},
+	{
+		"INDEXTAG" : "CACCAGGT",
+		"INDEXID" : "IDT156"
+	},
+	{
+		"INDEXTAG" : "TATGTGGC",
+		"INDEXID" : "IDT157"
+	},
+	{
+		"INDEXTAG" : "GTTGTACG",
+		"INDEXID" : "IDT158"
+	},
+	{
+		"INDEXTAG" : "TTGTTGGA",
+		"INDEXID" : "IDT159"
+	},
+	{
+		"INDEXTAG" : "AAGACGGA",
+		"INDEXID" : "IDT16"
+	},
+	{
+		"INDEXTAG" : "TGTCTATC",
+		"INDEXID" : "IDT160"
+	},
+	{
+		"INDEXTAG" : "ATGGGTTA",
+		"INDEXID" : "IDT161"
+	},
+	{
+		"INDEXTAG" : "GAAACCAG",
+		"INDEXID" : "IDT162"
+	},
+	{
+		"INDEXTAG" : "GCAAATTA",
+		"INDEXID" : "IDT163"
+	},
+	{
+		"INDEXTAG" : "CTTTGCAG",
+		"INDEXID" : "IDT164"
+	},
+	{
+		"INDEXTAG" : "TTTGCGCT",
+		"INDEXID" : "IDT165"
+	},
+	{
+		"INDEXTAG" : "CCACTCTC",
+		"INDEXID" : "IDT166"
+	},
+	{
+		"INDEXTAG" : "AAACGGCT",
+		"INDEXID" : "IDT167"
+	},
+	{
+		"INDEXTAG" : "TGTGAAGC",
+		"INDEXID" : "IDT168"
+	},
+	{
+		"INDEXTAG" : "GGGTAGCT",
+		"INDEXID" : "IDT169"
+	},
+	{
+		"INDEXTAG" : "AAGGTACA",
+		"INDEXID" : "IDT17"
+	},
+	{
+		"INDEXTAG" : "AACAGCTC",
+		"INDEXID" : "IDT170"
+	},
+	{
+		"INDEXTAG" : "CCCATGCT",
+		"INDEXID" : "IDT171"
+	},
+	{
+		"INDEXTAG" : "TTGTCCTC",
+		"INDEXID" : "IDT172"
+	},
+	{
+		"INDEXTAG" : "GAAGCCGT",
+		"INDEXID" : "IDT173"
+	},
+	{
+		"INDEXTAG" : "TTGCGTAC",
+		"INDEXID" : "IDT174"
+	},
+	{
+		"INDEXTAG" : "CTTCGCGT",
+		"INDEXID" : "IDT175"
+	},
+	{
+		"INDEXTAG" : "GACTCGAC",
+		"INDEXID" : "IDT176"
+	},
+	{
+		"INDEXTAG" : "TCCTACGT",
+		"INDEXID" : "IDT177"
+	},
+	{
+		"INDEXTAG" : "AGTCTGAC",
+		"INDEXID" : "IDT178"
+	},
+	{
+		"INDEXTAG" : "ATGGCGCG",
+		"INDEXID" : "IDT179"
+	},
+	{
+		"INDEXTAG" : "ACACAGAA",
+		"INDEXID" : "IDT18"
+	},
+	{
+		"INDEXTAG" : "GCCCTCTA",
+		"INDEXID" : "IDT180"
+	},
+	{
+		"INDEXTAG" : "CGTTAGCG",
+		"INDEXID" : "IDT181"
+	},
+	{
+		"INDEXTAG" : "TAAAGCTA",
+		"INDEXID" : "IDT182"
+	},
+	{
+		"INDEXTAG" : "GCAATGCG",
+		"INDEXID" : "IDT183"
+	},
+	{
+		"INDEXTAG" : "ATTTCCTA",
+		"INDEXID" : "IDT184"
+	},
+	{
+		"INDEXTAG" : "GGTGCTAG",
+		"INDEXID" : "IDT185"
+	},
+	{
+		"INDEXTAG" : "CCCAGAGA",
+		"INDEXID" : "IDT186"
+	},
+	{
+		"INDEXTAG" : "TCAGCATG",
+		"INDEXID" : "IDT187"
+	},
+	{
+		"INDEXTAG" : "AGGAGTCA",
+		"INDEXID" : "IDT188"
+	},
+	{
+		"INDEXTAG" : "AGTCGATG",
+		"INDEXID" : "IDT189"
+	},
+	{
+		"INDEXTAG" : "ACAGCAGA",
+		"INDEXID" : "IDT19"
+	},
+	{
+		"INDEXTAG" : "GAAGATCA",
+		"INDEXID" : "IDT190"
+	},
+	{
+		"INDEXTAG" : "GACTAATG",
+		"INDEXID" : "IDT191"
+	},
+	{
+		"INDEXTAG" : "CTTCTTCA",
+		"INDEXID" : "IDT192"
+	},
+	{
+		"INDEXTAG" : "CTGATATG",
+		"INDEXID" : "IDT193"
+	},
+	{
+		"INDEXTAG" : "TCCTCTCA",
+		"INDEXID" : "IDT194"
+	},
+	{
+		"INDEXTAG" : "GAGACACA",
+		"INDEXID" : "IDT195"
+	},
+	{
+		"INDEXTAG" : "CATAGGTC",
+		"INDEXID" : "IDT196"
+	},
+	{
+		"INDEXTAG" : "CTCTGACA",
+		"INDEXID" : "IDT197"
+	},
+	{
+		"INDEXTAG" : "AGGTCACG",
+		"INDEXID" : "IDT198"
+	},
+	{
+		"INDEXTAG" : "AGAGTACA",
+		"INDEXID" : "IDT199"
+	},
+	{
+		"INDEXTAG" : "AAACATCG",
+		"INDEXID" : "IDT2"
+	},
+	{
+		"INDEXTAG" : "ACCTCCAA",
+		"INDEXID" : "IDT20"
+	},
+	{
+		"INDEXTAG" : "GATCCTTG",
+		"INDEXID" : "IDT200"
+	},
+	{
+		"INDEXTAG" : "CGCTAAGC",
+		"INDEXID" : "IDT201"
+	},
+	{
+		"INDEXTAG" : "CCGTTAAG",
+		"INDEXID" : "IDT202"
+	},
+	{
+		"INDEXTAG" : "AAGTGTGA",
+		"INDEXID" : "IDT203"
+	},
+	{
+		"INDEXTAG" : "TTACCAAG",
+		"INDEXID" : "IDT204"
+	},
+	{
+		"INDEXTAG" : "ATCCAGTA",
+		"INDEXID" : "IDT205"
+	},
+	{
+		"INDEXTAG" : "TATTTCCG",
+		"INDEXID" : "IDT206"
+	},
+	{
+		"INDEXTAG" : "TAGGTGTA",
+		"INDEXID" : "IDT207"
+	},
+	{
+		"INDEXTAG" : "ATAAACCG",
+		"INDEXID" : "IDT208"
+	},
+	{
+		"INDEXTAG" : "CTAGAAGT",
+		"INDEXID" : "IDT209"
+	},
+	{
+		"INDEXTAG" : "ACGCTCGA",
+		"INDEXID" : "IDT21"
+	},
+	{
+		"INDEXTAG" : "GAGATTAC",
+		"INDEXID" : "IDT210"
+	},
+	{
+		"INDEXTAG" : "GATCTAGT",
+		"INDEXID" : "IDT211"
+	},
+	{
+		"INDEXTAG" : "AGAGCTAC",
+		"INDEXID" : "IDT212"
+	},
+	{
+		"INDEXTAG" : "ACAGGCTC",
+		"INDEXID" : "IDT213"
+	},
+	{
+		"INDEXTAG" : "CCCTTGGC",
+		"INDEXID" : "IDT214"
+	},
+	{
+		"INDEXTAG" : "GCATGACT",
+		"INDEXID" : "IDT215"
+	},
+	{
+		"INDEXTAG" : "ATTAATTC",
+		"INDEXID" : "IDT216"
+	},
+	{
+		"INDEXTAG" : "CGTACACT",
+		"INDEXID" : "IDT217"
+	},
+	{
+		"INDEXTAG" : "GCCGGTTC",
+		"INDEXID" : "IDT218"
+	},
+	{
+		"INDEXTAG" : "TTTCTCTA",
+		"INDEXID" : "IDT219"
+	},
+	{
+		"INDEXTAG" : "ACGTATCA",
+		"INDEXID" : "IDT22"
+	},
+	{
+		"INDEXTAG" : "CCAGCGCG",
+		"INDEXID" : "IDT220"
+	},
+	{
+		"INDEXTAG" : "AAAGACTA",
+		"INDEXID" : "IDT221"
+	},
+	{
+		"INDEXTAG" : "TTGATGCG",
+		"INDEXID" : "IDT222"
+	},
+	{
+		"INDEXTAG" : "GAACTGAA",
+		"INDEXID" : "IDT223"
+	},
+	{
+		"INDEXTAG" : "AGTGCCGG",
+		"INDEXID" : "IDT224"
+	},
+	{
+		"INDEXTAG" : "CTTGAGAA",
+		"INDEXID" : "IDT225"
+	},
+	{
+		"INDEXTAG" : "TCACGCGG",
+		"INDEXID" : "IDT226"
+	},
+	{
+		"INDEXTAG" : "TCCAGGAA",
+		"INDEXID" : "IDT227"
+	},
+	{
+		"INDEXTAG" : "TCTACGAC",
+		"INDEXID" : "IDT228"
+	},
+	{
+		"INDEXTAG" : "AGGTCGAA",
+		"INDEXID" : "IDT229"
+	},
+	{
+		"INDEXTAG" : "ACTATGCA",
+		"INDEXID" : "IDT23"
+	},
+	{
+		"INDEXTAG" : "GACATCGG",
+		"INDEXID" : "IDT230"
+	},
+	{
+		"INDEXTAG" : "CGGCTAGA",
+		"INDEXID" : "IDT231"
+	},
+	{
+		"INDEXTAG" : "TACGCTAG",
+		"INDEXID" : "IDT232"
+	},
+	{
+		"INDEXTAG" : "GCCGAAGA",
+		"INDEXID" : "IDT233"
+	},
+	{
+		"INDEXTAG" : "GCATGGCT",
+		"INDEXID" : "IDT234"
+	},
+	{
+		"INDEXTAG" : "ATTAGAGA",
+		"INDEXID" : "IDT235"
+	},
+	{
+		"INDEXTAG" : "GCATATAG",
+		"INDEXID" : "IDT236"
+	},
+	{
+		"INDEXTAG" : "GAGGATGG",
+		"INDEXID" : "IDT237"
+	},
+	{
+		"INDEXTAG" : "ATGCGTAG",
+		"INDEXID" : "IDT238"
+	},
+	{
+		"INDEXTAG" : "ACCCTTCA",
+		"INDEXID" : "IDT239"
+	},
+	{
+		"INDEXTAG" : "AGAGTCAA",
+		"INDEXID" : "IDT24"
+	},
+	{
+		"INDEXTAG" : "CTATCATG",
+		"INDEXID" : "IDT240"
+	},
+	{
+		"INDEXTAG" : "GAGTACAT",
+		"INDEXID" : "IDT241"
+	},
+	{
+		"INDEXTAG" : "TGTTCTCC",
+		"INDEXID" : "IDT242"
+	},
+	{
+		"INDEXTAG" : "CGTTCGGT",
+		"INDEXID" : "IDT243"
+	},
+	{
+		"INDEXTAG" : "GCAACATT",
+		"INDEXID" : "IDT244"
+	},
+	{
+		"INDEXTAG" : "AGGCAGCT",
+		"INDEXID" : "IDT245"
+	},
+	{
+		"INDEXTAG" : "ACAATATG",
+		"INDEXID" : "IDT246"
+	},
+	{
+		"INDEXTAG" : "GTAAATTG",
+		"INDEXID" : "IDT247"
+	},
+	{
+		"INDEXTAG" : "TACCGAGC",
+		"INDEXID" : "IDT248"
+	},
+	{
+		"INDEXTAG" : "ACGGGTTG",
+		"INDEXID" : "IDT249"
+	},
+	{
+		"INDEXTAG" : "AGATCGCA",
+		"INDEXID" : "IDT25"
+	},
+	{
+		"INDEXTAG" : "GGTGAGTT",
+		"INDEXID" : "IDT250"
+	},
+	{
+		"INDEXTAG" : "GATCTCTT",
+		"INDEXID" : "IDT251"
+	},
+	{
+		"INDEXTAG" : "CAGGTACA",
+		"INDEXID" : "IDT252"
+	},
+	{
+		"INDEXTAG" : "ATATTAAG",
+		"INDEXID" : "IDT253"
+	},
+	{
+		"INDEXTAG" : "CGTCGCCT",
+		"INDEXID" : "IDT254"
+	},
+	{
+		"INDEXTAG" : "CGCGGAAG",
+		"INDEXID" : "IDT255"
+	},
+	{
+		"INDEXTAG" : "TAGCATGA",
+		"INDEXID" : "IDT256"
+	},
+	{
+		"INDEXTAG" : "GCGCCAAG",
+		"INDEXID" : "IDT257"
+	},
+	{
+		"INDEXTAG" : "CGGAGGAA",
+		"INDEXID" : "IDT258"
+	},
+	{
+		"INDEXTAG" : "CACACACT",
+		"INDEXID" : "IDT259"
+	},
+	{
+		"INDEXTAG" : "AGCAGGAA",
+		"INDEXID" : "IDT26"
+	},
+	{
+		"INDEXTAG" : "CCTCAGTA",
+		"INDEXID" : "IDT260"
+	},
+	{
+		"INDEXTAG" : "GTAAGGTG",
+		"INDEXID" : "IDT261"
+	},
+	{
+		"INDEXTAG" : "TTACTCGC",
+		"INDEXID" : "IDT262"
+	},
+	{
+		"INDEXTAG" : "GCTATATC",
+		"INDEXID" : "IDT263"
+	},
+	{
+		"INDEXTAG" : "ATATCTCT",
+		"INDEXID" : "IDT264"
+	},
+	{
+		"INDEXTAG" : "CGATAATC",
+		"INDEXID" : "IDT265"
+	},
+	{
+		"INDEXTAG" : "AGACCGTG",
+		"INDEXID" : "IDT266"
+	},
+	{
+		"INDEXTAG" : "TAGCGATC",
+		"INDEXID" : "IDT267"
+	},
+	{
+		"INDEXTAG" : "CGCGATCT",
+		"INDEXID" : "IDT268"
+	},
+	{
+		"INDEXTAG" : "ATCGCATC",
+		"INDEXID" : "IDT269"
+	},
+	{
+		"INDEXTAG" : "AGTCACTA",
+		"INDEXID" : "IDT27"
+	},
+	{
+		"INDEXTAG" : "CTGCGAGT",
+		"INDEXID" : "IDT270"
+	},
+	{
+		"INDEXTAG" : "TGAATTAC",
+		"INDEXID" : "IDT271"
+	},
+	{
+		"INDEXTAG" : "CATTCAGT",
+		"INDEXID" : "IDT272"
+	},
+	{
+		"INDEXTAG" : "GGAAGAGG",
+		"INDEXID" : "IDT273"
+	},
+	{
+		"INDEXTAG" : "ACGGCGCA",
+		"INDEXID" : "IDT274"
+	},
+	{
+		"INDEXTAG" : "CCTTCAGG",
+		"INDEXID" : "IDT275"
+	},
+	{
+		"INDEXTAG" : "GTAATGCA",
+		"INDEXID" : "IDT276"
+	},
+	{
+		"INDEXTAG" : "GAGCTTCG",
+		"INDEXID" : "IDT277"
+	},
+	{
+		"INDEXTAG" : "TGCGTGAA",
+		"INDEXID" : "IDT278"
+	},
+	{
+		"INDEXTAG" : "CTCGATCG",
+		"INDEXID" : "IDT279"
+	},
+	{
+		"INDEXTAG" : "ATCCTGTA",
+		"INDEXID" : "IDT28"
+	},
+	{
+		"INDEXTAG" : "TATATCGA",
+		"INDEXID" : "IDT280"
+	},
+	{
+		"INDEXTAG" : "TCTAGTCG",
+		"INDEXID" : "IDT281"
+	},
+	{
+		"INDEXTAG" : "CGCGCCGA",
+		"INDEXID" : "IDT282"
+	},
+	{
+		"INDEXTAG" : "AGATCTCG",
+		"INDEXID" : "IDT283"
+	},
+	{
+		"INDEXTAG" : "GCGCGCGA",
+		"INDEXID" : "IDT284"
+	},
+	{
+		"INDEXTAG" : "CCTAGTAT",
+		"INDEXID" : "IDT285"
+	},
+	{
+		"INDEXTAG" : "CCTCCAAT",
+		"INDEXID" : "IDT286"
+	},
+	{
+		"INDEXTAG" : "CATCAGTC",
+		"INDEXID" : "IDT287"
+	},
+	{
+		"INDEXTAG" : "GTCTTCCT",
+		"INDEXID" : "IDT288"
+	},
+	{
+		"INDEXTAG" : "ACGACGTC",
+		"INDEXID" : "IDT289"
+	},
+	{
+		"INDEXTAG" : "ATTGAGGA",
+		"INDEXID" : "IDT29"
+	},
+	{
+		"INDEXTAG" : "TTCTTAAT",
+		"INDEXID" : "IDT290"
+	},
+	{
+		"INDEXTAG" : "ACCTCTGG",
+		"INDEXID" : "IDT291"
+	},
+	{
+		"INDEXTAG" : "ATCAAGGT",
+		"INDEXID" : "IDT292"
+	},
+	{
+		"INDEXTAG" : "ATACACAC",
+		"INDEXID" : "IDT293"
+	},
+	{
+		"INDEXTAG" : "CAAAGTGT",
+		"INDEXID" : "IDT294"
+	},
+	{
+		"INDEXTAG" : "AGCGTTGC",
+		"INDEXID" : "IDT295"
+	},
+	{
+		"INDEXTAG" : "GAGCCAAT",
+		"INDEXID" : "IDT296"
+	},
+	{
+		"INDEXTAG" : "ACTGTTAG",
+		"INDEXID" : "IDT297"
+	},
+	{
+		"INDEXTAG" : "CTCGGAAT",
+		"INDEXID" : "IDT298"
+	},
+	{
+		"INDEXTAG" : "CTATGTGC",
+		"INDEXID" : "IDT299"
+	},
+	{
+		"INDEXTAG" : "ATGCCTAA",
+		"INDEXID" : "IDT3"
+	},
+	{
+		"INDEXTAG" : "CAACCACA",
+		"INDEXID" : "IDT30"
+	},
+	{
+		"INDEXTAG" : "CCGTATCT",
+		"INDEXID" : "IDT300"
+	},
+	{
+		"INDEXTAG" : "GATACTGC",
+		"INDEXID" : "IDT301"
+	},
+	{
+		"INDEXTAG" : "ATCGGCCT",
+		"INDEXID" : "IDT302"
+	},
+	{
+		"INDEXTAG" : "CCGGTACC",
+		"INDEXID" : "IDT303"
+	},
+	{
+		"INDEXTAG" : "GTCCCGGT",
+		"INDEXID" : "IDT304"
+	},
+	{
+		"INDEXTAG" : "AATTGACC",
+		"INDEXID" : "IDT305"
+	},
+	{
+		"INDEXTAG" : "TGAAAGGT",
+		"INDEXID" : "IDT306"
+	},
+	{
+		"INDEXTAG" : "CCAGTCAT",
+		"INDEXID" : "IDT307"
+	},
+	{
+		"INDEXTAG" : "TTTCCGGC",
+		"INDEXID" : "IDT308"
+	},
+	{
+		"INDEXTAG" : "CGGCCTTC",
+		"INDEXID" : "IDT309"
+	},
+	{
+		"INDEXTAG" : "GACTAGTA",
+		"INDEXID" : "IDT31"
+	},
+	{
+		"INDEXTAG" : "GACGTCAT",
+		"INDEXID" : "IDT310"
+	},
+	{
+		"INDEXTAG" : "ACACACAT",
+		"INDEXID" : "IDT311"
+	},
+	{
+		"INDEXTAG" : "GACGGATT",
+		"INDEXID" : "IDT312"
+	},
+	{
+		"INDEXTAG" : "CGCTTCCT",
+		"INDEXID" : "IDT313"
+	},
+	{
+		"INDEXTAG" : "CTATGCGC",
+		"INDEXID" : "IDT314"
+	},
+	{
+		"INDEXTAG" : "CGATTTCT",
+		"INDEXID" : "IDT315"
+	},
+	{
+		"INDEXTAG" : "GCGCAATC",
+		"INDEXID" : "IDT316"
+	},
+	{
+		"INDEXTAG" : "TTCGCACC",
+		"INDEXID" : "IDT317"
+	},
+	{
+		"INDEXTAG" : "TGCCATAC",
+		"INDEXID" : "IDT318"
+	},
+	{
+		"INDEXTAG" : "AAGAAGAT",
+		"INDEXID" : "IDT319"
+	},
+	{
+		"INDEXTAG" : "CAATGGAA",
+		"INDEXID" : "IDT32"
+	},
+	{
+		"INDEXTAG" : "GTAGTATC",
+		"INDEXID" : "IDT320"
+	},
+	{
+		"INDEXTAG" : "GAGGTGCT",
+		"INDEXID" : "IDT321"
+	},
+	{
+		"INDEXTAG" : "ACGACATC",
+		"INDEXID" : "IDT322"
+	},
+	{
+		"INDEXTAG" : "AGACCCTT",
+		"INDEXID" : "IDT323"
+	},
+	{
+		"INDEXTAG" : "ATCCTAGG",
+		"INDEXID" : "IDT324"
+	},
+	{
+		"INDEXTAG" : "TCTGGCTT",
+		"INDEXID" : "IDT325"
+	},
+	{
+		"INDEXTAG" : "CGCACTAC",
+		"INDEXID" : "IDT326"
+	},
+	{
+		"INDEXTAG" : "GAGTTCTT",
+		"INDEXID" : "IDT327"
+	},
+	{
+		"INDEXTAG" : "ATACATAC",
+		"INDEXID" : "IDT328"
+	},
+	{
+		"INDEXTAG" : "AGGCCAGC",
+		"INDEXID" : "IDT329"
+	},
+	{
+		"INDEXTAG" : "CACTTCGA",
+		"INDEXID" : "IDT33"
+	},
+	{
+		"INDEXTAG" : "TACGTGCT",
+		"INDEXID" : "IDT330"
+	},
+	{
+		"INDEXTAG" : "ATCAACCG",
+		"INDEXID" : "IDT331"
+	},
+	{
+		"INDEXTAG" : "ATGCAGCT",
+		"INDEXID" : "IDT332"
+	},
+	{
+		"INDEXTAG" : "GAATTAGC",
+		"INDEXID" : "IDT333"
+	},
+	{
+		"INDEXTAG" : "CCTGAGCA",
+		"INDEXID" : "IDT334"
+	},
+	{
+		"INDEXTAG" : "TAACCGAC",
+		"INDEXID" : "IDT335"
+	},
+	{
+		"INDEXTAG" : "AGTGTATT",
+		"INDEXID" : "IDT336"
+	},
+	{
+		"INDEXTAG" : "ATTGGGAC",
+		"INDEXID" : "IDT337"
+	},
+	{
+		"INDEXTAG" : "TCACAATT",
+		"INDEXID" : "IDT338"
+	},
+	{
+		"INDEXTAG" : "AGACAGAA",
+		"INDEXID" : "IDT339"
+	},
+	{
+		"INDEXTAG" : "CAGCGTTA",
+		"INDEXID" : "IDT34"
+	},
+	{
+		"INDEXTAG" : "CTGTGATT",
+		"INDEXID" : "IDT340"
+	},
+	{
+		"INDEXTAG" : "ATTGCGGT",
+		"INDEXID" : "IDT341"
+	},
+	{
+		"INDEXTAG" : "GACAGACC",
+		"INDEXID" : "IDT342"
+	},
+	{
+		"INDEXTAG" : "GATATCTA",
+		"INDEXID" : "IDT343"
+	},
+	{
+		"INDEXTAG" : "ATCGATAG",
+		"INDEXID" : "IDT344"
+	},
+	{
+		"INDEXTAG" : "TGAGGACT",
+		"INDEXID" : "IDT345"
+	},
+	{
+		"INDEXTAG" : "TCGTTAGC",
+		"INDEXID" : "IDT346"
+	},
+	{
+		"INDEXTAG" : "CAGAAACT",
+		"INDEXID" : "IDT347"
+	},
+	{
+		"INDEXTAG" : "TGCTGTTC",
+		"INDEXID" : "IDT348"
+	},
+	{
+		"INDEXTAG" : "CTTCACAT",
+		"INDEXID" : "IDT349"
+	},
+	{
+		"INDEXTAG" : "CATACCAA",
+		"INDEXID" : "IDT35"
+	},
+	{
+		"INDEXTAG" : "CATCATTC",
+		"INDEXID" : "IDT350"
+	},
+	{
+		"INDEXTAG" : "CGACCTGT",
+		"INDEXID" : "IDT351"
+	},
+	{
+		"INDEXTAG" : "GCGTGAAC",
+		"INDEXID" : "IDT352"
+	},
+	{
+		"INDEXTAG" : "GCTGGTGT",
+		"INDEXID" : "IDT353"
+	},
+	{
+		"INDEXTAG" : "CTACACCC",
+		"INDEXID" : "IDT354"
+	},
+	{
+		"INDEXTAG" : "GGCAAGCA",
+		"INDEXID" : "IDT355"
+	},
+	{
+		"INDEXTAG" : "TATGTAAC",
+		"INDEXID" : "IDT356"
+	},
+	{
+		"INDEXTAG" : "TAGTTTGT",
+		"INDEXID" : "IDT357"
+	},
+	{
+		"INDEXTAG" : "ATACAAAC",
+		"INDEXID" : "IDT358"
+	},
+	{
+		"INDEXTAG" : "GAGCCCAT",
+		"INDEXID" : "IDT359"
+	},
+	{
+		"INDEXTAG" : "CCAGTTCA",
+		"INDEXID" : "IDT36"
+	},
+	{
+		"INDEXTAG" : "CGCGTTTC",
+		"INDEXID" : "IDT360"
+	},
+	{
+		"INDEXTAG" : "CCTATTAC",
+		"INDEXID" : "IDT361"
+	},
+	{
+		"INDEXTAG" : "CACTCGAG",
+		"INDEXID" : "IDT362"
+	},
+	{
+		"INDEXTAG" : "GATTCATC",
+		"INDEXID" : "IDT363"
+	},
+	{
+		"INDEXTAG" : "GGACATGA",
+		"INDEXID" : "IDT364"
+	},
+	{
+		"INDEXTAG" : "GGGCTTCA",
+		"INDEXID" : "IDT365"
+	},
+	{
+		"INDEXTAG" : "ACATACGG",
+		"INDEXID" : "IDT366"
+	},
+	{
+		"INDEXTAG" : "CATACACC",
+		"INDEXID" : "IDT367"
+	},
+	{
+		"INDEXTAG" : "GGATTGGT",
+		"INDEXID" : "IDT368"
+	},
+	{
+		"INDEXTAG" : "GGCACGTC",
+		"INDEXID" : "IDT369"
+	},
+	{
+		"INDEXTAG" : "CCGAAGTA",
+		"INDEXID" : "IDT37"
+	},
+	{
+		"INDEXTAG" : "ACTGGAAT",
+		"INDEXID" : "IDT370"
+	},
+	{
+		"INDEXTAG" : "AAGTCGAG",
+		"INDEXID" : "IDT371"
+	},
+	{
+		"INDEXTAG" : "GGCATCGA",
+		"INDEXID" : "IDT372"
+	},
+	{
+		"INDEXTAG" : "GGCAGTCT",
+		"INDEXID" : "IDT373"
+	},
+	{
+		"INDEXTAG" : "CCTGCATC",
+		"INDEXID" : "IDT374"
+	},
+	{
+		"INDEXTAG" : "GGGAGCTA",
+		"INDEXID" : "IDT375"
+	},
+	{
+		"INDEXTAG" : "AACTAGCG",
+		"INDEXID" : "IDT376"
+	},
+	{
+		"INDEXTAG" : "CCCTCCTA",
+		"INDEXID" : "IDT377"
+	},
+	{
+		"INDEXTAG" : "GGTCGGCG",
+		"INDEXID" : "IDT378"
+	},
+	{
+		"INDEXTAG" : "CCGAACCG",
+		"INDEXID" : "IDT379"
+	},
+	{
+		"INDEXTAG" : "CCGTGAGA",
+		"INDEXID" : "IDT38"
+	},
+	{
+		"INDEXTAG" : "GGAGTGTA",
+		"INDEXID" : "IDT380"
+	},
+	{
+		"INDEXTAG" : "AAACTGCG",
+		"INDEXID" : "IDT381"
+	},
+	{
+		"INDEXTAG" : "TCTCTTCA",
+		"INDEXID" : "IDT382"
+	},
+	{
+		"INDEXTAG" : "GACCTTAG",
+		"INDEXID" : "IDT383"
+	},
+	{
+		"INDEXTAG" : "GGGAAGGC",
+		"INDEXID" : "IDT384"
+	},
+	{
+		"INDEXTAG" : "CCTCCTGA",
+		"INDEXID" : "IDT39"
+	},
+	{
+		"INDEXTAG" : "AGTGGTCA",
+		"INDEXID" : "IDT4"
+	},
+	{
+		"INDEXTAG" : "CGAACTTA",
+		"INDEXID" : "IDT40"
+	},
+	{
+		"INDEXTAG" : "CGACTGGA",
+		"INDEXID" : "IDT41"
+	},
+	{
+		"INDEXTAG" : "CGCATACA",
+		"INDEXID" : "IDT42"
+	},
+	{
+		"INDEXTAG" : "CTCAATGA",
+		"INDEXID" : "IDT43"
+	},
+	{
+		"INDEXTAG" : "CTGAGCCA",
+		"INDEXID" : "IDT44"
+	},
+	{
+		"INDEXTAG" : "CTGGCATA",
+		"INDEXID" : "IDT45"
+	},
+	{
+		"INDEXTAG" : "GAATCTGA",
+		"INDEXID" : "IDT46"
+	},
+	{
+		"INDEXTAG" : "CAAGACTA",
+		"INDEXID" : "IDT47"
+	},
+	{
+		"INDEXTAG" : "GAGCTGAA",
+		"INDEXID" : "IDT48"
+	},
+	{
+		"INDEXTAG" : "GATAGACA",
+		"INDEXID" : "IDT49"
+	},
+	{
+		"INDEXTAG" : "ACCACTGT",
+		"INDEXID" : "IDT5"
+	},
+	{
+		"INDEXTAG" : "GCCACATA",
+		"INDEXID" : "IDT50"
+	},
+	{
+		"INDEXTAG" : "GCGAGTAA",
+		"INDEXID" : "IDT51"
+	},
+	{
+		"INDEXTAG" : "GCTAACGA",
+		"INDEXID" : "IDT52"
+	},
+	{
+		"INDEXTAG" : "GCTCGGTA",
+		"INDEXID" : "IDT53"
+	},
+	{
+		"INDEXTAG" : "GGAGAACA",
+		"INDEXID" : "IDT54"
+	},
+	{
+		"INDEXTAG" : "GGTGCGAA",
+		"INDEXID" : "IDT55"
+	},
+	{
+		"INDEXTAG" : "GTACGCAA",
+		"INDEXID" : "IDT56"
+	},
+	{
+		"INDEXTAG" : "GTCGTAGA",
+		"INDEXID" : "IDT57"
+	},
+	{
+		"INDEXTAG" : "GTCTGTCA",
+		"INDEXID" : "IDT58"
+	},
+	{
+		"INDEXTAG" : "GTGTTCTA",
+		"INDEXID" : "IDT59"
+	},
+	{
+		"INDEXTAG" : "ACATTGGC",
+		"INDEXID" : "IDT6"
+	},
+	{
+		"INDEXTAG" : "TAGGATGA",
+		"INDEXID" : "IDT60"
+	},
+	{
+		"INDEXTAG" : "TATCAGCA",
+		"INDEXID" : "IDT61"
+	},
+	{
+		"INDEXTAG" : "TCCGTCTA",
+		"INDEXID" : "IDT62"
+	},
+	{
+		"INDEXTAG" : "TCTTCACA",
+		"INDEXID" : "IDT63"
+	},
+	{
+		"INDEXTAG" : "TGAAGAGA",
+		"INDEXID" : "IDT64"
+	},
+	{
+		"INDEXTAG" : "TGGAACAA",
+		"INDEXID" : "IDT65"
+	},
+	{
+		"INDEXTAG" : "TGGCTTCA",
+		"INDEXID" : "IDT66"
+	},
+	{
+		"INDEXTAG" : "TGGTGGTA",
+		"INDEXID" : "IDT67"
+	},
+	{
+		"INDEXTAG" : "TTCACGCA",
+		"INDEXID" : "IDT68"
+	},
+	{
+		"INDEXTAG" : "AACTCACC",
+		"INDEXID" : "IDT69"
+	},
+	{
+		"INDEXTAG" : "CAGATCTG",
+		"INDEXID" : "IDT7"
+	},
+	{
+		"INDEXTAG" : "AAGAGATC",
+		"INDEXID" : "IDT70"
+	},
+	{
+		"INDEXTAG" : "AAGGACAC",
+		"INDEXID" : "IDT71"
+	},
+	{
+		"INDEXTAG" : "AATCCGTC",
+		"INDEXID" : "IDT72"
+	},
+	{
+		"INDEXTAG" : "AATGTTGC",
+		"INDEXID" : "IDT73"
+	},
+	{
+		"INDEXTAG" : "ACACGACC",
+		"INDEXID" : "IDT74"
+	},
+	{
+		"INDEXTAG" : "ACAGATTC",
+		"INDEXID" : "IDT75"
+	},
+	{
+		"INDEXTAG" : "AGATGTAC",
+		"INDEXID" : "IDT76"
+	},
+	{
+		"INDEXTAG" : "AGCACCTC",
+		"INDEXID" : "IDT77"
+	},
+	{
+		"INDEXTAG" : "AGCCATGC",
+		"INDEXID" : "IDT78"
+	},
+	{
+		"INDEXTAG" : "AGGCTAAC",
+		"INDEXID" : "IDT79"
+	},
+	{
+		"INDEXTAG" : "CATCAAGT",
+		"INDEXID" : "IDT8"
+	},
+	{
+		"INDEXTAG" : "ATAGCGAC",
+		"INDEXID" : "IDT80"
+	},
+	{
+		"INDEXTAG" : "ATCATTCC",
+		"INDEXID" : "IDT81"
+	},
+	{
+		"INDEXTAG" : "ATTGGCTC",
+		"INDEXID" : "IDT82"
+	},
+	{
+		"INDEXTAG" : "CAAGGAGC",
+		"INDEXID" : "IDT83"
+	},
+	{
+		"INDEXTAG" : "CACCTTAC",
+		"INDEXID" : "IDT84"
+	},
+	{
+		"INDEXTAG" : "CCATCCTC",
+		"INDEXID" : "IDT85"
+	},
+	{
+		"INDEXTAG" : "CCGACAAC",
+		"INDEXID" : "IDT86"
+	},
+	{
+		"INDEXTAG" : "CCTAATCC",
+		"INDEXID" : "IDT87"
+	},
+	{
+		"INDEXTAG" : "CCTCTATC",
+		"INDEXID" : "IDT88"
+	},
+	{
+		"INDEXTAG" : "CGACACAC",
+		"INDEXID" : "IDT89"
+	},
+	{
+		"INDEXTAG" : "CGCTGATC",
+		"INDEXID" : "IDT9"
+	},
+	{
+		"INDEXTAG" : "CGGATTGC",
+		"INDEXID" : "IDT90"
+	},
+	{
+		"INDEXTAG" : "CTAAGGTC",
+		"INDEXID" : "IDT91"
+	},
+	{
+		"INDEXTAG" : "GAACAGGC",
+		"INDEXID" : "IDT92"
+	},
+	{
+		"INDEXTAG" : "GACAGTGC",
+		"INDEXID" : "IDT93"
+	},
+	{
+		"INDEXTAG" : "GAGTTAGC",
+		"INDEXID" : "IDT94"
+	},
+	{
+		"INDEXTAG" : "GATGAATC",
+		"INDEXID" : "IDT95"
+	},
+	{
+		"INDEXTAG" : "GCCAAGAC",
+		"INDEXID" : "IDT96"
+	},
+	{
+		"INDEXTAG" : "TGCGTACC",
+		"INDEXID" : "IDT97"
+	},
+	{
+		"INDEXTAG" : "AAGCCGGT",
+		"INDEXID" : "IDT98"
+	},
+	{
+		"INDEXTAG" : "ATAACTGC",
+		"INDEXID" : "IDT99"
+	},
+	{
+		"INDEXTAG" : "CTGATCGT-ATATGCGC",
+		"INDEXID" : "IDTdual1"
+	},
+	{
+		"INDEXTAG" : "ATCGATCG-TGCTTCCA",
+		"INDEXID" : "IDTdual10"
+	},
+	{
+		"INDEXTAG" : "CTCATCAG-CGCTAGTA",
+		"INDEXID" : "IDTdual100"
+	},
+	{
+		"INDEXTAG" : "TGTACCGT-TCTCTAGG",
+		"INDEXID" : "IDTdual101"
+	},
+	{
+		"INDEXTAG" : "AAGTCGAG-ACATTGCG",
+		"INDEXID" : "IDTdual102"
+	},
+	{
+		"INDEXTAG" : "CACGTTGT-TGAGGTGT",
+		"INDEXID" : "IDTdual103"
+	},
+	{
+		"INDEXTAG" : "TCACAGCA-AATGCCTC",
+		"INDEXID" : "IDTdual104"
+	},
+	{
+		"INDEXTAG" : "CTACTTGG-CTGGAGTA",
+		"INDEXID" : "IDTdual105"
+	},
+	{
+		"INDEXTAG" : "CCTCAGTT-GTATGCTG",
+		"INDEXID" : "IDTdual106"
+	},
+	{
+		"INDEXTAG" : "TCCTACCT-TGGAGAGT",
+		"INDEXID" : "IDTdual107"
+	},
+	{
+		"INDEXTAG" : "ATGGCGAA-CGATAGAG",
+		"INDEXID" : "IDTdual108"
+	},
+	{
+		"INDEXTAG" : "CTTACCTG-CTCATTGC",
+		"INDEXID" : "IDTdual109"
+	},
+	{
+		"INDEXTAG" : "GCAAGATC-CTTCGACT",
+		"INDEXID" : "IDTdual11"
+	},
+	{
+		"INDEXTAG" : "CTCGATAC-ACCAGCTT",
+		"INDEXID" : "IDTdual110"
+	},
+	{
+		"INDEXTAG" : "TCCGTGAA-GAATCGTG",
+		"INDEXID" : "IDTdual111"
+	},
+	{
+		"INDEXTAG" : "TAGAGCTC-AGGCTTCT",
+		"INDEXID" : "IDTdual112"
+	},
+	{
+		"INDEXTAG" : "TGACTGAC-CAGTTCTG",
+		"INDEXID" : "IDTdual113"
+	},
+	{
+		"INDEXTAG" : "TAGACGTG-TTGGTGAG",
+		"INDEXID" : "IDTdual114"
+	},
+	{
+		"INDEXTAG" : "CCGGAATT-CATTCGGT",
+		"INDEXID" : "IDTdual115"
+	},
+	{
+		"INDEXTAG" : "CTCCTAGA-TGTGAAGC",
+		"INDEXID" : "IDTdual116"
+	},
+	{
+		"INDEXTAG" : "CAACGGAT-TAAGTGGC",
+		"INDEXID" : "IDTdual117"
+	},
+	{
+		"INDEXTAG" : "TGGCTATC-ACGTGATG",
+		"INDEXID" : "IDTdual118"
+	},
+	{
+		"INDEXTAG" : "CGGTCATA-GTAGAGCA",
+		"INDEXID" : "IDTdual119"
+	},
+	{
+		"INDEXTAG" : "GCTATCCT-CACCTGTT",
+		"INDEXID" : "IDTdual12"
+	},
+	{
+		"INDEXTAG" : "TCCAATCG-GTCAGTTG",
+		"INDEXID" : "IDTdual120"
+	},
+	{
+		"INDEXTAG" : "GAGCTTGT-ATTCGAGG",
+		"INDEXID" : "IDTdual121"
+	},
+	{
+		"INDEXTAG" : "GAAGGTTC-GATACTGG",
+		"INDEXID" : "IDTdual122"
+	},
+	{
+		"INDEXTAG" : "ATCTCGCT-GCCTTGTT",
+		"INDEXID" : "IDTdual123"
+	},
+	{
+		"INDEXTAG" : "AGTTACGG-TTGGTCTC",
+		"INDEXID" : "IDTdual124"
+	},
+	{
+		"INDEXTAG" : "GTGTCTGA-CCGACTAT",
+		"INDEXID" : "IDTdual125"
+	},
+	{
+		"INDEXTAG" : "TGACTTCG-GTCCTAAG",
+		"INDEXID" : "IDTdual126"
+	},
+	{
+		"INDEXTAG" : "TGGATCAC-ACCAATGC",
+		"INDEXID" : "IDTdual127"
+	},
+	{
+		"INDEXTAG" : "ACACCAGT-GATGCACT",
+		"INDEXID" : "IDTdual128"
+	},
+	{
+		"INDEXTAG" : "CAGGTTAG-GCTGGATT",
+		"INDEXID" : "IDTdual129"
+	},
+	{
+		"INDEXTAG" : "TACGCTAC-ATCACACG",
+		"INDEXID" : "IDTdual13"
+	},
+	{
+		"INDEXTAG" : "AGTTGGCT-ATGGTTGC",
+		"INDEXID" : "IDTdual130"
+	},
+	{
+		"INDEXTAG" : "TCAACTGG-CAGAATCG",
+		"INDEXID" : "IDTdual131"
+	},
+	{
+		"INDEXTAG" : "CTGCACTT-GAACGCTT",
+		"INDEXID" : "IDTdual132"
+	},
+	{
+		"INDEXTAG" : "ACACGGTT-TCGAACCA",
+		"INDEXID" : "IDTdual133"
+	},
+	{
+		"INDEXTAG" : "AATACGCG-CTATCGCA",
+		"INDEXID" : "IDTdual134"
+	},
+	{
+		"INDEXTAG" : "TGCGAACT-TACGGTTG",
+		"INDEXID" : "IDTdual135"
+	},
+	{
+		"INDEXTAG" : "GCTGACTA-GAGATGTC",
+		"INDEXID" : "IDTdual136"
+	},
+	{
+		"INDEXTAG" : "GTGGTGTT-CTTACAGC",
+		"INDEXID" : "IDTdual137"
+	},
+	{
+		"INDEXTAG" : "GTGCTTAC-AGGAGGAA",
+		"INDEXID" : "IDTdual138"
+	},
+	{
+		"INDEXTAG" : "TCAAGGAC-GACGAATG",
+		"INDEXID" : "IDTdual139"
+	},
+	{
+		"INDEXTAG" : "TGGACTCT-CCGTAAGA",
+		"INDEXID" : "IDTdual14"
+	},
+	{
+		"INDEXTAG" : "TGAACCTG-GAAGAGGT",
+		"INDEXID" : "IDTdual140"
+	},
+	{
+		"INDEXTAG" : "AGTGTTGG-CGTCAATG",
+		"INDEXID" : "IDTdual141"
+	},
+	{
+		"INDEXTAG" : "GTACTCTC-TACCAGGA",
+		"INDEXID" : "IDTdual142"
+	},
+	{
+		"INDEXTAG" : "CCGTATCT-CGTACGAA",
+		"INDEXID" : "IDTdual143"
+	},
+	{
+		"INDEXTAG" : "CGAAGAAC-GACTTAGG",
+		"INDEXID" : "IDTdual144"
+	},
+	{
+		"INDEXTAG" : "AGCGGAAT-AGTGCAGT",
+		"INDEXID" : "IDTdual145"
+	},
+	{
+		"INDEXTAG" : "GTGAGCTT-TTGATCCG",
+		"INDEXID" : "IDTdual146"
+	},
+	{
+		"INDEXTAG" : "CGTGATCA-TGCCATTC",
+		"INDEXID" : "IDTdual147"
+	},
+	{
+		"INDEXTAG" : "TCGCATTG-CTTGCTGT",
+		"INDEXID" : "IDTdual148"
+	},
+	{
+		"INDEXTAG" : "TGACGCAT-CCTACTGA",
+		"INDEXID" : "IDTdual149"
+	},
+	{
+		"INDEXTAG" : "AGAGTAGC-TACGCCTT",
+		"INDEXID" : "IDTdual15"
+	},
+	{
+		"INDEXTAG" : "CCGATGTA-CCAAGTTG",
+		"INDEXID" : "IDTdual150"
+	},
+	{
+		"INDEXTAG" : "TTCGCAGT-TGATCGGA",
+		"INDEXID" : "IDTdual151"
+	},
+	{
+		"INDEXTAG" : "ACGACAGA-TAGTTGCG",
+		"INDEXID" : "IDTdual152"
+	},
+	{
+		"INDEXTAG" : "AGCTTGAG-GTCTGATC",
+		"INDEXID" : "IDTdual153"
+	},
+	{
+		"INDEXTAG" : "GAGTGGTT-CGTTATGC",
+		"INDEXID" : "IDTdual154"
+	},
+	{
+		"INDEXTAG" : "GCTGTAAG-GCTCTGTA",
+		"INDEXID" : "IDTdual155"
+	},
+	{
+		"INDEXTAG" : "CCAAGACT-TTACCGAG",
+		"INDEXID" : "IDTdual156"
+	},
+	{
+		"INDEXTAG" : "ATTGCGTG-GCCATAAC",
+		"INDEXID" : "IDTdual157"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT-CTCAGAGT",
+		"INDEXID" : "IDTdual158"
+	},
+	{
+		"INDEXTAG" : "TAACGAGG-CGAGACTA",
+		"INDEXID" : "IDTdual159"
+	},
+	{
+		"INDEXTAG" : "ATCCAGAG-CGACGTTA",
+		"INDEXID" : "IDTdual16"
+	},
+	{
+		"INDEXTAG" : "TCGTCTCA-TGTGCGTT",
+		"INDEXID" : "IDTdual160"
+	},
+	{
+		"INDEXTAG" : "TTCCTGTG-TTCAGGAG",
+		"INDEXID" : "IDTdual161"
+	},
+	{
+		"INDEXTAG" : "CGTTGAGT-GACTATGC",
+		"INDEXID" : "IDTdual162"
+	},
+	{
+		"INDEXTAG" : "AGTCGCTT-AGGTTCGA",
+		"INDEXID" : "IDTdual163"
+	},
+	{
+		"INDEXTAG" : "TAGGTAGG-AGTCTGTG",
+		"INDEXID" : "IDTdual164"
+	},
+	{
+		"INDEXTAG" : "CAGGAGAT-ACCTAAGG",
+		"INDEXID" : "IDTdual165"
+	},
+	{
+		"INDEXTAG" : "CATCGTGA-TGCAGGTA",
+		"INDEXID" : "IDTdual166"
+	},
+	{
+		"INDEXTAG" : "TGTTGTGG-AAGGACAC",
+		"INDEXID" : "IDTdual167"
+	},
+	{
+		"INDEXTAG" : "ACAGACCT-CAACCTAG",
+		"INDEXID" : "IDTdual168"
+	},
+	{
+		"INDEXTAG" : "GTCCTTCT-CTGACACA",
+		"INDEXID" : "IDTdual169"
+	},
+	{
+		"INDEXTAG" : "GACGATCT-ATGCACGA",
+		"INDEXID" : "IDTdual17"
+	},
+	{
+		"INDEXTAG" : "TGATACGC-ACTCGTTG",
+		"INDEXID" : "IDTdual170"
+	},
+	{
+		"INDEXTAG" : "CTGTGTTG-AGCTCCTA",
+		"INDEXID" : "IDTdual171"
+	},
+	{
+		"INDEXTAG" : "AACGTGGA-TACATCGG",
+		"INDEXID" : "IDTdual172"
+	},
+	{
+		"INDEXTAG" : "GTTGCGAT-CACAAGTC",
+		"INDEXID" : "IDTdual173"
+	},
+	{
+		"INDEXTAG" : "AACGACGT-CGGATTGA",
+		"INDEXID" : "IDTdual174"
+	},
+	{
+		"INDEXTAG" : "CGTATTCG-AGTCGACA",
+		"INDEXID" : "IDTdual175"
+	},
+	{
+		"INDEXTAG" : "AGCAAGCA-GTCTCCTT",
+		"INDEXID" : "IDTdual176"
+	},
+	{
+		"INDEXTAG" : "TGTTCGAG-GAGATACG",
+		"INDEXID" : "IDTdual177"
+	},
+	{
+		"INDEXTAG" : "CTCCATGT-ATCGGTGT",
+		"INDEXID" : "IDTdual178"
+	},
+	{
+		"INDEXTAG" : "CGTCTTGT-TCTCGCAA",
+		"INDEXID" : "IDTdual179"
+	},
+	{
+		"INDEXTAG" : "AACTGAGC-CCTGATTG",
+		"INDEXID" : "IDTdual18"
+	},
+	{
+		"INDEXTAG" : "ATAAGGCG-TCTAACGC",
+		"INDEXID" : "IDTdual180"
+	},
+	{
+		"INDEXTAG" : "TGTCTGCT-CAATCGAC",
+		"INDEXID" : "IDTdual181"
+	},
+	{
+		"INDEXTAG" : "CGCTTAAC-GAGGACTT",
+		"INDEXID" : "IDTdual182"
+	},
+	{
+		"INDEXTAG" : "GATCCATG-TGGAGTTG",
+		"INDEXID" : "IDTdual183"
+	},
+	{
+		"INDEXTAG" : "ACCTCTGT-CTAGGCAT",
+		"INDEXID" : "IDTdual184"
+	},
+	{
+		"INDEXTAG" : "GCCACTTA-CTCTACTC",
+		"INDEXID" : "IDTdual185"
+	},
+	{
+		"INDEXTAG" : "ACCTGACT-AGAAGCGT",
+		"INDEXID" : "IDTdual186"
+	},
+	{
+		"INDEXTAG" : "GTTAAGGC-TCGAAGGT",
+		"INDEXID" : "IDTdual187"
+	},
+	{
+		"INDEXTAG" : "ATGCCAAC-GTCGGTAA",
+		"INDEXID" : "IDTdual188"
+	},
+	{
+		"INDEXTAG" : "AGAGGTTG-ACGATGAC",
+		"INDEXID" : "IDTdual189"
+	},
+	{
+		"INDEXTAG" : "CTTAGGAC-GTAGGAGT",
+		"INDEXID" : "IDTdual19"
+	},
+	{
+		"INDEXTAG" : "ACCATCCA-TCCGTATG",
+		"INDEXID" : "IDTdual190"
+	},
+	{
+		"INDEXTAG" : "GTGGATAG-CTAGGTGA",
+		"INDEXID" : "IDTdual191"
+	},
+	{
+		"INDEXTAG" : "CTGAGATC-CATTGCCT",
+		"INDEXID" : "IDTdual192"
+	},
+	{
+		"INDEXTAG" : "CTTCGTTC-ACCTTCTC",
+		"INDEXID" : "IDTdual193"
+	},
+	{
+		"INDEXTAG" : "GTCTAGGT-TCGTGGAT",
+		"INDEXID" : "IDTdual194"
+	},
+	{
+		"INDEXTAG" : "ACGTCGTA-GTTCATGG",
+		"INDEXID" : "IDTdual195"
+	},
+	{
+		"INDEXTAG" : "GAGCTCAA-TAGGATGC",
+		"INDEXID" : "IDTdual196"
+	},
+	{
+		"INDEXTAG" : "CGTGTACT-CATGGAAC",
+		"INDEXID" : "IDTdual197"
+	},
+	{
+		"INDEXTAG" : "CACTGACA-GCTTAGCT",
+		"INDEXID" : "IDTdual198"
+	},
+	{
+		"INDEXTAG" : "TCGTAGTC-CTAACTCG",
+		"INDEXID" : "IDTdual199"
+	},
+	{
+		"INDEXTAG" : "ACTCTCGA-TGGTACAG",
+		"INDEXID" : "IDTdual2"
+	},
+	{
+		"INDEXTAG" : "GTGCCATA-ACTAGGAG",
+		"INDEXID" : "IDTdual20"
+	},
+	{
+		"INDEXTAG" : "GCACGTAA-ACCATGTG",
+		"INDEXID" : "IDTdual200"
+	},
+	{
+		"INDEXTAG" : "CAAGCAGT-TCAGACGA",
+		"INDEXID" : "IDTdual201"
+	},
+	{
+		"INDEXTAG" : "ACATAGGC-TATCAGCG",
+		"INDEXID" : "IDTdual202"
+	},
+	{
+		"INDEXTAG" : "TGTGGTAC-AGCAGATG",
+		"INDEXID" : "IDTdual203"
+	},
+	{
+		"INDEXTAG" : "CACCACTA-AACGGTCA",
+		"INDEXID" : "IDTdual204"
+	},
+	{
+		"INDEXTAG" : "CTGCGTAT-CGAACTGT",
+		"INDEXID" : "IDTdual205"
+	},
+	{
+		"INDEXTAG" : "ACGGTCTT-TCCGAGTT",
+		"INDEXID" : "IDTdual206"
+	},
+	{
+		"INDEXTAG" : "GATTGGAG-TTCTCTCG",
+		"INDEXID" : "IDTdual207"
+	},
+	{
+		"INDEXTAG" : "TGTCCAGA-ATTCTGGC",
+		"INDEXID" : "IDTdual208"
+	},
+	{
+		"INDEXTAG" : "CCAGTGTT-ACTGCTAG",
+		"INDEXID" : "IDTdual209"
+	},
+	{
+		"INDEXTAG" : "GAATCCGA-CACTAGCT",
+		"INDEXID" : "IDTdual21"
+	},
+	{
+		"INDEXTAG" : "TGCACCAA-CATAACGG",
+		"INDEXID" : "IDTdual210"
+	},
+	{
+		"INDEXTAG" : "TTGACAGG-CAGTCTTC",
+		"INDEXID" : "IDTdual211"
+	},
+	{
+		"INDEXTAG" : "AGGCATAG-TGCCTCTT",
+		"INDEXID" : "IDTdual212"
+	},
+	{
+		"INDEXTAG" : "TAGCCGAA-ACTGTGTC",
+		"INDEXID" : "IDTdual213"
+	},
+	{
+		"INDEXTAG" : "TTGTCGGT-GTATTGGC",
+		"INDEXID" : "IDTdual214"
+	},
+	{
+		"INDEXTAG" : "CATCTACG-CGATGCTT",
+		"INDEXID" : "IDTdual215"
+	},
+	{
+		"INDEXTAG" : "GCATACAG-AAGGCTGA",
+		"INDEXID" : "IDTdual216"
+	},
+	{
+		"INDEXTAG" : "ACAGCAAC-AGTCAGGA",
+		"INDEXID" : "IDTdual217"
+	},
+	{
+		"INDEXTAG" : "CTGGTTCT-CAGGTATC",
+		"INDEXID" : "IDTdual218"
+	},
+	{
+		"INDEXTAG" : "TCGACATC-TCTCCGAT",
+		"INDEXID" : "IDTdual219"
+	},
+	{
+		"INDEXTAG" : "TCGCTGTT-ACGACTTG",
+		"INDEXID" : "IDTdual22"
+	},
+	{
+		"INDEXTAG" : "AACCTCCT-TTCAGCCT",
+		"INDEXID" : "IDTdual220"
+	},
+	{
+		"INDEXTAG" : "CAGCGATT-TCTGAGAG",
+		"INDEXID" : "IDTdual221"
+	},
+	{
+		"INDEXTAG" : "AGGTCACT-TTAGGTCG",
+		"INDEXID" : "IDTdual222"
+	},
+	{
+		"INDEXTAG" : "GCAATTCG-CTCTGGTT",
+		"INDEXID" : "IDTdual223"
+	},
+	{
+		"INDEXTAG" : "GCTTCTTG-GCGTTCTA",
+		"INDEXID" : "IDTdual224"
+	},
+	{
+		"INDEXTAG" : "AACTGGTG-TCACGTTC",
+		"INDEXID" : "IDTdual225"
+	},
+	{
+		"INDEXTAG" : "CGGAATAC-AGGATGGT",
+		"INDEXID" : "IDTdual226"
+	},
+	{
+		"INDEXTAG" : "GCTTCGAA-GTGTTCCT",
+		"INDEXID" : "IDTdual227"
+	},
+	{
+		"INDEXTAG" : "CAAGGTCT-GTAGCATC",
+		"INDEXID" : "IDTdual228"
+	},
+	{
+		"INDEXTAG" : "AACCTTGG-AGGATCTG",
+		"INDEXID" : "IDTdual229"
+	},
+	{
+		"INDEXTAG" : "TTCGTTGG-CGTGTGTA",
+		"INDEXID" : "IDTdual23"
+	},
+	{
+		"INDEXTAG" : "CCATACGT-GACAAGAG",
+		"INDEXID" : "IDTdual230"
+	},
+	{
+		"INDEXTAG" : "TGGTCCTT-TTACGGCT",
+		"INDEXID" : "IDTdual231"
+	},
+	{
+		"INDEXTAG" : "ACCGCATA-GCTGTTGT",
+		"INDEXID" : "IDTdual232"
+	},
+	{
+		"INDEXTAG" : "CCTTCCTT-AACCGAAG",
+		"INDEXID" : "IDTdual233"
+	},
+	{
+		"INDEXTAG" : "TACACGCT-TCTGCTCT",
+		"INDEXID" : "IDTdual234"
+	},
+	{
+		"INDEXTAG" : "TGCGTAGA-CTCAGCTA",
+		"INDEXID" : "IDTdual235"
+	},
+	{
+		"INDEXTAG" : "AAGAGCCA-CTTCACCA",
+		"INDEXID" : "IDTdual236"
+	},
+	{
+		"INDEXTAG" : "ATGGAAGG-GATCGTAC",
+		"INDEXID" : "IDTdual237"
+	},
+	{
+		"INDEXTAG" : "GCCAGTAT-CTACAGTG",
+		"INDEXID" : "IDTdual238"
+	},
+	{
+		"INDEXTAG" : "CGTAGGTT-TCGAGTGA",
+		"INDEXID" : "IDTdual239"
+	},
+	{
+		"INDEXTAG" : "AAGCACTG-GTTGACCT",
+		"INDEXID" : "IDTdual24"
+	},
+	{
+		"INDEXTAG" : "CGAGTATG-CAAGTGCA",
+		"INDEXID" : "IDTdual240"
+	},
+	{
+		"INDEXTAG" : "CAAGTGCA-CGAGTATG",
+		"INDEXID" : "IDTdual241"
+	},
+	{
+		"INDEXTAG" : "TCGAGTGA-CGTAGGTT",
+		"INDEXID" : "IDTdual242"
+	},
+	{
+		"INDEXTAG" : "CTACAGTG-GCCAGTAT",
+		"INDEXID" : "IDTdual243"
+	},
+	{
+		"INDEXTAG" : "GATCGTAC-ATGGAAGG",
+		"INDEXID" : "IDTdual244"
+	},
+	{
+		"INDEXTAG" : "CTTCACCA-AAGAGCCA",
+		"INDEXID" : "IDTdual245"
+	},
+	{
+		"INDEXTAG" : "CTCAGCTA-TGCGTAGA",
+		"INDEXID" : "IDTdual246"
+	},
+	{
+		"INDEXTAG" : "TCTGCTCT-TACACGCT",
+		"INDEXID" : "IDTdual247"
+	},
+	{
+		"INDEXTAG" : "AACCGAAG-CCTTCCTT",
+		"INDEXID" : "IDTdual248"
+	},
+	{
+		"INDEXTAG" : "GCTGTTGT-ACCGCATA",
+		"INDEXID" : "IDTdual249"
+	},
+	{
+		"INDEXTAG" : "CCTTGATC-ACTCCATC",
+		"INDEXID" : "IDTdual25"
+	},
+	{
+		"INDEXTAG" : "TTACGGCT-TGGTCCTT",
+		"INDEXID" : "IDTdual250"
+	},
+	{
+		"INDEXTAG" : "GACAAGAG-CCATACGT",
+		"INDEXID" : "IDTdual251"
+	},
+	{
+		"INDEXTAG" : "AGGATCTG-AACCTTGG",
+		"INDEXID" : "IDTdual252"
+	},
+	{
+		"INDEXTAG" : "GTAGCATC-CAAGGTCT",
+		"INDEXID" : "IDTdual253"
+	},
+	{
+		"INDEXTAG" : "GTGTTCCT-GCTTCGAA",
+		"INDEXID" : "IDTdual254"
+	},
+	{
+		"INDEXTAG" : "AGGATGGT-CGGAATAC",
+		"INDEXID" : "IDTdual255"
+	},
+	{
+		"INDEXTAG" : "TCACGTTC-AACTGGTG",
+		"INDEXID" : "IDTdual256"
+	},
+	{
+		"INDEXTAG" : "GCGTTCTA-GCTTCTTG",
+		"INDEXID" : "IDTdual257"
+	},
+	{
+		"INDEXTAG" : "CTCTGGTT-GCAATTCG",
+		"INDEXID" : "IDTdual258"
+	},
+	{
+		"INDEXTAG" : "TTAGGTCG-AGGTCACT",
+		"INDEXID" : "IDTdual259"
+	},
+	{
+		"INDEXTAG" : "GTCGAAGA-CAATGTGG",
+		"INDEXID" : "IDTdual26"
+	},
+	{
+		"INDEXTAG" : "TCTGAGAG-CAGCGATT",
+		"INDEXID" : "IDTdual260"
+	},
+	{
+		"INDEXTAG" : "TTCAGCCT-AACCTCCT",
+		"INDEXID" : "IDTdual261"
+	},
+	{
+		"INDEXTAG" : "TCTCCGAT-TCGACATC",
+		"INDEXID" : "IDTdual262"
+	},
+	{
+		"INDEXTAG" : "CAGGTATC-CTGGTTCT",
+		"INDEXID" : "IDTdual263"
+	},
+	{
+		"INDEXTAG" : "AGTCAGGA-ACAGCAAC",
+		"INDEXID" : "IDTdual264"
+	},
+	{
+		"INDEXTAG" : "AAGGCTGA-GCATACAG",
+		"INDEXID" : "IDTdual265"
+	},
+	{
+		"INDEXTAG" : "CGATGCTT-CATCTACG",
+		"INDEXID" : "IDTdual266"
+	},
+	{
+		"INDEXTAG" : "GTATTGGC-TTGTCGGT",
+		"INDEXID" : "IDTdual267"
+	},
+	{
+		"INDEXTAG" : "ACTGTGTC-TAGCCGAA",
+		"INDEXID" : "IDTdual268"
+	},
+	{
+		"INDEXTAG" : "TGCCTCTT-AGGCATAG",
+		"INDEXID" : "IDTdual269"
+	},
+	{
+		"INDEXTAG" : "ACCACGAT-TTGCAGAC",
+		"INDEXID" : "IDTdual27"
+	},
+	{
+		"INDEXTAG" : "CAGTCTTC-TTGACAGG",
+		"INDEXID" : "IDTdual270"
+	},
+	{
+		"INDEXTAG" : "CATAACGG-TGCACCAA",
+		"INDEXID" : "IDTdual271"
+	},
+	{
+		"INDEXTAG" : "ACTGCTAG-CCAGTGTT",
+		"INDEXID" : "IDTdual272"
+	},
+	{
+		"INDEXTAG" : "ATTCTGGC-TGTCCAGA",
+		"INDEXID" : "IDTdual273"
+	},
+	{
+		"INDEXTAG" : "TTCTCTCG-GATTGGAG",
+		"INDEXID" : "IDTdual274"
+	},
+	{
+		"INDEXTAG" : "TCCGAGTT-ACGGTCTT",
+		"INDEXID" : "IDTdual275"
+	},
+	{
+		"INDEXTAG" : "CGAACTGT-CTGCGTAT",
+		"INDEXID" : "IDTdual276"
+	},
+	{
+		"INDEXTAG" : "AACGGTCA-CACCACTA",
+		"INDEXID" : "IDTdual277"
+	},
+	{
+		"INDEXTAG" : "AGCAGATG-TGTGGTAC",
+		"INDEXID" : "IDTdual278"
+	},
+	{
+		"INDEXTAG" : "TATCAGCG-ACATAGGC",
+		"INDEXID" : "IDTdual279"
+	},
+	{
+		"INDEXTAG" : "GATTACCG-CAGTCCAA",
+		"INDEXID" : "IDTdual28"
+	},
+	{
+		"INDEXTAG" : "TCAGACGA-CAAGCAGT",
+		"INDEXID" : "IDTdual280"
+	},
+	{
+		"INDEXTAG" : "ACCATGTG-GCACGTAA",
+		"INDEXID" : "IDTdual281"
+	},
+	{
+		"INDEXTAG" : "CTAACTCG-TCGTAGTC",
+		"INDEXID" : "IDTdual282"
+	},
+	{
+		"INDEXTAG" : "GCTTAGCT-CACTGACA",
+		"INDEXID" : "IDTdual283"
+	},
+	{
+		"INDEXTAG" : "CATGGAAC-CGTGTACT",
+		"INDEXID" : "IDTdual284"
+	},
+	{
+		"INDEXTAG" : "TAGGATGC-GAGCTCAA",
+		"INDEXID" : "IDTdual285"
+	},
+	{
+		"INDEXTAG" : "GTTCATGG-ACGTCGTA",
+		"INDEXID" : "IDTdual286"
+	},
+	{
+		"INDEXTAG" : "TCGTGGAT-GTCTAGGT",
+		"INDEXID" : "IDTdual287"
+	},
+	{
+		"INDEXTAG" : "ACCTTCTC-CTTCGTTC",
+		"INDEXID" : "IDTdual288"
+	},
+	{
+		"INDEXTAG" : "CATTGCCT-CTGAGATC",
+		"INDEXID" : "IDTdual289"
+	},
+	{
+		"INDEXTAG" : "GCACAACT-ACGTTCAG",
+		"INDEXID" : "IDTdual29"
+	},
+	{
+		"INDEXTAG" : "CTAGGTGA-GTGGATAG",
+		"INDEXID" : "IDTdual290"
+	},
+	{
+		"INDEXTAG" : "TCCGTATG-ACCATCCA",
+		"INDEXID" : "IDTdual291"
+	},
+	{
+		"INDEXTAG" : "ACGATGAC-AGAGGTTG",
+		"INDEXID" : "IDTdual292"
+	},
+	{
+		"INDEXTAG" : "GTCGGTAA-ATGCCAAC",
+		"INDEXID" : "IDTdual293"
+	},
+	{
+		"INDEXTAG" : "TCGAAGGT-GTTAAGGC",
+		"INDEXID" : "IDTdual294"
+	},
+	{
+		"INDEXTAG" : "AGAAGCGT-ACCTGACT",
+		"INDEXID" : "IDTdual295"
+	},
+	{
+		"INDEXTAG" : "CTCTACTC-GCCACTTA",
+		"INDEXID" : "IDTdual296"
+	},
+	{
+		"INDEXTAG" : "CTAGGCAT-ACCTCTGT",
+		"INDEXID" : "IDTdual297"
+	},
+	{
+		"INDEXTAG" : "TGGAGTTG-GATCCATG",
+		"INDEXID" : "IDTdual298"
+	},
+	{
+		"INDEXTAG" : "GAGGACTT-CGCTTAAC",
+		"INDEXID" : "IDTdual299"
+	},
+	{
+		"INDEXTAG" : "TGAGCTAG-AACCGTTC",
+		"INDEXID" : "IDTdual3"
+	},
+	{
+		"INDEXTAG" : "GCGTCATT-AACGTCTG",
+		"INDEXID" : "IDTdual30"
+	},
+	{
+		"INDEXTAG" : "CAATCGAC-TGTCTGCT",
+		"INDEXID" : "IDTdual300"
+	},
+	{
+		"INDEXTAG" : "TCTAACGC-ATAAGGCG",
+		"INDEXID" : "IDTdual301"
+	},
+	{
+		"INDEXTAG" : "TCTCGCAA-CGTCTTGT",
+		"INDEXID" : "IDTdual302"
+	},
+	{
+		"INDEXTAG" : "ATCGGTGT-CTCCATGT",
+		"INDEXID" : "IDTdual303"
+	},
+	{
+		"INDEXTAG" : "GAGATACG-TGTTCGAG",
+		"INDEXID" : "IDTdual304"
+	},
+	{
+		"INDEXTAG" : "GTCTCCTT-AGCAAGCA",
+		"INDEXID" : "IDTdual305"
+	},
+	{
+		"INDEXTAG" : "AGTCGACA-CGTATTCG",
+		"INDEXID" : "IDTdual306"
+	},
+	{
+		"INDEXTAG" : "CGGATTGA-AACGACGT",
+		"INDEXID" : "IDTdual307"
+	},
+	{
+		"INDEXTAG" : "CACAAGTC-GTTGCGAT",
+		"INDEXID" : "IDTdual308"
+	},
+	{
+		"INDEXTAG" : "TACATCGG-AACGTGGA",
+		"INDEXID" : "IDTdual309"
+	},
+	{
+		"INDEXTAG" : "ATCCGGTA-TATCGGTC",
+		"INDEXID" : "IDTdual31"
+	},
+	{
+		"INDEXTAG" : "AGCTCCTA-CTGTGTTG",
+		"INDEXID" : "IDTdual310"
+	},
+	{
+		"INDEXTAG" : "ACTCGTTG-TGATACGC",
+		"INDEXID" : "IDTdual311"
+	},
+	{
+		"INDEXTAG" : "CTGACACA-GTCCTTCT",
+		"INDEXID" : "IDTdual312"
+	},
+	{
+		"INDEXTAG" : "CAACCTAG-ACAGACCT",
+		"INDEXID" : "IDTdual313"
+	},
+	{
+		"INDEXTAG" : "AAGGACAC-TGTTGTGG",
+		"INDEXID" : "IDTdual314"
+	},
+	{
+		"INDEXTAG" : "TGCAGGTA-CATCGTGA",
+		"INDEXID" : "IDTdual315"
+	},
+	{
+		"INDEXTAG" : "ACCTAAGG-CAGGAGAT",
+		"INDEXID" : "IDTdual316"
+	},
+	{
+		"INDEXTAG" : "AGTCTGTG-TAGGTAGG",
+		"INDEXID" : "IDTdual317"
+	},
+	{
+		"INDEXTAG" : "AGGTTCGA-AGTCGCTT",
+		"INDEXID" : "IDTdual318"
+	},
+	{
+		"INDEXTAG" : "GACTATGC-CGTTGAGT",
+		"INDEXID" : "IDTdual319"
+	},
+	{
+		"INDEXTAG" : "CGTTGCAA-CGCTCTAT",
+		"INDEXID" : "IDTdual32"
+	},
+	{
+		"INDEXTAG" : "TTCAGGAG-TTCCTGTG",
+		"INDEXID" : "IDTdual320"
+	},
+	{
+		"INDEXTAG" : "TGTGCGTT-TCGTCTCA",
+		"INDEXID" : "IDTdual321"
+	},
+	{
+		"INDEXTAG" : "CGAGACTA-TAACGAGG",
+		"INDEXID" : "IDTdual322"
+	},
+	{
+		"INDEXTAG" : "CTCAGAGT-CTGAAGCT",
+		"INDEXID" : "IDTdual323"
+	},
+	{
+		"INDEXTAG" : "GCCATAAC-ATTGCGTG",
+		"INDEXID" : "IDTdual324"
+	},
+	{
+		"INDEXTAG" : "TTACCGAG-CCAAGACT",
+		"INDEXID" : "IDTdual325"
+	},
+	{
+		"INDEXTAG" : "GCTCTGTA-GCTGTAAG",
+		"INDEXID" : "IDTdual326"
+	},
+	{
+		"INDEXTAG" : "CGTTATGC-GAGTGGTT",
+		"INDEXID" : "IDTdual327"
+	},
+	{
+		"INDEXTAG" : "GTCTGATC-AGCTTGAG",
+		"INDEXID" : "IDTdual328"
+	},
+	{
+		"INDEXTAG" : "TAGTTGCG-ACGACAGA",
+		"INDEXID" : "IDTdual329"
+	},
+	{
+		"INDEXTAG" : "GTGAAGTG-GATTGCTC",
+		"INDEXID" : "IDTdual33"
+	},
+	{
+		"INDEXTAG" : "TGATCGGA-TTCGCAGT",
+		"INDEXID" : "IDTdual330"
+	},
+	{
+		"INDEXTAG" : "CCAAGTTG-CCGATGTA",
+		"INDEXID" : "IDTdual331"
+	},
+	{
+		"INDEXTAG" : "CCTACTGA-TGACGCAT",
+		"INDEXID" : "IDTdual332"
+	},
+	{
+		"INDEXTAG" : "CTTGCTGT-TCGCATTG",
+		"INDEXID" : "IDTdual333"
+	},
+	{
+		"INDEXTAG" : "TGCCATTC-CGTGATCA",
+		"INDEXID" : "IDTdual334"
+	},
+	{
+		"INDEXTAG" : "TTGATCCG-GTGAGCTT",
+		"INDEXID" : "IDTdual335"
+	},
+	{
+		"INDEXTAG" : "AGTGCAGT-AGCGGAAT",
+		"INDEXID" : "IDTdual336"
+	},
+	{
+		"INDEXTAG" : "GACTTAGG-CGAAGAAC",
+		"INDEXID" : "IDTdual337"
+	},
+	{
+		"INDEXTAG" : "CGTACGAA-CCGTATCT",
+		"INDEXID" : "IDTdual338"
+	},
+	{
+		"INDEXTAG" : "TACCAGGA-GTACTCTC",
+		"INDEXID" : "IDTdual339"
+	},
+	{
+		"INDEXTAG" : "CATGGCTA-GATGTGTG",
+		"INDEXID" : "IDTdual34"
+	},
+	{
+		"INDEXTAG" : "CGTCAATG-AGTGTTGG",
+		"INDEXID" : "IDTdual340"
+	},
+	{
+		"INDEXTAG" : "GAAGAGGT-TGAACCTG",
+		"INDEXID" : "IDTdual341"
+	},
+	{
+		"INDEXTAG" : "GACGAATG-TCAAGGAC",
+		"INDEXID" : "IDTdual342"
+	},
+	{
+		"INDEXTAG" : "AGGAGGAA-GTGCTTAC",
+		"INDEXID" : "IDTdual343"
+	},
+	{
+		"INDEXTAG" : "CTTACAGC-GTGGTGTT",
+		"INDEXID" : "IDTdual344"
+	},
+	{
+		"INDEXTAG" : "GAGATGTC-GCTGACTA",
+		"INDEXID" : "IDTdual345"
+	},
+	{
+		"INDEXTAG" : "TACGGTTG-TGCGAACT",
+		"INDEXID" : "IDTdual346"
+	},
+	{
+		"INDEXTAG" : "CTATCGCA-AATACGCG",
+		"INDEXID" : "IDTdual347"
+	},
+	{
+		"INDEXTAG" : "TCGAACCA-ACACGGTT",
+		"INDEXID" : "IDTdual348"
+	},
+	{
+		"INDEXTAG" : "GAACGCTT-CTGCACTT",
+		"INDEXID" : "IDTdual349"
+	},
+	{
+		"INDEXTAG" : "ATGCCTGT-CGCAATCT",
+		"INDEXID" : "IDTdual35"
+	},
+	{
+		"INDEXTAG" : "CAGAATCG-TCAACTGG",
+		"INDEXID" : "IDTdual350"
+	},
+	{
+		"INDEXTAG" : "ATGGTTGC-AGTTGGCT",
+		"INDEXID" : "IDTdual351"
+	},
+	{
+		"INDEXTAG" : "GCTGGATT-CAGGTTAG",
+		"INDEXID" : "IDTdual352"
+	},
+	{
+		"INDEXTAG" : "GATGCACT-ACACCAGT",
+		"INDEXID" : "IDTdual353"
+	},
+	{
+		"INDEXTAG" : "ACCAATGC-TGGATCAC",
+		"INDEXID" : "IDTdual354"
+	},
+	{
+		"INDEXTAG" : "GTCCTAAG-TGACTTCG",
+		"INDEXID" : "IDTdual355"
+	},
+	{
+		"INDEXTAG" : "CCGACTAT-GTGTCTGA",
+		"INDEXID" : "IDTdual356"
+	},
+	{
+		"INDEXTAG" : "TTGGTCTC-AGTTACGG",
+		"INDEXID" : "IDTdual357"
+	},
+	{
+		"INDEXTAG" : "GCCTTGTT-ATCTCGCT",
+		"INDEXID" : "IDTdual358"
+	},
+	{
+		"INDEXTAG" : "GATACTGG-GAAGGTTC",
+		"INDEXID" : "IDTdual359"
+	},
+	{
+		"INDEXTAG" : "CAACACCT-TGGTAGCT",
+		"INDEXID" : "IDTdual36"
+	},
+	{
+		"INDEXTAG" : "ATTCGAGG-GAGCTTGT",
+		"INDEXID" : "IDTdual360"
+	},
+	{
+		"INDEXTAG" : "GTCAGTTG-TCCAATCG",
+		"INDEXID" : "IDTdual361"
+	},
+	{
+		"INDEXTAG" : "GTAGAGCA-CGGTCATA",
+		"INDEXID" : "IDTdual362"
+	},
+	{
+		"INDEXTAG" : "ACGTGATG-TGGCTATC",
+		"INDEXID" : "IDTdual363"
+	},
+	{
+		"INDEXTAG" : "TAAGTGGC-CAACGGAT",
+		"INDEXID" : "IDTdual364"
+	},
+	{
+		"INDEXTAG" : "TGTGAAGC-CTCCTAGA",
+		"INDEXID" : "IDTdual365"
+	},
+	{
+		"INDEXTAG" : "CATTCGGT-CCGGAATT",
+		"INDEXID" : "IDTdual366"
+	},
+	{
+		"INDEXTAG" : "TTGGTGAG-TAGACGTG",
+		"INDEXID" : "IDTdual367"
+	},
+	{
+		"INDEXTAG" : "CAGTTCTG-TGACTGAC",
+		"INDEXID" : "IDTdual368"
+	},
+	{
+		"INDEXTAG" : "AGGCTTCT-TAGAGCTC",
+		"INDEXID" : "IDTdual369"
+	},
+	{
+		"INDEXTAG" : "TGTGACTG-GATAGGCT",
+		"INDEXID" : "IDTdual37"
+	},
+	{
+		"INDEXTAG" : "GAATCGTG-TCCGTGAA",
+		"INDEXID" : "IDTdual370"
+	},
+	{
+		"INDEXTAG" : "ACCAGCTT-CTCGATAC",
+		"INDEXID" : "IDTdual371"
+	},
+	{
+		"INDEXTAG" : "CTCATTGC-CTTACCTG",
+		"INDEXID" : "IDTdual372"
+	},
+	{
+		"INDEXTAG" : "CGATAGAG-ATGGCGAA",
+		"INDEXID" : "IDTdual373"
+	},
+	{
+		"INDEXTAG" : "TGGAGAGT-TCCTACCT",
+		"INDEXID" : "IDTdual374"
+	},
+	{
+		"INDEXTAG" : "GTATGCTG-CCTCAGTT",
+		"INDEXID" : "IDTdual375"
+	},
+	{
+		"INDEXTAG" : "CTGGAGTA-CTACTTGG",
+		"INDEXID" : "IDTdual376"
+	},
+	{
+		"INDEXTAG" : "AATGCCTC-TCACAGCA",
+		"INDEXID" : "IDTdual377"
+	},
+	{
+		"INDEXTAG" : "TGAGGTGT-CACGTTGT",
+		"INDEXID" : "IDTdual378"
+	},
+	{
+		"INDEXTAG" : "ACATTGCG-AAGTCGAG",
+		"INDEXID" : "IDTdual379"
+	},
+	{
+		"INDEXTAG" : "GTCATCGA-AGTGGATC",
+		"INDEXID" : "IDTdual38"
+	},
+	{
+		"INDEXTAG" : "TCTCTAGG-TGTACCGT",
+		"INDEXID" : "IDTdual380"
+	},
+	{
+		"INDEXTAG" : "CGCTAGTA-CTCATCAG",
+		"INDEXID" : "IDTdual381"
+	},
+	{
+		"INDEXTAG" : "AATGGACG-AGTCTCAC",
+		"INDEXID" : "IDTdual382"
+	},
+	{
+		"INDEXTAG" : "GATAGCGA-CTTGGATG",
+		"INDEXID" : "IDTdual383"
+	},
+	{
+		"INDEXTAG" : "CGACCATT-GCCTATCA",
+		"INDEXID" : "IDTdual384"
+	},
+	{
+		"INDEXTAG" : "AGCACTTC-TTGGACGT",
+		"INDEXID" : "IDTdual39"
+	},
+	{
+		"INDEXTAG" : "GAGACGAT-TAACCGGT",
+		"INDEXID" : "IDTdual4"
+	},
+	{
+		"INDEXTAG" : "GAAGGAAG-ATGACGTC",
+		"INDEXID" : "IDTdual40"
+	},
+	{
+		"INDEXTAG" : "GTTGTTCG-GAAGTTGG",
+		"INDEXID" : "IDTdual41"
+	},
+	{
+		"INDEXTAG" : "CGGTTGTT-CATACCAC",
+		"INDEXID" : "IDTdual42"
+	},
+	{
+		"INDEXTAG" : "ACTGAGGT-CTGTTGAC",
+		"INDEXID" : "IDTdual43"
+	},
+	{
+		"INDEXTAG" : "TGAAGACG-TGGCATGT",
+		"INDEXID" : "IDTdual44"
+	},
+	{
+		"INDEXTAG" : "GTTACGCA-ATCGCCAT",
+		"INDEXID" : "IDTdual45"
+	},
+	{
+		"INDEXTAG" : "AGCGTGTT-TTGCGAAG",
+		"INDEXID" : "IDTdual46"
+	},
+	{
+		"INDEXTAG" : "GATCGAGT-AGTTCGTC",
+		"INDEXID" : "IDTdual47"
+	},
+	{
+		"INDEXTAG" : "ACAGCTCA-GAGCAGTA",
+		"INDEXID" : "IDTdual48"
+	},
+	{
+		"INDEXTAG" : "GAGCAGTA-ACAGCTCA",
+		"INDEXID" : "IDTdual49"
+	},
+	{
+		"INDEXTAG" : "CTTGTCGA-GAACATCG",
+		"INDEXID" : "IDTdual5"
+	},
+	{
+		"INDEXTAG" : "AGTTCGTC-GATCGAGT",
+		"INDEXID" : "IDTdual50"
+	},
+	{
+		"INDEXTAG" : "TTGCGAAG-AGCGTGTT",
+		"INDEXID" : "IDTdual51"
+	},
+	{
+		"INDEXTAG" : "ATCGCCAT-GTTACGCA",
+		"INDEXID" : "IDTdual52"
+	},
+	{
+		"INDEXTAG" : "TGGCATGT-TGAAGACG",
+		"INDEXID" : "IDTdual53"
+	},
+	{
+		"INDEXTAG" : "CTGTTGAC-ACTGAGGT",
+		"INDEXID" : "IDTdual54"
+	},
+	{
+		"INDEXTAG" : "CATACCAC-CGGTTGTT",
+		"INDEXID" : "IDTdual55"
+	},
+	{
+		"INDEXTAG" : "GAAGTTGG-GTTGTTCG",
+		"INDEXID" : "IDTdual56"
+	},
+	{
+		"INDEXTAG" : "ATGACGTC-GAAGGAAG",
+		"INDEXID" : "IDTdual57"
+	},
+	{
+		"INDEXTAG" : "TTGGACGT-AGCACTTC",
+		"INDEXID" : "IDTdual58"
+	},
+	{
+		"INDEXTAG" : "AGTGGATC-GTCATCGA",
+		"INDEXID" : "IDTdual59"
+	},
+	{
+		"INDEXTAG" : "TTCCAAGG-CCTTGTAG",
+		"INDEXID" : "IDTdual6"
+	},
+	{
+		"INDEXTAG" : "GATAGGCT-TGTGACTG",
+		"INDEXID" : "IDTdual60"
+	},
+	{
+		"INDEXTAG" : "TGGTAGCT-CAACACCT",
+		"INDEXID" : "IDTdual61"
+	},
+	{
+		"INDEXTAG" : "CGCAATCT-ATGCCTGT",
+		"INDEXID" : "IDTdual62"
+	},
+	{
+		"INDEXTAG" : "GATGTGTG-CATGGCTA",
+		"INDEXID" : "IDTdual63"
+	},
+	{
+		"INDEXTAG" : "GATTGCTC-GTGAAGTG",
+		"INDEXID" : "IDTdual64"
+	},
+	{
+		"INDEXTAG" : "CGCTCTAT-CGTTGCAA",
+		"INDEXID" : "IDTdual65"
+	},
+	{
+		"INDEXTAG" : "TATCGGTC-ATCCGGTA",
+		"INDEXID" : "IDTdual66"
+	},
+	{
+		"INDEXTAG" : "AACGTCTG-GCGTCATT",
+		"INDEXID" : "IDTdual67"
+	},
+	{
+		"INDEXTAG" : "ACGTTCAG-GCACAACT",
+		"INDEXID" : "IDTdual68"
+	},
+	{
+		"INDEXTAG" : "CAGTCCAA-GATTACCG",
+		"INDEXID" : "IDTdual69"
+	},
+	{
+		"INDEXTAG" : "CGCATGAT-TCAGGCTT",
+		"INDEXID" : "IDTdual7"
+	},
+	{
+		"INDEXTAG" : "TTGCAGAC-ACCACGAT",
+		"INDEXID" : "IDTdual70"
+	},
+	{
+		"INDEXTAG" : "CAATGTGG-GTCGAAGA",
+		"INDEXID" : "IDTdual71"
+	},
+	{
+		"INDEXTAG" : "ACTCCATC-CCTTGATC",
+		"INDEXID" : "IDTdual72"
+	},
+	{
+		"INDEXTAG" : "GTTGACCT-AAGCACTG",
+		"INDEXID" : "IDTdual73"
+	},
+	{
+		"INDEXTAG" : "CGTGTGTA-TTCGTTGG",
+		"INDEXID" : "IDTdual74"
+	},
+	{
+		"INDEXTAG" : "ACGACTTG-TCGCTGTT",
+		"INDEXID" : "IDTdual75"
+	},
+	{
+		"INDEXTAG" : "CACTAGCT-GAATCCGA",
+		"INDEXID" : "IDTdual76"
+	},
+	{
+		"INDEXTAG" : "ACTAGGAG-GTGCCATA",
+		"INDEXID" : "IDTdual77"
+	},
+	{
+		"INDEXTAG" : "GTAGGAGT-CTTAGGAC",
+		"INDEXID" : "IDTdual78"
+	},
+	{
+		"INDEXTAG" : "CCTGATTG-AACTGAGC",
+		"INDEXID" : "IDTdual79"
+	},
+	{
+		"INDEXTAG" : "ACGGAACA-GTTCTCGT",
+		"INDEXID" : "IDTdual8"
+	},
+	{
+		"INDEXTAG" : "ATGCACGA-GACGATCT",
+		"INDEXID" : "IDTdual80"
+	},
+	{
+		"INDEXTAG" : "CGACGTTA-ATCCAGAG",
+		"INDEXID" : "IDTdual81"
+	},
+	{
+		"INDEXTAG" : "TACGCCTT-AGAGTAGC",
+		"INDEXID" : "IDTdual82"
+	},
+	{
+		"INDEXTAG" : "CCGTAAGA-TGGACTCT",
+		"INDEXID" : "IDTdual83"
+	},
+	{
+		"INDEXTAG" : "ATCACACG-TACGCTAC",
+		"INDEXID" : "IDTdual84"
+	},
+	{
+		"INDEXTAG" : "CACCTGTT-GCTATCCT",
+		"INDEXID" : "IDTdual85"
+	},
+	{
+		"INDEXTAG" : "CTTCGACT-GCAAGATC",
+		"INDEXID" : "IDTdual86"
+	},
+	{
+		"INDEXTAG" : "TGCTTCCA-ATCGATCG",
+		"INDEXID" : "IDTdual87"
+	},
+	{
+		"INDEXTAG" : "AGAACGAG-CGGCTAAT",
+		"INDEXID" : "IDTdual88"
+	},
+	{
+		"INDEXTAG" : "GTTCTCGT-ACGGAACA",
+		"INDEXID" : "IDTdual89"
+	},
+	{
+		"INDEXTAG" : "CGGCTAAT-AGAACGAG",
+		"INDEXID" : "IDTdual9"
+	},
+	{
+		"INDEXTAG" : "TCAGGCTT-CGCATGAT",
+		"INDEXID" : "IDTdual90"
+	},
+	{
+		"INDEXTAG" : "CCTTGTAG-TTCCAAGG",
+		"INDEXID" : "IDTdual91"
+	},
+	{
+		"INDEXTAG" : "GAACATCG-CTTGTCGA",
+		"INDEXID" : "IDTdual92"
+	},
+	{
+		"INDEXTAG" : "TAACCGGT-GAGACGAT",
+		"INDEXID" : "IDTdual93"
+	},
+	{
+		"INDEXTAG" : "AACCGTTC-TGAGCTAG",
+		"INDEXID" : "IDTdual94"
+	},
+	{
+		"INDEXTAG" : "TGGTACAG-ACTCTCGA",
+		"INDEXID" : "IDTdual95"
+	},
+	{
+		"INDEXTAG" : "ATATGCGC-CTGATCGT",
+		"INDEXID" : "IDTdual96"
+	},
+	{
+		"INDEXTAG" : "GCCTATCA-CGACCATT",
+		"INDEXID" : "IDTdual97"
+	},
+	{
+		"INDEXTAG" : "CTTGGATG-GATAGCGA",
+		"INDEXID" : "IDTdual98"
+	},
+	{
+		"INDEXTAG" : "AGTCTCAC-AATGGACG",
+		"INDEXID" : "IDTdual99"
+	},
+	{
+		"INDEXTAG" : "AGTAAACC",
+		"INDEXID" : "InDrops_V4_A1"
+	},
+	{
+		"INDEXTAG" : "CCGTTTAG",
+		"INDEXID" : "InDrops_V4_A2"
+	},
+	{
+		"INDEXTAG" : "GACGCCGA",
+		"INDEXID" : "InDrops_V4_A3"
+	},
+	{
+		"INDEXTAG" : "TTACGGTT",
+		"INDEXID" : "InDrops_V4_A4"
+	},
+	{
+		"INDEXTAG" : "TATAGCCT",
+		"INDEXID" : "Innovation_Adapter 1"
+	},
+	{
+		"INDEXTAG" : "GAATTCGT",
+		"INDEXID" : "Innovation_Adapter 10"
+	},
+	{
+		"INDEXTAG" : "ATGAGCAT",
+		"INDEXID" : "Innovation_Adapter 11"
+	},
+	{
+		"INDEXTAG" : "GAATAATT",
+		"INDEXID" : "Innovation_Adapter 12"
+	},
+	{
+		"INDEXTAG" : "CTGAAGCT",
+		"INDEXID" : "Innovation_Adapter 13"
+	},
+	{
+		"INDEXTAG" : "TAATGCGC",
+		"INDEXID" : "Innovation_Adapter 14"
+	},
+	{
+		"INDEXTAG" : "CGGCTATG",
+		"INDEXID" : "Innovation_Adapter 15"
+	},
+	{
+		"INDEXTAG" : "TCCGCGAA",
+		"INDEXID" : "Innovation_Adapter 16"
+	},
+	{
+		"INDEXTAG" : "TCTCGCGC",
+		"INDEXID" : "Innovation_Adapter 17"
+	},
+	{
+		"INDEXTAG" : "AGCGATAG",
+		"INDEXID" : "Innovation_Adapter 18"
+	},
+	{
+		"INDEXTAG" : "ATCACGGT",
+		"INDEXID" : "Innovation_Adapter 19"
+	},
+	{
+		"INDEXTAG" : "CCTATCCT",
+		"INDEXID" : "Innovation_Adapter 2"
+	},
+	{
+		"INDEXTAG" : "CGATGTCA",
+		"INDEXID" : "Innovation_Adapter 20"
+	},
+	{
+		"INDEXTAG" : "TTAGGCGA",
+		"INDEXID" : "Innovation_Adapter 21"
+	},
+	{
+		"INDEXTAG" : "TGACCACG",
+		"INDEXID" : "Innovation_Adapter 22"
+	},
+	{
+		"INDEXTAG" : "ACAGTGAC",
+		"INDEXID" : "Innovation_Adapter 23"
+	},
+	{
+		"INDEXTAG" : "GCCAATTT",
+		"INDEXID" : "Innovation_Adapter 24"
+	},
+	{
+		"INDEXTAG" : "CAGATCAT",
+		"INDEXID" : "Innovation_Adapter 25"
+	},
+	{
+		"INDEXTAG" : "ACTTGATA",
+		"INDEXID" : "Innovation_Adapter 26"
+	},
+	{
+		"INDEXTAG" : "GATCAGGT",
+		"INDEXID" : "Innovation_Adapter 27"
+	},
+	{
+		"INDEXTAG" : "CTTGTACG",
+		"INDEXID" : "Innovation_Adapter 28"
+	},
+	{
+		"INDEXTAG" : "AGGTTTAC",
+		"INDEXID" : "Innovation_Adapter 29"
+	},
+	{
+		"INDEXTAG" : "AGGCGAAG",
+		"INDEXID" : "Innovation_Adapter 3"
+	},
+	{
+		"INDEXTAG" : "AGTCAACA",
+		"INDEXID" : "Innovation_Adapter 30"
+	},
+	{
+		"INDEXTAG" : "AGTTCCGT",
+		"INDEXID" : "Innovation_Adapter 31"
+	},
+	{
+		"INDEXTAG" : "ATGTCAGA",
+		"INDEXID" : "Innovation_Adapter 32"
+	},
+	{
+		"INDEXTAG" : "AGATAGTT",
+		"INDEXID" : "Innovation_Adapter 33"
+	},
+	{
+		"INDEXTAG" : "AGCATCAT",
+		"INDEXID" : "Innovation_Adapter 34"
+	},
+	{
+		"INDEXTAG" : "ATCTATTT",
+		"INDEXID" : "Innovation_Adapter 35"
+	},
+	{
+		"INDEXTAG" : "GCAAGGGT",
+		"INDEXID" : "Innovation_Adapter 36"
+	},
+	{
+		"INDEXTAG" : "AGCGCTTA",
+		"INDEXID" : "Innovation_Adapter 37"
+	},
+	{
+		"INDEXTAG" : "ACCCAGCA",
+		"INDEXID" : "Innovation_Adapter 38"
+	},
+	{
+		"INDEXTAG" : "CCGTCCCG",
+		"INDEXID" : "Innovation_Adapter 39"
+	},
+	{
+		"INDEXTAG" : "TAATCTTA",
+		"INDEXID" : "Innovation_Adapter 4"
+	},
+	{
+		"INDEXTAG" : "CGGAATCG",
+		"INDEXID" : "Innovation_Adapter 40"
+	},
+	{
+		"INDEXTAG" : "CTAGCTAC",
+		"INDEXID" : "Innovation_Adapter 41"
+	},
+	{
+		"INDEXTAG" : "CTATACTT",
+		"INDEXID" : "Innovation_Adapter 42"
+	},
+	{
+		"INDEXTAG" : "CTCAGAAT",
+		"INDEXID" : "Innovation_Adapter 43"
+	},
+	{
+		"INDEXTAG" : "CTGCTGTA",
+		"INDEXID" : "Innovation_Adapter 44"
+	},
+	{
+		"INDEXTAG" : "CCTTAGGT",
+		"INDEXID" : "Innovation_Adapter 45"
+	},
+	{
+		"INDEXTAG" : "CACCGGCA",
+		"INDEXID" : "Innovation_Adapter 46"
+	},
+	{
+		"INDEXTAG" : "GACGGAGA",
+		"INDEXID" : "Innovation_Adapter 47"
+	},
+	{
+		"INDEXTAG" : "GTAGAGTT",
+		"INDEXID" : "Innovation_Adapter 48"
+	},
+	{
+		"INDEXTAG" : "CAGGACGT",
+		"INDEXID" : "Innovation_Adapter 5"
+	},
+	{
+		"INDEXTAG" : "GTACTGAC",
+		"INDEXID" : "Innovation_Adapter 6"
+	},
+	{
+		"INDEXTAG" : "CGCTCATT",
+		"INDEXID" : "Innovation_Adapter 7"
+	},
+	{
+		"INDEXTAG" : "GAGATTCC",
+		"INDEXID" : "Innovation_Adapter 8"
+	},
+	{
+		"INDEXTAG" : "ATTCAGAA",
+		"INDEXID" : "Innovation_Adapter 9"
+	},
+	{
+		"INDEXTAG" : "ATCACGTT",
+		"INDEXID" : "iPCRtagT1"
+	},
+	{
+		"INDEXTAG" : "TAGCTTGT",
+		"INDEXID" : "iPCRtagT10"
+	},
+	{
+		"INDEXTAG" : "GGTTGGAC",
+		"INDEXID" : "iPCRtagT101"
+	},
+	{
+		"INDEXTAG" : "GGCACAAC",
+		"INDEXID" : "iPCRtagT102"
+	},
+	{
+		"INDEXTAG" : "GGCTACAG",
+		"INDEXID" : "iPCRtagT11"
+	},
+	{
+		"INDEXTAG" : "CTTGTACT",
+		"INDEXID" : "iPCRtagT12"
+	},
+	{
+		"INDEXTAG" : "TGGTTGTT",
+		"INDEXID" : "iPCRtagT13"
+	},
+	{
+		"INDEXTAG" : "TCTCGGTT",
+		"INDEXID" : "iPCRtagT14"
+	},
+	{
+		"INDEXTAG" : "TAAGCGTT",
+		"INDEXID" : "iPCRtagT15"
+	},
+	{
+		"INDEXTAG" : "TCCGTCTT",
+		"INDEXID" : "iPCRtagT16"
+	},
+	{
+		"INDEXTAG" : "TGTACCTT",
+		"INDEXID" : "iPCRtagT17"
+	},
+	{
+		"INDEXTAG" : "TTCTGTGT",
+		"INDEXID" : "iPCRtagT18"
+	},
+	{
+		"INDEXTAG" : "TCTGCTGT",
+		"INDEXID" : "iPCRtagT19"
+	},
+	{
+		"INDEXTAG" : "CGATGTTT",
+		"INDEXID" : "iPCRtagT2"
+	},
+	{
+		"INDEXTAG" : "TTGGAGGT",
+		"INDEXID" : "iPCRtagT20"
+	},
+	{
+		"INDEXTAG" : "TCGAGCGT",
+		"INDEXID" : "iPCRtagT21"
+	},
+	{
+		"INDEXTAG" : "TGATACGT",
+		"INDEXID" : "iPCRtagT22"
+	},
+	{
+		"INDEXTAG" : "TGCGATCT",
+		"INDEXID" : "iPCRtagT25"
+	},
+	{
+		"INDEXTAG" : "TTCCTGCT",
+		"INDEXID" : "iPCRtagT26"
+	},
+	{
+		"INDEXTAG" : "TAGTGACT",
+		"INDEXID" : "iPCRtagT27"
+	},
+	{
+		"INDEXTAG" : "TACAGGAT",
+		"INDEXID" : "iPCRtagT28"
+	},
+	{
+		"INDEXTAG" : "TCCTCAAT",
+		"INDEXID" : "iPCRtagT29"
+	},
+	{
+		"INDEXTAG" : "TTAGGCAT",
+		"INDEXID" : "iPCRtagT3"
+	},
+	{
+		"INDEXTAG" : "TGTGGTTG",
+		"INDEXID" : "iPCRtagT30"
+	},
+	{
+		"INDEXTAG" : "TAGTCTTG",
+		"INDEXID" : "iPCRtagT31"
+	},
+	{
+		"INDEXTAG" : "TTCCATTG",
+		"INDEXID" : "iPCRtagT32"
+	},
+	{
+		"INDEXTAG" : "TCGAAGTG",
+		"INDEXID" : "iPCRtagT33"
+	},
+	{
+		"INDEXTAG" : "TAACGCTG",
+		"INDEXID" : "iPCRtagT34"
+	},
+	{
+		"INDEXTAG" : "TTGGTATG",
+		"INDEXID" : "iPCRtagT35"
+	},
+	{
+		"INDEXTAG" : "TGAACTGG",
+		"INDEXID" : "iPCRtagT36"
+	},
+	{
+		"INDEXTAG" : "TCTCACGG",
+		"INDEXID" : "iPCRtagT38"
+	},
+	{
+		"INDEXTAG" : "TCAGGAGG",
+		"INDEXID" : "iPCRtagT39"
+	},
+	{
+		"INDEXTAG" : "TGACCACT",
+		"INDEXID" : "iPCRtagT4"
+	},
+	{
+		"INDEXTAG" : "TAAGTTCG",
+		"INDEXID" : "iPCRtagT40"
+	},
+	{
+		"INDEXTAG" : "TCCAGTCG",
+		"INDEXID" : "iPCRtagT41"
+	},
+	{
+		"INDEXTAG" : "TGTATGCG",
+		"INDEXID" : "iPCRtagT42"
+	},
+	{
+		"INDEXTAG" : "TCATTGAG",
+		"INDEXID" : "iPCRtagT43"
+	},
+	{
+		"INDEXTAG" : "TGGCTCAG",
+		"INDEXID" : "iPCRtagT44"
+	},
+	{
+		"INDEXTAG" : "TATGCCAG",
+		"INDEXID" : "iPCRtagT45"
+	},
+	{
+		"INDEXTAG" : "TCAGATTC",
+		"INDEXID" : "iPCRtagT46"
+	},
+	{
+		"INDEXTAG" : "TACTAGTC",
+		"INDEXID" : "iPCRtagT47"
+	},
+	{
+		"INDEXTAG" : "TTCAGCTC",
+		"INDEXID" : "iPCRtagT48"
+	},
+	{
+		"INDEXTAG" : "ACAGTGGT",
+		"INDEXID" : "iPCRtagT5"
+	},
+	{
+		"INDEXTAG" : "GCCAATGT",
+		"INDEXID" : "iPCRtagT6"
+	},
+	{
+		"INDEXTAG" : "CAGATCTG",
+		"INDEXID" : "iPCRtagT7"
+	},
+	{
+		"INDEXTAG" : "ACTTGATG",
+		"INDEXID" : "iPCRtagT8"
+	},
+	{
+		"INDEXTAG" : "GATCAGCG",
+		"INDEXID" : "iPCRtagT9"
+	},
+	{
+		"INDEXTAG" : "GTGCTACC",
+		"INDEXID" : "iPCRtagT99"
+	},
+	{
+		"INDEXTAG" : "CAAGGCGA",
+		"INDEXID" : "KO-1"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG",
+		"INDEXID" : "KO-10"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA",
+		"INDEXID" : "KO-11"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC",
+		"INDEXID" : "KO-12"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT",
+		"INDEXID" : "KO-13"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG",
+		"INDEXID" : "KO-14"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC",
+		"INDEXID" : "KO-15"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG",
+		"INDEXID" : "KO-16"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA",
+		"INDEXID" : "KO-17"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA",
+		"INDEXID" : "KO-18"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA",
+		"INDEXID" : "KO-19"
+	},
+	{
+		"INDEXTAG" : "GACGCTAT",
+		"INDEXID" : "KO-2"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG",
+		"INDEXID" : "KO-20"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA",
+		"INDEXID" : "KO-21"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC",
+		"INDEXID" : "KO-22"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA",
+		"INDEXID" : "KO-23"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT",
+		"INDEXID" : "KO-24"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC",
+		"INDEXID" : "KO-25"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG",
+		"INDEXID" : "KO-26"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC",
+		"INDEXID" : "KO-27"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG",
+		"INDEXID" : "KO-28"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC",
+		"INDEXID" : "KO-29"
+	},
+	{
+		"INDEXTAG" : "ACTTCTTC",
+		"INDEXID" : "KO-3"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT",
+		"INDEXID" : "KO-30"
+	},
+	{
+		"INDEXTAG" : "TGCAGCTA",
+		"INDEXID" : "KO-31"
+	},
+	{
+		"INDEXTAG" : "TCGACGTC",
+		"INDEXID" : "KO-32"
+	},
+	{
+		"INDEXTAG" : "CCTAGAAT",
+		"INDEXID" : "KO-4"
+	},
+	{
+		"INDEXTAG" : "TGGTAACG",
+		"INDEXID" : "KO-5"
+	},
+	{
+		"INDEXTAG" : "CATCAGAC",
+		"INDEXID" : "KO-6"
+	},
+	{
+		"INDEXTAG" : "GTGCGTAA",
+		"INDEXID" : "KO-7"
+	},
+	{
+		"INDEXTAG" : "CTATTCAA",
+		"INDEXID" : "KO-8"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA",
+		"INDEXID" : "KO-9"
+	},
+	{
+		"INDEXTAG" : "ATCACGAT",
+		"INDEXID" : "Lilan_1"
+	},
+	{
+		"INDEXTAG" : "GTTTCGAT",
+		"INDEXID" : "Lilan_10"
+	},
+	{
+		"INDEXTAG" : "GAGTGGAT",
+		"INDEXID" : "Lilan_11"
+	},
+	{
+		"INDEXTAG" : "GGTAGCAT",
+		"INDEXID" : "Lilan_12"
+	},
+	{
+		"INDEXTAG" : "ATGAGCAT",
+		"INDEXID" : "Lilan_13"
+	},
+	{
+		"INDEXTAG" : "CAAAAGAT",
+		"INDEXID" : "Lilan_14"
+	},
+	{
+		"INDEXTAG" : "CAACTAAT",
+		"INDEXID" : "Lilan_15"
+	},
+	{
+		"INDEXTAG" : "CACCGGAT",
+		"INDEXID" : "Lilan_16"
+	},
+	{
+		"INDEXTAG" : "CGATGTAT",
+		"INDEXID" : "Lilan_2"
+	},
+	{
+		"INDEXTAG" : "TGACCAAT",
+		"INDEXID" : "Lilan_3"
+	},
+	{
+		"INDEXTAG" : "GGCTACAT",
+		"INDEXID" : "Lilan_4"
+	},
+	{
+		"INDEXTAG" : "AGTCAAAT",
+		"INDEXID" : "Lilan_5"
+	},
+	{
+		"INDEXTAG" : "AGTTCCAT",
+		"INDEXID" : "Lilan_6"
+	},
+	{
+		"INDEXTAG" : "ATGTCAAT",
+		"INDEXID" : "Lilan_7"
+	},
+	{
+		"INDEXTAG" : "GTAGAGAT",
+		"INDEXID" : "Lilan_8"
+	},
+	{
+		"INDEXTAG" : "GTCCGCAT",
+		"INDEXID" : "Lilan_9"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC",
+		"INDEXID" : "Loop01"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT",
+		"INDEXID" : "Loop02"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC",
+		"INDEXID" : "Loop03"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC",
+		"INDEXID" : "Loop04"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG",
+		"INDEXID" : "Loop05"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA",
+		"INDEXID" : "Loop06"
+	},
+	{
+		"INDEXTAG" : "CGAATACG",
+		"INDEXID" : "Loop07"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG",
+		"INDEXID" : "Loop08"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA",
+		"INDEXID" : "Loop09"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC",
+		"INDEXID" : "Loop10"
+	},
+	{
+		"INDEXTAG" : "GTACACCT",
+		"INDEXID" : "Loop11"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA",
+		"INDEXID" : "Loop12"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA",
+		"INDEXID" : "Loop12"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA",
+		"INDEXID" : "Loop13"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA",
+		"INDEXID" : "Loop13"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC",
+		"INDEXID" : "Loop14"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC",
+		"INDEXID" : "Loop14"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA",
+		"INDEXID" : "Loop15"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA",
+		"INDEXID" : "Loop15"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG",
+		"INDEXID" : "Loop16"
+	},
+	{
+		"INDEXTAG" : "CGGTTCAA",
+		"INDEXID" : "LOWE_F01"
+	},
+	{
+		"INDEXTAG" : "GCTGGATT",
+		"INDEXID" : "LOWE_F02"
+	},
+	{
+		"INDEXTAG" : "TAACTCGG",
+		"INDEXID" : "LOWE_F03"
+	},
+	{
+		"INDEXTAG" : "TAACAGTT",
+		"INDEXID" : "LOWE_F04"
+	},
+	{
+		"INDEXTAG" : "ATACTCAA",
+		"INDEXID" : "LOWE_F05"
+	},
+	{
+		"INDEXTAG" : "GCTGAGAA",
+		"INDEXID" : "LOWE_F06"
+	},
+	{
+		"INDEXTAG" : "ATTGGAGG",
+		"INDEXID" : "LOWE_F07"
+	},
+	{
+		"INDEXTAG" : "TAGTCTAA",
+		"INDEXID" : "LOWE_F08"
+	},
+	{
+		"INDEXTAG" : "CGGTGACC",
+		"INDEXID" : "LOWE_F09"
+	},
+	{
+		"INDEXTAG" : "TACAGAGG",
+		"INDEXID" : "LOWE_F10"
+	},
+	{
+		"INDEXTAG" : "ATTGTCAA",
+		"INDEXID" : "LOWE_F11"
+	},
+	{
+		"INDEXTAG" : "TATGTCTT",
+		"INDEXID" : "LOWE_F12"
+	},
+	{
+		"INDEXTAG" : "ATTGGATT",
+		"INDEXID" : "LOWE_F13"
+	},
+	{
+		"INDEXTAG" : "ATACTCGG",
+		"INDEXID" : "LOWE_F14"
+	},
+	{
+		"INDEXTAG" : "TATGAGAA",
+		"INDEXID" : "LOWE_F15"
+	},
+	{
+		"INDEXTAG" : "TAACTCAA",
+		"INDEXID" : "LOWE_F16"
+	},
+	{
+		"INDEXTAG" : "CGTGAGCC",
+		"INDEXID" : "LOWE_F17"
+	},
+	{
+		"INDEXTAG" : "ATCAGAGG",
+		"INDEXID" : "LOWE_F18"
+	},
+	{
+		"INDEXTAG" : "TATGGAGG",
+		"INDEXID" : "LOWE_F19"
+	},
+	{
+		"INDEXTAG" : "GCGTTCAA",
+		"INDEXID" : "LOWE_F20"
+	},
+	{
+		"INDEXTAG" : "CGCAAGAA",
+		"INDEXID" : "LOWE_F21"
+	},
+	{
+		"INDEXTAG" : "CGACAGCC",
+		"INDEXID" : "LOWE_F22"
+	},
+	{
+		"INDEXTAG" : "CGACTCGG",
+		"INDEXID" : "LOWE_F23"
+	},
+	{
+		"INDEXTAG" : "TACAAGAA",
+		"INDEXID" : "LOWE_F24"
+	},
+	{
+		"INDEXTAG" : "CGCAGATT",
+		"INDEXID" : "LOWE_F25"
+	},
+	{
+		"INDEXTAG" : "ATTGCTCC",
+		"INDEXID" : "LOWE_F26"
+	},
+	{
+		"INDEXTAG" : "GCACTCGG",
+		"INDEXID" : "LOWE_F27"
+	},
+	{
+		"INDEXTAG" : "ATGTTCTT",
+		"INDEXID" : "LOWE_F28"
+	},
+	{
+		"INDEXTAG" : "ATGTCTCC",
+		"INDEXID" : "LOWE_F29"
+	},
+	{
+		"INDEXTAG" : "GCACTCAA",
+		"INDEXID" : "LOWE_F30"
+	},
+	{
+		"INDEXTAG" : "GCACAGTT",
+		"INDEXID" : "LOWE_F31"
+	},
+	{
+		"INDEXTAG" : "CGTGGATT",
+		"INDEXID" : "LOWE_F32"
+	},
+	{
+		"INDEXTAG" : "TAGTAGAA",
+		"INDEXID" : "LOWE_F33"
+	},
+	{
+		"INDEXTAG" : "GCACGATT",
+		"INDEXID" : "LOWE_F34"
+	},
+	{
+		"INDEXTAG" : "CGGTAGCC",
+		"INDEXID" : "LOWE_F35"
+	},
+	{
+		"INDEXTAG" : "TAGTTCTT",
+		"INDEXID" : "LOWE_F36"
+	},
+	{
+		"INDEXTAG" : "TACAAGTT",
+		"INDEXID" : "LOWE_F37"
+	},
+	{
+		"INDEXTAG" : "ATCACTGG",
+		"INDEXID" : "LOWE_F38"
+	},
+	{
+		"INDEXTAG" : "CGCATCAA",
+		"INDEXID" : "LOWE_F39"
+	},
+	{
+		"INDEXTAG" : "GCACGACC",
+		"INDEXID" : "LOWE_F40"
+	},
+	{
+		"INDEXTAG" : "TACACTCC",
+		"INDEXID" : "LOWE_F41"
+	},
+	{
+		"INDEXTAG" : "CGGTCTAA",
+		"INDEXID" : "LOWE_F42"
+	},
+	{
+		"INDEXTAG" : "ATGTTCGG",
+		"INDEXID" : "LOWE_F43"
+	},
+	{
+		"INDEXTAG" : "CGTGGACC",
+		"INDEXID" : "LOWE_F44"
+	},
+	{
+		"INDEXTAG" : "ATTGAGCC",
+		"INDEXID" : "LOWE_F45"
+	},
+	{
+		"INDEXTAG" : "TAGTTCGG",
+		"INDEXID" : "LOWE_F46"
+	},
+	{
+		"INDEXTAG" : "CGGTGAGG",
+		"INDEXID" : "LOWE_F47"
+	},
+	{
+		"INDEXTAG" : "CGTGAGTT",
+		"INDEXID" : "LOWE_F48"
+	},
+	{
+		"INDEXTAG" : "ATCAGATT",
+		"INDEXID" : "LOWE_F49"
+	},
+	{
+		"INDEXTAG" : "TAGTGATT",
+		"INDEXID" : "LOWE_F50"
+	},
+	{
+		"INDEXTAG" : "CGGTTCGG",
+		"INDEXID" : "LOWE_F51"
+	},
+	{
+		"INDEXTAG" : "TATGGACC",
+		"INDEXID" : "LOWE_F52"
+	},
+	{
+		"INDEXTAG" : "GCCAAGTT",
+		"INDEXID" : "LOWE_F53"
+	},
+	{
+		"INDEXTAG" : "CGCAGACC",
+		"INDEXID" : "LOWE_F54"
+	},
+	{
+		"INDEXTAG" : "CGACCTCC",
+		"INDEXID" : "LOWE_F55"
+	},
+	{
+		"INDEXTAG" : "GCCACTGG",
+		"INDEXID" : "LOWE_F56"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTT",
+		"INDEXID" : "LOWE_F57"
+	},
+	{
+		"INDEXTAG" : "CGCAAGTT",
+		"INDEXID" : "LOWE_F58"
+	},
+	{
+		"INDEXTAG" : "CGACAGTT",
+		"INDEXID" : "LOWE_F59"
+	},
+	{
+		"INDEXTAG" : "TAGTAGCC",
+		"INDEXID" : "LOWE_F60"
+	},
+	{
+		"INDEXTAG" : "CGTGTCAA",
+		"INDEXID" : "LOWE_F61"
+	},
+	{
+		"INDEXTAG" : "GCGTTCTT",
+		"INDEXID" : "LOWE_F62"
+	},
+	{
+		"INDEXTAG" : "GCCAAGCC",
+		"INDEXID" : "LOWE_F63"
+	},
+	{
+		"INDEXTAG" : "GCACCTCC",
+		"INDEXID" : "LOWE_F64"
+	},
+	{
+		"INDEXTAG" : "GCACCTGG",
+		"INDEXID" : "LOWE_F65"
+	},
+	{
+		"INDEXTAG" : "GCCAGACC",
+		"INDEXID" : "LOWE_F66"
+	},
+	{
+		"INDEXTAG" : "CGCAAGCC",
+		"INDEXID" : "LOWE_F67"
+	},
+	{
+		"INDEXTAG" : "TACATCAA",
+		"INDEXID" : "LOWE_F68"
+	},
+	{
+		"INDEXTAG" : "GCGTAGCC",
+		"INDEXID" : "LOWE_F69"
+	},
+	{
+		"INDEXTAG" : "CGACAGAA",
+		"INDEXID" : "LOWE_F70"
+	},
+	{
+		"INDEXTAG" : "TAGTCTGG",
+		"INDEXID" : "LOWE_F71"
+	},
+	{
+		"INDEXTAG" : "ATCAAGTT",
+		"INDEXID" : "LOWE_F72"
+	},
+	{
+		"INDEXTAG" : "TAGTAGTT",
+		"INDEXID" : "LOWE_F73"
+	},
+	{
+		"INDEXTAG" : "ATACTCTT",
+		"INDEXID" : "LOWE_F74"
+	},
+	{
+		"INDEXTAG" : "CGGTAGTT",
+		"INDEXID" : "LOWE_F75"
+	},
+	{
+		"INDEXTAG" : "ATACGAGG",
+		"INDEXID" : "LOWE_F76"
+	},
+	{
+		"INDEXTAG" : "CGCACTGG",
+		"INDEXID" : "LOWE_F77"
+	},
+	{
+		"INDEXTAG" : "TACAGACC",
+		"INDEXID" : "LOWE_F78"
+	},
+	{
+		"INDEXTAG" : "GCGTGACC",
+		"INDEXID" : "LOWE_F79"
+	},
+	{
+		"INDEXTAG" : "TATGTCGG",
+		"INDEXID" : "LOWE_F80"
+	},
+	{
+		"INDEXTAG" : "CGACTCTT",
+		"INDEXID" : "LOWE_F81"
+	},
+	{
+		"INDEXTAG" : "GCGTTCGG",
+		"INDEXID" : "LOWE_F82"
+	},
+	{
+		"INDEXTAG" : "ATACCTAA",
+		"INDEXID" : "LOWE_F83"
+	},
+	{
+		"INDEXTAG" : "CGGTGATT",
+		"INDEXID" : "LOWE_F84"
+	},
+	{
+		"INDEXTAG" : "TAACGACC",
+		"INDEXID" : "LOWE_F85"
+	},
+	{
+		"INDEXTAG" : "ATACAGCC",
+		"INDEXID" : "LOWE_F86"
+	},
+	{
+		"INDEXTAG" : "CGACGACC",
+		"INDEXID" : "LOWE_F87"
+	},
+	{
+		"INDEXTAG" : "ATCACTAA",
+		"INDEXID" : "LOWE_F88"
+	},
+	{
+		"INDEXTAG" : "CGCATCTT",
+		"INDEXID" : "LOWE_F89"
+	},
+	{
+		"INDEXTAG" : "ATGTTCAA",
+		"INDEXID" : "LOWE_F90"
+	},
+	{
+		"INDEXTAG" : "GCGTAGAA",
+		"INDEXID" : "LOWE_F91"
+	},
+	{
+		"INDEXTAG" : "ATGTAGCC",
+		"INDEXID" : "LOWE_F92"
+	},
+	{
+		"INDEXTAG" : "CGACCTGG",
+		"INDEXID" : "LOWE_F93"
+	},
+	{
+		"INDEXTAG" : "TATGTCAA",
+		"INDEXID" : "LOWE_F94"
+	},
+	{
+		"INDEXTAG" : "TAACCTAA",
+		"INDEXID" : "LOWE_F95"
+	},
+	{
+		"INDEXTAG" : "GCCATCTT",
+		"INDEXID" : "LOWE_F96"
+	},
+	{
+		"INDEXTAG" : "GACTTCTT",
+		"INDEXID" : "MB1"
+	},
+	{
+		"INDEXTAG" : "TTATTCTT",
+		"INDEXID" : "MB2"
+	},
+	{
+		"INDEXTAG" : "CGCGGCTT",
+		"INDEXID" : "MB3"
+	},
+	{
+		"INDEXTAG" : "AGGAGCTT",
+		"INDEXID" : "MB4"
+	},
+	{
+		"INDEXTAG" : "CCTTCATT",
+		"INDEXID" : "MB5"
+	},
+	{
+		"INDEXTAG" : "CAGCTCGT",
+		"INDEXID" : "MB6"
+	},
+	{
+		"INDEXTAG" : "TAGGACGG",
+		"INDEXID" : "MB7"
+	},
+	{
+		"INDEXTAG" : "TTCCTAGG",
+		"INDEXID" : "MB8"
+	},
+	{
+		"INDEXTAG" : "TAGATCGC",
+		"INDEXID" : "N501"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAT",
+		"INDEXID" : "N502"
+	},
+	{
+		"INDEXTAG" : "TATCCTCT",
+		"INDEXID" : "N503"
+	},
+	{
+		"INDEXTAG" : "AGAGTAGA",
+		"INDEXID" : "N504"
+	},
+	{
+		"INDEXTAG" : "GTAAGGAG",
+		"INDEXID" : "N505"
+	},
+	{
+		"INDEXTAG" : "ACTGCATA",
+		"INDEXID" : "N506"
+	},
+	{
+		"INDEXTAG" : "AAGGAGTA",
+		"INDEXID" : "N507"
+	},
+	{
+		"INDEXTAG" : "CTAAGCCT",
+		"INDEXID" : "N508"
+	},
+	{
+		"INDEXTAG" : "GCGTAAGA",
+		"INDEXID" : "N517"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA",
+		"INDEXID" : "N701"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TAGATCGC",
+		"INDEXID" : "N701-N501"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CTCTCTAT",
+		"INDEXID" : "N701-N502"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TATCCTCT",
+		"INDEXID" : "N701-N503"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-AGAGTAGA",
+		"INDEXID" : "N701-N504"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-GTAAGGAG",
+		"INDEXID" : "N701-N505"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-ACTGCATA",
+		"INDEXID" : "N701-N506"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-AAGGAGTA",
+		"INDEXID" : "N701-N507"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CTAAGCCT",
+		"INDEXID" : "N701-N508"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CGTCTAAT",
+		"INDEXID" : "N701-N510"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TCTCTCCG",
+		"INDEXID" : "N701-N511"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TCGACTAG",
+		"INDEXID" : "N701-N513"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TTCTAGCT",
+		"INDEXID" : "N701-N515"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CCTAGAGT",
+		"INDEXID" : "N701-N516"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-GCGTAAGA",
+		"INDEXID" : "N701-N517"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-CTATTAAG",
+		"INDEXID" : "N701-N518"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-AAGGCTAT",
+		"INDEXID" : "N701-N520"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-GAGCCTTA",
+		"INDEXID" : "N701-N521"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA-TTATGCGA",
+		"INDEXID" : "N701-N522"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG",
+		"INDEXID" : "N702"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TAGATCGC",
+		"INDEXID" : "N702-N501"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-CTCTCTAT",
+		"INDEXID" : "N702-N502"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TATCCTCT",
+		"INDEXID" : "N702-N503"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-AGAGTAGA",
+		"INDEXID" : "N702-N504"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-GTAAGGAG",
+		"INDEXID" : "N702-N505"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-ACTGCATA",
+		"INDEXID" : "N702-N506"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-AAGGAGTA",
+		"INDEXID" : "N702-N507"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-CTAAGCCT",
+		"INDEXID" : "N702-N508"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-CGTCTAAT",
+		"INDEXID" : "N702-N510"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TCTCTCCG",
+		"INDEXID" : "N702-N511"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TCGACTAG",
+		"INDEXID" : "N702-N513"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TTCTAGCT",
+		"INDEXID" : "N702-N515"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-CCTAGAGT",
+		"INDEXID" : "N702-N516"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-GCGTAAGA",
+		"INDEXID" : "N702-N517"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-CTATTAAG",
+		"INDEXID" : "N702-N518"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-AAGGCTAT",
+		"INDEXID" : "N702-N520"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-GAGCCTTA",
+		"INDEXID" : "N702-N521"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG-TTATGCGA",
+		"INDEXID" : "N702-N522"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA",
+		"INDEXID" : "N703"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TAGATCGC",
+		"INDEXID" : "N703-N501"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-CTCTCTAT",
+		"INDEXID" : "N703-N502"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TATCCTCT",
+		"INDEXID" : "N703-N503"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-AGAGTAGA",
+		"INDEXID" : "N703-N504"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-GTAAGGAG",
+		"INDEXID" : "N703-N505"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-ACTGCATA",
+		"INDEXID" : "N703-N506"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-AAGGAGTA",
+		"INDEXID" : "N703-N507"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-CTAAGCCT",
+		"INDEXID" : "N703-N508"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-CGTCTAAT",
+		"INDEXID" : "N703-N510"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TCTCTCCG",
+		"INDEXID" : "N703-N511"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TCGACTAG",
+		"INDEXID" : "N703-N513"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TTCTAGCT",
+		"INDEXID" : "N703-N515"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-CCTAGAGT",
+		"INDEXID" : "N703-N516"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-GCGTAAGA",
+		"INDEXID" : "N703-N517"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-CTATTAAG",
+		"INDEXID" : "N703-N518"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-AAGGCTAT",
+		"INDEXID" : "N703-N520"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-GAGCCTTA",
+		"INDEXID" : "N703-N521"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA-TTATGCGA",
+		"INDEXID" : "N703-N522"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC",
+		"INDEXID" : "N704"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-TAGATCGC",
+		"INDEXID" : "N704-N501"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CTCTCTAT",
+		"INDEXID" : "N704-N502"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-TATCCTCT",
+		"INDEXID" : "N704-N503"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-AGAGTAGA",
+		"INDEXID" : "N704-N504"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GTAAGGAG",
+		"INDEXID" : "N704-N505"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-ACTGCATA",
+		"INDEXID" : "N704-N506"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-AAGGAGTA",
+		"INDEXID" : "N704-N507"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CTAAGCCT",
+		"INDEXID" : "N704-N508"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CGTCTAAT",
+		"INDEXID" : "N704-N510"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-TCTCTCCG",
+		"INDEXID" : "N704-N511"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-TCGACTAG",
+		"INDEXID" : "N704-N513"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-TTCTAGCT",
+		"INDEXID" : "N704-N515"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CCTAGAGT",
+		"INDEXID" : "N704-N516"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GCGTAAGA",
+		"INDEXID" : "N704-N517"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-CTATTAAG",
+		"INDEXID" : "N704-N518"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-AAGGCTAT",
+		"INDEXID" : "N704-N520"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-GAGCCTTA",
+		"INDEXID" : "N704-N521"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC-TTATGCGA",
+		"INDEXID" : "N704-N522"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT",
+		"INDEXID" : "N705"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TAGATCGC",
+		"INDEXID" : "N705-N501"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-CTCTCTAT",
+		"INDEXID" : "N705-N502"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TATCCTCT",
+		"INDEXID" : "N705-N503"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-AGAGTAGA",
+		"INDEXID" : "N705-N504"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-GTAAGGAG",
+		"INDEXID" : "N705-N505"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-ACTGCATA",
+		"INDEXID" : "N705-N506"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-AAGGAGTA",
+		"INDEXID" : "N705-N507"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-CTAAGCCT",
+		"INDEXID" : "N705-N508"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-CGTCTAAT",
+		"INDEXID" : "N705-N510"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TCTCTCCG",
+		"INDEXID" : "N705-N511"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TCGACTAG",
+		"INDEXID" : "N705-N513"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TTCTAGCT",
+		"INDEXID" : "N705-N515"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-CCTAGAGT",
+		"INDEXID" : "N705-N516"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-GCGTAAGA",
+		"INDEXID" : "N705-N517"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-CTATTAAG",
+		"INDEXID" : "N705-N518"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-AAGGCTAT",
+		"INDEXID" : "N705-N520"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-GAGCCTTA",
+		"INDEXID" : "N705-N521"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT-TTATGCGA",
+		"INDEXID" : "N705-N522"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG",
+		"INDEXID" : "N706"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TAGATCGC",
+		"INDEXID" : "N706-N501"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CTCTCTAT",
+		"INDEXID" : "N706-N502"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TATCCTCT",
+		"INDEXID" : "N706-N503"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-AGAGTAGA",
+		"INDEXID" : "N706-N504"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-GTAAGGAG",
+		"INDEXID" : "N706-N505"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-ACTGCATA",
+		"INDEXID" : "N706-N506"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-AAGGAGTA",
+		"INDEXID" : "N706-N507"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CTAAGCCT",
+		"INDEXID" : "N706-N508"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CGTCTAAT",
+		"INDEXID" : "N706-N510"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TCTCTCCG",
+		"INDEXID" : "N706-N511"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TCGACTAG",
+		"INDEXID" : "N706-N513"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TTCTAGCT",
+		"INDEXID" : "N706-N515"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CCTAGAGT",
+		"INDEXID" : "N706-N516"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-GCGTAAGA",
+		"INDEXID" : "N706-N517"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-CTATTAAG",
+		"INDEXID" : "N706-N518"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-AAGGCTAT",
+		"INDEXID" : "N706-N520"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-GAGCCTTA",
+		"INDEXID" : "N706-N521"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-GAGCCTTA",
+		"INDEXID" : "N706-N521"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TTATGCGA",
+		"INDEXID" : "N706-N522"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG-TTATGCGA",
+		"INDEXID" : "N706-N522"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC",
+		"INDEXID" : "N707"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-TAGATCGC",
+		"INDEXID" : "N707-N501"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CTCTCTAT",
+		"INDEXID" : "N707-N502"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-TATCCTCT",
+		"INDEXID" : "N707-N503"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-AGAGTAGA",
+		"INDEXID" : "N707-N504"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-GTAAGGAG",
+		"INDEXID" : "N707-N505"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-ACTGCATA",
+		"INDEXID" : "N707-N506"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-AAGGAGTA",
+		"INDEXID" : "N707-N507"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CTAAGCCT",
+		"INDEXID" : "N707-N508"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CGTCTAAT",
+		"INDEXID" : "N707-N510"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-TCTCTCCG",
+		"INDEXID" : "N707-N511"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-TCGACTAG",
+		"INDEXID" : "N707-N513"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-TTCTAGCT",
+		"INDEXID" : "N707-N515"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CCTAGAGT",
+		"INDEXID" : "N707-N516"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-GCGTAAGA",
+		"INDEXID" : "N707-N517"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-CTATTAAG",
+		"INDEXID" : "N707-N518"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-AAGGCTAT",
+		"INDEXID" : "N707-N520"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-GAGCCTTA",
+		"INDEXID" : "N707-N521"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC-TTATGCGA",
+		"INDEXID" : "N707-N522"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG",
+		"INDEXID" : "N708"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-TAGATCGC",
+		"INDEXID" : "N708-N501"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-CTCTCTAT",
+		"INDEXID" : "N708-N502"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-TATCCTCT",
+		"INDEXID" : "N708-N503"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-AGAGTAGA",
+		"INDEXID" : "N708-N504"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GTAAGGAG",
+		"INDEXID" : "N708-N505"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-ACTGCATA",
+		"INDEXID" : "N708-N506"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-AAGGAGTA",
+		"INDEXID" : "N708-N507"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-CTAAGCCT",
+		"INDEXID" : "N708-N508"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-CGTCTAAT",
+		"INDEXID" : "N708-N510"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-TCTCTCCG",
+		"INDEXID" : "N708-N511"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG-GCGTAAGA",
+		"INDEXID" : "N708-N517"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT",
+		"INDEXID" : "N709"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-TAGATCGC",
+		"INDEXID" : "N709-N501"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-CTCTCTAT",
+		"INDEXID" : "N709-N502"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-TATCCTCT",
+		"INDEXID" : "N709-N503"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-AGAGTAGA",
+		"INDEXID" : "N709-N504"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-GTAAGGAG",
+		"INDEXID" : "N709-N505"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-ACTGCATA",
+		"INDEXID" : "N709-N506"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-AAGGAGTA",
+		"INDEXID" : "N709-N507"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-CTAAGCCT",
+		"INDEXID" : "N709-N508"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-CGTCTAAT",
+		"INDEXID" : "N709-N510"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-TCTCTCCG",
+		"INDEXID" : "N709-N511"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT-GCGTAAGA",
+		"INDEXID" : "N709-N517"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG",
+		"INDEXID" : "N710"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-TAGATCGC",
+		"INDEXID" : "N710-N501"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-CTCTCTAT",
+		"INDEXID" : "N710-N502"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-TATCCTCT",
+		"INDEXID" : "N710-N503"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-AGAGTAGA",
+		"INDEXID" : "N710-N504"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-GTAAGGAG",
+		"INDEXID" : "N710-N505"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-ACTGCATA",
+		"INDEXID" : "N710-N506"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-AAGGAGTA",
+		"INDEXID" : "N710-N507"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-CTAAGCCT",
+		"INDEXID" : "N710-N508"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-CGTCTAAT",
+		"INDEXID" : "N710-N510"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-TCTCTCCG",
+		"INDEXID" : "N710-N511"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-TCGACTAG",
+		"INDEXID" : "N710-N513"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-TTCTAGCT",
+		"INDEXID" : "N710-N515"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-CCTAGAGT",
+		"INDEXID" : "N710-N516"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-GCGTAAGA",
+		"INDEXID" : "N710-N517"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-CTATTAAG",
+		"INDEXID" : "N710-N518"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-AAGGCTAT",
+		"INDEXID" : "N710-N520"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-GAGCCTTA",
+		"INDEXID" : "N710-N521"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG-TTATGCGA",
+		"INDEXID" : "N710-N522"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA",
+		"INDEXID" : "N711"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-TAGATCGC",
+		"INDEXID" : "N711-N501"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-CTCTCTAT",
+		"INDEXID" : "N711-N502"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-TATCCTCT",
+		"INDEXID" : "N711-N503"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-AGAGTAGA",
+		"INDEXID" : "N711-N504"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-GTAAGGAG",
+		"INDEXID" : "N711-N505"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-ACTGCATA",
+		"INDEXID" : "N711-N506"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-AAGGAGTA",
+		"INDEXID" : "N711-N507"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-CTAAGCCT",
+		"INDEXID" : "N711-N508"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-CGTCTAAT",
+		"INDEXID" : "N711-N510"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-TCTCTCCG",
+		"INDEXID" : "N711-N511"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-TCGACTAG",
+		"INDEXID" : "N711-N513"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-TTCTAGCT",
+		"INDEXID" : "N711-N515"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-CCTAGAGT",
+		"INDEXID" : "N711-N516"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-GCGTAAGA",
+		"INDEXID" : "N711-N517"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-CTATTAAG",
+		"INDEXID" : "N711-N518"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-AAGGCTAT",
+		"INDEXID" : "N711-N520"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-GAGCCTTA",
+		"INDEXID" : "N711-N521"
+	},
+	{
+		"INDEXTAG" : "AAGAGGCA-TTATGCGA",
+		"INDEXID" : "N711-N522"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA",
+		"INDEXID" : "N712"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-TAGATCGC",
+		"INDEXID" : "N712-N501"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-CTCTCTAT",
+		"INDEXID" : "N712-N502"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-TATCCTCT",
+		"INDEXID" : "N712-N503"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-AGAGTAGA",
+		"INDEXID" : "N712-N504"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-GTAAGGAG",
+		"INDEXID" : "N712-N505"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-ACTGCATA",
+		"INDEXID" : "N712-N506"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-AAGGAGTA",
+		"INDEXID" : "N712-N507"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-CTAAGCCT",
+		"INDEXID" : "N712-N508"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-CGTCTAAT",
+		"INDEXID" : "N712-N510"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-TCTCTCCG",
+		"INDEXID" : "N712-N511"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-TCGACTAG",
+		"INDEXID" : "N712-N513"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-TTCTAGCT",
+		"INDEXID" : "N712-N515"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-CCTAGAGT",
+		"INDEXID" : "N712-N516"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-GCGTAAGA",
+		"INDEXID" : "N712-N517"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-CTATTAAG",
+		"INDEXID" : "N712-N518"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-AAGGCTAT",
+		"INDEXID" : "N712-N520"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-GAGCCTTA",
+		"INDEXID" : "N712-N521"
+	},
+	{
+		"INDEXTAG" : "GTAGAGGA-TTATGCGA",
+		"INDEXID" : "N712-N522"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA",
+		"INDEXID" : "N714"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-TAGATCGC",
+		"INDEXID" : "N714-N501"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-CTCTCTAT",
+		"INDEXID" : "N714-N502"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-CTCTCTAT",
+		"INDEXID" : "N714-N502"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-TATCCTCT",
+		"INDEXID" : "N714-N503 "
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-TATCCTCT",
+		"INDEXID" : "N714-N503"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-AGAGTAGA",
+		"INDEXID" : "N714-N504"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-GTAAGGAG",
+		"INDEXID" : "N714-N505"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-ACTGCATA",
+		"INDEXID" : "N714-N506"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-AAGGAGTA",
+		"INDEXID" : "N714-N507"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-CTAAGCCT",
+		"INDEXID" : "N714-N508"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-CGTCTAAT",
+		"INDEXID" : "N714-N510"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-TCTCTCCG",
+		"INDEXID" : "N714-N511"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-TCGACTAG",
+		"INDEXID" : "N714-N513"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-TTCTAGCT",
+		"INDEXID" : "N714-N515"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-CCTAGAGT",
+		"INDEXID" : "N714-N516"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-GCGTAAGA",
+		"INDEXID" : "N714-N517"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-CTATTAAG",
+		"INDEXID" : "N714-N518"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-AAGGCTAT",
+		"INDEXID" : "N714-N520"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-GAGCCTTA",
+		"INDEXID" : "N714-N521"
+	},
+	{
+		"INDEXTAG" : "GCTCATGA-TTATGCGA",
+		"INDEXID" : "N714-N522"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG",
+		"INDEXID" : "N715"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-TAGATCGC",
+		"INDEXID" : "N715-N501"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-CTCTCTAT",
+		"INDEXID" : "N715-N502"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-CTCTCTAT",
+		"INDEXID" : "N715-N502"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-TATCCTCT",
+		"INDEXID" : "N715-N503"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-AGAGTAGA",
+		"INDEXID" : "N715-N504"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-GTAAGGAG",
+		"INDEXID" : "N715-N505"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-ACTGCATA",
+		"INDEXID" : "N715-N506"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-AAGGAGTA",
+		"INDEXID" : "N715-N507"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-CTAAGCCT",
+		"INDEXID" : "N715-N508"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-CGTCTAAT",
+		"INDEXID" : "N715-N510"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-TCTCTCCG",
+		"INDEXID" : "N715-N511"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-TCGACTAG",
+		"INDEXID" : "N715-N513"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-TTCTAGCT",
+		"INDEXID" : "N715-N515"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-CCTAGAGT",
+		"INDEXID" : "N715-N516"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-GCGTAAGA",
+		"INDEXID" : "N715-N517"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-CTATTAAG",
+		"INDEXID" : "N715-N518"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-AAGGCTAT",
+		"INDEXID" : "N715-N520"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-GAGCCTTA",
+		"INDEXID" : "N715-N521"
+	},
+	{
+		"INDEXTAG" : "ATCTCAGG-TTATGCGA",
+		"INDEXID" : "N715-N522"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-TAGATCGC",
+		"INDEXID" : "N716-N501"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-CTCTCTAT",
+		"INDEXID" : "N716-N502"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-TATCCTCT",
+		"INDEXID" : "N716-N503"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-AGAGTAGA",
+		"INDEXID" : "N716-N504"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-GTAAGGAG",
+		"INDEXID" : "N716-N505"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-ACTGCATA",
+		"INDEXID" : "N716-N506"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-AAGGAGTA",
+		"INDEXID" : "N716-N507"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-CTAAGCCT",
+		"INDEXID" : "N716-N508"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-CGTCTAAT",
+		"INDEXID" : "N716-N510"
+	},
+	{
+		"INDEXTAG" : "ACTCGCTA-TCTCTCCG",
+		"INDEXID" : "N716-N511"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-TAGATCGC",
+		"INDEXID" : "N718-N501"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-CTCTCTAT",
+		"INDEXID" : "N718-N502"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-TATCCTCT",
+		"INDEXID" : "N718-N503"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-AGAGTAGA",
+		"INDEXID" : "N718-N504"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-GTAAGGAG",
+		"INDEXID" : "N718-N505"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-ACTGCATA",
+		"INDEXID" : "N718-N506"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-AAGGAGTA",
+		"INDEXID" : "N718-N507"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-CTAAGCCT",
+		"INDEXID" : "N718-N508"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-CGTCTAAT",
+		"INDEXID" : "N718-N510"
+	},
+	{
+		"INDEXTAG" : "GGAGCTAC-TCTCTCCG",
+		"INDEXID" : "N718-N511"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-TAGATCGC",
+		"INDEXID" : "N719-N501"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-CTCTCTAT",
+		"INDEXID" : "N719-N502"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-TATCCTCT",
+		"INDEXID" : "N719-N503"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-AGAGTAGA",
+		"INDEXID" : "N719-N504"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-GTAAGGAG",
+		"INDEXID" : "N719-N505"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-ACTGCATA",
+		"INDEXID" : "N719-N506"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-AAGGAGTA",
+		"INDEXID" : "N719-N507"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-CTAAGCCT",
+		"INDEXID" : "N719-N508"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-CGTCTAAT",
+		"INDEXID" : "N719-N510"
+	},
+	{
+		"INDEXTAG" : "GCGTAGTA-TCTCTCCG",
+		"INDEXID" : "N719-N511"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-TAGATCGC",
+		"INDEXID" : "N720-N501"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-CTCTCTAT",
+		"INDEXID" : "N720-N502"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-TATCCTCT",
+		"INDEXID" : "N720-N503"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-AGAGTAGA",
+		"INDEXID" : "N720-N504"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-GTAAGGAG",
+		"INDEXID" : "N720-N505"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-ACTGCATA",
+		"INDEXID" : "N720-N506"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-AAGGAGTA",
+		"INDEXID" : "N720-N507"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-CTAAGCCT",
+		"INDEXID" : "N720-N508"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-CGTCTAAT",
+		"INDEXID" : "N720-N510"
+	},
+	{
+		"INDEXTAG" : "CGGAGCCT-TCTCTCCG",
+		"INDEXID" : "N720-N511"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-TAGATCGC",
+		"INDEXID" : "N721-N501"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-CTCTCTAT",
+		"INDEXID" : "N721-N502"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-TATCCTCT",
+		"INDEXID" : "N721-N503"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-AGAGTAGA",
+		"INDEXID" : "N721-N504"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-GTAAGGAG",
+		"INDEXID" : "N721-N505"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-ACTGCATA",
+		"INDEXID" : "N721-N506"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-AAGGAGTA",
+		"INDEXID" : "N721-N507"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-CTAAGCCT",
+		"INDEXID" : "N721-N508"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-CGTCTAAT",
+		"INDEXID" : "N721-N510"
+	},
+	{
+		"INDEXTAG" : "TACGCTGC-TCTCTCCG",
+		"INDEXID" : "N721-N511"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-TAGATCGC",
+		"INDEXID" : "N722-N501"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-CTCTCTAT",
+		"INDEXID" : "N722-N502"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-TATCCTCT",
+		"INDEXID" : "N722-N503"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-AGAGTAGA",
+		"INDEXID" : "N722-N504"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-GTAAGGAG",
+		"INDEXID" : "N722-N505"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-ACTGCATA",
+		"INDEXID" : "N722-N506"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-AAGGAGTA",
+		"INDEXID" : "N722-N507"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-CTAAGCCT",
+		"INDEXID" : "N722-N508"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-CGTCTAAT",
+		"INDEXID" : "N722-N510"
+	},
+	{
+		"INDEXTAG" : "ATGCGCAG-TCTCTCCG",
+		"INDEXID" : "N722-N511"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-TAGATCGC",
+		"INDEXID" : "N723-N501"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-CTCTCTAT",
+		"INDEXID" : "N723-N502"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-TATCCTCT",
+		"INDEXID" : "N723-N503"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-AGAGTAGA",
+		"INDEXID" : "N723-N504"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-GTAAGGAG",
+		"INDEXID" : "N723-N505"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-ACTGCATA",
+		"INDEXID" : "N723-N506"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-AAGGAGTA",
+		"INDEXID" : "N723-N507"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-CTAAGCCT",
+		"INDEXID" : "N723-N508"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-CGTCTAAT",
+		"INDEXID" : "N723-N510"
+	},
+	{
+		"INDEXTAG" : "TAGCGCTC-TCTCTCCG",
+		"INDEXID" : "N723-N511"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-TAGATCGC",
+		"INDEXID" : "N724-N501"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-CTCTCTAT",
+		"INDEXID" : "N724-N502"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-TATCCTCT",
+		"INDEXID" : "N724-N503"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-AGAGTAGA",
+		"INDEXID" : "N724-N504"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-GTAAGGAG",
+		"INDEXID" : "N724-N505"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-ACTGCATA",
+		"INDEXID" : "N724-N506"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-AAGGAGTA",
+		"INDEXID" : "N724-N507"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-CTAAGCCT",
+		"INDEXID" : "N724-N508"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-CGTCTAAT",
+		"INDEXID" : "N724-N510"
+	},
+	{
+		"INDEXTAG" : "ACTGAGCG-TCTCTCCG",
+		"INDEXID" : "N724-N511"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-TAGATCGC",
+		"INDEXID" : "N726-N501"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-CTCTCTAT",
+		"INDEXID" : "N726-N502"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-TATCCTCT",
+		"INDEXID" : "N726-N503"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-AGAGTAGA",
+		"INDEXID" : "N726-N504"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-GTAAGGAG",
+		"INDEXID" : "N726-N505"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-ACTGCATA",
+		"INDEXID" : "N726-N506"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-AAGGAGTA",
+		"INDEXID" : "N726-N507"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-CTAAGCCT",
+		"INDEXID" : "N726-N508"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-CGTCTAAT",
+		"INDEXID" : "N726-N510"
+	},
+	{
+		"INDEXTAG" : "CCTAAGAC-TCTCTCCG",
+		"INDEXID" : "N726-N511"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-TAGATCGC",
+		"INDEXID" : "N727-N501"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-CTCTCTAT",
+		"INDEXID" : "N727-N502"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-TATCCTCT",
+		"INDEXID" : "N727-N503"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-AGAGTAGA",
+		"INDEXID" : "N727-N504"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-GTAAGGAG",
+		"INDEXID" : "N727-N505"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-ACTGCATA",
+		"INDEXID" : "N727-N506"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-AAGGAGTA",
+		"INDEXID" : "N727-N507"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-CTAAGCCT",
+		"INDEXID" : "N727-N508"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-CGTCTAAT",
+		"INDEXID" : "N727-N510"
+	},
+	{
+		"INDEXTAG" : "CGATCAGT-TCTCTCCG",
+		"INDEXID" : "N727-N511"
+	},
+	{
+		"INDEXTAG" : "GGCCAACC",
+		"INDEXID" : "NEXTflex-HT-381"
+	},
+	{
+		"INDEXTAG" : "ACTTTGGT",
+		"INDEXID" : "NEXTflex-HT-382"
+	},
+	{
+		"INDEXTAG" : "AACTGCAT",
+		"INDEXID" : "NEXTflex-HT-383"
+	},
+	{
+		"INDEXTAG" : "TTACCGAC",
+		"INDEXID" : "P1-A1"
+	},
+	{
+		"INDEXTAG" : "CGTATCTC",
+		"INDEXID" : "P10-A10"
+	},
+	{
+		"INDEXTAG" : "GTACACCT",
+		"INDEXID" : "P11-A11"
+	},
+	{
+		"INDEXTAG" : "CGGCATTA",
+		"INDEXID" : "P12-A12"
+	},
+	{
+		"INDEXTAG" : "TCGTCTGA",
+		"INDEXID" : "P13-B1"
+	},
+	{
+		"INDEXTAG" : "AGCCTATC",
+		"INDEXID" : "P14-B2"
+	},
+	{
+		"INDEXTAG" : "CTGTACCA",
+		"INDEXID" : "P15-B3"
+	},
+	{
+		"INDEXTAG" : "AGACCTTG",
+		"INDEXID" : "P16-B4"
+	},
+	{
+		"INDEXTAG" : "AGGATAGC",
+		"INDEXID" : "P17-B5"
+	},
+	{
+		"INDEXTAG" : "CCTTCCAT",
+		"INDEXID" : "P18-B6"
+	},
+	{
+		"INDEXTAG" : "GTCCTTGA",
+		"INDEXID" : "P19-B7"
+	},
+	{
+		"INDEXTAG" : "AGTGACCT",
+		"INDEXID" : "P2-A2"
+	},
+	{
+		"INDEXTAG" : "TGCGTAAC",
+		"INDEXID" : "P20-B8"
+	},
+	{
+		"INDEXTAG" : "CACAGACT",
+		"INDEXID" : "P21-B9"
+	},
+	{
+		"INDEXTAG" : "TTACGTGC",
+		"INDEXID" : "P22-B10"
+	},
+	{
+		"INDEXTAG" : "CCAAGGTT",
+		"INDEXID" : "P23-B11"
+	},
+	{
+		"INDEXTAG" : "CACGCAAT",
+		"INDEXID" : "P24-B12"
+	},
+	{
+		"INDEXTAG" : "TTCCAGGT",
+		"INDEXID" : "P25-C1"
+	},
+	{
+		"INDEXTAG" : "TCATCTCC",
+		"INDEXID" : "P26-C2"
+	},
+	{
+		"INDEXTAG" : "GAGAGTAC",
+		"INDEXID" : "P27-C3"
+	},
+	{
+		"INDEXTAG" : "GTCGTTAC",
+		"INDEXID" : "P28-C4"
+	},
+	{
+		"INDEXTAG" : "GGAGGAAT",
+		"INDEXID" : "P29-C5"
+	},
+	{
+		"INDEXTAG" : "TCGGATTC",
+		"INDEXID" : "P3-A3"
+	},
+	{
+		"INDEXTAG" : "AGGAACAC",
+		"INDEXID" : "P30-C6"
+	},
+	{
+		"INDEXTAG" : "CAGTGCTT",
+		"INDEXID" : "P31-C7"
+	},
+	{
+		"INDEXTAG" : "CTTGCTAG",
+		"INDEXID" : "P32-C8"
+	},
+	{
+		"INDEXTAG" : "TGGAAGCA",
+		"INDEXID" : "P33-C9"
+	},
+	{
+		"INDEXTAG" : "AGCTAAGC",
+		"INDEXID" : "P34-C10"
+	},
+	{
+		"INDEXTAG" : "GAACGGTT",
+		"INDEXID" : "P35-C11"
+	},
+	{
+		"INDEXTAG" : "GGAATGTC",
+		"INDEXID" : "P36-C12"
+	},
+	{
+		"INDEXTAG" : "TACGGTCT",
+		"INDEXID" : "P37-D1"
+	},
+	{
+		"INDEXTAG" : "CCAGTATC",
+		"INDEXID" : "P38-D2"
+	},
+	{
+		"INDEXTAG" : "TCTACGCA",
+		"INDEXID" : "P39-D3"
+	},
+	{
+		"INDEXTAG" : "CAAGGTAC",
+		"INDEXID" : "P4-A4"
+	},
+	{
+		"INDEXTAG" : "GTAACCGA",
+		"INDEXID" : "P40-D4"
+	},
+	{
+		"INDEXTAG" : "GACGTCAT",
+		"INDEXID" : "P41-D5"
+	},
+	{
+		"INDEXTAG" : "CTTACAGC",
+		"INDEXID" : "P42-D6"
+	},
+	{
+		"INDEXTAG" : "TCCATTGC",
+		"INDEXID" : "P43-D7"
+	},
+	{
+		"INDEXTAG" : "AGCGAGAT",
+		"INDEXID" : "P44-D8"
+	},
+	{
+		"INDEXTAG" : "CAATAGCC",
+		"INDEXID" : "P45-D9"
+	},
+	{
+		"INDEXTAG" : "AAGACACC",
+		"INDEXID" : "P46-D10"
+	},
+	{
+		"INDEXTAG" : "CCAGTTGA",
+		"INDEXID" : "P47-D11"
+	},
+	{
+		"INDEXTAG" : "TGGTGAAG",
+		"INDEXID" : "P48-D12"
+	},
+	{
+		"INDEXTAG" : "AAGACCGT",
+		"INDEXID" : "P49-E1"
+	},
+	{
+		"INDEXTAG" : "TCCTCATG",
+		"INDEXID" : "P5-A5"
+	},
+	{
+		"INDEXTAG" : "TTGCGAGA",
+		"INDEXID" : "P50-E2"
+	},
+	{
+		"INDEXTAG" : "GCAATTCC",
+		"INDEXID" : "P51-E3"
+	},
+	{
+		"INDEXTAG" : "GAATCCGT",
+		"INDEXID" : "P52-E4"
+	},
+	{
+		"INDEXTAG" : "CCGCTTAA",
+		"INDEXID" : "P53-E5"
+	},
+	{
+		"INDEXTAG" : "TACCTGCA",
+		"INDEXID" : "P54-E6"
+	},
+	{
+		"INDEXTAG" : "GTCGATTG",
+		"INDEXID" : "P55-E7"
+	},
+	{
+		"INDEXTAG" : "TATGGCAC",
+		"INDEXID" : "P56-E8"
+	},
+	{
+		"INDEXTAG" : "CTCGAACA",
+		"INDEXID" : "P57-E9"
+	},
+	{
+		"INDEXTAG" : "CAACTCCA",
+		"INDEXID" : "P58-E10"
+	},
+	{
+		"INDEXTAG" : "GTCATCGT",
+		"INDEXID" : "P59-E11"
+	},
+	{
+		"INDEXTAG" : "GTCAGTCA",
+		"INDEXID" : "P6-A6"
+	},
+	{
+		"INDEXTAG" : "GGACATCA",
+		"INDEXID" : "P60-E12"
+	},
+	{
+		"INDEXTAG" : "CAGGTTCA",
+		"INDEXID" : "P61-F1"
+	},
+	{
+		"INDEXTAG" : "GAACGAAG",
+		"INDEXID" : "P62-F2"
+	},
+	{
+		"INDEXTAG" : "CTCAGAAG",
+		"INDEXID" : "P63-F3"
+	},
+	{
+		"INDEXTAG" : "CATGAGCA",
+		"INDEXID" : "P64-F4"
+	},
+	{
+		"INDEXTAG" : "GACGAACT",
+		"INDEXID" : "P65-F5"
+	},
+	{
+		"INDEXTAG" : "AGACGCTA",
+		"INDEXID" : "P66-F6"
+	},
+	{
+		"INDEXTAG" : "ATAACGCC",
+		"INDEXID" : "P67-F7"
+	},
+	{
+		"INDEXTAG" : "GAATCACC",
+		"INDEXID" : "P68-F8"
+	},
+	{
+		"INDEXTAG" : "GGCAAGTT",
+		"INDEXID" : "P69-F9"
+	},
+	{
+		"INDEXTAG" : "CGAATACG",
+		"INDEXID" : "P7-A7"
+	},
+	{
+		"INDEXTAG" : "GATCTTGC",
+		"INDEXID" : "P70-F10"
+	},
+	{
+		"INDEXTAG" : "CAATGCGA",
+		"INDEXID" : "P71-F11"
+	},
+	{
+		"INDEXTAG" : "GGTGTACA",
+		"INDEXID" : "P72-F12"
+	},
+	{
+		"INDEXTAG" : "TAGGAGCT",
+		"INDEXID" : "P73-G1"
+	},
+	{
+		"INDEXTAG" : "CGAATTGC",
+		"INDEXID" : "P74-G2"
+	},
+	{
+		"INDEXTAG" : "GTCCTAAG",
+		"INDEXID" : "P75-G3"
+	},
+	{
+		"INDEXTAG" : "CTTAGGAC",
+		"INDEXID" : "P76-G4"
+	},
+	{
+		"INDEXTAG" : "TCCACGTT",
+		"INDEXID" : "P77-G5"
+	},
+	{
+		"INDEXTAG" : "CAACACAG",
+		"INDEXID" : "P78-G6"
+	},
+	{
+		"INDEXTAG" : "GCCTTAAC",
+		"INDEXID" : "P79-G7"
+	},
+	{
+		"INDEXTAG" : "TTGAACCG",
+		"INDEXID" : "P7_MT01"
+	},
+	{
+		"INDEXTAG" : "TTGAACCG",
+		"INDEXID" : "P7_MT01"
+	},
+	{
+		"INDEXTAG" : "AATCCAGC",
+		"INDEXID" : "P7_MT02"
+	},
+	{
+		"INDEXTAG" : "AATCCAGC",
+		"INDEXID" : "P7_MT02"
+	},
+	{
+		"INDEXTAG" : "CCGAGTTA",
+		"INDEXID" : "P7_MT03"
+	},
+	{
+		"INDEXTAG" : "CCGAGTTA",
+		"INDEXID" : "P7_MT03"
+	},
+	{
+		"INDEXTAG" : "AACTGTTA",
+		"INDEXID" : "P7_MT04"
+	},
+	{
+		"INDEXTAG" : "AACTGTTA",
+		"INDEXID" : "P7_MT04"
+	},
+	{
+		"INDEXTAG" : "TTGAGTAT",
+		"INDEXID" : "P7_MT05"
+	},
+	{
+		"INDEXTAG" : "TTGAGTAT",
+		"INDEXID" : "P7_MT05"
+	},
+	{
+		"INDEXTAG" : "TTCTCAGC",
+		"INDEXID" : "P7_MT06"
+	},
+	{
+		"INDEXTAG" : "TTCTCAGC",
+		"INDEXID" : "P7_MT06"
+	},
+	{
+		"INDEXTAG" : "CCTCCAAT",
+		"INDEXID" : "P7_MT07"
+	},
+	{
+		"INDEXTAG" : "CCTCCAAT",
+		"INDEXID" : "P7_MT07"
+	},
+	{
+		"INDEXTAG" : "TTAGACTA",
+		"INDEXID" : "P7_MT08"
+	},
+	{
+		"INDEXTAG" : "TTAGACTA",
+		"INDEXID" : "P7_MT08"
+	},
+	{
+		"INDEXTAG" : "GGTCACCG",
+		"INDEXID" : "P7_MT09"
+	},
+	{
+		"INDEXTAG" : "GGTCACCG",
+		"INDEXID" : "P7_MT09"
+	},
+	{
+		"INDEXTAG" : "CCTCTGTA",
+		"INDEXID" : "P7_MT10"
+	},
+	{
+		"INDEXTAG" : "CCTCTGTA",
+		"INDEXID" : "P7_MT10"
+	},
+	{
+		"INDEXTAG" : "TCTAGGAG",
+		"INDEXID" : "P8-A8"
+	},
+	{
+		"INDEXTAG" : "GTAAGGTG",
+		"INDEXID" : "P80-G8"
+	},
+	{
+		"INDEXTAG" : "AGCTACCA",
+		"INDEXID" : "P81-G9"
+	},
+	{
+		"INDEXTAG" : "CTTCACTG",
+		"INDEXID" : "P82-G10"
+	},
+	{
+		"INDEXTAG" : "GGTTGAAC",
+		"INDEXID" : "P83-G11"
+	},
+	{
+		"INDEXTAG" : "GATAGCCA",
+		"INDEXID" : "P84-G12"
+	},
+	{
+		"INDEXTAG" : "TACTCCAG",
+		"INDEXID" : "P85-H1"
+	},
+	{
+		"INDEXTAG" : "GGAAGAGA",
+		"INDEXID" : "P86-H2"
+	},
+	{
+		"INDEXTAG" : "GCGTTAGA",
+		"INDEXID" : "P87-H3"
+	},
+	{
+		"INDEXTAG" : "ATCTGACC",
+		"INDEXID" : "P88-H4"
+	},
+	{
+		"INDEXTAG" : "AACCAGAG",
+		"INDEXID" : "P89-H5"
+	},
+	{
+		"INDEXTAG" : "CGCAACTA",
+		"INDEXID" : "P9-A9"
+	},
+	{
+		"INDEXTAG" : "GTACCACA",
+		"INDEXID" : "P90-H6"
+	},
+	{
+		"INDEXTAG" : "GGTATAGG",
+		"INDEXID" : "P91-H7"
+	},
+	{
+		"INDEXTAG" : "CGAGAGAA",
+		"INDEXID" : "P92-H8"
+	},
+	{
+		"INDEXTAG" : "CAGCATAC",
+		"INDEXID" : "P93-H9"
+	},
+	{
+		"INDEXTAG" : "CTCGACTT",
+		"INDEXID" : "P94-H10"
+	},
+	{
+		"INDEXTAG" : "CTTCGGTT",
+		"INDEXID" : "P95-H11"
+	},
+	{
+		"INDEXTAG" : "CCACAACA",
+		"INDEXID" : "P96-H12"
+	},
+	{
+		"INDEXTAG" : "CTCTACTT",
+		"INDEXID" : "PLKO1"
+	},
+	{
+		"INDEXTAG" : "CCATTGTT",
+		"INDEXID" : "PLKO10"
+	},
+	{
+		"INDEXTAG" : "GATACAGT",
+		"INDEXID" : "PLKO11"
+	},
+	{
+		"INDEXTAG" : "TGCGACCT",
+		"INDEXID" : "PLKO12"
+	},
+	{
+		"INDEXTAG" : "CGAGTAAT",
+		"INDEXID" : "PLKO13"
+	},
+	{
+		"INDEXTAG" : "TCTCCGGA",
+		"INDEXID" : "PLKO14"
+	},
+	{
+		"INDEXTAG" : "AATGAGCG",
+		"INDEXID" : "PLKO15"
+	},
+	{
+		"INDEXTAG" : "GGAATCTC",
+		"INDEXID" : "PLKO16"
+	},
+	{
+		"INDEXTAG" : "TTCTGAAT",
+		"INDEXID" : "PLKO17"
+	},
+	{
+		"INDEXTAG" : "ACGAATTC",
+		"INDEXID" : "PLKO18"
+	},
+	{
+		"INDEXTAG" : "AGCTTCAG",
+		"INDEXID" : "PLKO19"
+	},
+	{
+		"INDEXTAG" : "GATCGTGT",
+		"INDEXID" : "PLKO2"
+	},
+	{
+		"INDEXTAG" : "GCGCATTA",
+		"INDEXID" : "PLKO20"
+	},
+	{
+		"INDEXTAG" : "CATAGCCG",
+		"INDEXID" : "PLKO21"
+	},
+	{
+		"INDEXTAG" : "TTCGCGGA",
+		"INDEXID" : "PLKO22"
+	},
+	{
+		"INDEXTAG" : "GCGCGAGA",
+		"INDEXID" : "PLKO23"
+	},
+	{
+		"INDEXTAG" : "CTATCGCT",
+		"INDEXID" : "PLKO24"
+	},
+	{
+		"INDEXTAG" : "ACCGCGCG",
+		"INDEXID" : "PLKO3"
+	},
+	{
+		"INDEXTAG" : "CGATCATG",
+		"INDEXID" : "PLKO4"
+	},
+	{
+		"INDEXTAG" : "TGGTAACG",
+		"INDEXID" : "PLKO5"
+	},
+	{
+		"INDEXTAG" : "ACCAAGGA",
+		"INDEXID" : "PLKO6"
+	},
+	{
+		"INDEXTAG" : "AATGCGTT",
+		"INDEXID" : "PLKO7"
+	},
+	{
+		"INDEXTAG" : "ATACCTGT",
+		"INDEXID" : "PLKO8"
+	},
+	{
+		"INDEXTAG" : "CCTTACCT",
+		"INDEXID" : "PLKO9"
+	},
+	{
+		"INDEXTAG" : "GGTTGGCC",
+		"INDEXID" : "RC-Nextflex-HT-381"
+	},
+	{
+		"INDEXTAG" : "SI-GA-A1",
+		"INDEXID" : "SI-GA-A1"
+	},
+	{
+		"INDEXTAG" : "SI-GA-A2",
+		"INDEXID" : "SI-GA-A2"
+	},
+	{
+		"INDEXTAG" : "SI-GA-A3",
+		"INDEXID" : "SI-GA-A3"
+	},
+	{
+		"INDEXTAG" : "SI-GA-A4",
+		"INDEXID" : "SI-GA-A4"
+	},
+	{
+		"INDEXTAG" : "SI-GA-A5",
+		"INDEXID" : "SI-GA-A5"
+	},
+	{
+		"INDEXTAG" : "SI-GA-A6",
+		"INDEXID" : "SI-GA-A6"
+	},
+	{
+		"INDEXTAG" : "SI-GA-A7",
+		"INDEXID" : "SI-GA-A7"
+	},
+	{
+		"INDEXTAG" : "SI-GA-A8",
+		"INDEXID" : "SI-GA-A8"
+	},
+	{
+		"INDEXTAG" : "SI-GA-A9",
+		"INDEXID" : "SI-GA-A9"
+	},
+	{
+		"INDEXTAG" : "SI-GA-B1",
+		"INDEXID" : "SI-GA-B1"
+	},
+	{
+		"INDEXTAG" : "SI-GA-B2",
+		"INDEXID" : "SI-GA-B2"
+	},
+	{
+		"INDEXTAG" : "SI-GA-B3",
+		"INDEXID" : "SI-GA-B3"
+	},
+	{
+		"INDEXTAG" : "SI-GA-B4",
+		"INDEXID" : "SI-GA-B4"
+	},
+	{
+		"INDEXTAG" : "SI-GA-B5",
+		"INDEXID" : "SI-GA-B5"
+	},
+	{
+		"INDEXTAG" : "SI-GA-B6",
+		"INDEXID" : "SI-GA-B6"
+	},
+	{
+		"INDEXTAG" : "SI-GA-B7",
+		"INDEXID" : "SI-GA-B7"
+	},
+	{
+		"INDEXTAG" : "SI-GA-B8",
+		"INDEXID" : "SI-GA-B8"
+	},
+	{
+		"INDEXTAG" : "SI-GA-B9",
+		"INDEXID" : "SI-GA-B9"
+	},
+	{
+		"INDEXTAG" : "SI-GA-C1",
+		"INDEXID" : "SI-GA-C1"
+	},
+	{
+		"INDEXTAG" : "SI-GA-C2",
+		"INDEXID" : "SI-GA-C2"
+	},
+	{
+		"INDEXTAG" : "SI-GA-C3",
+		"INDEXID" : "SI-GA-C3"
+	},
+	{
+		"INDEXTAG" : "SI-GA-C4",
+		"INDEXID" : "SI-GA-C4"
+	},
+	{
+		"INDEXTAG" : "SI-GA-C5",
+		"INDEXID" : "SI-GA-C5"
+	},
+	{
+		"INDEXTAG" : "SI-GA-C6",
+		"INDEXID" : "SI-GA-C6"
+	},
+	{
+		"INDEXTAG" : "SI-GA-C7",
+		"INDEXID" : "SI-GA-C7"
+	},
+	{
+		"INDEXTAG" : "SI-GA-C8",
+		"INDEXID" : "SI-GA-C8"
+	},
+	{
+		"INDEXTAG" : "SI-GA-C9",
+		"INDEXID" : "SI-GA-C9"
+	},
+	{
+		"INDEXTAG" : "SI-GA-D1",
+		"INDEXID" : "SI-GA-D1"
+	},
+	{
+		"INDEXTAG" : "SI-GA-D2",
+		"INDEXID" : "SI-GA-D2"
+	},
+	{
+		"INDEXTAG" : "SI-GA-D3",
+		"INDEXID" : "SI-GA-D3"
+	},
+	{
+		"INDEXTAG" : "SI-GA-D4",
+		"INDEXID" : "SI-GA-D4"
+	},
+	{
+		"INDEXTAG" : "SI-GA-D5",
+		"INDEXID" : "SI-GA-D5"
+	},
+	{
+		"INDEXTAG" : "SI-GA-D6",
+		"INDEXID" : "SI-GA-D6"
+	},
+	{
+		"INDEXTAG" : "SI-GA-D7",
+		"INDEXID" : "SI-GA-D7"
+	},
+	{
+		"INDEXTAG" : "SI-GA-D8",
+		"INDEXID" : "SI-GA-D8"
+	},
+	{
+		"INDEXTAG" : "SI-GA-D9",
+		"INDEXID" : "SI-GA-D9"
+	},
+	{
+		"INDEXTAG" : "SI-GA-E1",
+		"INDEXID" : "SI-GA-E1"
+	},
+	{
+		"INDEXTAG" : "SI-GA-E2",
+		"INDEXID" : "SI-GA-E2"
+	},
+	{
+		"INDEXTAG" : "SI-GA-E3",
+		"INDEXID" : "SI-GA-E3"
+	},
+	{
+		"INDEXTAG" : "SI-GA-E4",
+		"INDEXID" : "SI-GA-E4"
+	},
+	{
+		"INDEXTAG" : "SI-GA-E5",
+		"INDEXID" : "SI-GA-E5"
+	},
+	{
+		"INDEXTAG" : "SI-GA-E6",
+		"INDEXID" : "SI-GA-E6"
+	},
+	{
+		"INDEXTAG" : "SI-GA-E7",
+		"INDEXID" : "SI-GA-E7"
+	},
+	{
+		"INDEXTAG" : "SI-GA-E8",
+		"INDEXID" : "SI-GA-E8"
+	},
+	{
+		"INDEXTAG" : "SI-GA-E9",
+		"INDEXID" : "SI-GA-E9"
+	},
+	{
+		"INDEXTAG" : "SI-GA-F1",
+		"INDEXID" : "SI-GA-F1"
+	},
+	{
+		"INDEXTAG" : "SI-GA-F2",
+		"INDEXID" : "SI-GA-F2"
+	},
+	{
+		"INDEXTAG" : "SI-GA-F3",
+		"INDEXID" : "SI-GA-F3"
+	},
+	{
+		"INDEXTAG" : "SI-GA-F4",
+		"INDEXID" : "SI-GA-F4"
+	},
+	{
+		"INDEXTAG" : "SI-GA-F5",
+		"INDEXID" : "SI-GA-F5"
+	},
+	{
+		"INDEXTAG" : "SI-GA-F6",
+		"INDEXID" : "SI-GA-F6"
+	},
+	{
+		"INDEXTAG" : "SI-GA-F7",
+		"INDEXID" : "SI-GA-F7"
+	},
+	{
+		"INDEXTAG" : "SI-GA-F8",
+		"INDEXID" : "SI-GA-F8"
+	},
+	{
+		"INDEXTAG" : "SI-GA-F9",
+		"INDEXID" : "SI-GA-F9"
+	},
+	{
+		"INDEXTAG" : "SI-GA-G1",
+		"INDEXID" : "SI-GA-G1"
+	},
+	{
+		"INDEXTAG" : "SI-GA-G2",
+		"INDEXID" : "SI-GA-G2"
+	},
+	{
+		"INDEXTAG" : "SI-GA-G3",
+		"INDEXID" : "SI-GA-G3"
+	},
+	{
+		"INDEXTAG" : "SI-GA-G4",
+		"INDEXID" : "SI-GA-G4"
+	},
+	{
+		"INDEXTAG" : "SI-GA-G5",
+		"INDEXID" : "SI-GA-G5"
+	},
+	{
+		"INDEXTAG" : "SI-GA-G6",
+		"INDEXID" : "SI-GA-G6"
+	},
+	{
+		"INDEXTAG" : "SI-GA-G7",
+		"INDEXID" : "SI-GA-G7"
+	},
+	{
+		"INDEXTAG" : "SI-GA-G8",
+		"INDEXID" : "SI-GA-G8"
+	},
+	{
+		"INDEXTAG" : "SI-GA-G9",
+		"INDEXID" : "SI-GA-G9"
+	},
+	{
+		"INDEXTAG" : "SI-GA-H1",
+		"INDEXID" : "SI-GA-H1"
+	},
+	{
+		"INDEXTAG" : "SI-GA-H2",
+		"INDEXID" : "SI-GA-H2"
+	},
+	{
+		"INDEXTAG" : "SI-GA-H3",
+		"INDEXID" : "SI-GA-H3"
+	},
+	{
+		"INDEXTAG" : "SI-GA-H4",
+		"INDEXID" : "SI-GA-H4"
+	},
+	{
+		"INDEXTAG" : "SI-GA-H5",
+		"INDEXID" : "SI-GA-H5"
+	},
+	{
+		"INDEXTAG" : "SI-GA-H6",
+		"INDEXID" : "SI-GA-H6"
+	},
+	{
+		"INDEXTAG" : "SI-GA-H7",
+		"INDEXID" : "SI-GA-H7"
+	},
+	{
+		"INDEXTAG" : "SI-GA-H8",
+		"INDEXID" : "SI-GA-H8"
+	},
+	{
+		"INDEXTAG" : "SI-GA-H9",
+		"INDEXID" : "SI-GA-H9"
+	},
+	{
+		"INDEXTAG" : "CTCTACTT",
+		"INDEXID" : "Thompson_1"
+	},
+	{
+		"INDEXTAG" : "TTAGGCAT",
+		"INDEXID" : "Thompson_10"
+	},
+	{
+		"INDEXTAG" : "GATCAGCG",
+		"INDEXID" : "Thompson_11"
+	},
+	{
+		"INDEXTAG" : "TACTAGTC",
+		"INDEXID" : "Thompson_12"
+	},
+	{
+		"INDEXTAG" : "TCAGATTC",
+		"INDEXID" : "Thompson_13"
+	},
+	{
+		"INDEXTAG" : "TTCAGCTC",
+		"INDEXID" : "Thompson_14"
+	},
+	{
+		"INDEXTAG" : "CGATCATG",
+		"INDEXID" : "Thompson_2"
+	},
+	{
+		"INDEXTAG" : "GATCGTGT",
+		"INDEXID" : "Thompson_3"
+	},
+	{
+		"INDEXTAG" : "ACCGCGCG",
+		"INDEXID" : "Thompson_4"
+	},
+	{
+		"INDEXTAG" : "TGGTAACG",
+		"INDEXID" : "Thompson_5"
+	},
+	{
+		"INDEXTAG" : "ACCAAGGA",
+		"INDEXID" : "Thompson_6"
+	},
+	{
+		"INDEXTAG" : "ACCAAGGA",
+		"INDEXID" : "Thompson_6"
+	},
+	{
+		"INDEXTAG" : "TGTGAAGA",
+		"INDEXID" : "Thompson_7"
+	},
+	{
+		"INDEXTAG" : "ATCACGTT",
+		"INDEXID" : "Thompson_8"
+	},
+	{
+		"INDEXTAG" : "CGATGTTT",
+		"INDEXID" : "Thompson_9"
+	},
+	{
+		"INDEXTAG" : "AGGTNNNN",
+		"INDEXID" : "UA-1"
+	},
+	{
+		"INDEXTAG" : "ATCGNNNN",
+		"INDEXID" : "UA-2"
+	},
+	{
+		"INDEXTAG" : "CGTGNNNN",
+		"INDEXID" : "UA-3"
+	},
+	{
+		"INDEXTAG" : "CTACNNNN",
+		"INDEXID" : "UA-4"
+	},
+	{
+		"INDEXTAG" : "CCGCGGTT-AGCGCTAG",
+		"INDEXID" : "UDI0001"
+	},
+	{
+		"INDEXTAG" : "TTATAACC-GATATCGA",
+		"INDEXID" : "UDI0002"
+	},
+	{
+		"INDEXTAG" : "GGACTTGG-CGCAGACG",
+		"INDEXID" : "UDI0003"
+	},
+	{
+		"INDEXTAG" : "AAGTCCAA-TATGAGTA",
+		"INDEXID" : "UDI0004"
+	},
+	{
+		"INDEXTAG" : "ATCCACTG-AGGTGCGT",
+		"INDEXID" : "UDI0005"
+	},
+	{
+		"INDEXTAG" : "GCTTGTCA-GAACATAC",
+		"INDEXID" : "UDI0006"
+	},
+	{
+		"INDEXTAG" : "CAAGCTAG-ACATAGCG",
+		"INDEXID" : "UDI0007"
+	},
+	{
+		"INDEXTAG" : "TGGATCGA-GTGCGATA",
+		"INDEXID" : "UDI0008"
+	},
+	{
+		"INDEXTAG" : "AGTTCAGG-CCAACAGA",
+		"INDEXID" : "UDI0009"
+	},
+	{
+		"INDEXTAG" : "GACCTGAA-TTGGTGAG",
+		"INDEXID" : "UDI0010"
+	},
+	{
+		"INDEXTAG" : "TCTCTACT-CGCGGTTC",
+		"INDEXID" : "UDI0011"
+	},
+	{
+		"INDEXTAG" : "CTCTCGTC-TATAACCT",
+		"INDEXID" : "UDI0012"
+	},
+	{
+		"INDEXTAG" : "CCAAGTCT-AAGGATGA",
+		"INDEXID" : "UDI0013"
+	},
+	{
+		"INDEXTAG" : "TTGGACTC-GGAAGCAG",
+		"INDEXID" : "UDI0014"
+	},
+	{
+		"INDEXTAG" : "GGCTTAAG-TCGTGACC",
+		"INDEXID" : "UDI0015"
+	},
+	{
+		"INDEXTAG" : "AATCCGGA-CTACAGTT",
+		"INDEXID" : "UDI0016"
+	},
+	{
+		"INDEXTAG" : "TAATACAG-ATATTCAC",
+		"INDEXID" : "UDI0017"
+	},
+	{
+		"INDEXTAG" : "CGGCGTGA-GCGCCTGT",
+		"INDEXID" : "UDI0018"
+	},
+	{
+		"INDEXTAG" : "ATGTAAGT-ACTCTATG",
+		"INDEXID" : "UDI0019"
+	},
+	{
+		"INDEXTAG" : "GCACGGAC-GTCTCGCA",
+		"INDEXID" : "UDI0020"
+	},
+	{
+		"INDEXTAG" : "GGTACCTT-AAGACGTC",
+		"INDEXID" : "UDI0021"
+	},
+	{
+		"INDEXTAG" : "AACGTTCC-GGAGTACT",
+		"INDEXID" : "UDI0022"
+	},
+	{
+		"INDEXTAG" : "GCAGAATT-ACCGGCCA",
+		"INDEXID" : "UDI0023"
+	},
+	{
+		"INDEXTAG" : "ATGAGGCC-GTTAATTG",
+		"INDEXID" : "UDI0024"
+	},
+	{
+		"INDEXTAG" : "ACTAAGAT-AACCGCGG",
+		"INDEXID" : "UDI0025"
+	},
+	{
+		"INDEXTAG" : "GTCGGAGC-GGTTATAA",
+		"INDEXID" : "UDI0026"
+	},
+	{
+		"INDEXTAG" : "CTTGGTAT-CCAAGTCC",
+		"INDEXID" : "UDI0027"
+	},
+	{
+		"INDEXTAG" : "TCCAACGC-TTGGACTT",
+		"INDEXID" : "UDI0028"
+	},
+	{
+		"INDEXTAG" : "CCGTGAAG-CAGTGGAT",
+		"INDEXID" : "UDI0029"
+	},
+	{
+		"INDEXTAG" : "TTACAGGA-TGACAAGC",
+		"INDEXID" : "UDI0030"
+	},
+	{
+		"INDEXTAG" : "GGCATTCT-CTAGCTTG",
+		"INDEXID" : "UDI0031"
+	},
+	{
+		"INDEXTAG" : "AATGCCTC-TCGATCCA",
+		"INDEXID" : "UDI0032"
+	},
+	{
+		"INDEXTAG" : "TACCGAGG-CCTGAACT",
+		"INDEXID" : "UDI0033"
+	},
+	{
+		"INDEXTAG" : "CGTTAGAA-TTCAGGTC",
+		"INDEXID" : "UDI0034"
+	},
+	{
+		"INDEXTAG" : "AGCCTCAT-AGTAGAGA",
+		"INDEXID" : "UDI0035"
+	},
+	{
+		"INDEXTAG" : "GATTCTGC-GACGAGAG",
+		"INDEXID" : "UDI0036"
+	},
+	{
+		"INDEXTAG" : "TCGTAGTG-AGACTTGG",
+		"INDEXID" : "UDI0037"
+	},
+	{
+		"INDEXTAG" : "CTACGACA-GAGTCCAA",
+		"INDEXID" : "UDI0038"
+	},
+	{
+		"INDEXTAG" : "TAAGTGGT-CTTAAGCC",
+		"INDEXID" : "UDI0039"
+	},
+	{
+		"INDEXTAG" : "CGGACAAC-TCCGGATT",
+		"INDEXID" : "UDI0040"
+	},
+	{
+		"INDEXTAG" : "ATATGGAT-CTGTATTA",
+		"INDEXID" : "UDI0041"
+	},
+	{
+		"INDEXTAG" : "GCGCAAGC-TCACGCCG",
+		"INDEXID" : "UDI0042"
+	},
+	{
+		"INDEXTAG" : "AAGATACT-ACTTACAT",
+		"INDEXID" : "UDI0043"
+	},
+	{
+		"INDEXTAG" : "GGAGCGTC-GTCCGTGC",
+		"INDEXID" : "UDI0044"
+	},
+	{
+		"INDEXTAG" : "ATGGCATG-AAGGTACC",
+		"INDEXID" : "UDI0045"
+	},
+	{
+		"INDEXTAG" : "GCAATGCA-GGAACGTT",
+		"INDEXID" : "UDI0046"
+	},
+	{
+		"INDEXTAG" : "GTTCCAAT-AATTCTGC",
+		"INDEXID" : "UDI0047"
+	},
+	{
+		"INDEXTAG" : "ACCTTGGC-GGCCTCAT",
+		"INDEXID" : "UDI0048"
+	},
+	{
+		"INDEXTAG" : "ATATCTCG-ATCTTAGT",
+		"INDEXID" : "UDI0049"
+	},
+	{
+		"INDEXTAG" : "GCGCTCTA-GCTCCGAC",
+		"INDEXID" : "UDI0050"
+	},
+	{
+		"INDEXTAG" : "AACAGGTT-ATACCAAG",
+		"INDEXID" : "UDI0051"
+	},
+	{
+		"INDEXTAG" : "GGTGAACC-GCGTTGGA",
+		"INDEXID" : "UDI0052"
+	},
+	{
+		"INDEXTAG" : "CAACAATG-CTTCACGG",
+		"INDEXID" : "UDI0053"
+	},
+	{
+		"INDEXTAG" : "TGGTGGCA-TCCTGTAA",
+		"INDEXID" : "UDI0054"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAG-AGAATGCC",
+		"INDEXID" : "UDI0055"
+	},
+	{
+		"INDEXTAG" : "GAATGAGA-GAGGCATT",
+		"INDEXID" : "UDI0056"
+	},
+	{
+		"INDEXTAG" : "TGCGGCGT-CCTCGGTA",
+		"INDEXID" : "UDI0057"
+	},
+	{
+		"INDEXTAG" : "CATAATAC-TTCTAACG",
+		"INDEXID" : "UDI0058"
+	},
+	{
+		"INDEXTAG" : "GATCTATC-ATGAGGCT",
+		"INDEXID" : "UDI0059"
+	},
+	{
+		"INDEXTAG" : "AGCTCGCT-GCAGAATC",
+		"INDEXID" : "UDI0060"
+	},
+	{
+		"INDEXTAG" : "CGGAACTG-CACTACGA",
+		"INDEXID" : "UDI0061"
+	},
+	{
+		"INDEXTAG" : "TAAGGTCA-TGTCGTAG",
+		"INDEXID" : "UDI0062"
+	},
+	{
+		"INDEXTAG" : "TTGCCTAG-ACCACTTA",
+		"INDEXID" : "UDI0063"
+	},
+	{
+		"INDEXTAG" : "CCATTCGA-GTTGTCCG",
+		"INDEXID" : "UDI0064"
+	},
+	{
+		"INDEXTAG" : "ACACTAAG-ATCCATAT",
+		"INDEXID" : "UDI0065"
+	},
+	{
+		"INDEXTAG" : "GTGTCGGA-GCTTGCGC",
+		"INDEXID" : "UDI0066"
+	},
+	{
+		"INDEXTAG" : "TTCCTGTT-AGTATCTT",
+		"INDEXID" : "UDI0067"
+	},
+	{
+		"INDEXTAG" : "CCTTCACC-GACGCTCC",
+		"INDEXID" : "UDI0068"
+	},
+	{
+		"INDEXTAG" : "GCCACAGG-CATGCCAT",
+		"INDEXID" : "UDI0069"
+	},
+	{
+		"INDEXTAG" : "ATTGTGAA-TGCATTGC",
+		"INDEXID" : "UDI0070"
+	},
+	{
+		"INDEXTAG" : "ACTCGTGT-ATTGGAAC",
+		"INDEXID" : "UDI0071"
+	},
+	{
+		"INDEXTAG" : "GTCTACAC-GCCAAGGT",
+		"INDEXID" : "UDI0072"
+	},
+	{
+		"INDEXTAG" : "CAATTAAC-CGAGATAT",
+		"INDEXID" : "UDI0073"
+	},
+	{
+		"INDEXTAG" : "TGGCCGGT-TAGAGCGC",
+		"INDEXID" : "UDI0074"
+	},
+	{
+		"INDEXTAG" : "AGTACTCC-AACCTGTT",
+		"INDEXID" : "UDI0075"
+	},
+	{
+		"INDEXTAG" : "GACGTCTT-GGTTCACC",
+		"INDEXID" : "UDI0076"
+	},
+	{
+		"INDEXTAG" : "TGCGAGAC-CATTGTTG",
+		"INDEXID" : "UDI0077"
+	},
+	{
+		"INDEXTAG" : "CATAGAGT-TGCCACCA",
+		"INDEXID" : "UDI0078"
+	},
+	{
+		"INDEXTAG" : "ACAGGCGC-CTCTGCCT",
+		"INDEXID" : "UDI0079"
+	},
+	{
+		"INDEXTAG" : "GTGAATAT-TCTCATTC",
+		"INDEXID" : "UDI0080"
+	},
+	{
+		"INDEXTAG" : "AACTGTAG-ACGCCGCA",
+		"INDEXID" : "UDI0081"
+	},
+	{
+		"INDEXTAG" : "GGTCACGA-GTATTATG",
+		"INDEXID" : "UDI0082"
+	},
+	{
+		"INDEXTAG" : "CTGCTTCC-GATAGATC",
+		"INDEXID" : "UDI0083"
+	},
+	{
+		"INDEXTAG" : "TCATCCTT-AGCGAGCT",
+		"INDEXID" : "UDI0084"
+	},
+	{
+		"INDEXTAG" : "AGGTTATA-CAGTTCCG",
+		"INDEXID" : "UDI0085"
+	},
+	{
+		"INDEXTAG" : "GAACCGCG-TGACCTTA",
+		"INDEXID" : "UDI0086"
+	},
+	{
+		"INDEXTAG" : "CTCACCAA-CTAGGCAA",
+		"INDEXID" : "UDI0087"
+	},
+	{
+		"INDEXTAG" : "TCTGTTGG-TCGAATGG",
+		"INDEXID" : "UDI0088"
+	},
+	{
+		"INDEXTAG" : "TATCGCAC-CTTAGTGT",
+		"INDEXID" : "UDI0089"
+	},
+	{
+		"INDEXTAG" : "CGCTATGT-TCCGACAC",
+		"INDEXID" : "UDI0090"
+	},
+	{
+		"INDEXTAG" : "GTATGTTC-AACAGGAA",
+		"INDEXID" : "UDI0091"
+	},
+	{
+		"INDEXTAG" : "ACGCACCT-GGTGAAGG",
+		"INDEXID" : "UDI0092"
+	},
+	{
+		"INDEXTAG" : "TACTCATA-CCTGTGGC",
+		"INDEXID" : "UDI0093"
+	},
+	{
+		"INDEXTAG" : "CGTCTGCG-TTCACAAT",
+		"INDEXID" : "UDI0094"
+	},
+	{
+		"INDEXTAG" : "TCGATATC-ACACGAGT",
+		"INDEXID" : "UDI0095"
+	},
+	{
+		"INDEXTAG" : "CTAGCGCT-GTGTAGAC",
+		"INDEXID" : "UDI0096"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA",
+		"INDEXID" : "Viale_1"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG",
+		"INDEXID" : "Viale_2"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA",
+		"INDEXID" : "Viale_3"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC",
+		"INDEXID" : "Viale_4"
+	},
+	{
+		"INDEXTAG" : "AGGGTCAA",
+		"INDEXID" : "White_1"
+	},
+	{
+		"INDEXTAG" : "AGGAGTGG",
+		"INDEXID" : "White_2"
+	},
+	{
+		"INDEXTAG" : "GATCGTGA",
+		"INDEXID" : "WS_Rev_Index_001"
+	},
+	{
+		"INDEXTAG" : "AGATCGTG",
+		"INDEXID" : "WS_Rev_Index_002"
+	},
+	{
+		"INDEXTAG" : "CTCGATCA",
+		"INDEXID" : "WS_Rev_Index_003"
+	},
+	{
+		"INDEXTAG" : "ACTAGCTC",
+		"INDEXID" : "WS_Rev_Index_004"
+	},
+	{
+		"INDEXTAG" : "GCTCAGCA",
+		"INDEXID" : "WS_Rev_Index_005"
+	},
+	{
+		"INDEXTAG" : "ATCTGCAT",
+		"INDEXID" : "WS_Rev_Index_006"
+	},
+	{
+		"INDEXTAG" : "TAAGGCGA",
+		"INDEXID" : "XT1"
+	},
+	{
+		"INDEXTAG" : "CGAGGCTG",
+		"INDEXID" : "XT10"
+	},
+	{
+		"INDEXTAG" : "CGTACTAG",
+		"INDEXID" : "XT2"
+	},
+	{
+		"INDEXTAG" : "AGGCAGAA",
+		"INDEXID" : "XT3"
+	},
+	{
+		"INDEXTAG" : "TCCTGAGC",
+		"INDEXID" : "XT4"
+	},
+	{
+		"INDEXTAG" : "GGACTCCT",
+		"INDEXID" : "XT5"
+	},
+	{
+		"INDEXTAG" : "TAGGCATG",
+		"INDEXID" : "XT6"
+	},
+	{
+		"INDEXTAG" : "CTCTCTAC",
+		"INDEXID" : "XT7"
+	},
+	{
+		"INDEXTAG" : "CAGAGAGG",
+		"INDEXID" : "XT8"
+	},
+	{
+		"INDEXTAG" : "GCTACGCT",
+		"INDEXID" : "XT9"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A1",
+		"INDEXID" : "SI-NA-A1"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B1",
+		"INDEXID" : "SI-NA-B1"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C1",
+		"INDEXID" : "SI-NA-C1"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D1",
+		"INDEXID" : "SI-NA-D1"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E1",
+		"INDEXID" : "SI-NA-E1"
+	},		
+	{
+		"INDEXTAG" : "SI-NA-F1",
+		"INDEXID" : "SI-NA-F1"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G1",
+		"INDEXID" : "SI-NA-G1"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H1",
+		"INDEXID" : "SI-NA-H1"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A2",
+		"INDEXID" : "SI-NA-A2"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B2",
+		"INDEXID" : "SI-NA-B2"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C2",
+		"INDEXID" : "SI-NA-C2"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D2",
+		"INDEXID" : "SI-NA-D2"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E2",
+		"INDEXID" : "SI-NA-E2"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F2",
+		"INDEXID" : "SI-NA-F2"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G2",
+		"INDEXID" : "SI-NA-G1"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H2",
+		"INDEXID" : "SI-NA-H2"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A3",
+		"INDEXID" : "SI-NA-A3"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B3",
+		"INDEXID" : "SI-NA-B3"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C3",
+		"INDEXID" : "SI-NA-C3"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D3",
+		"INDEXID" : "SI-NA-D3"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E3",
+		"INDEXID" : "SI-NA-E3"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F3",
+		"INDEXID" : "SI-NA-F3"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G3",
+		"INDEXID" : "SI-NA-G3"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H3",
+		"INDEXID" : "SI-NA-H3"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A4",
+		"INDEXID" : "SI-NA-A4"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B4",
+		"INDEXID" : "SI-NA-B4"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C4",
+		"INDEXID" : "SI-NA-C4"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D4",
+		"INDEXID" : "SI-NA-D4"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E4",
+		"INDEXID" : "SI-NA-E4"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F4",
+		"INDEXID" : "SI-NA-F4"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G4",
+		"INDEXID" : "SI-NA-G4"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H4",
+		"INDEXID" : "SI-NA-H4"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A5",
+		"INDEXID" : "SI-NA-A5"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B5",
+		"INDEXID" : "SI-NA-B5"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C5",
+		"INDEXID" : "SI-NA-C5"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D5",
+		"INDEXID" : "SI-NA-D5"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E5",
+		"INDEXID" : "SI-NA-E5"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F5",
+		"INDEXID" : "SI-NA-F5"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G5",
+		"INDEXID" : "SI-NA-G5"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H5",
+		"INDEXID" : "SI-NA-H5"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A6",
+		"INDEXID" : "SI-NA-A6"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B6",
+		"INDEXID" : "SI-NA-B6"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C6",
+		"INDEXID" : "SI-NA-C6"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D6",
+		"INDEXID" : "SI-NA-D6"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E6",
+		"INDEXID" : "SI-NA-E6"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F6",
+		"INDEXID" : "SI-NA-F6"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G6",
+		"INDEXID" : "SI-NA-G6"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H6",
+		"INDEXID" : "SI-NA-H6"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A7",
+		"INDEXID" : "SI-NA-A7"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B7",
+		"INDEXID" : "SI-NA-B7"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C7",
+		"INDEXID" : "SI-NA-C7"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D7",
+		"INDEXID" : "SI-NA-D7"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E7",
+		"INDEXID" : "SI-NA-E7"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F7",
+		"INDEXID" : "SI-NA-F7"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G7",
+		"INDEXID" : "SI-NA-G7"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H7",
+		"INDEXID" : "SI-NA-H7"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A8",
+		"INDEXID" : "SI-NA-A8"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B8",
+		"INDEXID" : "SI-NA-B8"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C8",
+		"INDEXID" : "SI-NA-C8"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D8",
+		"INDEXID" : "SI-NA-D8"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E8",
+		"INDEXID" : "SI-NA-E8"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F8",
+		"INDEXID" : "SI-NA-F8"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G8",
+		"INDEXID" : "SI-NA-G8"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H8",
+		"INDEXID" : "SI-NA-H8"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A9",
+		"INDEXID" : "SI-NA-A9"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B9",
+		"INDEXID" : "SI-NA-B9"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C9",
+		"INDEXID" : "SI-NA-C9"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D9",
+		"INDEXID" : "SI-NA-D9"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E9",
+		"INDEXID" : "SI-NA-E9"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F9",
+		"INDEXID" : "SI-NA-F9"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G9",
+		"INDEXID" : "SI-NA-G9"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H9",
+		"INDEXID" : "SI-NA-H9"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A10",
+		"INDEXID" : "SI-NA-A10"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B10",
+		"INDEXID" : "SI-NA-B10"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C10",
+		"INDEXID" : "SI-NA-C10"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D10",
+		"INDEXID" : "SI-NA-D10"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E10",
+		"INDEXID" : "SI-NA-E10"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F10",
+		"INDEXID" : "SI-NA-F10"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G10",
+		"INDEXID" : "SI-NA-G10"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H10",
+		"INDEXID" : "SI-NA-H10"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A11",
+		"INDEXID" : "SI-NA-A11"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B11",
+		"INDEXID" : "SI-NA-B11"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C11",
+		"INDEXID" : "SI-NA-C11"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D11",
+		"INDEXID" : "SI-NA-D11"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E11",
+		"INDEXID" : "SI-NA-E11"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F11",
+		"INDEXID" : "SI-NA-F11"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G11",
+		"INDEXID" : "SI-NA-G11"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H11",
+		"INDEXID" : "SI-NA-H11"
+	},
+	{
+		"INDEXTAG" : "SI-NA-A12",
+		"INDEXID" : "SI-NA-A12"
+	},
+	{
+		"INDEXTAG" : "SI-NA-B12",
+		"INDEXID" : "SI-NA-B12"
+	},
+	{
+		"INDEXTAG" : "SI-NA-C12",
+		"INDEXID" : "SI-NA-C12"
+	},
+	{
+		"INDEXTAG" : "SI-NA-D12",
+		"INDEXID" : "SI-NA-D12"
+	},
+	{
+		"INDEXTAG" : "SI-NA-E12",
+		"INDEXID" : "SI-NA-E12"
+	},
+	{
+		"INDEXTAG" : "SI-NA-F12",
+		"INDEXID" : "SI-NA-F12"
+	},
+	{
+		"INDEXTAG" : "SI-NA-G12",
+		"INDEXID" : "SI-NA-G12"
+	},
+	{
+		"INDEXTAG" : "SI-NA-H12",
+		"INDEXID" : "SI-NA-H12"
+	}	
+]

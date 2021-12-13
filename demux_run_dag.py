@@ -1,10 +1,9 @@
 import os
-from pprint import pprint
+import subprocess
 from datetime import datetime, timedelta
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from airflow.models.param import Param
 
 
 with DAG(
@@ -30,11 +29,12 @@ with DAG(
         sequencer_path = kwargs["params"]["sequencer_path"]
 
         output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DGN"
-        bsub_command = "bsub -n48 -q dragen -e error.log -o output.log "
-        command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --force --bcl-sampleproject-subdirectories --bcl-input-directory {} --output-directory {} --sample-sheet {}".format(
+        # -K - wait for the job to complete
+        bsub_command = "bsub -K -n48 -q dragen -e /igo/work/igo/igo-demux/logs/demux.log -o /igo/work/igo/igo-demux/logs/demux.log "
+        command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
             sequencer_path, output_directory, samplesheet_path)
         print("Running demux: " + command)
-        #TODO execute and wait for return value
+        subprocess.run(command, shell=True, check=True)
         return command
 
     demux_run = PythonOperator(
@@ -49,12 +49,3 @@ Read the input arguments such as:
     'params': {'samplesheet': '/igo/work/igo/SampleSheetCopies/SampleSheet_211206_JOHNSAWYERS_0317_000000000-K3LFK.csv',
              'sequencer_path': '/igo/sequencers/johnsawyers/211206_JOHNSAWYERS_0317_000000000-K3LFK'},
 """
-
-# build the demux command
-
-# demux_command = BashOperator(
-#    task_id='demux_command',
-#    bash_command=command,
-# )
-
-# demux_command
