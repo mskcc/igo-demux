@@ -1,3 +1,4 @@
+
 #!/bin/bash
 
 DIR=/igo/staging/FASTQ
@@ -20,28 +21,31 @@ for x in ${FASTQ_DIRS}; do
   part1="/Reports/html/"
   part2="/all/all/all/laneBarcode.html"
   filename=$x$part1$runName$part2
+  csv="/Reports/Demultiplex_Stats.csv"
+  filename_dragen=$x$csv
+
   homedir="/home/igo/html/"
   html="_laneBarcode.html"
   htmlnewfile="_laneBarcode_.html"
   copiedname=$homedir$runName$html
-
+  
+  # Check for bcl2fastq laneBarcode.html existence
   if [ -f $filename ]; then
     echo "Copying $filename to $copiedname"
     cp -p $filename $copiedname
 
-    /opt/common/CentOS_7/python/python-3.7.1/bin/python3 /home/igo/Scripts/enrich-reports/barcodelookup.py $copiedname /home/igo/Scripts/enrich-reports/Barcodes.json
-
-    toDir=/srv/www/sequencing-qc/static/html/FASTQ/
-    toName=$toDir$dirName$html
-    enrichedName=$homedir$runName$htmlnewfile
-
-    touch $enrichedName -r $filename #set correct timestamp on new html file
-    echo "scp $enrichedName to $toName"
-    scp -p $enrichedName igo@igo:$toName
+    /opt/common/CentOS_7/python/python-3.7.1/bin/python3 /igo/work/igo/igo-demux/scripts/barcodelookup.py $copiedname /igo/work/igo/igo-demux/scripts/Barcodes.json
   else
-    subj="[LaneBarcode not copied] ${dirName}"
-    msg="Could not find ${DIR}/${filename}"
-    echo ${msg} | mail -s "${subj}" skigodata@mskcc.org
-    echo "${msg}"
+    # This was likely a DRAGEN demux
+    cp -p $filename_dragen $copiedname
+    python3 /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $copiedname
   fi
+
+  toDir=/srv/www/sequencing-qc/static/html/FASTQ/
+  toName=$toDir$dirName$html
+  enrichedName=$homedir$runName$htmlnewfile
+
+  touch $enrichedName -r $filename #set correct timestamp on new html file
+  echo "scp $enrichedName to $toName"
+  scp -p $enrichedName igo@igo:$toName
 done
