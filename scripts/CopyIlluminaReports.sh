@@ -27,8 +27,8 @@ for fastq_dir in ${FASTQ_DIRS}; do
   htmlnewfile="_laneBarcode_.html"
   copiedname=$homedir$runName$html
 
-  csv="/Reports/Demultiplex_Stats.csv"
-  filename_dragen=$fastq_dir$csv
+  reports="/Reports/"
+  dragen_reports_dir=$fastq_dir$reports
   dragen_replay=$fastq_dir"/dragen-replay.json"
   echo $dragen_replay
   
@@ -46,9 +46,9 @@ for fastq_dir in ${FASTQ_DIRS}; do
     echo "scp $enrichedName to $toName"
     scp -p $enrichedName igo@igo:$toName
   elif [ -f $dragen_replay ]; then
-    # This was likely a DRAGEN demux
+    # This was a DRAGEN demux
+    python3 /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir
     cp -p $filename_dragen $copiedname
-    python3 /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $copiedname
 
     toDir=/srv/www/sequencing-qc/static/html/FASTQ/
     toName=$toDir$dirName$html
