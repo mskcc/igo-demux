@@ -28,6 +28,8 @@ for x in ${FASTQ_DIRS}; do
   html="_laneBarcode.html"
   htmlnewfile="_laneBarcode_.html"
   copiedname=$homedir$runName$html
+
+  dragen_replay=$x"/dragen-replay.json"
   
   # Check for bcl2fastq laneBarcode.html existence
   if [ -f $filename ]; then
@@ -35,17 +37,26 @@ for x in ${FASTQ_DIRS}; do
     cp -p $filename $copiedname
 
     /opt/common/CentOS_7/python/python-3.7.1/bin/python3 /igo/work/igo/igo-demux/scripts/barcodelookup.py $copiedname /igo/work/igo/igo-demux/scripts/Barcodes.json
-  else
+    toDir=/srv/www/sequencing-qc/static/html/FASTQ/
+    toName=$toDir$dirName$html
+    enrichedName=$homedir$runName$htmlnewfile
+
+    touch $enrichedName -r $filename #set correct timestamp on new html file
+    echo "scp $enrichedName to $toName"
+    scp -p $enrichedName igo@igo:$toName
+  elif [ -f $dragen_replay ]; then
     # This was likely a DRAGEN demux
     cp -p $filename_dragen $copiedname
     python3 /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $copiedname
+
+    toDir=/srv/www/sequencing-qc/static/html/FASTQ/
+    toName=$toDir$dirName$html
+    enrichedName=$homedir$runName$htmlnewfile
+
+    touch $enrichedName -r $filename #set correct timestamp on new html file
+    echo "scp $enrichedName to $toName"
+    scp -p $enrichedName igo@igo:$toName
+  else
+    echo "Failed to copy demux reports"
   fi
-
-  toDir=/srv/www/sequencing-qc/static/html/FASTQ/
-  toName=$toDir$dirName$html
-  enrichedName=$homedir$runName$htmlnewfile
-
-  touch $enrichedName -r $filename #set correct timestamp on new html file
-  echo "scp $enrichedName to $toName"
-  scp -p $enrichedName igo@igo:$toName
 done
