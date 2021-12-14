@@ -14,6 +14,7 @@ if __name__ == "__main__":
     top_unknown_barcodes_csv = pandas.read_csv(top_unknown_barcodes)
 
     # not identical to original laneBarcode.html but still mostly readable
+    # TODO formate two tables in the html with different column headers
     final_df = pandas.concat([demux_stats_csv, top_unknown_barcodes_csv])
 
     final_df.to_html(write_to_file)

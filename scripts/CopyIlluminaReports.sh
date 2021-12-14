@@ -47,16 +47,14 @@ for fastq_dir in ${FASTQ_DIRS}; do
     scp -p $enrichedName igo@igo:$toName
   elif [ -f $dragen_replay ]; then
     # This was a DRAGEN demux
-    python3 /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir
-    cp -p $filename_dragen $copiedname
-
     toDir=/srv/www/sequencing-qc/static/html/FASTQ/
-    toName=$toDir$dirName$html
-    enrichedName=$homedir$runName$htmlnewfile
+    toNameLocal=$homedir$dirName$html
+    toNameRemote=$toDir$dirName$html
+    python3 /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir $toNameLocal
 
-    touch $enrichedName -r $filename_dragen #set correct timestamp on new html file
-    echo "scp $enrichedName to $toName"
-    scp -p $enrichedName igo@igo:$toName
+    touch $toNameLocal -r $dragen_replay #set correct timestamp on new html file from a DRAGEN demux file
+    echo "scp $toNameLocal to $toNameRemote"
+    scp -p $toNameLocal igo@igo:$toNameRemote
   else
     echo "Failed to copy demux reports"
   fi
