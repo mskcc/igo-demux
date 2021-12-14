@@ -1,9 +1,9 @@
-
 #!/bin/bash
 
 DIR=/igo/staging/FASTQ
 cd $DIR
 
+echo "Searching for recently completed emails in $DIR"
 FASTQ_DIRS=$(find /igo/staging/FASTQ -mindepth 1 -maxdepth 1 -cmin -123)
 for fastq_dir in ${FASTQ_DIRS}; do
   dirName="$(echo $fastq_dir| cut -d'/' -f 2)"
