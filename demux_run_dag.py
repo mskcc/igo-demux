@@ -25,7 +25,7 @@ with DAG(
         samplesheet_path = kwargs["params"]["samplesheet"]
         samplesheet = os.path.basename(samplesheet_path)
         samplesheet_no_ext = os.path.splitext(samplesheet)[0]  # SampleSheet_210331_MICHELLE_0360_BH5KFYDRXY
-        sequencer_and_run = samplesheet_no_ext[19:]            # remoove 'SampleSheet_210331_'
+        sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
         sequencer_path = kwargs["params"]["sequencer_path"]
 
         output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DGN"
