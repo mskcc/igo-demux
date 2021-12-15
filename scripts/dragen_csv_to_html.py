@@ -1,7 +1,9 @@
 import pandas
 import sys
 
+# Combines the DRAGEN Demultiplex_Stats.csv and Top_Unknown_Barcodes.csv into one .html file
 if __name__ == "__main__":
+    #Usage: python dragen_csv_to_html.py [dragen_demux_dir] [output_file_name]
     demultiplex_stats = sys.argv[1] + "Demultiplex_Stats.csv"
     top_unknown_barcodes = sys.argv[1] + "Top_Unknown_Barcodes.csv" 
     write_to_file = sys.argv[2]
