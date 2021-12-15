@@ -1,8 +1,6 @@
 import pandas
 import sys
 
-from pandas.io import html
-
 if __name__ == "__main__":
     demultiplex_stats = sys.argv[1] + "Demultiplex_Stats.csv"
     top_unknown_barcodes = sys.argv[1] + "Top_Unknown_Barcodes.csv" 
