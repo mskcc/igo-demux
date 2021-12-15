@@ -4,7 +4,7 @@ DIR=/igo/staging/FASTQ
 cd $DIR
 
 echo "Searching for recently completed demuxes in $DIR"
-FASTQ_DIRS=$(find /igo/staging/FASTQ -mindepth 1 -maxdepth 1 -cmin -4000)
+FASTQ_DIRS=$(find /igo/staging/FASTQ -mindepth 1 -maxdepth 1 -cmin -62)
 for fastq_dir in ${FASTQ_DIRS}; do
   echo "Processing $fastq_dir" # for example: /igo/staging/FASTQ/MICHELLE_0465_AH3GKKDSX3
   runFullName="$(echo $fastq_dir| cut -d'/' -f 5)"
