@@ -13,20 +13,19 @@ from airflow.operators.python import PythonOperator
 # ) as dag:
 
 def fingerprint(patient_id, run):
-    bams = Variable.get("Ready_to_fingerprint")
-    Variable.set("Ready_to_fingerprint", )
-
     STATS_DIR = '/igo/staging/stats/'
     REFERENCE_SEQUENCE_DIR = '/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa'
     HAPLOTYPE_MAP = "/home/igo/fingerprint_maps/map_files/hg38_igo.map"
     EXECUTION_DIR = STATS_DIR + run
     t_start = process_time()
     vcfs = []
-    # bam_dir = '/igo/staging/stats/'
+    subprocess.chdir(EXECUTION_DIR) 
     #find all bams
     input_bams = []
+    print("Finding bams of the run argument...")
     input_bams = subprocess.run('find . -maxdepth 2 -name *' + run + '*.bam"')
     input_bams = input_bams.stdout.split('\n')
+    subprocess.run('mkdir ./VCF/')
     for bam in input_bams:
         output_vcf = STATS_DIR + run + '/VCF/' + patient_id + '_' + run + '.vcf'
         subprocess.chdir(EXECUTION_DIR)    
@@ -43,13 +42,13 @@ def fingerprint(patient_id, run):
     t_stop = process_time()
     print("Elapsed time to fingerprint: ", t_stop - t_start)
         
-
+"""""
 fingerprint=PythonOperator(
     task_id='fingerprinting',
     bash_command=fingerprint,
 )
 fingerprint
-
+"""""
 
 if __name__ == "__main__":
     #dag.cli()
