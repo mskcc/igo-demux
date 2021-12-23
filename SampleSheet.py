@@ -16,19 +16,26 @@ class SampleSheet:
                     break
         sheet.close()
 
-        df = pandas.read_csv(path_to_samplesheet,skiprows=line_number) 
+        self.df_ss_header = pandas.read_csv(path_to_samplesheet,nrows=line_number-1)
+        self.df_ss_data = pandas.read_csv(path_to_samplesheet,skiprows=line_number) 
 
         # set of all recipes in the sample sheet
-        self.recipe_set = set(df['Sample_Well'].tolist())  # Sample_Well column has the recipe, convert it to a set
+        self.recipe_set = set(self.df_ss_data['Sample_Well'].tolist())  # Sample_Well column has the recipe, convert it to a set
         # for dual barcode sample sheets concat "index" and "index2" columns
-        index_list = df['index'].tolist()
-        index2_list = df['index2'].tolist()
+        index_list = self.df_ss_data['index'].tolist()
+        index2_list = self.df_ss_data['index2'].tolist()
         self.barcode_list = [a + b for a, b in zip(index_list, index2_list)]
         
         barcode_10X = re.compile("SI*")
         self.barcode_list_10X = list(filter(barcode_10X.match, self.barcode_list))
-        # TODO 
-        self.read_lengths = [] # such as 151,151 for a PE run
+        
+        self.read_lengths = []
+        index_read1 = int(self.df_ss_header.iat[9,0])
+        self.read_lengths.append(index_read1)
+         # such as 151,151 for a PE run
+        if len(index2_list) != 0:
+            index_read2 = int(self.df_ss_header.iat[10,0])
+            self.read_lengths.append(index_read2)
     
 
     def need_to_split_sample_sheet(self):
@@ -46,8 +53,15 @@ class SampleSheet:
         return False
 
     def write_csv(self, path_to_write):
-        #TODO save file
         print("Saving sample sheet to " + path_to_write)
+
+        # pandas dataframe has blank column headers, make them write correctly to the .csv
+        csv = open(path_to_write, "w")
+        csv.write("[Header],,,,,,,,,\n")
+        csv.close()
+
+        self.df_ss_header.to_csv(path_to_write, mode='a',index=False,header=False)
+        self.df_ss_data.to_csv(path_to_write, mode='a',index=False)
 
     def split_sample_sheet(self):
         """
@@ -77,6 +91,14 @@ class SampleSheet:
 
         return [] # TODO split and return the list of sample sheets created
 
+def test_barcode_write():
+    x = SampleSheet("test/SampleSheet.csv")
+    x.write_csv("test/SampleSheetCopy.csv")
+
+def test_barcode_read_lengths():
+    x = SampleSheet("test/SampleSheet.csv")
+    assert (x.read_lengths[0] == 151)
+    assert (x.read_lengths[1] == 151)
 
 def test_recipe_set():
     x = SampleSheet("test/SampleSheet.csv")
