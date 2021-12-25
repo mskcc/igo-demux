@@ -28,6 +28,8 @@ with DAG(
         sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
         sequencer_path = kwargs["params"]["sequencer_path"]
 
+        # TODO for some 10X build correct mkfastq command, special 10X barcodes can't go to dragen
+
         output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DGN"
         # -K - wait for the job to complete
         bsub_command = "bsub -K -n48 -q dragen -e /igo/work/igo/igo-demux/logs/demux.log -o /igo/work/igo/igo-demux/logs/demux.log "
@@ -35,7 +37,9 @@ with DAG(
             sequencer_path, output_directory, samplesheet_path)
         print("Running demux: " + command)
         subprocess.run(command, shell=True, check=True)
-        # TODO return demux.log output
+        # if the demux was successful:
+        # TODO for non DLP call organise_fastq_split_by_lane.py to create Sample sub-dirs like bcl2fastq
+        # TODO launch stats and/or pipeline for all projects on the run which needs stats/pipeline
         return command
 
     demux_run = PythonOperator(
