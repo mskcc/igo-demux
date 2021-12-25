@@ -35,6 +35,7 @@ with DAG(
             sequencer_path, output_directory, samplesheet_path)
         print("Running demux: " + command)
         subprocess.run(command, shell=True, check=True)
+        # TODO return demux.log output
         return command
 
     demux_run = PythonOperator(

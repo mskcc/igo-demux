@@ -5,6 +5,8 @@ import pytest
 class SampleSheet:
     
     def __init__(self, path_to_samplesheet):
+        self.path = path_to_samplesheet
+
         # skip the header and read only data rows in the this dataframe - the [Data] section
         # find row of sample sheet which has the [Data] section
         line_number = 0
@@ -15,7 +17,6 @@ class SampleSheet:
                 if "[Data]" in line:
                     break
         sheet.close()
-
         self.df_ss_header = pandas.read_csv(path_to_samplesheet,nrows=line_number-1)
         self.df_ss_data = pandas.read_csv(path_to_samplesheet,skiprows=line_number) 
 
@@ -63,19 +64,22 @@ class SampleSheet:
         self.df_ss_header.to_csv(path_to_write, mode='a',index=False,header=False)
         self.df_ss_data.to_csv(path_to_write, mode='a',index=False)
 
+
+    """
+    Returns a list of sample sheets from splitting the original or the original sample sheet
+    if no splitting of samples for demux is necessary
+    """
     def split_sample_sheet(self):
         """
         10X 
          if barcodes start with 'SI' like 'SI-NA-C7' take just the barcodes starting with 'SI' and remove index2 called "_10X"
         DLP
          if sample sheet recipes have mixed DLP and other all DLP need to go on a separate sample sheet named "_DLP"
-        PED-PEG 
-        & WGS
+        PED-PEG & WGS
          if project ID starts with 08822 and recipe is 'HumanWholeGenome' ask Darrell
-        
         """
         if self.needToSplitSampleSheet() == False:
-            return []
+            return [self]
 
         # Reference https://github.com/mskcc/nf-fastq-plus/blob/master/bin/create_multiple_sample_sheets.py
 
@@ -87,7 +91,12 @@ class SampleSheet:
         # sample sheet has 'SI-*' barcodes and others
         if len(self.barcode_list_10X) > 0 and len(self.barcode_list) != len(self.barcode_list_10X):
             print("Copying all 10X SI-barcodes to new sheet and remove index2 column")
+            print("Non-DRAGEN demux, must have Sample_ID column with Sample_ prefix")
+            # insert line in [Settings]
+            # if ATAC because read length is 51,50 () for example DIANA_427 must use cellranger-ATAC mkfastq 
             # and add to the [Header] options for correct DRAGEN demux with index fastqs
+
+        # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,, 
 
         return [] # TODO split and return the list of sample sheets created
 
