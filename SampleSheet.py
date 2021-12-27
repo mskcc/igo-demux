@@ -58,7 +58,7 @@ class SampleSheet:
             print("Sample sheet must be split due to 10X barcodes")
             return True
 
-        # TODO PED-PEG
+        # TODO WGS & PED-PEG
 
         return False
 
@@ -118,11 +118,13 @@ class SampleSheet:
             tenx_ss = SampleSheet(self.df_ss_header, tenx_data, tenx_path)
             split_ss_list.append(tenx_ss)
 
-        # TODO if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,, 
+        # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,,
+        if any("10X_" in s for s in self.recipe_set):
+            self.df_ss_header.loc[len(self.df_ss_header.index)] = ["CreateFastqForIndexReads",1,"","","","","","","",""]
 
         # Rename the original sample sheet now modified with fewer rows
         split_ss_list[0].path = os.path.splitext(self.path)[0]+'_REFERENCE.csv'
-        split_ss_list[1].path = os.path.splitext(self.path)[1]+'_V1.csv'
+        split_ss_list[1].path = os.path.splitext(self.path)[0]+'_V1.csv'
 
         return split_ss_list
 
