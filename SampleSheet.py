@@ -1,7 +1,7 @@
 import pandas
 import re
 import os
-import pytest
+from copy import deepcopy
 
 class SampleSheet:
     
@@ -62,16 +62,16 @@ class SampleSheet:
 
         return False
 
-    def write_csv(self, path_to_write):
-        print("Saving sample sheet to " + path_to_write)
+    def write_csv(self):
+        print("Saving sample sheet to " + self.path)
 
         # pandas dataframe has blank column headers, make them write correctly to the .csv
-        csv = open(path_to_write, "w")
+        csv = open(self.path, "w")
         csv.write("[Header],,,,,,,,,\n")
         csv.close()
 
-        self.df_ss_header.to_csv(path_to_write, mode='a',index=False,header=False)
-        self.df_ss_data.to_csv(path_to_write, mode='a',index=False)
+        self.df_ss_header.to_csv(self.path, mode='a',index=False,header=False)
+        self.df_ss_data.to_csv(self.path, mode='a',index=False)
 
     """
     Returns a list of sample sheets from splitting the original or the original sample sheet
@@ -91,7 +91,9 @@ class SampleSheet:
 
         # Reference https://github.com/mskcc/nf-fastq-plus/blob/master/bin/create_multiple_sample_sheets.py
 
-        split_ss_list = [self]
+        ss_copy = deepcopy(self)
+
+        split_ss_list = [ss_copy, self]
         if "DLP" in self.recipe_set and len(self.recipe_set) > 1:
             print("Copying all DLP samples to a new sample sheet")
             # copy all DLP rows to a new sample sheet
@@ -106,26 +108,23 @@ class SampleSheet:
 
         # check if sample sheet has 'SI-*' barcodes and normal barcodes
         if len(self.barcode_list_10X) > 0 and len(self.barcode_list) != len(self.barcode_list_10X):
-            print("Copying all 10X SI-barcodes to new sheet and remove index2 column")
+            print("Copying all 10X SI- barcodes to new sheet and remove index2 column")
             print("Non-DRAGEN demux, must have Sample_ID column with Sample_ prefix")
             tenx_data = self.df_ss_data[ self.df_ss_data["index2"].str.match('^SI-.*') == True ].copy()
             rest_data = self.df_ss_data[ self.df_ss_data["index2"].str.match('^SI-.*') == False ].copy()
             self.df_ss_data = rest_data
             tenx_path = os.path.splitext(self.path)[0]+'_10X.csv'
-            # TODO insert line in [Settings]
             # if ATAC because read length is 51,50 () for example DIANA_427 must use cellranger-ATAC mkfastq 
-            # and add to the [Header] options for correct DRAGEN demux with index fastqs
             tenx_ss = SampleSheet(self.df_ss_header, tenx_data, tenx_path)
             split_ss_list.append(tenx_ss)
-            
 
         # TODO if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,, 
 
-        return split_ss_list
+        # Rename the original sample sheet now modified with fewer rows
+        split_ss_list[0].path = os.path.splitext(self.path)[0]+'_REFERENCE.csv'
+        split_ss_list[1].path = os.path.splitext(self.path)[1]+'_V1.csv'
 
-def test_barcode_write():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet.csv")
-    x.write_csv("test/SampleSheetCopy.csv")
+        return split_ss_list
 
 def test_barcode_read_lengths():
     x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet.csv")
@@ -145,8 +144,14 @@ def test_need_to_split_sample_sheet():
     assert(x.need_to_split_sample_sheet() == True)
     
 def test_split():
-    # TODO add more 
     x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet_DLP.csv")
     ss_list = x.split_sample_sheet()
-    print(ss_list[2].df_ss_data)
-    assert(len(ss_list) == 3)
+    path0 = ss_list[0].path
+    path1 = ss_list[1].path
+    path2 = ss_list[2].path
+    path3 = ss_list[3].path
+    assert(path0.endswith("_REFERENCE.csv"))
+    assert(path1.endswith("_V1.csv"))
+    assert(path2.endswith("DLP.csv") or path3.endswith("_DLP.csv"))
+    assert(path2.endswith("10X.csv") or path3.endswith("_10X.csv"))
+    assert(len(ss_list) == 4)
