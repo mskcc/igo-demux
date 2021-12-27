@@ -1,5 +1,6 @@
 import pandas
 import re
+import os
 import pytest
 
 class SampleSheet:
@@ -90,7 +91,7 @@ class SampleSheet:
 
         # Reference https://github.com/mskcc/nf-fastq-plus/blob/master/bin/create_multiple_sample_sheets.py
 
-        dlp_ss = ""
+        split_ss_list = [self]
         if "DLP" in self.recipe_set and len(self.recipe_set) > 1:
             print("Copying all DLP samples to a new sample sheet")
             # copy all DLP rows to a new sample sheet
@@ -98,21 +99,29 @@ class SampleSheet:
             dlp_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("DLP") == True ].copy()
             rest_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("DLP") == False ].copy()
             self.df_ss_data = rest_data
-            # TODO rename DLP sample sheet w/"_DLP"
-            dlp_ss = SampleSheet(self.df_ss_header, dlp_data, self.path)
-            return [self, dlp_ss]
+            # rename DLP sample sheet w/"_DLP.csv"
+            dlp_path = os.path.splitext(self.path)[0]+'_DLP.csv'
+            dlp_ss = SampleSheet(self.df_ss_header, dlp_data, dlp_path)
+            split_ss_list.append(dlp_ss)
 
         # check if sample sheet has 'SI-*' barcodes and normal barcodes
         if len(self.barcode_list_10X) > 0 and len(self.barcode_list) != len(self.barcode_list_10X):
             print("Copying all 10X SI-barcodes to new sheet and remove index2 column")
             print("Non-DRAGEN demux, must have Sample_ID column with Sample_ prefix")
-            # insert line in [Settings]
+            tenx_data = self.df_ss_data[ self.df_ss_data["index2"].str.match('^SI-.*') == True ].copy()
+            rest_data = self.df_ss_data[ self.df_ss_data["index2"].str.match('^SI-.*') == False ].copy()
+            self.df_ss_data = rest_data
+            tenx_path = os.path.splitext(self.path)[0]+'_10X.csv'
+            # TODO insert line in [Settings]
             # if ATAC because read length is 51,50 () for example DIANA_427 must use cellranger-ATAC mkfastq 
             # and add to the [Header] options for correct DRAGEN demux with index fastqs
+            tenx_ss = SampleSheet(self.df_ss_header, tenx_data, tenx_path)
+            split_ss_list.append(tenx_ss)
+            
 
-        # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,, 
+        # TODO if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,, 
 
-        return [] # TODO split and return the list of sample sheets created
+        return split_ss_list
 
 def test_barcode_write():
     x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet.csv")
@@ -136,5 +145,8 @@ def test_need_to_split_sample_sheet():
     assert(x.need_to_split_sample_sheet() == True)
     
 def test_split():
+    # TODO add more 
     x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet_DLP.csv")
-    assert(len(x.split_sample_sheet()) == 2)
+    ss_list = x.split_sample_sheet()
+    print(ss_list[2].df_ss_data)
+    assert(len(ss_list) == 3)
