@@ -86,6 +86,12 @@ class SampleSheet:
         PED-PEG & WGS
          if project ID starts with 08822 and recipe is 'HumanWholeGenome' ask Darrell
         """
+        # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,,
+        if any("10X_" in s for s in self.recipe_set):
+            self.df_ss_header.loc[len(self.df_ss_header.index)-1] = ["CreateFastqForIndexReads",1,"","","","","","","",""]
+            self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","","",""]
+            print("Added CreateFastqForIndexReads,1 to sample sheet header since 10X samples are present")
+
         if self.need_to_split_sample_sheet() == False:
             return [self]
 
@@ -117,10 +123,6 @@ class SampleSheet:
             # if ATAC because read length is 51,50 () for example DIANA_427 must use cellranger-ATAC mkfastq 
             tenx_ss = SampleSheet(self.df_ss_header, tenx_data, tenx_path)
             split_ss_list.append(tenx_ss)
-
-        # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,,
-        if any("10X_" in s for s in self.recipe_set):
-            self.df_ss_header.loc[len(self.df_ss_header.index)] = ["CreateFastqForIndexReads",1,"","","","","","","",""]
 
         # Rename the original sample sheet now modified with fewer rows
         split_ss_list[0].path = os.path.splitext(self.path)[0]+'_REFERENCE.csv'

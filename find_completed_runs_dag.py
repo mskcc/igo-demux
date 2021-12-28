@@ -59,10 +59,9 @@ with DAG(
         ss_orig = SampleSheet(dest_samplesheet)
         ss_list = ss_orig.split_sample_sheet()
         
-        if len(ss_list) > 1:
-            # need to write the new sample sheets
-            for samplesheet in ss_list:
-                samplesheet.write_csv()
+        # need to write the new sample sheets and original in case the header has new flags
+        for samplesheet in ss_list:
+            samplesheet.write_csv()
 
         for samplesheet in ss_list:
             demux_dict = {}
