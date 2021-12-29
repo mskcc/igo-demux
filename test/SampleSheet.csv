@@ -18,3 +18,4 @@ BarcodeMismatchesIndex2,0,,,,,,,,
 Lane,Sample_ID,Sample_Name,Sample_Plate,Sample_Well,I7_Index_ID,index,index2,Sample_Project,Description
 1,DLPNegativeCONTROL_12345A_3_3_IGO_DLPNegativeCONTROL-2710,DLPNegativeCONTROL_12345A_3_3_IGO_DLPNegativeCONTROL-2710,Mouse,DLP,DLPi7_03-i5_03,AAGGACAT,AACCCCGT,Project_12345,someone@mskcc.org
 1,DLPNegativeCONTROL_12345A_4_3_IGO_DLPNegativeCONTROL-2711,DLPNegativeCONTROL_12345A_4_3_IGO_DLPNegativeCONTROL-2711,Mouse,DLP,DLPi7_03-i5_04,AAGGACAT,ACCCAGGT,Project_12345,someone@mskcc.org
+2,Sample_ZL-1429_740_LX59_AMG510_HTO_IGO_12437_Q_6,ZL-1429_740_LX59_AMG510_HTO_IGO_12437_Q_6,Mouse,10X_Genomics,SI-NT-D2,TACACTATTC,ACGTTGCAAT,Project_12437_Q,peerd@mskcc.org

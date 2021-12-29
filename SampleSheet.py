@@ -32,7 +32,7 @@ class SampleSheet:
             index_read2 = int(self.df_ss_header.iat[10,0])
             self.read_lengths.append(index_read2)
     
-    def read_from_file(self, path_to_samplesheet):
+    def read_csv(self, path_to_samplesheet):
         # skip the header and read only data rows in the this dataframe - the [Data] section
         # find row of sample sheet which has the [Data] section
         line_number = 0
@@ -48,6 +48,21 @@ class SampleSheet:
 
         return SampleSheet(df_ss_header, df_ss_data, path_to_samplesheet)
 
+    def write_csv(self):
+        print("Saving sample sheet to " + self.path)
+
+        # pandas dataframe has blank column headers, make them write correctly to the .csv
+        csv = open(self.path, "w")
+        csv.write("[Header],,,,,,,,,\n")
+        csv.close()
+
+        self.df_ss_header.to_csv(self.path, mode='a',index=False,header=False)
+        self.df_ss_data.to_csv(self.path, mode='a',index=False)
+
+    def remove_lane_information(self):
+        print("Removing sample sheet lane information")
+        #TODO DRAGEN requires a sample sheet without lane information to merge all by lane fastqs
+
     def need_to_split_sample_sheet(self):
         # if DLP is mixed with anything
         if "DLP" in self.recipe_set and len(self.recipe_set) > 1:
@@ -61,17 +76,6 @@ class SampleSheet:
         # TODO WGS & PED-PEG
 
         return False
-
-    def write_csv(self):
-        print("Saving sample sheet to " + self.path)
-
-        # pandas dataframe has blank column headers, make them write correctly to the .csv
-        csv = open(self.path, "w")
-        csv.write("[Header],,,,,,,,,\n")
-        csv.close()
-
-        self.df_ss_header.to_csv(self.path, mode='a',index=False,header=False)
-        self.df_ss_data.to_csv(self.path, mode='a',index=False)
 
     """
     Returns a list of sample sheets from splitting the original or the original sample sheet
@@ -131,24 +135,24 @@ class SampleSheet:
         return split_ss_list
 
 def test_barcode_read_lengths():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet.csv")
+    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet.csv")
     assert (x.read_lengths[0] == 151)
     assert (x.read_lengths[1] == 151)
 
 def test_recipe_set():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet.csv")
+    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet.csv")
     assert ("DLP" in x.recipe_set)
 
 def test_barcode_list():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet.csv")
+    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet.csv")
     assert ("AAGGACATAACCCCGT" in x.barcode_list)
 
 def test_need_to_split_sample_sheet():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet_DLP.csv")
+    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet_DLP.csv")
     assert(x.need_to_split_sample_sheet() == True)
     
 def test_split():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_from_file("test/SampleSheet_DLP.csv")
+    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet_DLP.csv")
     ss_list = x.split_sample_sheet()
     path0 = ss_list[0].path
     path1 = ss_list[1].path
