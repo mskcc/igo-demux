@@ -22,23 +22,27 @@ with DAG(
     """
 
     def demux(ds, **kwargs):
+        sequencer_path = kwargs["params"]["sequencer_path"]
         samplesheet_path = kwargs["params"]["samplesheet"]
+
         samplesheet = os.path.basename(samplesheet_path)
         samplesheet_no_ext = os.path.splitext(samplesheet)[0]  # SampleSheet_210331_MICHELLE_0360_BH5KFYDRXY
         sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
-        sequencer_path = kwargs["params"]["sequencer_path"]
 
         # TODO for some 10X build correct mkfastq command, special 10X barcodes can't go to dragen
 
         output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DGN"
         # -K - wait for the job to complete
+        is_DRAGEN_demux = True
         bsub_command = "bsub -K -n48 -q dragen -e /igo/work/igo/igo-demux/logs/demux.log -o /igo/work/igo/igo-demux/logs/demux.log "
         command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
             sequencer_path, output_directory, samplesheet_path)
         print("Running demux: " + command)
         subprocess.run(command, shell=True, check=True)
         # if the demux was successful:
-        # TODO for non DLP call organise_fastq_split_by_lane.py to create Sample sub-dirs like bcl2fastq
+        if is_DRAGEN_demux and not samplesheet_path.endswith("DLP.csv"):
+            print("Adding sample sub-folders to the DRAGEN demux.")
+            # TODO for non DLP call organise_fastq_split_by_lane.py to create Sample sub-dirs like bcl2fastq
         # TODO launch stats and/or pipeline for all projects on the run which needs stats/pipeline
         return command
 

@@ -25,16 +25,16 @@ with DAG(
     Find recently completed runs by looking for the last file written by the sequencers then copy the sample sheet for the completed run to the list of completed runs variable
     so a later task can start the demux for the sample sheet.
     """
-    print("Processing sequencer list: {}".format(sequencers))
-        
-    time_to_search = Variable.get("completed_run_search_interval_mins", default_var=60) # should match schedule_interval above
-    print("Searching for runs completed in the last {} minutes, variable completed_run_search_interval_mins".format(time_to_search))
-    completed_runs_path = sequencer.find_completed_runs(sequencers, time_to_search)
-
-    test_only = Variable.get("test_run_only", default_var="")
-    if len(test_only) != 0 :
-        completed_runs_path = ["/igo/sequencers/ayyan/211213_AYYAN_0106_000000000-K4KND/RTAComplete.txt"]
-        print("Running in test mode only for {}".format(completed_runs_path))
+    
+    demux_run_path = Variable.get("demux_run_path", default_var="")
+    if len(demux_run_path) != 0 :
+        completed_runs_path = [demux_run_path + "/RTAComplete.txt"]
+        print("Demuxing single run only {}".format(completed_runs_path))
+    else:
+        print("Processing sequencer list: {}".format(sequencers))
+        time_to_search = Variable.get("completed_run_search_interval_mins", default_var=60) # should match schedule_interval above
+        print("Searching for runs completed in the last {} minutes, variable completed_run_search_interval_mins".format(time_to_search))
+        completed_runs_path = sequencer.find_completed_runs(sequencers, time_to_search)
 
     for run_path in completed_runs_path:
         # remove file name from path, for example: /igo/sequencers/michelle/211129_MICHELLE_0461_AHMJFJDSX2/CopyComplete.txt
