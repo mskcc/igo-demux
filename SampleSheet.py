@@ -59,9 +59,15 @@ class SampleSheet:
         self.df_ss_header.to_csv(self.path, mode='a',index=False,header=False)
         self.df_ss_data.to_csv(self.path, mode='a',index=False)
 
+    """
+    Creates a new [Data] section without 'Lane' information for each sample.
+    """
     def remove_lane_information(self):
-        print("Removing sample sheet lane information")
-        #TODO DRAGEN requires a sample sheet without lane information to merge all by lane fastqs
+        #DRAGEN "--no-lane-splitting" requires a sample sheet without lane information
+        print("Removing sample sheet lane information.")
+        self.df_ss_data.drop(columns=['Lane', 'Sample_ID'], inplace=True)
+        self.df_ss_data.sort_values("Sample_Name", inplace = True)
+        self.df_ss_data.drop_duplicates(subset ="Sample_Name",keep = False, inplace = True) 
 
     def need_to_split_sample_sheet(self):
         # if DLP is mixed with anything
@@ -163,3 +169,9 @@ def test_split():
     assert(path2.endswith("DLP.csv") or path3.endswith("_DLP.csv"))
     assert(path2.endswith("10X.csv") or path3.endswith("_10X.csv"))
     assert(len(ss_list) == 4)
+
+def test_remove_lane_information():
+    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet.csv")
+    x.remove_lane_information()
+    # TODO test with sample sheet that has multiple rows and duplicates to be removed
+    
