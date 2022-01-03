@@ -4,14 +4,19 @@ import os
 from copy import deepcopy
 
 class SampleSheet:
-    
-    def __init__(self, df_header, df_data, path_to_samplesheet):
-        if df_header.empty:
-            return  # call read_from_file to add data
 
-        self.df_ss_header = df_header
-        self.df_ss_data = df_data
-        self.path = path_to_samplesheet
+    """
+    Overloaded constructor either should have 1 argument with the path to a sample sheet
+    or three arguments, the [Header] data frame, the [Data] data frame and the path
+    """
+    def __init__(self, *args):
+        if len(args) == 1: # this is the path to the sample sheet
+            self.path = args[0]
+            self.read_csv(self.path)
+        else:
+            self.df_ss_header = args[0]
+            self.df_ss_data = args[1]
+            self.path = args[2]
 
         # set of all recipes in the sample sheet
         self.recipe_set = set(self.df_ss_data['Sample_Well'].tolist())  # Sample_Well column has the recipe, convert it to a set
@@ -43,10 +48,8 @@ class SampleSheet:
                 if "[Data]" in line:
                     break
         sheet.close()
-        df_ss_header = pandas.read_csv(path_to_samplesheet,nrows=line_number-1)
-        df_ss_data = pandas.read_csv(path_to_samplesheet,skiprows=line_number)
-
-        return SampleSheet(df_ss_header, df_ss_data, path_to_samplesheet)
+        self.df_ss_header = pandas.read_csv(path_to_samplesheet,nrows=line_number-1)
+        self.df_ss_data = pandas.read_csv(path_to_samplesheet,skiprows=line_number)
 
     def write_csv(self):
         print("Saving sample sheet to " + self.path)
@@ -141,24 +144,24 @@ class SampleSheet:
         return split_ss_list
 
 def test_barcode_read_lengths():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet.csv")
+    x = SampleSheet("test/SampleSheet.csv")
     assert (x.read_lengths[0] == 151)
     assert (x.read_lengths[1] == 151)
 
 def test_recipe_set():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet.csv")
+    x = SampleSheet("test/SampleSheet.csv")
     assert ("DLP" in x.recipe_set)
 
 def test_barcode_list():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet.csv")
+    x = SampleSheet("test/SampleSheet.csv")
     assert ("AAGGACATAACCCCGT" in x.barcode_list)
 
 def test_need_to_split_sample_sheet():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet_DLP.csv")
+    x = SampleSheet("test/SampleSheet_DLP.csv")
     assert(x.need_to_split_sample_sheet() == True)
     
 def test_split():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet_DLP.csv")
+    x = SampleSheet("test/SampleSheet_DLP.csv")
     ss_list = x.split_sample_sheet()
     path0 = ss_list[0].path
     path1 = ss_list[1].path
@@ -171,7 +174,7 @@ def test_split():
     assert(len(ss_list) == 4)
 
 def test_remove_lane_information():
-    x = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv("test/SampleSheet.csv")
+    x = SampleSheet("test/SampleSheet.csv")
     x.remove_lane_information()
     # TODO test with sample sheet that has multiple rows and duplicates to be removed
     
