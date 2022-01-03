@@ -33,7 +33,7 @@ class SampleSheet:
         self.read_lengths = []
         index_read1 = int(self.df_ss_header.iat[9,0])
         self.read_lengths.append(index_read1)
-        if len(index2_list) != 0:
+        if self.df_ss_header.iat[10,0].isnumeric():
             index_read2 = int(self.df_ss_header.iat[10,0])
             self.read_lengths.append(index_read2)
     
