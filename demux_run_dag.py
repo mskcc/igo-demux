@@ -12,7 +12,7 @@ from airflow.operators.python import PythonOperator
 with DAG(
     dag_id="demux_run",
     schedule_interval=None,
-    start_date=datetime(2021, 1, 1),
+    start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["demux_run"],
 ) as dag:

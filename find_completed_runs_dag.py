@@ -2,6 +2,7 @@ import sequencer
 import os
 import datetime
 import json
+import shutil
 
 from SampleSheet import SampleSheet
 
@@ -16,7 +17,7 @@ sequencers = {"sequencers":[{"name":"ayyan","path":"/igo/sequencers/ayyan","last
 with DAG(
     dag_id='find_completed_runs', 
     schedule_interval='@hourly', 
-    start_date=datetime.datetime(2021, 12, 14), 
+    start_date=datetime.datetime(2022, 1, 1), 
     catchup=False,
     tags=["find_completed_runs"],
 ) as dag:
@@ -56,7 +57,7 @@ with DAG(
             bash_command=cp_command,
         )
 
-        os.popen(cp_command)
+        shutil.copy(orig_samplesheet, dest_samplesheet)
         ss_orig = SampleSheet(dest_samplesheet)
         ss_list = ss_orig.split_sample_sheet()
         
@@ -76,8 +77,7 @@ with DAG(
             print("Calling demux with execution time and args:" + dag_json)
 
             trigger_dag_demux = SimpleHttpOperator(
-                # TODO make shorter task_id so it looks better displayed in Airflow
-                task_id="demux_"+samplesheet.path.replace('/','_'),
+                task_id="demux_"+str(os.path.basename(samplesheet.path)).replace(".csv", "").replace("SampleSheet_",""),
                 http_conn_id='airflow-api',
                 endpoint='api/v1/dags/demux_run/dagRuns',
                 method='POST',
