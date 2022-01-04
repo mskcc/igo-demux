@@ -56,7 +56,7 @@ with DAG(
             bash_command=cp_command,
         )
 
-        ss_orig = SampleSheet(dest_samplesheet)
+        ss_orig = SampleSheet(orig_samplesheet)
         ss_list = ss_orig.split_sample_sheet()
         
         # need to write the new sample sheets and original in case the header has new flags
@@ -75,7 +75,8 @@ with DAG(
             print("Calling demux with execution time and args:" + dag_json)
 
             trigger_dag_demux = SimpleHttpOperator(
-                task_id="demux_"+samplesheet.path,
+                # TODO make shorter task_id so it looks better displayed in Airflow
+                task_id="demux_"+samplesheet.path.replace('/','_'),
                 http_conn_id='airflow-api',
                 endpoint='api/v1/dags/demux_run/dagRuns',
                 method='POST',
