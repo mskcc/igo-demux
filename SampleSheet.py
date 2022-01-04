@@ -48,6 +48,8 @@ class SampleSheet:
                 if "[Data]" in line:
                     break
         sheet.close()
+        print("[Data] section of sample sheet detected on line: {}".format(line_number))
+        assert line_number > 0
         self.df_ss_header = pandas.read_csv(path_to_samplesheet,nrows=line_number-1)
         self.df_ss_data = pandas.read_csv(path_to_samplesheet,skiprows=line_number)
 
@@ -69,8 +71,7 @@ class SampleSheet:
         #DRAGEN "--no-lane-splitting" requires a sample sheet without lane information
         print("Removing sample sheet lane information.")
         self.df_ss_data.drop(columns=['Lane', 'Sample_ID'], inplace=True)
-        self.df_ss_data.sort_values("Sample_Name", inplace = True)
-        self.df_ss_data.drop_duplicates(subset ="Sample_Name",keep = False, inplace = True) 
+        self.df_ss_data.drop_duplicates(inplace=True) 
 
     def need_to_split_sample_sheet(self):
         # if DLP is mixed with anything
@@ -174,7 +175,8 @@ def test_split():
     assert(len(ss_list) == 4)
 
 def test_remove_lane_information():
-    x = SampleSheet("test/SampleSheet.csv")
+    x = SampleSheet("test/DIANA_0434.csv")
     x.remove_lane_information()
-    # TODO test with sample sheet that has multiple rows and duplicates to be removed
+    x.path = "test/DIANA_0434_no_lane.csv"
+    assert(len(x.df_ss_data) == 4)
     
