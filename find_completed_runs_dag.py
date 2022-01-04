@@ -56,7 +56,8 @@ with DAG(
             bash_command=cp_command,
         )
 
-        ss_orig = SampleSheet(orig_samplesheet)
+        os.popen(cp_command)
+        ss_orig = SampleSheet(dest_samplesheet)
         ss_list = ss_orig.split_sample_sheet()
         
         # need to write the new sample sheets and original in case the header has new flags
