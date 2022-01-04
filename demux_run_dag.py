@@ -32,7 +32,7 @@ with DAG(
         samplesheet_no_ext = os.path.splitext(samplesheet)[0]  # SampleSheet_210331_MICHELLE_0360_BH5KFYDRXY
         sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
 
-        sample_sheet = SampleSheet(pandas.DataFrame(),pandas.DataFrame(),"").read_csv(samplesheet_path)
+        sample_sheet = SampleSheet(samplesheet_path)
         
         is_DLP = False
         if "DLP" in sample_sheet.recipe_set:
