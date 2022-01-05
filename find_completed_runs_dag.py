@@ -10,6 +10,7 @@ from airflow.providers.http.operators.http import SimpleHttpOperator
 from airflow.operators.bash import BashOperator
 from airflow import DAG
 from airflow.models import Variable
+from airflow.decorators import task
 
 # defines the list of all sequencers and for each sequencer 1) name 2) location it writes runs to and 3) the last file the sequencer writes when a run is completed to signal demux can begin
 sequencers = {"sequencers":[{"name":"ayyan","path":"/igo/sequencers/ayyan","last_file":"RTAComplete.txt"},{"name":"diana","path":"/igo/sequencers/diana","last_file":"CopyComplete.txt"},{"name":"michelle","path":"/igo/sequencers/michelle","last_file":"CopyComplete.txt"},{"name":"ruth","path":"/igo/sequencers/ruth","last_file":"CopyComplete.txt"},{"name":"johnsawyers","path":"/igo/sequencers/johnsawyers","last_file":"RTAComplete.txt"},{"name":"pepe","path":"/igo/sequencers/pepe/output","last_file":"CopyComplete.txt"},{"name":"scott","path":"/igo/sequencers/scott","last_file":"RunCompletionStatus.xml"}]}
@@ -52,20 +53,15 @@ with DAG(
         
         cp_command = "cp {} {}".format(orig_samplesheet, dest_samplesheet)
         print("Copying sample sheet:" + cp_command)
-        run_cp_task = BashOperator(
-            task_id='copy_samplesheet_'+run_name_only, # make the task_id unique for each run
-            bash_command=cp_command,
-        )
-
-        shutil.copy(orig_samplesheet, dest_samplesheet)
-        ss_orig = SampleSheet(dest_samplesheet)
-        ss_list = ss_orig.split_sample_sheet()
+        ss_orig = SampleSheet(orig_samplesheet)
+        ss_orig.remove_sample_prefix()
+        ss_orig.path = dest_samplesheet
         
-        # need to write the new sample sheets and original in case the header has new flags
+        ss_list = ss_orig.split_sample_sheet()
+
         for samplesheet in ss_list:
             samplesheet.write_csv()
 
-        for samplesheet in ss_list:
             demux_dict = {}
             demux_dict['samplesheet'] = samplesheet.path
             demux_dict['sequencer_path'] = completed_run_path
@@ -85,4 +81,5 @@ with DAG(
                 data=dag_json,
             )
 
-            run_cp_task >> trigger_dag_demux
+            # first steps of pipeline are in pure Python that copy the sample sheet from /pskis34
+            trigger_dag_demux

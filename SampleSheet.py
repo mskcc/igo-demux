@@ -64,13 +64,16 @@ class SampleSheet:
         self.df_ss_header.to_csv(self.path, mode='a',index=False,header=False)
         self.df_ss_data.to_csv(self.path, mode='a',index=False)
 
+    def remove_sample_prefix(self):
+        self.df_ss_data['Sample_ID'] = self.df_ss_data['Sample_ID'].str.replace('Sample_' , '')
+
     """
     Creates a new [Data] section without 'Lane' information for each sample.
     """
     def remove_lane_information(self):
         #DRAGEN "--no-lane-splitting" requires a sample sheet without lane information
         print("Removing sample sheet lane information.")
-        self.df_ss_data.drop(columns=['Lane', 'Sample_ID'], inplace=True)
+        self.df_ss_data.drop(columns=['Lane', 'Sample_Name'], inplace=True)
         self.df_ss_data.drop_duplicates(inplace=True) 
 
     def need_to_split_sample_sheet(self):
@@ -177,6 +180,10 @@ def test_split():
 def test_remove_lane_information():
     x = SampleSheet("test/DIANA_0434.csv")
     x.remove_lane_information()
-    x.path = "test/DIANA_0434_no_lane.csv"
     assert(len(x.df_ss_data) == 4)
+
+def test_remove_sample_prefix():
+    x = SampleSheet("test/DIANA_0434.csv")
+    x.remove_sample_prefix()
+    #TODO complete
     
