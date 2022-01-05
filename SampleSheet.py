@@ -105,8 +105,8 @@ class SampleSheet:
         """
         # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,,
         if any("10X_" in s for s in self.recipe_set):
-            self.df_ss_header.loc[len(self.df_ss_header.index)-1] = ["CreateFastqForIndexReads",1,"","","","","","","",""]
-            self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","","",""]
+            self.df_ss_header.loc[len(self.df_ss_header.index)-1] = ["CreateFastqForIndexReads",1,"","","","","","",""]
+            self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","",""]
             print("Added CreateFastqForIndexReads,1 to sample sheet header since 10X samples are present")
 
         if self.need_to_split_sample_sheet() == False:
@@ -126,7 +126,10 @@ class SampleSheet:
             self.df_ss_data = rest_data
             # rename DLP sample sheet w/"_DLP.csv"
             dlp_path = os.path.splitext(self.path)[0]+'_DLP.csv'
-            dlp_ss = SampleSheet(self.df_ss_header, dlp_data, dlp_path)
+            header_copy = self.df_ss_header.copy(deep=True)
+            header_copy.loc[len(header_copy.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
+            header_copy.loc[len(header_copy.index)] = ["[Data]","","","","","","","",""]
+            dlp_ss = SampleSheet(header_copy, dlp_data, dlp_path)
             split_ss_list.append(dlp_ss)
 
         # check if sample sheet has 'SI-*' barcodes and normal barcodes
@@ -186,4 +189,3 @@ def test_remove_sample_prefix():
     x = SampleSheet("test/DIANA_0434.csv")
     x.remove_sample_prefix()
     #TODO complete
-    

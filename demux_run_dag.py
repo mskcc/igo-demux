@@ -49,16 +49,13 @@ with DAG(
             output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DGN"
         
         is_DRAGEN_demux = True
-        if is_DLP:
-            is_DRAGEN_demux = False
-            # demux with --no-lane-splitting
-            # TODO setup bcl2fastq command for DLP
-            command = "bsub -J {job_name} -o {output_log_file} -n 36 -M 6 /opt/common/CentOS_6/bcl2fastq/bcl2fastq2-v2.20.0.422/bin/bcl2fastq --minimum-trimmed-read-length 0 --mask-short-adapter-reads 0 --ignore-missing-bcl --runfolder-dir /igo/sequencers/{sequencer}/{run_name} --sample-sheet {sample_sheet} --output-dir /igo/work/FASTQ/{fastq_folder} --ignore-missing-filter --ignore-missing-positions --ignore-missing-control --barcode-mismatches 0 --no-lane-splitting --loading-threads 12 --processing-threads 24"
-        elif is_10X:
+        
+        if is_10X:
             is_DRAGEN_demux = False
             # TODO for 10X build correct mkfastq command, special 10X barcodes can't go to dragen
             print("Building mkfastq command")
         else:
+            # DLP can demux with the default command as long as the [Settings] have 'NoLaneSplitting,true'
             # -K - wait for the job to complete
             bsub_command = "bsub -K -n48 -q dragen -e /igo/work/igo/igo-demux/logs/demux.log -o /igo/work/igo/igo-demux/logs/demux.log "
             command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
@@ -70,6 +67,7 @@ with DAG(
             print("Adding sample sub-folders to the DRAGEN demux.")
             scripts.organise_fastq_split_by_lane.create_fastq_folders(output_directory)
         # TODO launch stats and/or pipeline for all projects on the run which needs stats/pipeline
+        # TODO for DLP projects create the .yaml file
         return command
 
     demux_run = PythonOperator(
