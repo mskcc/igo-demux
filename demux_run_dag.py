@@ -1,4 +1,5 @@
 import os
+from re import sub
 import subprocess
 from datetime import datetime, timedelta
 from SampleSheet import SampleSheet
@@ -58,7 +59,7 @@ with DAG(
             # DLP can demux with the default command as long as the [Settings] have 'NoLaneSplitting,true'
             # -K - wait for the job to complete
             bsub_command = "bsub -K -n48 -q dragen -e /igo/work/igo/igo-demux/logs/demux.log -o /igo/work/igo/igo-demux/logs/demux.log "
-            command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
+            command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
             sequencer_path, output_directory, samplesheet_path)
         print("Running demux command: " + command)
         subprocess.run(command, shell=True, check=True)
@@ -67,7 +68,16 @@ with DAG(
             print("Adding sample sub-folders to the DRAGEN demux.")
             scripts.organise_fastq_split_by_lane.create_fastq_folders(output_directory)
         # TODO launch stats and/or pipeline for all projects on the run which needs stats/pipeline
-        # TODO for DLP projects create the .yaml file
+        
+        # for DLP projects create the .yaml file
+        if is_DLP:
+            # example: make create-metadata-yaml ss=/igo/home/igo/DividedSampleSheets/SampleSheet_211022_DIANA_0415_AHMJWMDSX2_DLP.csv prj=Project_09443_CI project_path=/igo/staging/FASTQ/DIANA_0415_AHMJWMDSX2_DLP/Project_09443_CI
+            for project in sample_sheet.project_set:
+                fastq_project_dir = output_directory + "/" + project
+                make_command = "make create-metadata-yaml ss={} prj={} project_path={}".format(samplesheet_path, project, fastq_project_dir)
+                print("Calling DLP make command: {}".format(make_command))
+                subprocess.check_output(make_command, cwd="/home/igo/shared-single-cell", shell=True)
+
         return command
 
     demux_run = PythonOperator(

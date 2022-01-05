@@ -18,6 +18,8 @@ class SampleSheet:
             self.df_ss_data = args[1]
             self.path = args[2]
 
+        self.project_set = set(self.df_ss_data['Sample_Project'].tolist())  # Sample_Project column has the projects, convert it to a set
+
         # set of all recipes in the sample sheet
         self.recipe_set = set(self.df_ss_data['Sample_Well'].tolist())  # Sample_Well column has the recipe, convert it to a set
         # for dual barcode sample sheets concat "index" and "index2" columns
