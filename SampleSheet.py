@@ -132,6 +132,8 @@ class SampleSheet:
             header_copy.loc[len(header_copy.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
             header_copy.loc[len(header_copy.index)] = ["[Data]","","","","","","","",""]
             dlp_ss = SampleSheet(header_copy, dlp_data, dlp_path)
+            # TODO unit test DLP result has no lane information
+            dlp_ss.remove_lane_information()
             split_ss_list.append(dlp_ss)
 
         # check if sample sheet has 'SI-*' barcodes and normal barcodes

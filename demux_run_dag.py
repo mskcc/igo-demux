@@ -67,6 +67,8 @@ with DAG(
         if is_DRAGEN_demux and not is_DLP:
             print("Adding sample sub-folders to the DRAGEN demux.")
             scripts.organise_fastq_split_by_lane.create_fastq_folders(output_directory)
+            
+        # TODO email demux complete starting stats for non "REFERENCE" demuxes
         # TODO launch stats and/or pipeline for all projects on the run which needs stats/pipeline
         
         # for DLP projects create the .yaml file
