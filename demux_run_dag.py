@@ -10,6 +10,13 @@ from airflow import DAG
 from airflow.operators.python import PythonOperator
 
 
+"""
+    Runs the demux such as: 
+    bsub -n48 -q dragen /opt/edico/bin/dragen --bcl-conversion-only true --bcl-sampleproject-subdirectories true --force
+      --bcl-input-directory /igo/sequencers/johnsawyers/211108_JOHNSAWYERS_0312 
+      --output-directory /igo/staging/FASTQ/JOHNSAWYERS_0312 
+      --sample-sheet /home/igo/DividedSampleSheets/SampleSheet_211108_JOHNSAWYERS_0312.csv 
+"""
 with DAG(
     dag_id="demux_run",
     schedule_interval=None,
@@ -17,14 +24,13 @@ with DAG(
     catchup=False,
     tags=["demux_run"],
 ) as dag:
-    """
-    Runs the demux such as: 
-    bsub -n48 -q dragen /opt/edico/bin/dragen --bcl-conversion-only true --bcl-sampleproject-subdirectories true --force
-      --bcl-input-directory /igo/sequencers/johnsawyers/211108_JOHNSAWYERS_0312 
-      --output-directory /igo/staging/FASTQ/JOHNSAWYERS_0312 
-      --sample-sheet /home/igo/DividedSampleSheets/SampleSheet_211108_JOHNSAWYERS_0312.csv 
-    """
 
+    """ 
+    Read the input arguments such as:
+
+    'params': {'samplesheet': '/igo/work/igo/SampleSheetCopies/SampleSheet_211206_JOHNSAWYERS_0317_000000000-K3LFK.csv',
+             'sequencer_path': '/igo/sequencers/johnsawyers/211206_JOHNSAWYERS_0317_000000000-K3LFK'},
+    """
     def demux(ds, **kwargs):
         sequencer_path = kwargs["params"]["sequencer_path"]
         samplesheet_path = kwargs["params"]["samplesheet"]
@@ -67,9 +73,6 @@ with DAG(
         if is_DRAGEN_demux and not is_DLP:
             print("Adding sample sub-folders to the DRAGEN demux.")
             scripts.organise_fastq_split_by_lane.create_fastq_folders(output_directory)
-            
-        # TODO email demux complete starting stats for non "REFERENCE" demuxes
-        # TODO launch stats and/or pipeline for all projects on the run which needs stats/pipeline
         
         # for DLP projects create the .yaml file
         if is_DLP:
@@ -80,6 +83,13 @@ with DAG(
                 print("Calling DLP make command: {}".format(make_command))
                 subprocess.check_output(make_command, cwd="/home/igo/shared-single-cell", shell=True)
 
+        # TODO email demux complete starting stats for non "REFERENCE" demuxes
+        # TODO launch stats and/or pipeline for all projects on the run which needs stats/pipeline
+        if "REFERENCE" in samplesheet_path:
+            return command
+
+        launch_stats(sample_sheet)
+
         return command
 
     demux_run = PythonOperator(
@@ -88,9 +98,11 @@ with DAG(
     )
 
     demux_run
-""" 
-Read the input arguments such as:
 
-    'params': {'samplesheet': '/igo/work/igo/SampleSheetCopies/SampleSheet_211206_JOHNSAWYERS_0317_000000000-K3LFK.csv',
-             'sequencer_path': '/igo/sequencers/johnsawyers/211206_JOHNSAWYERS_0317_000000000-K3LFK'},
-"""
+    """
+    Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
+    """
+    def launch_stats(sample_sheet):
+        for project, recipe in sample_sheet.project_dict.items():
+            # TODO launch stats for each project
+            print(project, recipe)

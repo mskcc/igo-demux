@@ -18,6 +18,7 @@ class SampleSheet:
             self.df_ss_data = args[1]
             self.path = args[2]
 
+        self.project_dict = pandas.Series(self.df_ss_data['Sample_Well'].values,index=self.df_ss_data['Sample_Project']).to_dict()
         self.project_set = set(self.df_ss_data['Sample_Project'].tolist())  # Sample_Project column has the projects, convert it to a set
 
         # set of all recipes in the sample sheet
@@ -191,5 +192,6 @@ def test_remove_lane_information():
 
 def test_remove_sample_prefix():
     x = SampleSheet("test/DIANA_0434.csv")
+    print(x.project_dict)
     x.remove_sample_prefix()
     #TODO complete
