@@ -84,7 +84,6 @@ with DAG(
                 subprocess.check_output(make_command, cwd="/home/igo/shared-single-cell", shell=True)
 
         # TODO email demux complete starting stats for non "REFERENCE" demuxes
-        # TODO launch stats and/or pipeline for all projects on the run which needs stats/pipeline
         if "REFERENCE" in samplesheet_path:
             return command
 
@@ -107,7 +106,7 @@ with DAG(
         print("Creating nextflow working directory - {}".format(nf_working_dir))
         os.mkdir(nf_working_dir)
         for project, recipe in sample_sheet.project_dict.items():
-            cmd_basic = "nohup /home/igo/nf-fastq-plus/bin/nextflow /home/igo/nf-fastq-plus/samplesheet_stats_main.nf"
+            cmd_basic = "nohup /home/igo/bin/nextflow /home/igo/nf-fastq-plus/samplesheet_stats_main.nf"
             cmd = "{} --ss {} --dir {}  --filter {}".format(cmd_basic, sample_sheet.path, output_directory, project.replace("Project_", ""))
             print(project, recipe, cmd)
             subprocess.check_output(cmd, cwd=nf_working_dir, shell=True)
