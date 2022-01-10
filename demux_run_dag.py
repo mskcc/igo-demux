@@ -88,7 +88,7 @@ with DAG(
         if "REFERENCE" in samplesheet_path:
             return command
 
-        launch_stats(sample_sheet)
+        launch_stats(sample_sheet, output_directory, sequencer_and_run)
 
         return command
 
@@ -102,7 +102,12 @@ with DAG(
     """
     Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
     """
-    def launch_stats(sample_sheet):
+    def launch_stats(sample_sheet, output_directory, sequencer_and_run):
+        nf_working_dir = "/igo/staging/working/" + sequencer_and_run
+        print("Creating nextflow working directory - {}".format(nf_working_dir))
+        os.mkdir(nf_working_dir)
         for project, recipe in sample_sheet.project_dict.items():
-            # TODO launch stats for each project
-            print(project, recipe)
+            cmd_basic = "nohup /home/igo/nf-fastq-plus/bin/nextflow /home/igo/nf-fastq-plus/samplesheet_stats_main.nf"
+            cmd = "{} --ss {} --dir {}  --filter {}".format(cmd_basic, sample_sheet.path, output_directory, project.replace("Project_", ""))
+            print(project, recipe, cmd)
+            subprocess.check_output(cmd, cwd=nf_working_dir, shell=True)
