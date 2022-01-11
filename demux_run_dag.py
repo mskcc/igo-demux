@@ -104,9 +104,12 @@ with DAG(
     def launch_stats(sample_sheet, output_directory, sequencer_and_run):
         nf_working_dir = "/igo/staging/working/" + sequencer_and_run
         print("Creating nextflow working directory - {}".format(nf_working_dir))
-        os.mkdir(nf_working_dir)
+        if not os.path.exists(nf_working_dir):
+            os.mkdir(nf_working_dir)
+        os.chdir(nf_working_dir)
+
         for project, recipe in sample_sheet.project_dict.items():
             cmd_basic = "nohup /home/igo/bin/nextflow /home/igo/nf-fastq-plus/samplesheet_stats_main.nf"
             cmd = "{} --ss {} --dir {}  --filter {}".format(cmd_basic, sample_sheet.path, output_directory, project.replace("Project_", ""))
             print(project, recipe, cmd)
-            subprocess.check_output(cmd, cwd=nf_working_dir, shell=True)
+            subprocess.run(cmd, shell=True)

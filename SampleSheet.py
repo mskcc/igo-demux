@@ -18,6 +18,7 @@ class SampleSheet:
             self.df_ss_data = args[1]
             self.path = args[2]
 
+        # dictionary of project->recipe
         self.project_dict = pandas.Series(self.df_ss_data['Sample_Well'].values,index=self.df_ss_data['Sample_Project']).to_dict()
         self.project_set = set(self.df_ss_data['Sample_Project'].tolist())  # Sample_Project column has the projects, convert it to a set
 
@@ -133,7 +134,6 @@ class SampleSheet:
             header_copy.loc[len(header_copy.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
             header_copy.loc[len(header_copy.index)] = ["[Data]","","","","","","","",""]
             dlp_ss = SampleSheet(header_copy, dlp_data, dlp_path)
-            # TODO unit test DLP result has no lane information
             dlp_ss.remove_lane_information()
             split_ss_list.append(dlp_ss)
 
@@ -182,6 +182,7 @@ def test_split():
     assert(path0.endswith("_REFERENCE.csv"))
     assert(path1.endswith("_V1.csv"))
     assert(path2.endswith("DLP.csv") or path3.endswith("_DLP.csv"))
+    assert("Lane" not in ss_list[2].df_ss_data.columns)  # Confirm "Lane" column was removed
     assert(path2.endswith("10X.csv") or path3.endswith("_10X.csv"))
     assert(len(ss_list) == 4)
 
