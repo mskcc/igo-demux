@@ -83,20 +83,50 @@ with DAG(
                 print("Calling DLP make command: {}".format(make_command))
                 subprocess.check_output(make_command, cwd="/home/igo/shared-single-cell", shell=True)
 
+        return command
+
+
+    def stats(ds, **kwargs):
+        sequencer_path = kwargs["params"]["sequencer_path"]
+        samplesheet_path = kwargs["params"]["samplesheet"]
+        samplesheet = os.path.basename(samplesheet_path)
+        samplesheet_no_ext = os.path.splitext(samplesheet)[0]  # SampleSheet_210331_MICHELLE_0360_BH5KFYDRXY
+        sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
+
+        sample_sheet = SampleSheet(samplesheet_path)
         # TODO email demux complete starting stats for non "REFERENCE" demuxes
         if "REFERENCE" in samplesheet_path:
-            return command
+            return "No stats for reference "  + samplesheet_path
+
+        # TODO add function to remove copy/paste from above
+        is_DLP = False
+        if "DLP" in sample_sheet.recipe_set:
+            is_DLP = True
+        is_10X = False
+        if len(sample_sheet.barcode_list_10X) > 0:
+            is_10X = True
+        if is_DLP:
+            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DLPDGN"
+        if is_10X:
+            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_10XDGN"
+        else:
+            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DGN"
 
         launch_stats(sample_sheet, output_directory, sequencer_and_run)
 
-        return command
+        return "Completed"
 
     demux_run = PythonOperator(
         task_id='start_the_demux',
         python_callable=demux,
     )
 
-    demux_run
+    launch_stats = PythonOperator(
+        task_id='launch_stats',
+        python_callable=stats,
+    )
+
+    demux_run >> launch_stats
 
     """
     Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
@@ -109,7 +139,9 @@ with DAG(
         os.chdir(nf_working_dir)
 
         for project, recipe in sample_sheet.project_dict.items():
-            cmd_basic = "nohup /home/igo/bin/nextflow /home/igo/nf-fastq-plus/samplesheet_stats_main.nf"
-            cmd = "{} --ss {} --dir {}  --filter {}".format(cmd_basic, sample_sheet.path, output_directory, project.replace("Project_", ""))
-            print(project, recipe, cmd)
+            cmd_redirect = " > nextflow_"+ project+ ".log 2>&1"
+            cmd_basic = "/home/igo/bin/nextflow /home/igo/nf-fastq-plus/samplesheet_stats_main.nf "
+            cmd = "{} --ss {} --dir {}  --filter {} {}".format(cmd_basic, sample_sheet.path, output_directory, project.replace("Project_", ""), cmd_redirect)
+            print(project, recipe)
+            print(cmd)
             subprocess.run(cmd, shell=True)
