@@ -12,7 +12,7 @@ from airflow.operators.python import PythonOperator
 #     tags=['fingerprinting'],
 # ) as dag:
 
-def fingerprint(ds, **kwargs):
+def fingerprint(**kwargs):
     STATS_DIR = '/igo/staging/stats/'
     REFERENCE_SEQUENCE_DIR = '/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa'
     HAPLOTYPE_MAP = "/home/igo/fingerprint_maps/map_files/hg38_igo.map"
