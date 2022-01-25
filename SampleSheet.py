@@ -3,6 +3,10 @@ import re
 import os
 from copy import deepcopy
 
+"""
+Reads an IGO LIMS generated sample sheet .csv and splits the sample sheet if necessary to generate sample sheets ready for 
+Illumina DRAGEN demuxes with the correct options set for 10X, WGS & DLP samples.
+"""
 class SampleSheet:
 
     """
@@ -80,20 +84,6 @@ class SampleSheet:
         self.df_ss_data.drop(columns=['Lane', 'Sample_Name'], inplace=True)
         self.df_ss_data.drop_duplicates(inplace=True) 
 
-    def need_to_split_sample_sheet(self):
-        # if DLP is mixed with anything
-        if "DLP" in self.recipe_set and len(self.recipe_set) > 1:
-            print("Sample sheet must be split due to DLP and other recipes")
-            return True
-
-        if len(self.barcode_list_10X) > 0 and len(self.barcode_list) != len(self.barcode_list_10X):
-            print("Sample sheet must be split due to 10X barcodes")
-            return True
-
-        # TODO WGS & PED-PEG
-
-        return False
-
     """
     Returns a list of sample sheets from splitting the original or the original sample sheet
     if no splitting of samples for demux is necessary
@@ -105,7 +95,7 @@ class SampleSheet:
         DLP
          if sample sheet recipes have mixed DLP and other all DLP need to go on a separate sample sheet named "_DLP"
         PED-PEG & WGS
-         if project ID starts with 08822 and recipe is 'HumanWholeGenome' ask Darrell
+         if recipe is 'HumanWholeGenome'
         """
         # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,,
         if any("10X_" in s for s in self.recipe_set):
@@ -113,19 +103,23 @@ class SampleSheet:
             self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","",""]
             print("Added CreateFastqForIndexReads,1 to sample sheet header since 10X samples are present")
 
-        if self.need_to_split_sample_sheet() == False:
-            return [self]
-
-        # Reference https://github.com/mskcc/nf-fastq-plus/blob/master/bin/create_multiple_sample_sheets.py
+        # check if the sample sheet is only DLP or WGS samples
+        if ("DLP" in self.recipe_set or "HumanWholeGenome" in self.recipe_set) and len(self.recipe_set) == 1:
+            print("Adding NoLaneSplitting option to the sample sheet")
+            self.df_ss_header.loc[len(self.df_ss_header.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
+            self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","",""]
+            self.remove_lane_information()
 
         ss_copy = deepcopy(self)
 
-        split_ss_list = [ss_copy, self]
+        split_ss_list = [ss_copy, self]  # result list starts with the original sample sheet
+
+        was_split = 0
         if "DLP" in self.recipe_set and len(self.recipe_set) > 1:
             print("Copying all DLP samples to a new sample sheet")
             # copy all DLP rows to a new sample sheet
-            # and copy everything else to a different sample sheet
             dlp_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("DLP") == True ].copy()
+            # and remove DLP samples from the main sample sheet
             rest_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("DLP") == False ].copy()
             self.df_ss_data = rest_data
             # rename DLP sample sheet w/"_DLP.csv"
@@ -136,6 +130,25 @@ class SampleSheet:
             dlp_ss = SampleSheet(header_copy, dlp_data, dlp_path)
             dlp_ss.remove_lane_information()
             split_ss_list.append(dlp_ss)
+            was_split = 1
+
+        if "HumanWholeGenome" in self.recipe_set and len(self.recipe_set) > 1:
+            print("Copying all HumanWholeGenome samples to a new sample sheet")
+            # copy all WGS rows to a new sample sheet
+            wgs_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("HumanWholeGenome") == True ].copy()
+            # and remove WGS samples from the main sample sheet
+            rest_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("WGS") == False ].copy()
+            self.df_ss_data = rest_data
+            # rename WGS sample sheet w/"_wgs.csv"
+            wgs_path = os.path.splitext(self.path)[0]+'_wgs.csv'
+            header_copy = self.df_ss_header.copy(deep=True)
+            # add no lane splitting option to the header
+            header_copy.loc[len(header_copy.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
+            header_copy.loc[len(header_copy.index)] = ["[Data]","","","","","","","",""]
+            wgs_ss = SampleSheet(header_copy, wgs_data, wgs_path)
+            wgs_ss.remove_lane_information()
+            split_ss_list.append(wgs_ss)
+            was_split = 1
 
         # check if sample sheet has 'SI-*' barcodes and normal barcodes
         if len(self.barcode_list_10X) > 0 and len(self.barcode_list) != len(self.barcode_list_10X):
@@ -148,10 +161,14 @@ class SampleSheet:
             # if ATAC because read length is 51,50 () for example DIANA_427 must use cellranger-ATAC mkfastq 
             tenx_ss = SampleSheet(self.df_ss_header, tenx_data, tenx_path)
             split_ss_list.append(tenx_ss)
+            was_split = 1
 
-        # Rename the original sample sheet now modified with fewer rows
-        split_ss_list[0].path = os.path.splitext(self.path)[0]+'_REFERENCE.csv'
-        split_ss_list[1].path = os.path.splitext(self.path)[0]+'_V1.csv'
+        if was_split:
+            # Rename the original sample sheet now modified with fewer rows
+            split_ss_list[0].path = os.path.splitext(self.path)[0]+'_REFERENCE.csv'
+            split_ss_list[1].path = os.path.splitext(self.path)[0]+'_V1.csv'
+        else:
+            split_ss_list = [ss_copy]
 
         return split_ss_list
 
@@ -167,10 +184,6 @@ def test_recipe_set():
 def test_barcode_list():
     x = SampleSheet("test/SampleSheet.csv")
     assert ("AAGGACATAACCCCGT" in x.barcode_list)
-
-def test_need_to_split_sample_sheet():
-    x = SampleSheet("test/SampleSheet_DLP.csv")
-    assert(x.need_to_split_sample_sheet() == True)
     
 def test_split():
     x = SampleSheet("test/SampleSheet_DLP.csv")
@@ -185,6 +198,13 @@ def test_split():
     assert("Lane" not in ss_list[2].df_ss_data.columns)  # Confirm "Lane" column was removed
     assert(path2.endswith("10X.csv") or path3.endswith("_10X.csv"))
     assert(len(ss_list) == 4)
+
+# Test when a sample sheet is only DLP lane information is removed and it is demuxed with "NoLaneSplitting" option in the sample sheet
+def test_remove_lane_information_only_DLP():
+    x = SampleSheet("test/MICHELLE_420_ONLY_DLP.csv")
+    ss_list = x.split_sample_sheet()
+    assert(len(ss_list) == 1)
+    assert("Lane" not in ss_list[0].df_ss_data.columns)  # Confirm "Lane" column was removed
 
 def test_remove_lane_information():
     x = SampleSheet("test/DIANA_0434.csv")

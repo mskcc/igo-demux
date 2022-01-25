@@ -102,7 +102,12 @@ with DAG(
         if "DLP" in sample_sheet.recipe_set:
            return "No DLP stats"
         
-        launch_stats(sample_sheet, sequencer_and_run)
+        if "HumanWholeGenome" in sample_sheet.recipe_set:
+            print("Creating DRAGEN pipeline command for each sample")
+            # TODO create DRAGEN pipeline command
+            return "DRAGEN stats are running for WGS"
+
+        launch_stats_via_bash_script(sample_sheet, sequencer_and_run)
 
         return "Completed"
 
@@ -121,7 +126,7 @@ with DAG(
     """
     Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
     """
-    def launch_stats(sample_sheet, sequencer_and_run):
+    def launch_stats_via_bash_script(sample_sheet, sequencer_and_run):
         working_dir = "/igo/staging/stats/" + sequencer_and_run
         if not os.path.exists(working_dir):
             os.mkdir(working_dir)
