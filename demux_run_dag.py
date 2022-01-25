@@ -49,11 +49,13 @@ with DAG(
             is_10X = True
 
         if is_DLP:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DLPDGN"
+            output_directory = "/igo/work/FASTQ/" + sequencer_and_run + "_DLP"
         if is_10X:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_10XDGN"
+            output_directory = "/igo/work/FASTQ/" + sequencer_and_run + "_10X"
+        if "REFERENCE" in samplesheet_path:
+            output_directory = "/igo/work/FASTQ/" + sequencer_and_run + "_REFERENCE"
         else:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DGN"
+            output_directory = "/igo/work/FASTQ/" + sequencer_and_run
         
         is_DRAGEN_demux = True
         
@@ -94,25 +96,13 @@ with DAG(
         sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
 
         sample_sheet = SampleSheet(samplesheet_path)
-        # TODO email demux complete starting stats for non "REFERENCE" demuxes
         if "REFERENCE" in samplesheet_path:
             return "No stats for reference "  + samplesheet_path
 
-        # TODO add function to remove copy/paste from above
-        is_DLP = False
         if "DLP" in sample_sheet.recipe_set:
-            is_DLP = True
-        is_10X = False
-        if len(sample_sheet.barcode_list_10X) > 0:
-            is_10X = True
-        if is_DLP:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DLPDGN"
-        if is_10X:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_10XDGN"
-        else:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DGN"
-
-        launch_stats(sample_sheet, output_directory, sequencer_and_run)
+           return "No DLP stats"
+        
+        launch_stats(sample_sheet, sequencer_and_run)
 
         return "Completed"
 
@@ -131,17 +121,17 @@ with DAG(
     """
     Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
     """
-    def launch_stats(sample_sheet, output_directory, sequencer_and_run):
-        nf_working_dir = "/igo/staging/working/" + sequencer_and_run
-        print("Creating nextflow working directory - {}".format(nf_working_dir))
-        if not os.path.exists(nf_working_dir):
-            os.mkdir(nf_working_dir)
-        os.chdir(nf_working_dir)
+    def launch_stats(sample_sheet, sequencer_and_run):
+        working_dir = "/igo/staging/stats/" + sequencer_and_run
+        if not os.path.exists(working_dir):
+            os.mkdir(working_dir)
+        os.chdir(working_dir)
 
-        for project, recipe in sample_sheet.project_dict.items():
-            cmd_redirect = " > nextflow_"+ project+ ".log 2>&1"
-            cmd_basic = "/home/igo/bin/nextflow /home/igo/nf-fastq-plus/samplesheet_stats_main.nf "
-            cmd = "{} --ss {} --dir {}  --filter {} {}".format(cmd_basic, sample_sheet.path, output_directory, project.replace("Project_", ""), cmd_redirect)
-            print(project, recipe)
-            print(cmd)
-            subprocess.run(cmd, shell=True)
+        # TODO email demux complete starting stats for non "REFERENCE" demuxes
+
+        # sh /home/igo/Scripts/Automate-Stats/Launch_Stats_GRCh37.sh 191029_JOHNSAWYERS_0218_000000000-G4BYY 2>&1 >> /home/igo/log/statsTest.log
+        cmd = "sh /home/igo/Scripts/Automate-Stats/Launch_Stats_Airflow.sh {} 2>&1 >> /igo/staging/stats.log".format(sequencer_and_run)
+        print(cmd)
+        subprocess.run(cmd, shell=True)
+        #TODO Launch DetectStatsCompletion.sh
+        # sh $SCRIPTPATH/../Automate-Stats/DetectStatsCompletion.sh $RUNNAME &
