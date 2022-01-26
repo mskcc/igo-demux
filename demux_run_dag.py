@@ -44,18 +44,23 @@ with DAG(
         is_DLP = False
         if "DLP" in sample_sheet.recipe_set:
             is_DLP = True
+        is_WGS = False
+        if "HumanWholeGenome" in sample_sheet.recipe_set:
+            is_WGS = True
         is_10X = False
         if len(sample_sheet.barcode_list_10X) > 0:
             is_10X = True
 
         if is_DLP:
-            output_directory = "/igo/work/FASTQ/" + sequencer_and_run + "_DLP"
+            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DLP"
+        if is_WGS:
+            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_WGS"
         if is_10X:
-            output_directory = "/igo/work/FASTQ/" + sequencer_and_run + "_10X"
+            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_10X"
         if "REFERENCE" in samplesheet_path:
-            output_directory = "/igo/work/FASTQ/" + sequencer_and_run + "_REFERENCE"
+            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_REFERENCE"
         else:
-            output_directory = "/igo/work/FASTQ/" + sequencer_and_run
+            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run
         
         is_DRAGEN_demux = True
         
@@ -104,9 +109,8 @@ with DAG(
            return "No DLP stats"
         
         if "HumanWholeGenome" in sample_sheet.recipe_set:
-            print("Creating DRAGEN pipeline command for each sample")
-            # TODO create DRAGEN pipeline command
-            return "DRAGEN stats are running for WGS"
+            launch_wgs_stats(sample_sheet, sequencer_and_run)
+            return "DRAGEN WGS stats are running for " + sequencer_and_run
 
         launch_stats_via_bash_script(sample_sheet, sequencer_and_run)
 
@@ -123,6 +127,28 @@ with DAG(
     )
 
     demux_run >> launch_stats
+
+
+    def launch_wgs_stats(sample_sheet, sequencer_and_run):
+        #TODO WRITE UNIT TEST afternoon Jan. 26th
+        print("Creating DRAGEN pipeline command for each sample")
+        # dictionary of Sample_ID->Project
+        sample_dict = pandas.Series(sample_sheet.df_ss_data['Sample_Project'].values,index=sample_sheet.df_ss_data['Sample_Name']).to_dict()
+        # Create DRAGEN pipeline command, for example:
+        # bsub -J RAD_Pt_20_T_IGO_04540_P_15 -o RAD_Pt_20_T_IGO_04540_P_15.out -q dragen -n 48 -M 4 
+        # /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/work/luc/DIANA_0441_fastq_list.csv 
+        # --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id RAD_Pt_20_T_IGO_04540_P_15 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
+        for sample, project in sample_dict.items():
+            #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
+            output_prefix = "{}___P{}___{}".format(sequencer_and_run, project, sample)
+
+            bsub = "bsub -J {} -o /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(sample, sequencer_and_run, sample)
+            dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
+            dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
+            dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
+            cmd = bsub + dragen_cmd_1 + dragen_cmd_2 + dragen_cmd_3
+            print(cmd)
+            subprocess.run(cmd, shell=True)
 
     """
     Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
