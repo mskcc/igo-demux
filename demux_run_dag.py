@@ -130,17 +130,22 @@ with DAG(
 
 
     def launch_wgs_stats(sample_sheet, sequencer_and_run):
-        #TODO WRITE UNIT TEST afternoon Jan. 26th
-        print("Creating DRAGEN pipeline command for each sample")
+        cmds = build_dragen_cmds(sample_sheet, sequencer_and_run)
+        for cmd in cmds:
+            subprocess.run(cmd, shell=True)
+
+    def build_dragen_cmds(sample_sheet, sequencer_and_run):
+        print("Creating DRAGEN pipeline command for each sample on " + sequencer_and_run)
         # dictionary of Sample_ID->Project
         sample_dict = pandas.Series(sample_sheet.df_ss_data['Sample_Project'].values,index=sample_sheet.df_ss_data['Sample_Name']).to_dict()
         # Create DRAGEN pipeline command, for example:
         # bsub -J RAD_Pt_20_T_IGO_04540_P_15 -o RAD_Pt_20_T_IGO_04540_P_15.out -q dragen -n 48 -M 4 
         # /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/work/luc/DIANA_0441_fastq_list.csv 
         # --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id RAD_Pt_20_T_IGO_04540_P_15 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
+        cmd_list = []
         for sample, project in sample_dict.items():
-            #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
-            output_prefix = "{}___P{}___{}".format(sequencer_and_run, project, sample)
+            #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15___GRCh38
+            output_prefix = "{}___P{}___{}___GRCh38".format(sequencer_and_run, project.replace("Project_",""), sample)
 
             bsub = "bsub -J {} -o /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(sample, sequencer_and_run, sample)
             dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
@@ -148,7 +153,8 @@ with DAG(
             dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
             cmd = bsub + dragen_cmd_1 + dragen_cmd_2 + dragen_cmd_3
             print(cmd)
-            subprocess.run(cmd, shell=True)
+            cmd_list.append(cmd)
+        return cmd_list
 
     """
     Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
@@ -167,3 +173,9 @@ with DAG(
         subprocess.run(cmd, shell=True)
         #TODO Launch DetectStatsCompletion.sh
         # sh $SCRIPTPATH/../Automate-Stats/DetectStatsCompletion.sh $RUNNAME &
+
+def test_build_dragen_cmds():
+    sample_sheet = SampleSheet("test/DIANA_0441_WGS.csv")
+    cmd_list = build_dragen_cmds(sample_sheet, "DIANA_0441_AH2V3TDSX3")
+    assert(cmd_list[0]== "bsub -J PS4268T_IGO_04540_Q_10 -o /igo/staging/stats/DIANA_0441_AH2V3TDSX3/PS4268T_IGO_04540_Q_10.out -q dragen -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10___GRCh38")
+    print(*cmd_list)
