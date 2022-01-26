@@ -6,7 +6,7 @@ import linecache
 from subprocess import call
 
 """
-Immitate the bcl2fastq option which created a sub-directory per sample from the sample sheet.
+Immitate the bcl2fastq option which created a sub-directory per sample from the sample sheet since IGO has been delivering fastq.gz files that way for many years.
 """
 
 def create_fastq_folders(run_demux_dir):
