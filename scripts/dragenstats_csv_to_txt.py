@@ -106,7 +106,8 @@ class DragenStats:
             _file.write(data_line)
 
 if __name__ == "__main__":
-    #Usage: python dragenstats_csv_to_txt.py [dragen_stats_dir] [output_file_dir]
+    # Usage: python dragenstats_csv_to_txt.py [dragen_stats_dir] [output_file_dir]
+    # example: python3 /Users/luc/Documents/GitHub/igo-demux/scripts/dragenstats_csv_to_txt.py /Users/luc/Documents/GitHub/igo-demux/test/ /Users/luc/Documents/GitHub/igo-demux/test/result_test/
     dragen_stats_folder = sys.argv[1]
     output_folder_path = sys.argv[2]
     sample_list = get_sample_list(dragen_stats_folder)
