@@ -144,8 +144,8 @@ with DAG(
         # --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id RAD_Pt_20_T_IGO_04540_P_15 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
         cmd_list = []
         for sample, project in sample_dict.items():
-            #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15___GRCh38
-            output_prefix = "{}___P{}___{}___GRCh38".format(sequencer_and_run, project.replace("Project_",""), sample)
+            #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
+            output_prefix = "{}___P{}___{}".format(sequencer_and_run, project.replace("Project_",""), sample)
 
             bsub = "bsub -J {} -o /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(sample, sequencer_and_run, sample)
             dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
