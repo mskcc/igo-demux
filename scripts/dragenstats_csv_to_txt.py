@@ -105,20 +105,6 @@ class DragenStats:
             _file.write("\n" + header + "\n")
             _file.write(data_line)
 
-
-    
-
-# dragen_stats_folder = "/Users/luc/Documents/GitHub/igo-demux/test/"
-# output_path = "/Users/luc/Documents/GitHub/igo-demux/test/result_test/"
-
-# sample_list = get_sample_list(dragen_stats_folder)
-# for i in sample_list:
-#     dragen_stats = DragenStats(i)
-#     dragen_stats.read_info_from_csv(dragen_stats_folder)
-#     dragen_stats.write_to_am_txt(output_path)
-#     dragen_stats.write_to_md_txt(output_path)
-#     dragen_stats.write_to_wgs_txt(output_path)
-
 if __name__ == "__main__":
     #Usage: python dragenstats_csv_to_txt.py [dragen_stats_dir] [output_file_dir]
     dragen_stats_folder = sys.argv[1]
