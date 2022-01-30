@@ -59,8 +59,8 @@ with DAG(
         ss_list = ss_orig.split_sample_sheet()
 
         email_to = Variable.get("email_to", default_var="skigodata@mskcc.org")
-        send_email = EmailOperator(
-            task_id='send_email',
+        send_demux_email = EmailOperator(
+            task_id='send_demux_email'+run_name_only,
             to=email_to,
             subject='IGO Cluster New Run Sent for Demuxing',
             html_content=" <h3>{}</h3> sent to DRAGEN split into {} sample sheets".format(run_name_only, len(ss_list)),
@@ -93,4 +93,4 @@ with DAG(
             )
 
             # first steps of pipeline are in pure Python that copy the sample sheet from /pskis34
-            send_email >> trigger_dag_demux
+            send_demux_email >> trigger_dag_demux
