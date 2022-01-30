@@ -137,7 +137,7 @@ with DAG(
     def build_dragen_cmds(sample_sheet, sequencer_and_run):
         print("Creating DRAGEN pipeline command for each sample on " + sequencer_and_run)
         # dictionary of Sample_ID->Project
-        sample_dict = pandas.Series(sample_sheet.df_ss_data['Sample_Project'].values,index=sample_sheet.df_ss_data['Sample_Name']).to_dict()
+        sample_dict = pandas.Series(sample_sheet.df_ss_data['Sample_Project'].values,index=sample_sheet.df_ss_data['Sample_ID']).to_dict()
         # Create DRAGEN pipeline command, for example:
         # bsub -J RAD_Pt_20_T_IGO_04540_P_15 -o RAD_Pt_20_T_IGO_04540_P_15.out -q dragen -n 48 -M 4 
         # /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/work/luc/DIANA_0441_fastq_list.csv 
