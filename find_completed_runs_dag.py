@@ -19,7 +19,7 @@ sequencers = {
       {
          "name":"ayyan",
          "path":"/igo/sequencers/ayyan",
-         "last_file":"RTAComplete.txt"
+         "last_file":"CopyComplete.txt"
       },
       {
          "name":"diana",
