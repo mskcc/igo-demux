@@ -1,2 +1,2 @@
 # igo-demux
-Demultiplex Illumina sequencer output and create fastq files
+Demultiplex Illumina sequencer output with DRAGEN and launch pipelines.
