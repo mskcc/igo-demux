@@ -8,6 +8,8 @@ import pandas
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from airflow.operators.email_operator import EmailOperator
+from airflow.models import Variable
 
 
 """
@@ -76,6 +78,10 @@ with DAG(
             sequencer_path, output_directory, samplesheet_path)
         print("Running demux command: " + command)
         subprocess.run(command, shell=True, check=True)
+
+        # TODO Create and copy LaneSummary.html to the QC site similar to the command in the script:
+        # python /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir $toNameLocal
+
         # if the demux was successful:
         if is_DRAGEN_demux and not is_DLP:
             print("Adding sample sub-folders to the DRAGEN demux.")
@@ -121,12 +127,21 @@ with DAG(
         python_callable=demux,
     )
 
+    email_to = Variable.get("email_to", default_var="skigodata@mskcc.org")
+    demux_done_email = EmailOperator(
+            task_id='demux_done_email',
+            to=email_to,
+            subject='IGO Cluster Demux Completed, Starting Stats',
+            html_content="<h3>IGO Cluster Demux Completed, Starting Stats</h3>",
+            dag=dag
+    )
+
     launch_stats = PythonOperator(
         task_id='launch_stats',
         python_callable=stats,
     )
 
-    demux_run >> launch_stats
+    demux_run >> demux_done_email >> launch_stats
 
 
     def launch_wgs_stats(sample_sheet, sequencer_and_run):

@@ -50,5 +50,5 @@ def correct_fastq_list_csv(demux_reports_dir):
     with open(filename, 'r+') as f:
         text = f.read()
         f.seek(0)
-        updated = re.sub('/([a-zA-Z0-9_]+)_IGO_([0-9]{5}(_[A-Z]+)?(_[0-9]+))',r'/Sample_\1_IGO_\2/\1_IGO_\2', text)
+        updated = re.sub('/([a-zA-Z0-9_-]+)_IGO_([0-9]{5}(_[A-Z]+)?(_[0-9]+))',r'/Sample_\1_IGO_\2/\1_IGO_\2', text)
         f.write(updated)

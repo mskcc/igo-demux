@@ -14,7 +14,46 @@ from airflow.decorators import task
 from airflow.operators.email_operator import EmailOperator
 
 # defines the list of all sequencers and for each sequencer 1) name 2) location it writes runs to and 3) the last file the sequencer writes when a run is completed to signal demux can begin
-sequencers = {"sequencers":[{"name":"ayyan","path":"/igo/sequencers/ayyan","last_file":"RTAComplete.txt"},{"name":"diana","path":"/igo/sequencers/diana","last_file":"CopyComplete.txt"},{"name":"michelle","path":"/igo/sequencers/michelle","last_file":"CopyComplete.txt"},{"name":"ruth","path":"/igo/sequencers/ruth","last_file":"CopyComplete.txt"},{"name":"johnsawyers","path":"/igo/sequencers/johnsawyers","last_file":"RTAComplete.txt"},{"name":"pepe","path":"/igo/sequencers/pepe/output","last_file":"CopyComplete.txt"},{"name":"scott","path":"/igo/sequencers/scott","last_file":"RunCompletionStatus.xml"}]}
+sequencers = {
+   "sequencers":[
+      {
+         "name":"ayyan",
+         "path":"/igo/sequencers/ayyan",
+         "last_file":"RTAComplete.txt"
+      },
+      {
+         "name":"diana",
+         "path":"/igo/sequencers/diana",
+         "last_file":"CopyComplete.txt"
+      },
+      {
+         "name":"michelle",
+         "path":"/igo/sequencers/michelle",
+         "last_file":"CopyComplete.txt"
+      },
+      {
+         "name":"ruth",
+         "path":"/igo/sequencers/ruth",
+         "last_file":"CopyComplete.txt"
+      },
+      {
+         "name":"johnsawyers",
+         "path":"/igo/sequencers/johnsawyers",
+         "last_file":"RTAComplete.txt"
+      },
+      {
+         "name":"pepe",
+         "path":"/igo/sequencers/pepe/output",
+         "last_file":"CopyComplete.txt"
+      },
+      {
+         "name":"scott",
+         "path":"/igo/sequencers/scott",
+         "last_file":"RunCompletionStatus.xml"
+      }
+   ]
+}
+
 
 with DAG(
     dag_id='find_completed_runs', 
@@ -63,7 +102,7 @@ with DAG(
             task_id='send_demux_email'+run_name_only,
             to=email_to,
             subject='IGO Cluster New Run Sent for Demuxing',
-            html_content=" <h3>{}</h3> sent to DRAGEN split into {} sample sheets".format(run_name_only, len(ss_list)),
+            html_content="<h3>{}</h3> sent to DRAGEN split into {} sample sheets".format(run_name_only, ss_list),
             dag=dag
         )
 
@@ -92,5 +131,5 @@ with DAG(
                 data=dag_json,
             )
 
-            # first steps of pipeline are in pure Python that copy the sample sheet from /pskis34
+            # first steps of pipeline are in pure Python that copy the sample sheet from /pskis34 share where the LIMS originally writes it
             send_demux_email >> trigger_dag_demux
