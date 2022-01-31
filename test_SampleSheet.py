@@ -21,7 +21,7 @@ def test_split():
     path2 = ss_list[2].path
     path3 = ss_list[3].path
     assert(path0.endswith("_REFERENCE.csv"))
-    assert(path1.endswith("_V1.csv"))
+    assert(path1.endswith(".csv"))
     assert(path2.endswith("DLP.csv") or path3.endswith("_DLP.csv"))
     assert("Lane" not in ss_list[2].df_ss_data.columns)  # Confirm "Lane" column was removed
     assert(path2.endswith("10X.csv") or path3.endswith("_10X.csv"))
