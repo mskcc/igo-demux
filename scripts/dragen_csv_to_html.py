@@ -2,14 +2,14 @@ import pandas
 import sys
 from collections import OrderedDict
 
-# Combines the DRAGEN Demultiplex_Stats.csv and Top_Unknown_Barcodes.csv into one .html file
-if __name__ == "__main__":
-    #Usage: python dragen_csv_to_html.py [dragen_demux_dir] [output_file_name]
-    demultiplex_stats = sys.argv[1] + "Demultiplex_Stats.csv"
-    top_unknown_barcodes = sys.argv[1] + "Top_Unknown_Barcodes.csv" 
-    write_to_file = sys.argv[2]
+""" 
+Combines the DRAGEN Reports/Demultiplex_Stats.csv and Reports/Top_Unknown_Barcodes.csv into one laneBarcode.html file imitating the output from bcl2fastq
+"""
+def build_lane_summary_html(demux_reports_dir, write_to_file):
+    demultiplex_stats = demux_reports_dir + "/Demultiplex_Stats.csv"
+    top_unknown_barcodes = demux_reports_dir + "/Top_Unknown_Barcodes.csv" 
 
-    print("Converting DRAGEN {} .csv files to .html file".format(demultiplex_stats))
+    print("Converting DRAGEN {} and {} .csv files to .html file".format(demultiplex_stats, top_unknown_barcodes))
 
     demux_stats_csv = pandas.read_csv(demultiplex_stats)
     # convert int dtype to float in order to add commas to reads number
@@ -31,3 +31,16 @@ if __name__ == "__main__":
         for value in df_by_lanes.values():
             _file.write("<td>" + value.to_html(index = False, float_format =  '{:,.0f}'.format) + "</td>")
         _file.write("\n</table>")
+
+"""
+demux_reports_dir - full path to the reports dir such as /igo/staging/FASTQ/DIANA_0442_BH3YJ7DSX3_V1/Reports/
+run_folder - run folder only such as DIANA_0442_BH3YJ7DSX3
+"""
+def convert_dragen_reports(demux_reports_dir, run_folder):
+    html_file = "/home/igo/html/{}_laneBarcode.html".format(run_folder)
+    build_lane_summary_html(demux_reports_dir, html_file)
+
+if __name__ == '__main__':
+    # Converting DRAGEN reports in folder /igo/staging/FASTQ/DIANA_0442_BH3YJ7DSX3/Reports/ to name /home/igo/html/DIANA_0442_BH3YJ7DSX3_laneBarcode.html
+    #Usage: python dragen_csv_to_html.py [dragen_demux_dir] [output_file_name]
+    build_lane_summary_html(sys.argv[1], sys.argv[2])
