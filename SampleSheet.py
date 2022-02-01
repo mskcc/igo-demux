@@ -104,7 +104,7 @@ class SampleSheet:
             print("Added CreateFastqForIndexReads,1 to sample sheet header since 10X samples are present")
 
         # check if the sample sheet is only DLP or WGS samples
-        if ("DLP" in self.recipe_set or "HumanWholeGenome" in self.recipe_set) and len(self.recipe_set) == 1:
+        if "HumanWholeGenome" in self.recipe_set and len(self.recipe_set) == 1:
             print("Adding NoLaneSplitting option to the sample sheet")
             self.df_ss_header.loc[len(self.df_ss_header.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
             self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","",""]
@@ -114,33 +114,28 @@ class SampleSheet:
 
         split_ss_list = [ss_copy, self]  # result list starts with the original sample sheet
 
-        was_split = 0
+        was_split = False
         if "DLP" in self.recipe_set and len(self.recipe_set) > 1:
             print("Copying all DLP samples to a new sample sheet")
             # copy all DLP rows to a new sample sheet
-            dlp_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("DLP") == True ].copy()
+            dlp_data = self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("DLP") == True].copy()
             # and remove DLP samples from the main sample sheet
-            rest_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("DLP") == False ].copy()
-            self.df_ss_data = rest_data
+            self.df_ss_data= self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("DLP") == False].copy()
             # rename DLP sample sheet w/"_DLP.csv"
             dlp_path = os.path.splitext(self.path)[0]+'_DLP.csv'
             header_copy = self.df_ss_header.copy(deep=True)
-            header_copy.loc[len(header_copy.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
-            header_copy.loc[len(header_copy.index)] = ["[Data]","","","","","","","",""]
             dlp_ss = SampleSheet(header_copy, dlp_data, dlp_path)
-            dlp_ss.remove_lane_information()
             split_ss_list.append(dlp_ss)
-            was_split = 1
+            was_split = True
 
         if "HumanWholeGenome" in self.recipe_set and len(self.recipe_set) > 1:
             print("Copying all HumanWholeGenome samples to a new sample sheet")
             # copy all WGS rows to a new sample sheet
-            wgs_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("HumanWholeGenome") == True ].copy()
+            wgs_data = self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("HumanWholeGenome") == True].copy()
             # and remove WGS samples from the main sample sheet
-            rest_data = self.df_ss_data[ self.df_ss_data["Sample_Well"].str.match("WGS") == False ].copy()
-            self.df_ss_data = rest_data
+            self.df_ss_data = self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("HumanWholeGenome") == False].copy()
             # rename WGS sample sheet w/"_wgs.csv"
-            wgs_path = os.path.splitext(self.path)[0]+'_wgs.csv'
+            wgs_path = os.path.splitext(self.path)[0]+'_WGS.csv'
             header_copy = self.df_ss_header.copy(deep=True)
             # add no lane splitting option to the header
             header_copy.loc[len(header_copy.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
@@ -148,7 +143,7 @@ class SampleSheet:
             wgs_ss = SampleSheet(header_copy, wgs_data, wgs_path)
             wgs_ss.remove_lane_information()
             split_ss_list.append(wgs_ss)
-            was_split = 1
+            was_split = True
 
         # check if sample sheet has 'SI-*' barcodes and normal barcodes
         if len(self.barcode_list_10X) > 0 and len(self.barcode_list) != len(self.barcode_list_10X):
@@ -161,7 +156,7 @@ class SampleSheet:
             # if ATAC because read length is 51,50 () for example DIANA_427 must use cellranger-ATAC mkfastq 
             tenx_ss = SampleSheet(self.df_ss_header, tenx_data, tenx_path)
             split_ss_list.append(tenx_ss)
-            was_split = 1
+            was_split = True
 
         if was_split:
             # Rename the original sample sheet
