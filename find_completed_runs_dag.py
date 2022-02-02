@@ -69,9 +69,7 @@ with DAG(
 
    completed_runs_path = list()
 
-   #sequencer_path = kwargs["params"]["sequencer_path"]
-   #print("Attempting to demux single run only from sequencer path {}".format(sequencer_path))
-   #completed_runs_path = sequencer_path + "/RTAComplete.txt"
+   # TODO - Consider making separate DAG to run 1 specific demux?
    demux_special = "/igo/sequencers/run_to_demux.txt"
    if os.path.exists(demux_special):
       run_to_demux_file = open("/igo/sequencers/run_to_demux.txt", "r")
@@ -107,13 +105,16 @@ with DAG(
       ss_orig.path = dest_samplesheet
 
       ss_list = ss_orig.split_sample_sheet()
+      ss_list_str = "/n" # format string to be readable in Data Team emails
+      for sheet in ss_list:
+         ss_list_str += sheet.path + "/n"
 
       email_to = Variable.get("email_to", default_var="skigodata@mskcc.org")
       send_demux_email = EmailOperator(
          task_id='send_demux_email'+run_name_only,
             to=email_to,
             subject='IGO Cluster New Run Sent for Demuxing',
-            html_content="<h3>{}</h3> sent to DRAGEN split into {} sample sheets".format(run_name_only, ' '.join(ss_list)),
+            html_content="<h3>{}</h3> sent to DRAGEN split into: {} ".format(run_name_only, ss_list_str),
             dag=dag
         )
 

@@ -39,6 +39,8 @@ run_folder - run folder only such as DIANA_0442_BH3YJ7DSX3
 def convert_dragen_reports(demux_reports_dir, run_folder):
     html_file = "/home/igo/html/{}_laneBarcode.html".format(run_folder)
     build_lane_summary_html(demux_reports_dir, html_file)
+    #TODO set file creation time similar to:
+    # touch $toNameLocal -r $dragen_replay #set correct timestamp on new html file from a DRAGEN demux file
 
 if __name__ == '__main__':
     # Converting DRAGEN reports in folder /igo/staging/FASTQ/DIANA_0442_BH3YJ7DSX3/Reports/ to name /home/igo/html/DIANA_0442_BH3YJ7DSX3_laneBarcode.html

@@ -36,6 +36,7 @@ with DAG(
     def demux(ds, **kwargs):
         sequencer_path = kwargs["params"]["sequencer_path"]
         samplesheet_path = kwargs["params"]["samplesheet"]
+        print("Starting demux {} {}".format(sequencer_path, samplesheet_path))
 
         samplesheet = os.path.basename(samplesheet_path)
         samplesheet_no_ext = os.path.splitext(samplesheet)[0]  # SampleSheet_210331_MICHELLE_0360_BH5KFYDRXY
@@ -59,8 +60,6 @@ with DAG(
             output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_WGS"
         if is_10X:
             output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_10X"
-        if "REFERENCE" in samplesheet_path:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_REFERENCE"
         else:
             output_directory = "/igo/staging/FASTQ/" + sequencer_and_run
         
@@ -117,6 +116,10 @@ with DAG(
         if "HumanWholeGenome" in sample_sheet.recipe_set:
             launch_wgs_stats(sample_sheet, sequencer_and_run)
             return "DRAGEN WGS stats are running for " + sequencer_and_run
+
+        if any("10X_" in s for s in sample_sheet.recipe_set):
+            # TODO write code to launch 10X pipelines
+            return "Not launching 10X Pipeline"
 
         launch_stats_via_bash_script(sample_sheet, sequencer_and_run)
 
