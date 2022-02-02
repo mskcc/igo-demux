@@ -30,8 +30,11 @@ class SampleSheet:
         self.recipe_set = set(self.df_ss_data['Sample_Well'].tolist())  # Sample_Well column has the recipe, convert it to a set
         # for dual barcode sample sheets concat "index" and "index2" columns
         index_list = self.df_ss_data['index'].tolist()
-        index2_list = self.df_ss_data['index2'].tolist()
-        self.barcode_list = [a + b for a, b in zip(index_list, index2_list)]
+        if 'index2' in self.df_ss_data.columns:  # check if this is a dual-index run
+            index2_list = self.df_ss_data['index2'].tolist()
+            self.barcode_list = [a + b for a, b in zip(index_list, index2_list)]
+        else:
+            self.barcode_list = index_list
         
         barcode_10X = re.compile("SI*")
         # list of all special "SI-*" 10X barcodes

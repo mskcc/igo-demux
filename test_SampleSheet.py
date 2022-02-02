@@ -1,5 +1,10 @@
 from SampleSheet import SampleSheet
 
+
+def test_read_empty_sample_sheet():
+    x = SampleSheet("test/empty_sample_sheet.csv")
+    print("Success")
+
 def test_WGS_only_not_split():
     x = SampleSheet("test/DIANA_0434.csv")
     ss_list = x.split_sample_sheet()
