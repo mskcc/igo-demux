@@ -151,6 +151,27 @@ with DAG(
         cmds = build_dragen_cmds(sample_sheet, sequencer_and_run)
         for cmd in cmds:
             subprocess.run(cmd, shell=True)
+        
+        cmds = build_bwamem2_cmds(sample_sheet, sequencer_and_run)
+        for cmd in cmds:
+            subprocess.run(cmd, shell=True)
+
+    def build_bwamem2_cmds(sample_sheet, sequencer_and_run):
+        # For all ped-peg create the BWA-MEM2 GRCh37 .bam (~30x slower than the DRAGEN GRCh38 .bam)
+        # python3 /igo/work/nabors/tools/wgs_python/wgs_stats_bwa_mem2.py 
+        # --project-dir /igo/staging/FASTQ/MICHELLE_0457_AHGFTGDSX2_WGS/Project_08822_NZ/ 
+        # --output-dir /igo/staging/stats/naborsd_workspace/PPG/MICHELLE_0457/08822_NZ
+        cmd_list = []
+        for project in sample_sheet.project_set:
+            if "08822" in project:
+                project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "_WGS/" + project
+                if not os.path.exists(project_dir):
+                    project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "/" + project
+                output_dir = "/igo/staging/stats/" + sequencer_and_run + "/" + project
+                cmd = "python3 /igo/work/nabors/tools/wgs_python/wgs_stats_bwa_mem2.py --project-dir {} --output-dir {}".format(project_dir, output_dir)
+                print(cmd)
+                cmd_list.append(cmd)
+        return cmd_list
 
     def build_dragen_cmds(sample_sheet, sequencer_and_run):
         print("Creating DRAGEN pipeline command for each sample on " + sequencer_and_run)

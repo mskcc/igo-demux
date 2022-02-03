@@ -105,9 +105,9 @@ with DAG(
       ss_orig.path = dest_samplesheet
 
       ss_list = ss_orig.split_sample_sheet()
-      ss_list_str = "/n" # format string to be readable in Data Team emails
+      ss_list_str = "\n" # format string to be readable in Data Team emails
       for sheet in ss_list:
-         ss_list_str += sheet.path + "/n"
+         ss_list_str += sheet.path + "\n"
 
       email_to = Variable.get("email_to", default_var="skigodata@mskcc.org")
       send_demux_email = EmailOperator(
