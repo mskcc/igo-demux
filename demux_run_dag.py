@@ -68,15 +68,15 @@ with DAG(
         if is_10X:
             is_DRAGEN_demux = False
             # TODO for 10X build correct mkfastq command, special 10X barcodes can't go to dragen
-            print("Building mkfastq command")
+            print("mkfastq command is not yet supported, this must be launched at the command line by the Data Team")
         else:
             # DLP can demux with the default command as long as the [Settings] have 'NoLaneSplitting,true'
             # -K - wait for the job to complete
             bsub_command = "bsub -K -n48 -q dragen -e /igo/work/igo/igo-demux/logs/demux.log -o /igo/work/igo/igo-demux/logs/demux.log "
             command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
             sequencer_path, output_directory, samplesheet_path)
-        print("Running demux command: " + command)
-        subprocess.run(command, shell=True, check=True)
+            print("Running demux command: " + command)
+            subprocess.run(command, shell=True, check=True)
 
         # TODO Create and copy LaneSummary.html to the QC site similar to the command in the script:
         # python /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir $toNameLocal
