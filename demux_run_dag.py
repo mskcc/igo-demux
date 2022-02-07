@@ -148,6 +148,11 @@ with DAG(
 
 
     def launch_wgs_stats(sample_sheet, sequencer_and_run):
+        stats_path = "/igo/staging/stats/" + sequencer_and_run
+        if not os.path.exists(stats_path):
+            os.makedirs(stats_path)
+            print("Created the stats directory: {}".format(stats_path))
+        
         cmds = build_dragen_cmds(sample_sheet, sequencer_and_run)
         for cmd in cmds:
             subprocess.run(cmd, shell=True)
@@ -186,7 +191,7 @@ with DAG(
             #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
             output_prefix = "{}___P{}___{}".format(sequencer_and_run, project.replace("Project_",""), sample)
 
-            bsub = "bsub -J {} -o /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(sample, sequencer_and_run, sample)
+            bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(sample, sequencer_and_run, sample)
             dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
             dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
             dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
@@ -199,6 +204,7 @@ with DAG(
     Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
     """
     def launch_stats_via_bash_script(sample_sheet, sequencer_and_run):
+        # Make sure output directory exists or DRAGEN commands will fail
         working_dir = "/igo/staging/stats/" + sequencer_and_run
         if not os.path.exists(working_dir):
             os.mkdir(working_dir)
@@ -216,5 +222,5 @@ with DAG(
 def test_build_dragen_cmds():
     sample_sheet = SampleSheet("test/DIANA_0441_WGS.csv")
     cmd_list = build_dragen_cmds(sample_sheet, "DIANA_0441_AH2V3TDSX3")
-    assert(cmd_list[0]== "bsub -J PS4268T_IGO_04540_Q_10 -o /igo/staging/stats/DIANA_0441_AH2V3TDSX3/PS4268T_IGO_04540_Q_10.out -q dragen -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10___GRCh38")
+    assert(cmd_list[0]== "bsub -J PS4268T_IGO_04540_Q_10 -eo /igo/staging/stats/DIANA_0441_AH2V3TDSX3/PS4268T_IGO_04540_Q_10.out -q dragen -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10___GRCh38")
     print(*cmd_list)
