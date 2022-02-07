@@ -3,11 +3,10 @@ import sys
 from collections import OrderedDict
 
 # Combines the DRAGEN Demultiplex_Stats.csv and Top_Unknown_Barcodes.csv into one .html file
-if __name__ == "__main__":
-    #Usage: python dragen_csv_to_html.py [dragen_demux_dir] [output_file_name]
-    demultiplex_stats = sys.argv[1] + "Demultiplex_Stats.csv"
-    top_unknown_barcodes = sys.argv[1] + "Top_Unknown_Barcodes.csv" 
-    write_to_file = sys.argv[2]
+def dragen_csv_to_html(dragen_demux_dir, output_file_name):
+    demultiplex_stats = dragen_demux_dir + "Demultiplex_Stats.csv"
+    top_unknown_barcodes = dragen_demux_dir + "Top_Unknown_Barcodes.csv" 
+    write_to_file = output_file_name
 
     print("Converting DRAGEN {} .csv files to .html file".format(demultiplex_stats))
 
@@ -31,3 +30,8 @@ if __name__ == "__main__":
         for value in df_by_lanes.values():
             _file.write("<td>" + value.to_html(index = False, float_format =  '{:,.0f}'.format) + "</td>")
         _file.write("\n</table>")
+
+
+if __name__ == "__main__":
+    #Usage: python dragen_csv_to_html.py [dragen_demux_dir] [output_file_name]
+    dragen_csv_to_html(sys.argv[1], sys.argv[2])
