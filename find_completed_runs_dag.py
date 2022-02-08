@@ -55,6 +55,10 @@ sequencers = {
    ]
 }
 
+def get_airflow_date(date_time, added_seconds):
+      return (datetime.datetime.now() + datetime.timedelta(seconds=(added_seconds))).strftime("%Y-%m-%dT%H:%M:%S")
+
+
 """
 Find recently completed runs by looking for the last file written by the sequencers,
 then split and copy the sample sheet for the completed run and launch the demux task
@@ -69,7 +73,7 @@ with DAG(
 
    completed_runs_path = list()
 
-   # TODO - Consider making separate DAG to run 1 specific demux?
+   # TODO - Consider making separate DAG to trigger 1 specific demux?
    demux_special = "/igo/sequencers/run_to_demux.txt"
    if os.path.exists(demux_special):
       run_to_demux_file = open("/igo/sequencers/run_to_demux.txt", "r")
@@ -77,6 +81,7 @@ with DAG(
       run_to_demux_file.close()
       if len(demux) > 0:
          completed_runs_path.append(demux + "/RTAComplete.txt")
+      # TODO check if path exists, if not then done
 
    if len(completed_runs_path) == 0:
       print("Processing sequencer list: {}".format(sequencers))
@@ -129,7 +134,8 @@ with DAG(
          demux_dict['sequencer_path'] = completed_run_path
          demux_args_json = json.dumps(demux_dict)
 
-         future = '"'+(datetime.datetime.now() + datetime.timedelta(seconds=(counter*10))).strftime("%Y-%m-%dT%H:%M:%SZ")+'"'
+         exec_time = get_airflow_date(datetime.datetime.now(), counter)
+         future = '"'+exec_time+'"'
          # Airflow required arguments to trigger a dag - execution date and conf arguments
          dag_json = '{"execution_date": ' + future + ',"conf": '+demux_args_json+'}'
          print("Calling demux with execution time and args:" + dag_json)
