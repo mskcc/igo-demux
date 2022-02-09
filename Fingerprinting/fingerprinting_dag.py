@@ -6,13 +6,8 @@ import requests
 import subprocess
 from sys import path_importer_cache, stdout
 from time import process_time
-from rich import print_json
-
-from sqlalchemy import true
-import config
+#import config
 """""
-
-
 from getSampleManifests import get_sample_manifests
 from getSampleManifests import get_igo_id_mappings
 from getSampleManifests import get_igo_id
@@ -59,7 +54,7 @@ igoId_to_correctedCmoPatientId_map = {
 MAPPED_FIELDS = ["cmoPatientId", "tumorOrNormal"]
 
 def fingerprint(project_id):
-    lims_host = 'igo-lims04.mskcc.org:8443'
+    lims_host = 'igolims:8443'
     STATS_DIR = '/igo/staging/stats/'
     REFERENCE_SEQUENCE_DIR = '/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa'
     HAPLOTYPE_MAP = '/home/igo/fingerprint_maps/map_files/hg38_igo.map'
@@ -71,26 +66,23 @@ def fingerprint(project_id):
     input_bams = set()
     print("Finding bams of the run argument...")
     subprocess.call("cd /igo/staging/stats/", shell=True)
-    for fileName in glob.glob('./**/*___' + project_id + '___*___MD.bam', recursive=True):
-        input_bams.add(fileName.split('/')[len(fileName.split('/') - 1)])
+    for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id + '___*___MD.bam', recursive=True):
+        input_bams.add(fileName.split('/')[len(fileName.split('/')) - 1])
         print(fileName + " Added")
 
-    
     if(len(input_bams) == 0):
-        REFERENCE_SEQUENCE_DIR = '/igo/work//genomes/H.sapiens/hg38/hg38.fa' # TODO: illumina ref dir
-        for fileName in glob.glob('./**/*___' + project_id + '___*___.bam', recursive=True):
-            input_bams.add(fileName.split('/')[len(fileName.split('/') - 1)])
-            print(fileName + " Added")
-            
-        
-    # else:
-    #     for bam in input_bams:
-    #         bam = bam.split('IGO')[1] # review this logic
+        print('length is zero!')
+        REFERENCE_SEQUENCE_DIR = '/igo/work//genomes/H.sapiens/hg38/hg38.fa' #Illumina Alt Aware graph reference file
+        for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id + '___*___.bam', recursive=True):
+            input_bams.add(fileName.split('/')[len(fileName.split('/')) - 1])
+            print(fileName.split('/')[len(fileName.split('/') - 1)] + " Added")
+    
     print("Number of BAM files: ", len(input_bams))
     igo_ids=list(set(list(map(lambda bam: get_igo_id(bam), input_bams))))
+    print("number of igo ids: " , len(igo_ids))
     sample_manifest = get_sample_manifests(igo_ids, lims_host)
     igo_id_mappings = get_igo_id_mappings(sample_manifest, MAPPED_FIELDS)
-    
+
     processedIgoIds = []
     for bam in input_bams:
         regex = "IGO_([a-zA-Z0-9_]*?)___"
@@ -100,31 +92,30 @@ def fingerprint(project_id):
         if(igoId not in processedIgoIds):
             processedIgoIds.append(igoId)
         else:
-            print('Processed igo id, breaking out of loop.')
+            print('Processed igo id, continuing to the next bam.')
             continue
-         
 
         EXECUTION_DIR = STATS_DIR
-        output_vcf = EXECUTION_DIR + 'VCF/' + patient_id + '_' + project_id + '_' + igoId[0] + '_.vcf'
+        output_vcf = EXECUTION_DIR + 'VCF/' + patient_id + '_' + project_id + '_' + igoId[0] + '.vcf'
         runFolder = bam.split('___')[0]
         bam = EXECUTION_DIR + runFolder + '/' + bam
 
-        command1 = 'bsub -w /home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE_DIR, patient_id)
-        print("Running extract fingerprint: " + command1)
+        command1 = '/home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE_DIR, patient_id)
         subprocess.call(command1, shell=True)
+        print("Running extract fingerprint: " + command1)
         vcfs.append(output_vcf)
 
 
     command2 = '/home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=crosscheck_fingerprint.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(HAPLOTYPE_MAP)
         
     vcfInputs = " INPUT=".join(vcfs)
+       
     command2 += vcfInputs
-    print("Running cross-check fingerprint: " + command2)
     subprocess.call(command2, shell=True)
+    print("Running cross-check fingerprint: " + command2)
 
     t_stop = process_time()
-    print("Elapsed time to fingerprint: ", t_stop - t_start)
-     
+    print("Elapsed time to fingerprint: ", t_stop - t_start) 
         
 
 #################################
@@ -184,7 +175,7 @@ def get_sample_manifests(igo_ids, lims_host):
         print("Retrieving manifests from samples [%d,%d): %s" % (query_min, query_max, ", ".join(query_list)))
 
         try:
-            resp = requests.get(url, auth=(config.LIMS_USER, config.LIMS_PASSWORD), verify=False)
+            resp = requests.get(url, auth=('pms', 'tiagostarbuckslightbike'), verify=False)
         except:
             print("Request Failed: %s" % url)
             # We need to return a list of mappings, even if empty
@@ -261,7 +252,5 @@ def get_igo_id_mappings(sample_manifests, mapped_fields):
 
         dic[key_value] = entry
 
-    return dic  
-
-
-#fingerprint('MICHELLE_0474_AH5L2MDSX3')
+    return dic        
+fingerprint('P12688_D')
