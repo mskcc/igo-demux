@@ -5,6 +5,10 @@ import os
 import linecache
 from subprocess import call
 
+"""
+Immitate the bcl2fastq option which created a sub-directory per sample from the sample sheet since IGO has been delivering fastq.gz files that way for many years.
+"""
+
 def create_fastq_folders(run_demux_dir):
     run = run_demux_dir
     
@@ -36,3 +40,15 @@ def create_fastq_folders(run_demux_dir):
 # look below
 # SAMPLE = re.findall(r'^(.+?)___',FILE)[0]
 
+"""
+Creating the "Sample_" directories for each fastq made the DRAGEN generated Reports/fastq_list.csv paths incomplete, fix those paths.
+"""
+def correct_fastq_list_csv(demux_reports_dir):
+    # Read the fastq_list.csv file in the demux "Reports" directory
+    filename = demux_reports_dir + "/fastq_list.csv"
+    print("Reading " + filename)
+    with open(filename, 'r+') as f:
+        text = f.read()
+        f.seek(0)
+        updated = re.sub('/([a-zA-Z0-9_-]+)_IGO_([0-9]{5}(_[A-Z]+)?(_[0-9]+))',r'/Sample_\1_IGO_\2/\1_IGO_\2', text)
+        f.write(updated)
