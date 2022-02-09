@@ -109,16 +109,13 @@ def fingerprint(project_id):
         runFolder = bam.split('___')[0]
         bam = EXECUTION_DIR + runFolder + '/' + bam
 
-        command1 = '/home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE_DIR, patient_id)
+        command1 = 'bsub -w /home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE_DIR, patient_id)
         print("Running extract fingerprint: " + command1)
         subprocess.call(command1, shell=True)
         vcfs.append(output_vcf)
 
 
     command2 = '/home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=crosscheck_fingerprint.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(HAPLOTYPE_MAP)
-    # listOfInputs = []
-    # for vcf in vcfs:
-    #     listOfInputs.append(vcf)
         
     vcfInputs = " INPUT=".join(vcfs)
     command2 += vcfInputs
