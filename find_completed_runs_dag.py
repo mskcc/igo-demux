@@ -40,7 +40,7 @@ sequencers = {
       {
          "name": "johnsawyers",
          "path": "/igo/sequencers/johnsawyers",
-         "last_file": "RTAComplete.txt"
+         "last_file": "CopyComplete.txt"
       },
       {
          "name": "pepe",
@@ -50,7 +50,7 @@ sequencers = {
       {
          "name": "scott",
          "path": "/igo/sequencers/scott",
-         "last_file": "RunCompletionStatus.xml"
+         "last_file": "CopyComplete.txt"
       }
    ]
 }
