@@ -91,23 +91,18 @@ def fingerprint(project_id):
     sample_manifest = get_sample_manifests(igo_ids, lims_host)
     igo_id_mappings = get_igo_id_mappings(sample_manifest, MAPPED_FIELDS)
     
-    for bam in input_bams:
-        regex = "IGO_([a-zA-Z0-9_.-]*?)___"
-        igoId = re.findall(regex, bam)
-
-    i = 0
     processedIgoIds = []
-    for bam in sorted(input_bams):
-        patient_id = igo_id_mappings[igo_ids[i]]['cmoPatientId']
-        regex = "IGO_([a-zA-Z0-9_.-]*?)___"
-        igoId = re.findall(regex, bam)
-        if(igoId[0] not in processedIgoIds):
-            processedIgoIds.append(igoId[0])
+    for bam in input_bams:
+        regex = "IGO_([a-zA-Z0-9_]*?)___"
+        igoId = re.findall(regex, bam)[0]
+        patient_id = igo_id_mappings[igoId]['cmoPatientId']
+        print("patient_id: " + patient_id)
+        if(igoId not in processedIgoIds):
+            processedIgoIds.append(igoId)
         else:
             print('Processed igo id, breaking out of loop.')
             continue
-        print("patient_id: " + patient_id)
-        i += 1 
+         
 
         EXECUTION_DIR = STATS_DIR
         output_vcf = EXECUTION_DIR + 'VCF/' + patient_id + '_' + project_id + '_' + igoId[0] + '_.vcf'
@@ -121,11 +116,11 @@ def fingerprint(project_id):
 
 
     command2 = '/home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=crosscheck_fingerprint.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(HAPLOTYPE_MAP)
-    listOfInputs = []
-    for vcf in vcfs:
-        listOfInputs.append(vcf)
+    # listOfInputs = []
+    # for vcf in vcfs:
+    #     listOfInputs.append(vcf)
         
-    vcfInputs = " INPUT=".join(listOfInputs)
+    vcfInputs = " INPUT=".join(vcfs)
     command2 += vcfInputs
     print("Running cross-check fingerprint: " + command2)
     subprocess.call(command2, shell=True)
@@ -270,5 +265,6 @@ def get_igo_id_mappings(sample_manifests, mapped_fields):
         dic[key_value] = entry
 
     return dic  
+
 
 #fingerprint('MICHELLE_0474_AH5L2MDSX3')
