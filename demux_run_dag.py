@@ -72,7 +72,7 @@ with DAG(
         else:
             # DLP can demux with the default command as long as the [Settings] have 'NoLaneSplitting,true'
             # -K - wait for the job to complete
-            bsub_command = "bsub -m id01 -K -n48 -q dragen -e /igo/work/igo/igo-demux/logs/demux.log -o /igo/work/igo/igo-demux/logs/demux.log "
+            bsub_command = "bsub -K -n48 -q dragen -e /igo/work/igo/igo-demux/logs/demux.log -o /igo/work/igo/igo-demux/logs/demux.log "
             command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
             sequencer_path, output_directory, samplesheet_path)
             print("Running demux command: " + command)
@@ -153,13 +153,20 @@ with DAG(
             os.makedirs(stats_path)
             print("Created the stats directory: {}".format(stats_path))
         
-        cmds = build_dragen_cmds(sample_sheet, sequencer_and_run)
-        for cmd in cmds:
+        cmds_dragen = build_dragen_cmds(sample_sheet, sequencer_and_run)
+        for cmd in cmds_dragen:
             subprocess.run(cmd, shell=True)
         
-        cmds = build_bwamem2_cmds(sample_sheet, sequencer_and_run)
-        for cmd in cmds:
+        cmds_bwamem2 = build_bwamem2_cmds(sample_sheet, sequencer_and_run)
+        for cmd in cmds_bwamem2:
             subprocess.run(cmd, shell=True)
+        
+        email_to = Variable.get("email_to", default_var="skigodata@mskcc.org")
+        msg_body = " \n ".join(cmds_dragen)
+        msg_subject = "DRAGEN commands launched for " + sequencer_and_run
+        # use 'echo -e' to try to preserve newline characters
+        mail_cmd = "echo -e {} | mail -s {} {}".format(msg_body, msg_subject, email_to)
+        subprocess.run(mail_cmd, shell=True)
 
     def build_bwamem2_cmds(sample_sheet, sequencer_and_run):
         # For all ped-peg create the BWA-MEM2 GRCh37 .bam (~30x slower than the DRAGEN GRCh38 .bam)

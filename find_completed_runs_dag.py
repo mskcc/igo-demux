@@ -12,7 +12,6 @@ from airflow import DAG
 from airflow.models import Variable
 from airflow.decorators import task
 from airflow.operators.email_operator import EmailOperator
-from airflow.operators.python import PythonOperator
 
 # defines the list of all sequencers and for each sequencer 1) name 2) location it writes runs to and 3) the last file the sequencer writes when a run is completed to signal demux can begin
 sequencers = {
@@ -54,9 +53,6 @@ sequencers = {
       }
    ]
 }
-
-def get_airflow_date(date_time, added_seconds):
-      return (datetime.datetime.now() + datetime.timedelta(seconds=(added_seconds))).strftime("%Y-%m-%dT%H:%M:%S")
 
 
 """
@@ -134,7 +130,7 @@ with DAG(
          demux_dict['sequencer_path'] = completed_run_path
          demux_args_json = json.dumps(demux_dict)
 
-         exec_time = get_airflow_date(datetime.datetime.now(), counter)
+         exec_time = (datetime.datetime.now() + datetime.timedelta(seconds=(counter))).strftime("%Y-%m-%dT%H:%M:%SZ")
          future = '"'+exec_time+'"'
          # Airflow required arguments to trigger a dag - execution date and conf arguments
          dag_json = '{"execution_date": ' + future + ',"conf": '+demux_args_json+'}'
