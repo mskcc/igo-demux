@@ -1,10 +1,18 @@
 #!/bin/bash
+# Copies the laneBarcode.html demux report to the run-qc website
 
 DIR=/igo/staging/FASTQ
 cd $DIR
 
-echo "Searching for recently completed demuxes in $DIR"
-FASTQ_DIRS=$(find /igo/staging/FASTQ -mindepth 1 -maxdepth 1 -cmin -250)
+# if no arguments supplied search for recently completed demuxes
+if [ $# -eq 0 ]
+  then
+    echo "Searching for recently completed demuxes in $DIR"
+    FASTQ_DIRS=$(find /igo/staging/FASTQ -mindepth 1 -maxdepth 1 -cmin -250)
+  else
+    FASTQ_DIRS=$1
+fi
+
 for fastq_dir in ${FASTQ_DIRS}; do
   echo "Processing $fastq_dir" # for example: /igo/staging/FASTQ/MICHELLE_0465_AH3GKKDSX3
   runFullName="$(echo $fastq_dir| cut -d'/' -f 5)"
