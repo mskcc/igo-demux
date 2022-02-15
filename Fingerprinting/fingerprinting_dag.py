@@ -2,6 +2,7 @@ import glob
 import sys
 import re
 import json
+from platformdirs import os
 import requests
 import subprocess
 from sys import path_importer_cache, stdout
@@ -84,38 +85,93 @@ def fingerprint(project_id):
     igo_id_mappings = get_igo_id_mappings(sample_manifest, MAPPED_FIELDS)
 
     processedIgoIds = []
+    mapOfIgoIdsToBamFileSize = {}
+#-------------------------------------------------------------------------------------------
+    
+    regex = "IGO_([a-zA-Z0-9_]*?)___"
+    for bam in input_bams:
+            igoId = re.findall(regex, bam)[0]
+            bam = STATS_DIR + bam.split('___')[0] + '/' + bam
+            file_size = os.path.getsize(bam)
+            if(igoId in mapOfIgoIdsToBamFileSize):
+                present_file_size = os.path.getsize(mapOfIgoIdsToBamFileSize.get(igoId))
+                if(present_file_size < file_size):
+                    mapOfIgoIdsToBamFileSize.update(igoId = bam) # update the map
+            else:        
+                mapOfIgoIdsToBamFileSize.update(igoId = bam)
+
+    for item in mapOfIgoIdsToBamFileSize:
+        patient_id = igo_id_mappings[item]['cmoPatientId']
+        print("patient_id: " + patient_id)
+        bam = mapOfIgoIdsToBamFileSize[item]
+
+        EXECUTION_DIR = STATS_DIR
+        output_vcf = EXECUTION_DIR + 'VCF/' + patient_id + '_' + project_id + '_' + igoId + '.vcf'
+        runFolder = bam.split('___')[0]
+        bam = EXECUTION_DIR + runFolder + '/' + bam
+
+        command1 = 'bsub  -J "extract_fingerprint[1-{}]" /home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(len(input_bams), HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE_DIR, patient_id)
+        subprocess.call(command1, shell=True)
+        print("Running extract fingerprint: " + command1)
+        vcfs.append(output_vcf)           
+    
+    #-------------------------------------------------------------------------------------------
+    extractFingerprint_start = process_time()
+    command0 = 'mkdir /igo/staging/stats/VCF/vcf_{}'.format(project_id)
+    subprocess.call(command0, shell=True)
     for bam in input_bams:
         regex = "IGO_([a-zA-Z0-9_]*?)___"
         igoId = re.findall(regex, bam)[0]
         patient_id = igo_id_mappings[igoId]['cmoPatientId']
         print("patient_id: " + patient_id)
+        '''
+        if(mapOfIgoIdsToBamFileSize.get(igoId) != bam):
+            print('Skipping processing this bam, as there is another larger bam for ' + igoId + 'igo ID.')
+            continue 
+        '''
         if(igoId not in processedIgoIds):
             processedIgoIds.append(igoId)
         else:
             print('Processed igo id, continuing to the next bam.')
-            continue
+            continue      
 
-        EXECUTION_DIR = STATS_DIR
-        output_vcf = EXECUTION_DIR + 'VCF/' + patient_id + '_' + project_id + '_' + igoId[0] + '.vcf'
+        EXECUTION_DIR = STATS_DIR + 'VCF/'
+        output_vcf = EXECUTION_DIR + 'vcf_' + project_id + '/' + patient_id + '_' + project_id + '_' + igoId + '.vcf'
         runFolder = bam.split('___')[0]
-        bam = EXECUTION_DIR + runFolder + '/' + bam
+        bam = STATS_DIR + runFolder + '/' + bam
 
-        command1 = '/home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE_DIR, patient_id)
+        command1 = 'bsub -J "extract_fingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(igoId, HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE_DIR, patient_id)
         subprocess.call(command1, shell=True)
         print("Running extract fingerprint: " + command1)
         vcfs.append(output_vcf)
 
-
-    command2 = '/home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=crosscheck_fingerprint.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(HAPLOTYPE_MAP)
-        
+    extractFingerprint_finish = process_time()
+    print('Elapsed time to extract fingerprint for all bams: ', extractFingerprint_finish - extractFingerprint_start)
+    
+    command2 = 'bsub -w "ended(extract_fingerprint_*)" -J "CrosscheckFingerprint" /home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=/igo/staging/stats/VCF/crosscheck_fingerprint_{}.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(project_id, HAPLOTYPE_MAP)    
     vcfInputs = " INPUT=".join(vcfs)
-       
+    
     command2 += vcfInputs
     subprocess.call(command2, shell=True)
     print("Running cross-check fingerprint: " + command2)
 
+    crosscheckFingerprint_stop = process_time()
+    print('Elapsed time to CrosscheckFingerprints: ', crosscheckFingerprint_stop - extractFingerprint_finish)
+
+    # Save to ng-stats
+    command3 = 'mkdir /igo/stats/DONE/crosscheck_metrics/{}'.format(project_id)
+    subprocess.call(command3, shell=True)
+    command4 = 'cp /igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv /igo/stats/DONE/crosscheck_metrics/{}/'.format(project_id, project_id, project_id)
+    subprocess.call(command4, shell=True)
+    command5 = 'mv /igo/stats/DONE/crosscheck_metrics/{}.tsv /igo/stats/DONE/crosscheck_metrics/{}.crosscheck_metrics'.format(project_id, project_id)
+    subprocess.call(command5, shell=True)
+
+    # Call http://delphi.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project=
+
+
+
     t_stop = process_time()
-    print("Elapsed time to fingerprint: ", t_stop - t_start) 
+    print("Elapsed time to fingerprint in totall: ", t_stop - t_start) 
         
 
 #################################
