@@ -160,7 +160,26 @@ with DAG(
         cmds_bwamem2 = build_bwamem2_cmds(sample_sheet, sequencer_and_run)
         for cmd in cmds_bwamem2:
             subprocess.run(cmd, shell=True)
-        
+
+        # create txt stats files from dragen result after dragen command finish for one run directly to /igo/stats/DONE/<sequncer> folder
+        sequencer = sequencer_and_run.split("_")[0]
+        stats_path_for_conversion = stats_path + "/"
+        stats_done_dir = "/igo/stats/DONE/" + sequencer + "/"
+        cmd_conversion = "python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt.py {} {}".format(stats_path_for_conversion, stats_done_dir)
+        bsub_command_conversion = "bsub -J create_txt_{} -o {}create_txt.out -w \"done({}*)\" {}".format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, cmd_conversion)
+        print(bsub_command_conversion)
+        subprocess.run(bsub_command_conversion, shell=True)
+
+        # call endpoint to push data to ngs database and LIMS
+        # TODO how to call it?
+        if sequencer_and_run[-4:] == "_WGS":
+            sequencer_and_run_prefix = sequencer_and_run[:-4]
+        else:
+            sequencer_and_run_prefix = sequencer_and_run
+        delphi_endpoint = "http://delphi.mskcc.org:8080/ngs-stats/picardstats/updaterun/{}/{}".format(sequencer, sequencer_and_run_prefix)
+
+        LIMS_endpoint="https://igo-lims02.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQc?runId={}".format(sequencer_and_run_prefix)
+
         email_to = Variable.get("email_to", default_var="skigodata@mskcc.org")
         msg_body = " \n ".join(cmds_dragen)
         msg_subject = "DRAGEN commands launched for " + sequencer_and_run
@@ -194,11 +213,18 @@ with DAG(
         # /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/work/luc/DIANA_0441_fastq_list.csv 
         # --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id RAD_Pt_20_T_IGO_04540_P_15 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
         cmd_list = []
+        
+        # check if sequencer_and_run contains _WGS at the end, if yes, remove it
+        if sequencer_and_run[-4:] == "_WGS":
+            sequencer_and_run_prefix = sequencer_and_run[:-4]
+        else:
+            sequencer_and_run_prefix = sequencer_and_run
+
         for sample, project in sample_dict.items():
             #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
-            output_prefix = "{}___P{}___{}".format(sequencer_and_run, project.replace("Project_",""), sample)
-
-            bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(sample, sequencer_and_run, sample)
+            output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
+            job_name = sequencer_and_run + "_" + sample
+            bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
             dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
             dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
             dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
@@ -228,6 +254,6 @@ with DAG(
 
 def test_build_dragen_cmds():
     sample_sheet = SampleSheet("test/DIANA_0441_WGS.csv")
-    cmd_list = build_dragen_cmds(sample_sheet, "DIANA_0441_AH2V3TDSX3")
-    assert(cmd_list[0]== "bsub -J PS4268T_IGO_04540_Q_10 -eo /igo/staging/stats/DIANA_0441_AH2V3TDSX3/PS4268T_IGO_04540_Q_10.out -q dragen -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10___GRCh38")
+    cmd_list = build_dragen_cmds(sample_sheet, "DIANA_0441_AH2V3TDSX3_WGS")
+    assert(cmd_list[0]== "bsub -J PS4268T_IGO_04540_Q_10 -eo /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS/PS4268T_IGO_04540_Q_10.out -q dragen -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3_WGS/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10")
     print(*cmd_list)
