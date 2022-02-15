@@ -100,7 +100,7 @@ def fingerprint(project_id):
             continue      
 
         EXECUTION_DIR = STATS_DIR + 'VCF/'
-        output_vcf = EXECUTION_DIR + 'vcf_' + project_id + '/' + patient_id + '_' + project_id + '_' + igoId + '.vcf'
+        output_vcf = EXECUTION_DIR + 'vcf_' + project_id + '/' + patient_id + '__' + project_id + '__' + igoId + '.vcf'
         runFolder = bam.split('___')[0]
         bam = STATS_DIR + runFolder + '/' + bam
 
