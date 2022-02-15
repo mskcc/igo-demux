@@ -128,23 +128,22 @@ with DAG(
     demux_run = PythonOperator(
         task_id='start_the_demux',
         python_callable=demux,
-    )
-
-    email_to = Variable.get("email_to", default_var="skigodata@mskcc.org")
-    demux_done_email = EmailOperator(
-            task_id='demux_done_email',
-            to=email_to,
-            subject='IGO Cluster Demux Completed, Starting Stats',
-            html_content="<h3>IGO Cluster Demux Completed, Starting Stats</h3>",
-            dag=dag
+        provide_context=True,
+        email_on_failure=True,
+        email='skigodata@mskcc.org',
+        dag=dag
     )
 
     launch_stats = PythonOperator(
         task_id='launch_stats',
         python_callable=stats,
+        provide_context=True,
+        email_on_failure=True,
+        email='skigodata@mskcc.org',
+        dag=dag
     )
 
-    demux_run >> demux_done_email >> launch_stats
+    demux_run >> launch_stats
 
 
     def launch_wgs_stats(sample_sheet, sequencer_and_run):
