@@ -72,7 +72,7 @@ with DAG(
         else:
             # DLP can demux with the default command as long as the [Settings] have 'NoLaneSplitting,true'
             # -K - wait for the job to complete
-            bsub_command = "bsub -K -n48 -q dragen -e /igo/work/igo/igo-demux/logs/demux.log -o /igo/work/igo/igo-demux/logs/demux.log "
+            bsub_command = "bsub -K -n48 -q dragen -m id01 -eo /igo/work/igo/igo-demux/logs/demux.log "
             command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
             sequencer_path, output_directory, samplesheet_path)
             print("Running demux command: " + command)
@@ -225,7 +225,7 @@ with DAG(
             #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
             output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
             job_name = sequencer_and_run + "_" + sample
-            bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
+            bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m id01 -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
             dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
             dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
             dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
