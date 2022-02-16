@@ -78,14 +78,16 @@ with DAG(
             print("Running demux command: " + command)
             subprocess.run(command, shell=True, check=True)
 
-        # TODO Create and copy LaneSummary.html to the QC site similar to the command in the script:
-        # python /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir $toNameLocal
-
         # if the demux was successful:
         if is_DRAGEN_demux and not is_DLP:
             print("Adding sample sub-folders to the DRAGEN demux.")
             scripts.organise_fastq_split_by_lane.create_fastq_folders(output_directory)
             scripts.organise_fastq_split_by_lane.correct_fastq_list_csv(output_directory+"/Reports")
+
+        # Call CopyIlluminaReports.sh /igo/staging/FASTQ/RUTH_0066_BHTJ33DRXY
+        copy_reports_cmd = "/igo/work/igo/igo-demux/CopyIlluminaReports.sh /igo/staging/FASTQ/" + sequencer_and_run
+        print("Running command to copy demux reports: " + copy_reports_cmd)
+        subprocess.run(copy_reports_cmd, shell=True, check=True)
         
         # for DLP projects create the .yaml file
         if is_DLP:
