@@ -181,12 +181,6 @@ with DAG(
 
         LIMS_endpoint="https://igo-lims02.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQc?runId={}".format(sequencer_and_run_prefix)
 
-        email_to = Variable.get("email_to", default_var="skigodata@mskcc.org")
-        msg_body = " \n ".join(cmds_dragen)
-        msg_subject = "DRAGEN commands launched for " + sequencer_and_run
-        # use 'echo -e' to try to preserve newline characters
-        mail_cmd = "echo -e {} | mail -s {} {}".format(msg_body, msg_subject, email_to)
-        subprocess.run(mail_cmd, shell=True)
 
     def build_bwamem2_cmds(sample_sheet, sequencer_and_run):
         # For all ped-peg create the BWA-MEM2 GRCh37 .bam (~30x slower than the DRAGEN GRCh38 .bam)
