@@ -166,19 +166,13 @@ with DAG(
         stats_path_for_conversion = stats_path + "/"
         stats_done_dir = "/igo/stats/DONE/" + sequencer + "/"
         cmd_conversion = "python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt.py {} {}".format(stats_path_for_conversion, stats_done_dir)
-        bsub_command_conversion = "bsub -J create_txt_{} -o {}create_txt.out -w \"done({}*)\" {}".format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, cmd_conversion)
+        bsub_command_conversion = "bsub -K -J create_txt_{} -o {}create_txt.out -w \"done({}*)\" {}".format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, cmd_conversion)
         print(bsub_command_conversion)
         subprocess.run(bsub_command_conversion, shell=True)
 
         # call endpoint to push data to ngs database and LIMS
-        # TODO how to call it?
-        if sequencer_and_run[-4:] == "_WGS":
-            sequencer_and_run_prefix = sequencer_and_run[:-4]
-        else:
-            sequencer_and_run_prefix = sequencer_and_run
-        delphi_endpoint = "http://delphi.mskcc.org:8080/ngs-stats/picardstats/updaterun/{}/{}".format(sequencer, sequencer_and_run_prefix)
-
-        LIMS_endpoint="https://igo-lims02.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQc?runId={}".format(sequencer_and_run_prefix)
+        upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+        subprocess.run(upload_stats_cmd, shell=True)
 
         email_to = Variable.get("email_to", default_var="skigodata@mskcc.org")
         msg_body = " \n ".join(cmds_dragen)
@@ -214,11 +208,8 @@ with DAG(
         # --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id RAD_Pt_20_T_IGO_04540_P_15 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
         cmd_list = []
         
-        # check if sequencer_and_run contains _WGS at the end, if yes, remove it
-        if sequencer_and_run[-4:] == "_WGS":
-            sequencer_and_run_prefix = sequencer_and_run[:-4]
-        else:
-            sequencer_and_run_prefix = sequencer_and_run
+        # get prefix from the sequencer_and_run with keeping only machineName_runID_flowcellID
+        sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
 
         for sample, project in sample_dict.items():
             #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
