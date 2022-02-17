@@ -58,7 +58,8 @@ def fingerprint(project_id):
     lims_host = 'igolims:8443'
     STATS_DIR = '/igo/staging/stats/'
     REFERENCE_SEQUENCE_DIR = '/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa'
-    HAPLOTYPE_MAP = '/home/igo/fingerprint_maps/map_files/hg38_igo.map'
+    HAPLOTYPE_MAP_38 = '/home/igo/fingerprint_maps/map_files/hg38_igo.map'
+    HAPLOTYPE_MAP_37 = '/home/igo/fingerprint_maps/map_files/GRCh37_ACCESS.map'
     t_start = process_time()
 
     vcfs = []
@@ -88,6 +89,12 @@ def fingerprint(project_id):
     extractFingerprint_start = process_time()
     command0 = 'mkdir /igo/staging/stats/VCF/vcf_{}'.format(project_id)
     subprocess.call(command0, shell=True)
+    HAPLOTYPE_MAP = ''
+    if 'grch37' in next(iter(input_bams)).lower():
+        HAPLOTYPE_MAP = HAPLOTYPE_MAP_37
+    else:
+        HAPLOTYPE_MAP = HAPLOTYPE_MAP_38
+
     for bam in input_bams:
         regex = "IGO_([a-zA-Z0-9_]*?)___"
         igoId = re.findall(regex, bam)[0]
@@ -103,7 +110,6 @@ def fingerprint(project_id):
         output_vcf = EXECUTION_DIR + 'vcf_' + project_id + '/' + patient_id + '__' + project_id + '__' + igoId + '.vcf'
         runFolder = bam.split('___')[0]
         bam = STATS_DIR + runFolder + '/' + bam
-
         command1 = 'bsub -J "extract_fingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(igoId, HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE_DIR, patient_id)
         subprocess.call(command1, shell=True)
         print("Running extract fingerprint: " + command1)
