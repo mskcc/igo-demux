@@ -1,5 +1,4 @@
 import glob
-from pickle import FALSE, TRUE
 import sys
 import re
 import json
@@ -62,7 +61,7 @@ def fingerprint(project_id):
     HAPLOTYPE_MAP_38 = '/home/igo/fingerprint_maps/map_files/hg38_igo.map'
     HAPLOTYPE_MAP_37 = '/home/igo/fingerprint_maps/map_files/GRCh37_ACCESS.map'
     HAPLOTYPE_MAP_38_DRAGEN = '/home/igo/fingerprint_maps/map_files/hg38_chr.map'
-    dragen = FALSE
+    dragen = False
     t_start = process_time()
 
     vcfs = []
@@ -77,7 +76,7 @@ def fingerprint(project_id):
 
     if(len(input_bams) == 0):
         print('length is zero!')
-        dragen = TRUE
+        dragen = True
         REFERENCE_SEQUENCE_DIR = '/igo/work//genomes/H.sapiens/hg38/hg38.fa' #Illumina Alt Aware graph reference file
         for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id + '___*___.bam'):
             input_bams.add(fileName.split('/')[len(fileName.split('/')) - 1])
