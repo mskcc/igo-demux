@@ -1,4 +1,5 @@
 import glob
+from pickle import FALSE, TRUE
 import sys
 import re
 import json
@@ -60,6 +61,8 @@ def fingerprint(project_id):
     REFERENCE_SEQUENCE_DIR = '/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa'
     HAPLOTYPE_MAP_38 = '/home/igo/fingerprint_maps/map_files/hg38_igo.map'
     HAPLOTYPE_MAP_37 = '/home/igo/fingerprint_maps/map_files/GRCh37_ACCESS.map'
+    HAPLOTYPE_MAP_38_DRAGEN = '/home/igo/fingerprint_maps/map_files/hg38_chr.map'
+    dragen = FALSE
     t_start = process_time()
 
     vcfs = []
@@ -68,14 +71,15 @@ def fingerprint(project_id):
     input_bams = set()
     print("Finding bams of the run argument...")
     subprocess.call("cd /igo/staging/stats/", shell=True)
-    for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id + '___*___MD.bam', recursive=True):
+    for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id + '___*___MD.bam'):
         input_bams.add(fileName.split('/')[len(fileName.split('/')) - 1])
         print(fileName + " Added")
 
     if(len(input_bams) == 0):
         print('length is zero!')
+        dragen = TRUE
         REFERENCE_SEQUENCE_DIR = '/igo/work//genomes/H.sapiens/hg38/hg38.fa' #Illumina Alt Aware graph reference file
-        for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id + '___*___.bam', recursive=True):
+        for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id + '___*___.bam'):
             input_bams.add(fileName.split('/')[len(fileName.split('/')) - 1])
             print(fileName.split('/')[len(fileName.split('/') - 1)] + " Added")
     
@@ -90,7 +94,9 @@ def fingerprint(project_id):
     command0 = 'mkdir /igo/staging/stats/VCF/vcf_{}'.format(project_id)
     subprocess.call(command0, shell=True)
     HAPLOTYPE_MAP = ''
-    if 'grch37' in next(iter(input_bams)).lower():
+    if dragen:
+        HAPLOTYPE_MAP = HAPLOTYPE_MAP_38_DRAGEN
+    elif 'grch37' in next(iter(input_bams)).lower():
         HAPLOTYPE_MAP = HAPLOTYPE_MAP_37
     else:
         HAPLOTYPE_MAP = HAPLOTYPE_MAP_38
