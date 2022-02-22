@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from SampleSheet import SampleSheet
 import scripts.organise_fastq_split_by_lane
 import pandas
+import scripts.get_total_reads_from_demux
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -121,6 +122,16 @@ with DAG(
 
         if any("10X_" in s for s in sample_sheet.recipe_set):
             # TODO write code to launch 10X pipelines
+            # consider the situation that all the demux is done on dragen
+
+            # step 1, generate txt files containing total reads and upload to qc website
+            scripts.get_total_reads_from_demux.run(sample_sheet, sequencer_and_run)
+            upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+            subprocess.run(upload_stats_cmd, shell=True)
+
+            # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
+
+
             return "Not launching 10X Pipeline"
 
         launch_stats_via_bash_script(sample_sheet, sequencer_and_run)
