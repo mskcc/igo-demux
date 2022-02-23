@@ -1,5 +1,5 @@
 import os
-from re import sub
+import re
 import subprocess
 from datetime import datetime, timedelta
 from SampleSheet import SampleSheet
@@ -102,13 +102,21 @@ with DAG(
             #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/070PP_DLP_UNSORTED_metadata.yaml --revcomp_i5
             for project in sample_sheet.project_set: # such as: Project_09443_CT from the "Sample_Project" column
                 fastq_project_dir = output_directory + "/" + project + "/ "
-                output_yaml = fastq_project_dir +"metadata.yaml" # TODO complete metadata.yaml file name
+                chip_number = get_dlp_chip(samplesheet)
+                output_yaml = fastq_project_dir + chip_number + "_metadata.yaml"
                 python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + sample_sheet + stats + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
                 print("Calling DLP generate yaml command: {}".format(python_cmd))
                 subprocess.check_output(python_cmd, cwd="/home/igo/shared-single-cell", shell=True)
 
         return command
 
+    def get_dlp_chip(samplesheet):
+        samplesheet.df_ss_data.reset_index()
+        for index, row in samplesheet.df_ss_data.iterrows():
+            if row['Sample_Well'] == 'DLP' and 'CONTROL' not in row['Sample_Name']:
+                # return chip from 071PP_DLP_UNSORTED_128624A_13_12_IGO_09443_CU_1_1_121
+                sample = row['Sample_Name']
+                return re.split('_[0-9]{2}_[0-9]{2}_IGO_', sample)[0]
 
     def stats(ds, **kwargs):
         sequencer_path = kwargs["params"]["sequencer_path"]
@@ -250,5 +258,11 @@ with DAG(
 def test_build_dragen_cmds():
     sample_sheet = SampleSheet("test/DIANA_0441_WGS.csv")
     cmd_list = build_dragen_cmds(sample_sheet, "DIANA_0441_AH2V3TDSX3_WGS")
-    assert(cmd_list[0]== "bsub -J PS4268T_IGO_04540_Q_10 -eo /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS/PS4268T_IGO_04540_Q_10.out -q dragen -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3_WGS/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10")
+    assert(cmd_list[0]== "bsub -J DIANA_0441_AH2V3TDSX3_WGS_PS4268T_IGO_04540_Q_10 -eo /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS/PS4268T_IGO_04540_Q_10.out -q dragen -m id01 -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3_WGS/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10")
     print(*cmd_list)
+
+def test_get_dlp_chip():
+    sample_sheet = SampleSheet("test/MICHELLE_420_ONLY_DLP.csv")
+    result = get_dlp_chip(sample_sheet)
+    assert("110IO_DLP_UNSORTED_110720" == result)
+
