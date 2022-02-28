@@ -8,5 +8,3 @@ def test_no_import_errors():
     print(dag)
     assert len(dag_bag.import_errors) == 0, "No Import Failures"
     assert dag is not None
-
-test_no_import_errors()
