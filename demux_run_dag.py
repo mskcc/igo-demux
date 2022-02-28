@@ -200,7 +200,7 @@ with DAG(
             if "08822" in project:
                 project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "/" + project
                 if not os.path.exists(project_dir):
-                    project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "/" + project
+                    project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "_PPG/" + project # note special "_PPG" fastq directory
                 output_dir = "/igo/staging/stats/" + sequencer_and_run + "/" + project
                 cmd = "python3 /igo/work/nabors/tools/wgs_python/bwa_mem2_only.py --project-dir {} --output-dir {}".format(project_dir, output_dir)
                 print(cmd)
