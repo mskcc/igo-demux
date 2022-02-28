@@ -5,7 +5,7 @@ from copy import deepcopy
 
 """
 Reads an IGO LIMS generated sample sheet .csv and splits the sample sheet if necessary to generate sample sheets ready for 
-Illumina DRAGEN demuxes with the correct options set for 10X, WGS & DLP samples.
+Illumina DRAGEN demuxes with the correct options set for 10X & DLP samples.
 """
 class SampleSheet:
 
@@ -97,21 +97,12 @@ class SampleSheet:
          if barcodes start with 'SI' like 'SI-NA-C7' take just the barcodes starting with 'SI' and remove index2 called "_10X"
         DLP
          if sample sheet recipes have mixed DLP and other all DLP need to go on a separate sample sheet named "_DLP"
-        PED-PEG & WGS
-         if recipe is 'HumanWholeGenome'
         """
         # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,,
         if any("10X_" in s for s in self.recipe_set):
             self.df_ss_header.loc[len(self.df_ss_header.index)-1] = ["CreateFastqForIndexReads",1,"","","","","","",""]
             self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","",""]
             print("Added CreateFastqForIndexReads,1 to sample sheet header since 10X samples are present")
-
-        # check if the sample sheet is only DLP or WGS samples
-        if "HumanWholeGenome" in self.recipe_set and len(self.recipe_set) == 1:
-            print("Adding NoLaneSplitting option to the sample sheet")
-            self.df_ss_header.loc[len(self.df_ss_header.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
-            self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","",""]
-            self.remove_lane_information()
 
         ss_copy = deepcopy(self)
 
@@ -129,23 +120,6 @@ class SampleSheet:
             header_copy = self.df_ss_header.copy(deep=True)
             dlp_ss = SampleSheet(header_copy, dlp_data, dlp_path)
             split_ss_list.append(dlp_ss)
-            was_split = True
-
-        if "HumanWholeGenome" in self.recipe_set and len(self.recipe_set) > 1:
-            print("Copying all HumanWholeGenome samples to a new sample sheet")
-            # copy all WGS rows to a new sample sheet
-            wgs_data = self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("HumanWholeGenome") == True].copy()
-            # and remove WGS samples from the main sample sheet
-            self.df_ss_data = self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("HumanWholeGenome") == False].copy()
-            # rename WGS sample sheet w/"_wgs.csv"
-            wgs_path = os.path.splitext(self.path)[0]+'_WGS.csv'
-            header_copy = self.df_ss_header.copy(deep=True)
-            # add no lane splitting option to the header
-            header_copy.loc[len(header_copy.index)-1] = ["NoLaneSplitting","true","","","","","","",""]
-            header_copy.loc[len(header_copy.index)] = ["[Data]","","","","","","","",""]
-            wgs_ss = SampleSheet(header_copy, wgs_data, wgs_path)
-            wgs_ss.remove_lane_information()
-            split_ss_list.append(wgs_ss)
             was_split = True
 
         # check if sample sheet has 'SI-*' barcodes and normal barcodes
