@@ -47,17 +47,12 @@ with DAG(
         is_DLP = False
         if "DLP" in sample_sheet.recipe_set:
             is_DLP = True
-        is_WGS = False
-        if "HumanWholeGenome" in sample_sheet.recipe_set:
-            is_WGS = True
         is_10X = False
         if len(sample_sheet.barcode_list_10X) > 0:
             is_10X = True
 
         if is_DLP:
             output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DLP"
-        if is_WGS:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_WGS"
         if is_10X:
             output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_10X"
         else:
@@ -87,7 +82,7 @@ with DAG(
         # Call CopyIlluminaReports.sh /igo/staging/FASTQ/RUTH_0066_BHTJ33DRXY
         copy_reports_cmd = "/igo/work/igo/igo-demux/scripts/CopyIlluminaReports.sh /igo/staging/FASTQ/" + sequencer_and_run
         print("Running command to copy demux reports: " + copy_reports_cmd)
-        subprocess.run(copy_reports_cmd, shell=True, check=True)
+        subprocess.run(copy_reports_cmd, shell=True)
         
         # for DLP projects create the .yaml file
         if is_DLP:
@@ -131,14 +126,14 @@ with DAG(
 
         if "DLP" in sample_sheet.recipe_set:
            return "No DLP stats"
-        
-        if "HumanWholeGenome" in sample_sheet.recipe_set:
-            launch_wgs_stats(sample_sheet, sequencer_and_run)
-            return "DRAGEN WGS stats are running for " + sequencer_and_run
 
         if any("10X_" in s for s in sample_sheet.recipe_set):
             # TODO write code to launch 10X pipelines
             return "Not launching 10X Pipeline"
+        
+        if "HumanWholeGenome" in sample_sheet.recipe_set:
+            launch_wgs_stats(sample_sheet, sequencer_and_run)
+            print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
         launch_stats_via_bash_script(sample_sheet, sequencer_and_run)
 
@@ -166,6 +161,7 @@ with DAG(
 
 
     def launch_wgs_stats(sample_sheet, sequencer_and_run):
+        # Make sure DRAGEN commands do not fail for non-existent directory
         stats_path = "/igo/staging/stats/" + sequencer_and_run
         if not os.path.exists(stats_path):
             os.makedirs(stats_path)
@@ -175,6 +171,7 @@ with DAG(
         for cmd in cmds_dragen:
             subprocess.run(cmd, shell=True)
         
+        # Only for 08822* PED-PEG Projects also create bwamem2 .bam
         cmds_bwamem2 = build_bwamem2_cmds(sample_sheet, sequencer_and_run)
         for cmd in cmds_bwamem2:
             subprocess.run(cmd, shell=True)
@@ -201,9 +198,9 @@ with DAG(
         cmd_list = []
         for project in sample_sheet.project_set:
             if "08822" in project:
-                project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "_WGS/" + project
+                project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "/" + project
                 if not os.path.exists(project_dir):
-                    project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "/" + project
+                    project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "_PPG/" + project # note special "_PPG" fastq directory
                 output_dir = "/igo/staging/stats/" + sequencer_and_run + "/" + project
                 cmd = "python3 /igo/work/nabors/tools/wgs_python/bwa_mem2_only.py --project-dir {} --output-dir {}".format(project_dir, output_dir)
                 print(cmd)
