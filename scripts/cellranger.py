@@ -8,7 +8,6 @@ import sys
 import os
 import glob
 import json
-import subprocess
 from os.path import join
 from os.path import basename
 from os.path import abspath
