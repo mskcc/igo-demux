@@ -1,5 +1,5 @@
 import os
-from re import sub
+import re
 import subprocess
 from datetime import datetime, timedelta
 from SampleSheet import SampleSheet
@@ -49,17 +49,12 @@ with DAG(
         is_DLP = False
         if "DLP" in sample_sheet.recipe_set:
             is_DLP = True
-        is_WGS = False
-        if "HumanWholeGenome" in sample_sheet.recipe_set:
-            is_WGS = True
         is_10X = False
         if len(sample_sheet.barcode_list_10X) > 0:
             is_10X = True
 
         if is_DLP:
             output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DLP"
-        if is_WGS:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_WGS"
         if is_10X:
             output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_10X"
         else:
@@ -74,7 +69,7 @@ with DAG(
         else:
             # DLP can demux with the default command as long as the [Settings] have 'NoLaneSplitting,true'
             # -K - wait for the job to complete
-            bsub_command = "bsub -K -n48 -q dragen -m id01 -eo /igo/work/igo/igo-demux/logs/demux.log "
+            bsub_command = "bsub -K -n48 -q dragen -eo /igo/work/igo/igo-demux/logs/demux.log "
             command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
             sequencer_path, output_directory, samplesheet_path)
             print("Running demux command: " + command)
@@ -89,19 +84,36 @@ with DAG(
         # Call CopyIlluminaReports.sh /igo/staging/FASTQ/RUTH_0066_BHTJ33DRXY
         copy_reports_cmd = "/igo/work/igo/igo-demux/scripts/CopyIlluminaReports.sh /igo/staging/FASTQ/" + sequencer_and_run
         print("Running command to copy demux reports: " + copy_reports_cmd)
-        subprocess.run(copy_reports_cmd, shell=True, check=True)
+        subprocess.run(copy_reports_cmd, shell=True)
         
         # for DLP projects create the .yaml file
         if is_DLP:
-            # example: make create-metadata-yaml ss=/igo/home/igo/DividedSampleSheets/SampleSheet_211022_DIANA_0415_AHMJWMDSX2_DLP.csv prj=Project_09443_CI project_path=/igo/staging/FASTQ/DIANA_0415_AHMJWMDSX2_DLP/Project_09443_CI
-            for project in sample_sheet.project_set:
-                fastq_project_dir = output_directory + "/" + project
-                make_command = "make create-metadata-yaml ss={} prj={} project_path={}".format(samplesheet_path, project, fastq_project_dir)
-                print("Calling DLP make command: {}".format(make_command))
-                subprocess.check_output(make_command, cwd="/home/igo/shared-single-cell", shell=True)
+            sample_sheet = output_directory + "/Reports/SampleSheet.csv "
+            stats = output_directory + "/Reports/Demultiplex_Stats.csv "
+            run_info = output_directory + "/Reports/RunInfo.xml "
+            #python scripts/yaml/generate_metadata.py /igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/ \
+            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/SampleSheet.csv \
+            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/Demultiplex_Stats.csv \
+            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/RunInfo.xml \
+            #Project_09443_CT \
+            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/070PP_DLP_UNSORTED_metadata.yaml --revcomp_i5
+            for project in sample_sheet.project_set: # such as: Project_09443_CT from the "Sample_Project" column
+                fastq_project_dir = output_directory + "/" + project + "/ "
+                chip_number = get_dlp_chip(samplesheet)
+                output_yaml = fastq_project_dir + chip_number + "_metadata.yaml"
+                python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + sample_sheet + stats + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
+                print("Calling DLP generate yaml command: {}".format(python_cmd))
+                subprocess.check_output(python_cmd, cwd="/home/igo/shared-single-cell", shell=True)
 
         return command
 
+    def get_dlp_chip(samplesheet):
+        samplesheet.df_ss_data.reset_index()
+        for index, row in samplesheet.df_ss_data.iterrows():
+            if row['Sample_Well'] == 'DLP' and 'CONTROL' not in row['Sample_Name']:
+                # return chip from 071PP_DLP_UNSORTED_128624A_13_12_IGO_09443_CU_1_1_121
+                sample = row['Sample_Name']
+                return re.split('_[0-9]{2}_[0-9]{2}_IGO_', sample)[0]
 
     def stats(ds, **kwargs):
         sequencer_path = kwargs["params"]["sequencer_path"]
@@ -116,10 +128,6 @@ with DAG(
 
         if "DLP" in sample_sheet.recipe_set:
            return "No DLP stats"
-        
-        if "HumanWholeGenome" in sample_sheet.recipe_set:
-            launch_wgs_stats(sample_sheet, sequencer_and_run)
-            return "DRAGEN WGS stats are running for " + sequencer_and_run
 
         if any("10X_" in s for s in sample_sheet.recipe_set):
             # TODO write code to launch 10X pipelines
@@ -134,6 +142,10 @@ with DAG(
             scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run)
 
             return "launching 10X Pipeline"
+        
+        if "HumanWholeGenome" in sample_sheet.recipe_set:
+            launch_wgs_stats(sample_sheet, sequencer_and_run)
+            print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
         launch_stats_via_bash_script(sample_sheet, sequencer_and_run)
 
@@ -161,6 +173,7 @@ with DAG(
 
 
     def launch_wgs_stats(sample_sheet, sequencer_and_run):
+        # Make sure DRAGEN commands do not fail for non-existent directory
         stats_path = "/igo/staging/stats/" + sequencer_and_run
         if not os.path.exists(stats_path):
             os.makedirs(stats_path)
@@ -170,6 +183,7 @@ with DAG(
         for cmd in cmds_dragen:
             subprocess.run(cmd, shell=True)
         
+        # Only for 08822* PED-PEG Projects also create bwamem2 .bam
         cmds_bwamem2 = build_bwamem2_cmds(sample_sheet, sequencer_and_run)
         for cmd in cmds_bwamem2:
             subprocess.run(cmd, shell=True)
@@ -196,9 +210,9 @@ with DAG(
         cmd_list = []
         for project in sample_sheet.project_set:
             if "08822" in project:
-                project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "_WGS/" + project
+                project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "/" + project
                 if not os.path.exists(project_dir):
-                    project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "/" + project
+                    project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "_PPG/" + project # note special "_PPG" fastq directory
                 output_dir = "/igo/staging/stats/" + sequencer_and_run + "/" + project
                 cmd = "python3 /igo/work/nabors/tools/wgs_python/bwa_mem2_only.py --project-dir {} --output-dir {}".format(project_dir, output_dir)
                 print(cmd)
@@ -222,7 +236,7 @@ with DAG(
             #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
             output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
             job_name = sequencer_and_run + "_" + sample
-            bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m id01 -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
+            bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
             dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
             dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
             dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
@@ -253,5 +267,11 @@ with DAG(
 def test_build_dragen_cmds():
     sample_sheet = SampleSheet("test/DIANA_0441_WGS.csv")
     cmd_list = build_dragen_cmds(sample_sheet, "DIANA_0441_AH2V3TDSX3_WGS")
-    assert(cmd_list[0]== "bsub -J PS4268T_IGO_04540_Q_10 -eo /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS/PS4268T_IGO_04540_Q_10.out -q dragen -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3_WGS/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10")
+    assert(cmd_list[0]== "bsub -J DIANA_0441_AH2V3TDSX3_WGS_PS4268T_IGO_04540_Q_10 -eo /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS/PS4268T_IGO_04540_Q_10.out -q dragen -m id01 -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3_WGS/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10")
     print(*cmd_list)
+
+def test_get_dlp_chip():
+    sample_sheet = SampleSheet("test/MICHELLE_420_ONLY_DLP.csv")
+    result = get_dlp_chip(sample_sheet)
+    assert("110IO_DLP_UNSORTED_110720" == result)
+
