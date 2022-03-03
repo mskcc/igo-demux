@@ -6,6 +6,7 @@ from SampleSheet import SampleSheet
 import scripts.organise_fastq_split_by_lane
 import pandas
 import scripts.get_total_reads_from_demux
+import scripts.cellranger
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -130,9 +131,9 @@ with DAG(
             subprocess.run(upload_stats_cmd, shell=True)
 
             # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
+            scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run)
 
-
-            return "Not launching 10X Pipeline"
+            return "launching 10X Pipeline"
 
         launch_stats_via_bash_script(sample_sheet, sequencer_and_run)
 

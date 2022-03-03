@@ -1,14 +1,13 @@
-# launch cell ranger pipeline (GE, VDJ) for 10X samples
+# launch cell ranger pipeline (GE, VDJ, ATAC....) for 10X samples
 # launch pipeline by recipe TODO how to decide for SCRI
 # put result in /igo/stats/CELLRANGER/<run_ID>
 
+import pandas as pd
 import re
 import sys
 import os
 import glob
-import argparse
 import json
-
 from os.path import join
 from os.path import basename
 from os.path import abspath
@@ -16,7 +15,7 @@ from os.path import isdir
 from subprocess import call
 
 """
-input: sample_sheet object(for sample list), sequencer_and_run(for stats folder and fastq file location)
+input: sample_sheet object(for sample list and essential info), sequencer_and_run(for stats folder and fastq file location)
 output: running cmd for cellranger by sample
 """
 
@@ -25,7 +24,6 @@ STATS_AREA = '/igo/stats/CELLRANGER/'
 
 # config info 
 ACCESS = 0o775
-CELLRANGER_PROJECT_DATA = 'CELLRANGER_JSON.json'
 config_dict = {
     "count" : {
         "tool" : ' /igo/work/nabors/tools/cellranger-6.1.2/cellranger count ',
@@ -67,7 +65,6 @@ OPTIONS = ' --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=2
 COUNT_FLAVORS = ['10X_Genomics_RNA', '10X_Genomics_GeneExpression', '10X_Genomics_GeneExpression-3', '10X_Genomics_GeneExpression-5']
 VDJ_FLAVORS = ['10X_Genomics_VDJ']
 ATAC_FLAVORS = ['10X_Genomics_ATAC']
-RNA_PLUS_VDJ_FLAVORS = ['10X_Genomics_VDJ_GeneExpression', '10X_Genomics_Expression_VDJ', '10X_Genomics-Expression+VDJ']
 CNV_FLAVORS = ['10X_Genomics_CNV']
 
 """
@@ -135,11 +132,11 @@ def create_json(send_json, sequencer_and_run, project, tag, work_area):
     with open(json_data_file, 'w') as jfile:
         json.dump(send_json, jfile)
         
-    bsub_json = 'bsub -J create_json___{} -o create_json___{}.log -w \"done(\'{}\'*)\" sh /home/igo/Scripts/PicardScripts/send_json_data.sh {} {}'.format(job_id, job_id, job_id, work_area, json_data_file)
+    bsub_json = 'bsub -J create_json___{} -o create_json___{}.log -w \"done({}*)\" sh /home/igo/Scripts/PicardScripts/send_json_data.sh {} {}'.format(job_id, job_id, job_id, work_area, json_data_file)
     print(bsub_json)
-    #subprocess.run(bsub_json, shell = True)
+    subprocess.run(bsub_json, shell = True)
 
-# launch cellranger cmd by given samplesheet object and sequencer_and_run
+# Main function: launch cellranger cmd by given samplesheet object and sequencer_and_run
 def launch_cellranger(sample_sheet, sequencer_and_run):
     # get parameters from sample_sheet
     # dictionary of Sample_ID->Project
@@ -181,12 +178,13 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
         # call cellranger for each sample and append info to json dict
         for sample in sample_list:
             tag = get_tag(sample_recipe_dict[sample])
-            cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
-            #subprocess.run(cmd, shell=True)
-            print(cmd)
-            send_json['samples'].append({'sample':sample, 'type':tag, 'project':project, 'run':sequencer_and_run})
-
-        create_json(send_json, sequencer_and_run, project, tag, work_area)
+            # if recipe within the tool being set up, lanuch cellranger
+            if tag != "Skip":
+                cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
+                subprocess.run(cmd, shell=True)
+                send_json['samples'].append({'sample':'Sample_' + sample, 'type':tag, 'project':project, 'run':sequencer_and_run})
+        if send_json['samples']:
+            create_json(send_json, sequencer_and_run, project, tag, work_area)
 
 
 # sample_ID_list = ["06265_8869_1_IGO_06265_AG_3","Third-Transcriptome_IGO_11969_E_3", "Second_IGO_11969_E_2"]
