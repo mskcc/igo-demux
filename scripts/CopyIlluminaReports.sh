@@ -1,5 +1,6 @@
 #!/bin/bash
 # Copies the laneBarcode.html demux report to the run-qc website
+# Usage: CopyIlluminaReports.sh /igo/staging/FASTQ/RUTH_0066_BHTJ33DRXY
 
 DIR=/igo/staging/FASTQ
 cd $DIR
@@ -10,6 +11,7 @@ if [ $# -eq 0 ]
     echo "Searching for recently completed demuxes in $DIR"
     FASTQ_DIRS=$(find /igo/staging/FASTQ -mindepth 1 -maxdepth 1 -cmin -250)
   else
+    echo "Processing $1"
     FASTQ_DIRS=$1
 fi
 
