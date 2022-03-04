@@ -1,8 +1,16 @@
 from SampleSheet import SampleSheet
-
+import pytest
 
 def test_read_empty_sample_sheet():
     x = SampleSheet("test/empty_sample_sheet.csv")
+    print("Success")
+
+def test_read_blank_sample_sheet():
+    with pytest.raises(Exception):
+        x = SampleSheet("test/blank_sample_sheet.csv")
+
+def test_read_10X_sample_sheet():
+    x = SampleSheet("test/SampleSheet_10X.csv")
     print("Success")
 
 def test_WGS_only_not_split():

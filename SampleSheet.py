@@ -59,8 +59,9 @@ class SampleSheet:
                 if "[Data]" in line:
                     break
         sheet.close()
+        if line_number <= 1:
+            raise Exception("Sample sheet is blank")
         print("[Data] section of sample sheet detected on line: {}".format(line_number))
-        assert line_number > 0
         self.df_ss_header = pandas.read_csv(path_to_samplesheet,nrows=line_number-1)
         self.df_ss_data = pandas.read_csv(path_to_samplesheet,skiprows=line_number)
 
