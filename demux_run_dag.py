@@ -233,7 +233,6 @@ with DAG(
         sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
 
         for sample, project in sample_dict.items():
-            print(sample_sheet.project_dict)
             if sample_sheet.project_dict[project] == "HumanWholeGenome":
                 #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
                 output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
