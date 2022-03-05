@@ -227,23 +227,25 @@ with DAG(
         # bsub -J RAD_Pt_20_T_IGO_04540_P_15 -o RAD_Pt_20_T_IGO_04540_P_15.out -q dragen -n 48 -M 4 
         # /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/work/luc/DIANA_0441_fastq_list.csv 
         # --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id RAD_Pt_20_T_IGO_04540_P_15 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
-        cmd_list = []
+        cmd_set = set()
         
         # get prefix from the sequencer_and_run with keeping only machineName_runID_flowcellID
         sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
 
         for sample, project in sample_dict.items():
-            #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
-            output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
-            job_name = sequencer_and_run + "_" + sample
-            bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
-            dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
-            dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
-            dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
-            cmd = bsub + dragen_cmd_1 + dragen_cmd_2 + dragen_cmd_3
-            print(cmd)
-            cmd_list.append(cmd)
-        return cmd_list
+            print(sample_sheet.project_dict)
+            if sample_sheet.project_dict[project] == "HumanWholeGenome":
+                #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
+                output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
+                job_name = sequencer_and_run + "_" + sample
+                bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
+                dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
+                dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
+                dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
+                cmd = bsub + dragen_cmd_1 + dragen_cmd_2 + dragen_cmd_3
+                print(cmd)
+                cmd_set.add(cmd)
+        return cmd_set
 
     """
     Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
@@ -264,14 +266,5 @@ with DAG(
         #TODO Launch DetectStatsCompletion.sh
         # sh $SCRIPTPATH/../Automate-Stats/DetectStatsCompletion.sh $RUNNAME &
 
-def test_build_dragen_cmds():
-    sample_sheet = SampleSheet("test/DIANA_0441_WGS.csv")
-    cmd_list = build_dragen_cmds(sample_sheet, "DIANA_0441_AH2V3TDSX3_WGS")
-    assert(cmd_list[0]== "bsub -J DIANA_0441_AH2V3TDSX3_WGS_PS4268T_IGO_04540_Q_10 -eo /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS/PS4268T_IGO_04540_Q_10.out -q dragen -m id01 -n 48 -M 4 /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/staging/FASTQ/DIANA_0441_AH2V3TDSX3_WGS/Reports/fastq_list.csv --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3_WGS --fastq-list-sample-id PS4268T_IGO_04540_Q_10 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_Q___PS4268T_IGO_04540_Q_10")
-    print(*cmd_list)
 
-def test_get_dlp_chip():
-    sample_sheet = SampleSheet("test/MICHELLE_420_ONLY_DLP.csv")
-    result = get_dlp_chip(sample_sheet)
-    assert("110IO_DLP_UNSORTED_110720" == result)
 
