@@ -55,28 +55,29 @@ igoId_to_correctedCmoPatientId_map = {
 MAPPED_FIELDS = ["cmoPatientId", "tumorOrNormal"]
 
 def fingerprint(project_id):
+    project_id_p = "P"+project_id
     lims_host = 'igolims:8443'
     STATS_DIR = '/igo/staging/stats/'
-    REFERENCE_SEQUENCE_DIR = '/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa'
-    REFERENCE_DIR_ILLUMINA = '/igo/work/genomes/H.sapiens/hg38/hg38.fa' #Illumina Alt Aware graph reference file
-    HAPLOTYPE_MAP_38 = '/home/igo/fingerprint_maps/map_files/hg38_chr.map'
-    HAPLOTYPE_MAP_37 = '/home/igo/fingerprint_maps/map_files/GRCh37_ACCESS.map'
+    REFERENCE_SEQUENCE_DIR_38 = '/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa'
+    REFERENCE_SEQUENCE_DIR_37 = '/igo/work/genomes/H.sapiens/hg19/human_hg19.fa'
+    REFERENCE_DIR_ILLUMINA = '/igo/work/genomes/H.sapiens/hg38/hg38.fa' #Illumina Alt Aware graph reference file for WGS
+    HAPLOTYPE_MAP_38 = '/home/igo/fingerprint_maps/map_files/hg38_igo.map'
+    HAPLOTYPE_MAP_37 = '/home/igo/fingerprint_maps/map_files/hg19_nochr.map'
     t_start = process_time()
 
     vcfs = []
     
     #find all bams
     input_bams = set()
-    print("Finding ___MD.bams for project {}".format(project_id))
-    #subprocess.call("cd /igo/staging/stats/", shell=True)
-    #for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id + '___*___MD.bam', recursive=True):
-    #    input_bams.add(fileName.split('/')[len(fileName.split('/')) - 1])
-    #    print(fileName + " Added")
+    print("Finding ___MD.bams for project {}".format(project_id_p))
+    subprocess.call("cd /igo/staging/stats/", shell=True)
+    for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id_p + '___*___MD.bam', recursive=False):
+        input_bams.add(fileName.split('/')[len(fileName.split('/')) - 1])
+        print(fileName + " Added")
 
     if (len(input_bams) == 0):
         print('No Picard .bams found, searching again')
-        REFERENCE_SEQUENCE_DIR = REFERENCE_DIR_ILLUMINA
-        for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id + '___*.bam', recursive=False):
+        for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id_p + '___*.bam', recursive=False):
             print(fileName)
             baseName = os.path.basename(fileName)
             input_bams.add(baseName)
@@ -92,13 +93,16 @@ def fingerprint(project_id):
     command0 = 'mkdir /igo/staging/stats/VCF/vcf_{}'.format(project_id)
     subprocess.call(command0, shell=True)
     HAPLOTYPE_MAP = ''
-    if 'grch37' in next(iter(input_bams)).lower():
+    REFERENCE_SEQUENCE = ''
+    if 'h37___' in next(iter(input_bams)).lower():
         HAPLOTYPE_MAP = HAPLOTYPE_MAP_37
+        REFERENCE_SEQUENCE = REFERENCE_SEQUENCE_DIR_37
     else:
         HAPLOTYPE_MAP = HAPLOTYPE_MAP_38
+        REFERENCE_SEQUENCE = REFERENCE_SEQUENCE_DIR_38
 
     for bam in input_bams:
-        regex = "IGO_([a-zA-Z0-9_]*?).bam"
+        regex = "IGO_([a-zA-Z0-9_]*?)___"
         igoId = re.findall(regex, bam)[0]
         patient_id = igo_id_mappings[igoId]['cmoPatientId']
         print("patient_id: " + patient_id)
@@ -112,7 +116,7 @@ def fingerprint(project_id):
         output_vcf = EXECUTION_DIR + 'vcf_' + project_id + '/' + patient_id + '__' + project_id + '__' + igoId + '.vcf'
         runFolder = bam.split('___')[0]
         bam = STATS_DIR + runFolder + '/' + bam
-        command1 = 'bsub -J "extract_fingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(igoId, HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE_DIR, patient_id)
+        command1 = 'bsub -J "extract_fingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(igoId, HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE, patient_id)
         subprocess.call(command1, shell=True)
         print("Running extract fingerprint: " + command1)
         vcfs.append(output_vcf)
@@ -120,7 +124,7 @@ def fingerprint(project_id):
     extractFingerprint_finish = process_time()
     print('Elapsed time to extract fingerprint for all bams: ', extractFingerprint_finish - extractFingerprint_start)
     
-    command_crosscheck = 'bsub -w "ended(extract_fingerprint_*)" -J "CrosscheckFingerprint{}" /home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=/igo/staging/stats/VCF/crosscheck_fingerprint_{}.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(project_id, project_id, HAPLOTYPE_MAP)    
+    command_crosscheck = 'bsub -w "ended(extract_fingerprint_*)" -J "CrosscheckFingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=/igo/staging/stats/VCF/crosscheck_fingerprint_{}.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(project_id, project_id, HAPLOTYPE_MAP)    
     vcfInputs = " INPUT=".join(vcfs)
     
     command_crosscheck += vcfInputs
@@ -134,10 +138,9 @@ def fingerprint(project_id):
     done_path = '/igo/stats/DONE/crosscheck_metrics/{}'.format(project_id)
     if not os.path.exists(done_path):
         os.makedirs(done_path)
-    copy_command = 'cp /igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv /igo/stats/DONE/crosscheck_metrics/{}/'.format(project_id, project_id, project_id)
+    # Example copy to file name:  /igo/stats/DONE/crosscheck_metrics/08236_J/08236_J.crosscheck_metrics
+    copy_command = 'bsub -w "done(CrosscheckFingerprint_{})" cp /igo/staging/stats/VCF/crosscheck_fingerprint_{}.tsv /igo/stats/DONE/crosscheck_metrics/{}/{}.crosscheck_metrics'.format(project_id, project_id, project_id, project_id)
     subprocess.call(copy_command, shell=True)
-    command5 = 'mv /igo/stats/DONE/crosscheck_metrics/{}.tsv /igo/stats/DONE/crosscheck_metrics/{}.crosscheck_metrics'.format(project_id, project_id)
-    subprocess.call(command5, shell=True)
 
     t_stop = process_time()
     print("Elapsed time to fingerprint in totall: ", t_stop - t_start) 
@@ -166,7 +169,7 @@ def get_igo_id(file_name):
     :param file_name: string    e.g. "/PITT_0452_AHG2THBBXY_A1___P10344_C___13_cf_IGO_10344_C_20___hg19___MD.bam"
     :return: string             e.g. "10344_C_20"
     """
-    regex = "IGO_([a-zA-Z0-9_]*?).bam"
+    regex = "IGO_([a-zA-Z0-9_]*?)___"
     matches = re.findall(regex, file_name)
     if len(matches) == 0:
         print("ERROR: Could not find IGO ID in filename: %s with regex: \"%s\"" % (file_name, regex))
@@ -277,5 +280,13 @@ def get_igo_id_mappings(sample_manifests, mapped_fields):
 
         dic[key_value] = entry
 
-    return dic        
-fingerprint('P04540_N')
+    return dic       
+
+# Runs fingerpritning for the project given on the command line
+if __name__ == '__main__':
+    if (sys.argv[1] == ''):
+        print("Usage: fingerprinting_dag.py PROJECT_ID")
+        exit(1)
+
+    project_id = sys.argv[1]
+    fingerprint(project_id)
