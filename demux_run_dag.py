@@ -231,7 +231,8 @@ with DAG(
         sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
 
         for sample, project in sample_dict.items():
-            if sample_sheet.project_dict[project] == "HumanWholeGenome":
+            print("PROJECT: {} {}".format(project, sample_sheet.project_dict[project]))
+            if sample_sheet.sample_dict[sample] == "HumanWholeGenome":
                 #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
                 output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
                 job_name = sequencer_and_run + "_" + sample
@@ -240,7 +241,6 @@ with DAG(
                 dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
                 dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
                 cmd = bsub + dragen_cmd_1 + dragen_cmd_2 + dragen_cmd_3
-                print(cmd)
                 cmd_set.add(cmd)
         return cmd_set
 

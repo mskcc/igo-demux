@@ -22,8 +22,9 @@ class SampleSheet:
             self.df_ss_data = args[1]
             self.path = args[2]
 
-        # dictionary of project->recipe
+        # dictionary of project->recipe - NOTE, not accurate for MICHELLE_0485 where 08822_PC has HumanWholeGenome & RNASeq_RiboDeplete
         self.project_dict = pandas.Series(self.df_ss_data['Sample_Well'].values,index=self.df_ss_data['Sample_Project']).to_dict()
+        self.sample_dict = pandas.Series(self.df_ss_data['Sample_Well'].values,index=self.df_ss_data['Sample_Name']).to_dict()
         self.project_set = set(self.df_ss_data['Sample_Project'].tolist())  # Sample_Project column has the projects, convert it to a set
 
         # set of all recipes in the sample sheet
