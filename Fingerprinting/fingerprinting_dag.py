@@ -124,7 +124,7 @@ def fingerprint(project_id):
     extractFingerprint_finish = process_time()
     print('Elapsed time to extract fingerprint for all bams: ', extractFingerprint_finish - extractFingerprint_start)
     # TODO redirect bsub output to file and check return value of the command?
-    command_crosscheck = 'bsub -n 9 -M 6 -w "ended(extract_fingerprint_*)" -J "CrosscheckFingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=/igo/staging/stats/VCF/crosscheck_fingerprint_{}.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(project_id, project_id, HAPLOTYPE_MAP)    
+    command_crosscheck = 'bsub -n 9 -M 6 -w "ended(extract_fingerprint_*)" -J "CrosscheckFingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=/igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(project_id, project_id, project_id, HAPLOTYPE_MAP)    
     vcfInputs = " INPUT=".join(vcfs)
     
     command_crosscheck += vcfInputs
