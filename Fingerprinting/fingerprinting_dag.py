@@ -139,7 +139,7 @@ def fingerprint(project_id):
     if not os.path.exists(done_path):
         os.makedirs(done_path)
     # Example copy to file name:  /igo/stats/DONE/crosscheck_metrics/08236_J/08236_J.crosscheck_metrics
-    copy_command = 'bsub -w "done(CrosscheckFingerprint_{})" cp /igo/staging/stats/VCF/crosscheck_fingerprint_{}.tsv /igo/stats/DONE/crosscheck_metrics/{}/{}.crosscheck_metrics'.format(project_id, project_id, project_id, project_id)
+    copy_command = 'bsub -w "done(CrosscheckFingerprint_{})" cp /igo/staging/stats/VCF/vcdf_{}/crosscheck_fingerprint_{}.tsv /igo/stats/DONE/crosscheck_metrics/{}/{}.crosscheck_metrics'.format(project_id, project_id, project_id, project_id, project_id)
     subprocess.call(copy_command, shell=True)
 
     t_stop = process_time()
