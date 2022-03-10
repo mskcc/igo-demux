@@ -65,15 +65,16 @@ with DAG(
         if is_10X:
             is_DRAGEN_demux = False
             # TODO for 10X build correct mkfastq command, special 10X barcodes can't go to dragen
-            print("mkfastq command is not yet supported, this must be launched at the command line by the Data Team")
+            demux_command = "mkfastq command is not yet supported, this must be launched at the command line by the Data Team"
+            print(demux_command)
         else:
             # DLP can demux with the default command as long as the [Settings] have 'NoLaneSplitting,true'
             # -K - wait for the job to complete
             bsub_command = "bsub -K -n48 -q dragen -eo /igo/work/igo/igo-demux/logs/demux.log "
-            command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
+            demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
             sequencer_path, output_directory, samplesheet_path)
-            print("Running demux command: " + command)
-            subprocess.run(command, shell=True, check=True)
+            print("Running demux command: " + demux_command)
+            subprocess.run(demux_command, shell=True, check=True)
 
         # if the demux was successful:
         if is_DRAGEN_demux and not is_DLP:
@@ -105,7 +106,7 @@ with DAG(
                 print("Calling DLP generate yaml command: {}".format(python_cmd))
                 subprocess.check_output(python_cmd, cwd="/home/igo/shared-single-cell", shell=True)
 
-        return command
+        return demux_command
 
     def get_dlp_chip(samplesheet):
         samplesheet.df_ss_data.reset_index()
