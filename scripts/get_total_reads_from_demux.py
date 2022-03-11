@@ -63,3 +63,21 @@ def test_run(sample_sheet, sequencer_and_run):
     total_reads_dict = get_total_reads(sample_ID_list, demux_report_file)
     for sample in sample_ID_list:
         write_to_am_txt(sequencer_and_run_prefix, sample, total_reads_dict[sample], stats_done_dir)
+
+
+if __name__ == '__main__':
+    # generate txt files with total reads info from dragen demux
+    # Usage: python get_total_reads_from_demux.py [sequencer_and_run]
+    sequencer_and_run = sys.argv[1]
+    sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+    sequencer = sequencer_and_run.split("_")[0]
+    stats_done_dir = "/igo/stats/DONE/" + sequencer + "/"
+    demux_report_file = "/igo/staging/FASTQ/" + sequencer_and_run + "/Reports/Demultiplex_Stats.csv"
+    sample_info_file = "/igo/staging/FASTQ/" + sequencer_and_run + "/Reports/fastq_list.csv"
+        
+    # get sample_list from sample_info_file
+    sample_info_full = pd.read_csv(sample_info_file)
+    sample_ID_list = list(set(sample_info_full['RGSM'].tolist()))
+    total_reads_dict = get_total_reads(sample_ID_list, demux_report_file)
+    for sample in sample_ID_list:
+        write_to_am_txt(sequencer_and_run_prefix, sample, total_reads_dict[sample], stats_done_dir)
