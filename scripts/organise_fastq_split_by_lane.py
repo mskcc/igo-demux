@@ -9,6 +9,8 @@ from subprocess import call
 Immitate the bcl2fastq option which created a sub-directory per sample from the sample sheet since IGO has been delivering fastq.gz files that way for many years.
 """
 def create_fastq_folders(run_demux_dir):
+    if run_demux_dir.endswith("/"):
+        run_demux_dir = run_demux_dir[:len(run_demux_dir) - 1]
     os.chdir(run_demux_dir)
 
     for project in glob.iglob("Project_*"):
@@ -29,8 +31,8 @@ def create_fastq_folders(run_demux_dir):
                 print(move_fastq_2_folder)
                 call(move_fastq_2_folder, shell = True)
                 # Special behavior for 08822 projects, create merged R1 fastq.gz & merged R2 fastq.gz for bwamem2 consumption
-                if "_IGO_08822" in fastq_folder:
-                    ppg_dir = run_demux_dir +"_PPG/" + project + "/" + fastq_folder + "/" + sample_name
+                if "_IGO_08822" in fastq_folder and not "_RNA_IGO_" in fastq_folder:
+                    ppg_dir = run_demux_dir +"_PPG/" + project + "/" + fastq_folder + "/"
                     print("Creating PPG fastq dirs: " + ppg_dir)
                     os.makedirs(ppg_dir)
                     cat_r1_cmd = "cat " + fastq_folder + "/*_R1_001.fastq.gz > " + ppg_dir + "/" + sample_name + "_S01_R1_001.fastq.gz"
