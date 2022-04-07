@@ -13,6 +13,10 @@ def test_read_10X_sample_sheet():
     x = SampleSheet("test/SampleSheet_10X.csv")
     print("Success")
 
+def test_read_SE_sample_sheet():
+    x = SampleSheet("test/SampleSheet_PEPE.csv")
+    print("Success")
+
 def test_WGS_only_not_split():
     x = SampleSheet("test/DIANA_0434.csv")
     ss_list = x.split_sample_sheet()
