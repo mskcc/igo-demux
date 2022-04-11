@@ -49,13 +49,15 @@ class GetSampleData:
 				if (row[0] == "Lane"):
 					got_data = True
 				elif (row[0] != "Lane") and got_data:
-					self.all_sample_ids.append(row[2])
-					self.duplicate_sample = self.check_this_sample(row[2], self.all_sample_ids)
-					if not self.duplicate_sample:
-						# go to a routine to pair the reads.  and return them
-						self.all_lanes = self.get_fastqs(self, row, sample_sheet, run)
-						sr = Sample(row[1], row[2], row[3], row[4], row[8], self.all_lanes)
-						self.all_samples.append(sr)
+					# exclude samples with HumanWholeGenome recipe
+					if (row[4] != "HumanWholeGenome"):
+						self.all_sample_ids.append(row[2])
+						self.duplicate_sample = self.check_this_sample(row[2], self.all_sample_ids)
+						if not self.duplicate_sample:
+							# go to a routine to pair the reads.  and return them
+							self.all_lanes = self.get_fastqs(self, row, sample_sheet, run)
+							sr = Sample(row[1], row[2], row[3], row[4], row[8], self.all_lanes)
+							self.all_samples.append(sr)
 				else:
 					continue
 		#
@@ -168,7 +170,7 @@ class LaunchMetrics(object):
 	def alignment_to_genome(sample, run, sample_params):
 		#
 		BIG_NODES = "-m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
-		work_dir = "/igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/stats/" + run
+		work_dir = "/igo/staging/stats/" + run
 		make_work_dir = "mkdir -p " + work_dir
 		print(make_work_dir)
 		call(make_work_dir, shell = True)
@@ -241,23 +243,21 @@ class LaunchMetrics(object):
 			
 			
 	
-def main():
-	
-	# grab the sample sheet as an argument
-	sample_sheet = sys.argv[1]
-	
-	
-	
+def main(sample_sheet):
+
 	# sample_sheet = ["/Users/naborsd/MSKCC/FASTQ/SampleSheets/SampleSheet_211216_MICHELLE_0466_BH3WT5DSX3.csv", "/Users/naborsd/MSKCC/FASTQ/SampleSheets/SampleSheet_220111_RUTH_0056_AH3T2TDMXY.csv", "/Users/naborsd/MSKCC/FASTQ/SampleSheets/SampleSheet_211001_MICHELLE_0444_AHCWGNDSX2.csv", "/Users/naborsd/MSKCC/FASTQ/SampleSheets/SampleSheet_220221_AYYAN_0112_000000000-K4P42.csv", "/Users/naborsd/MSKCC/FASTQ/SampleSheets/SampleSheet_220221_HERC_0811_HIPHOP1973.csv", "/Users/naborsd/MSKCC/FASTQ/SampleSheets/SampleSheet_220317_RUTH_0078_BHGLK7DSX3.csv", "/Users/naborsd/MSKCC/FASTQ/SampleSheets/SampleSheet_220317_RUTH_0079_AHGLGWDSX3.csv"]
 	
 	get_data = GetSampleData()
 	launch_metrics = LaunchMetrics()
 	get_run = GetRun()
 	
-	
 	run = get_run.get_run(sample_sheet)
 	all_samples = get_data.get_samples(sample_sheet, run)
 	all_metrics = launch_metrics.launch_metrics(all_samples, run)
+
+	# TODO copy txt files to DONE folder and update ngsstats database and LIMS
+	# upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+    # subprocess.run(upload_stats_cmd, shell=True)
 	
 	#print(len(all_samples))
 	#for s in all_samples:
@@ -266,14 +266,9 @@ def main():
 		#for l in s.all_fastqs.lanes:
 			#print(l.r1)
 			#print(l.r2)
-			
-			
-			
-			
-			
-			
-			
-			
+					
 ############# MAIN ROUTINE
 if __name__ == "__main__":
-	main()
+	# grab the sample sheet as an argument
+	sample_sheet = sys.argv[1]
+	main(sample_sheet)

@@ -7,6 +7,7 @@ import scripts.organise_fastq_split_by_lane
 import pandas
 import scripts.get_total_reads_from_demux
 import scripts.cellranger
+import scripts.alignment_and_picard
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -131,7 +132,7 @@ with DAG(
            return "No DLP stats"
 
         if any("10X_" in s for s in sample_sheet.recipe_set):
-            # TODO write code to launch 10X pipelines
+            # TODO write code to launch user 10X pipelines
             # consider the situation that all the demux is done on dragen
 
             # step 1, generate txt files containing total reads and upload to qc website
@@ -148,7 +149,7 @@ with DAG(
             launch_wgs_stats(sample_sheet, sequencer_and_run)
             print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
-        launch_stats_via_bash_script(sample_sheet, sequencer_and_run)
+        scripts.alignment_and_picard.main(samplesheet_path)
 
         return "Completed"
 
@@ -244,25 +245,3 @@ with DAG(
                 cmd = bsub + dragen_cmd_1 + dragen_cmd_2 + dragen_cmd_3
                 cmd_set.add(cmd)
         return cmd_set
-
-    """
-    Process dictionary of sample sheet project,recipe and launch stats for each project on the run.
-    """
-    def launch_stats_via_bash_script(sample_sheet, sequencer_and_run):
-        # Make sure output directory exists or DRAGEN commands will fail
-        working_dir = "/igo/staging/stats/" + sequencer_and_run
-        if not os.path.exists(working_dir):
-            os.mkdir(working_dir)
-        os.chdir(working_dir)
-
-        # TODO email demux complete starting stats for non "REFERENCE" demuxes
-
-        # sh /home/igo/Scripts/Automate-Stats/Launch_Stats_GRCh37.sh 191029_JOHNSAWYERS_0218_000000000-G4BYY 2>&1 >> /home/igo/log/statsTest.log
-        cmd = "sh /home/igo/Scripts/Automate-Stats/Launch_Stats_Airflow.sh {} 2>&1 >> /igo/staging/stats.log".format(sequencer_and_run)
-        print(cmd)
-        subprocess.run(cmd, shell=True)
-        #TODO Launch DetectStatsCompletion.sh
-        # sh $SCRIPTPATH/../Automate-Stats/DetectStatsCompletion.sh $RUNNAME &
-
-
-
