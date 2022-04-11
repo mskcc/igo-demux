@@ -157,7 +157,7 @@ class LaunchMetrics(object):
 		#
 		parameter_placement = list
 		recipe_and_genome = ["--recipe", recipe, "--species", genome]
-		sample_params = generate_run_params.main(recipe_and_genome)
+		sample_params = scripts.generate_run_params.main(recipe_and_genome)
 		print(sample_params)
 		# print(type(sample_params))
 		return(sample_params)
