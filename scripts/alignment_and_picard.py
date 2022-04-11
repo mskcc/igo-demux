@@ -146,10 +146,15 @@ class LaunchMetrics(object):
 		#
 		# print(all_samples)
 		for sample in all_samples:
-			#print(sample.genome)
-			sample_params = self.get_params(sample.genome, sample.recipe)
-			bams_by_lane = self.alignment_to_genome(sample, run, sample_params)
-			picard_data = self.launch_picard(bams_by_lane, run, sample, sample_params)
+			if ((sample.recipe == "HumanWholeGenome") or (sample.recipe == "DLP")):
+				continue
+			else:
+				sample_params = self.get_params(sample.genome, sample.recipe)
+				# if sample_params["TYPE"] == "RNA":
+					# call separate RNA routine
+					# continue
+				bams_by_lane = self.alignment_to_genome(sample, run, sample_params)
+				picard_data = self.launch_picard(bams_by_lane, run, sample, sample_params)
 			
 		
 	@staticmethod
