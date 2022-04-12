@@ -146,10 +146,15 @@ class LaunchMetrics(object):
 		#
 		# print(all_samples)
 		for sample in all_samples:
-			#print(sample.genome)
-			sample_params = self.get_params(sample.genome, sample.recipe)
-			bams_by_lane = self.alignment_to_genome(sample, run, sample_params)
-			picard_data = self.launch_picard(bams_by_lane, run, sample, sample_params)
+			if ((sample.recipe == "HumanWholeGenome") or (sample.recipe == "DLP")):
+				continue
+			else:
+				sample_params = self.get_params(sample.genome, sample.recipe)
+				# if sample_params["TYPE"] == "RNA":
+					# call separate RNA routine
+					# continue
+				bams_by_lane = self.alignment_to_genome(sample, run, sample_params)
+				picard_data = self.launch_picard(bams_by_lane, run, sample, sample_params)
 			
 		
 	@staticmethod
@@ -255,7 +260,9 @@ def main(sample_sheet):
 
 	# TODO copy txt files to DONE folder and update ngsstats database and LIMS
 	# upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
-    # subprocess.run(upload_stats_cmd, shell=True)
+        # subprocess.run(upload_stats_cmd, shell=True)
+	
+	# TODO email that stats have completed
 	
 	#print(len(all_samples))
 	#for s in all_samples:
