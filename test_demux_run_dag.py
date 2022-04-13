@@ -10,4 +10,4 @@ def test_WGS_only_not_split():
 def test_get_dlp_chip():
     sample_sheet = SampleSheet("test/MICHELLE_420_ONLY_DLP.csv")
     result = demux_run_dag.get_dlp_chip(sample_sheet)
-    assert("110IO_DLP_UNSORTED_110720" == result)
+    assert("128A" == result)

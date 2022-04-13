@@ -100,7 +100,7 @@ with DAG(
             #Project_09443_CT \
             #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/070PP_DLP_UNSORTED_metadata.yaml --revcomp_i5
             for project in sample_sheet.project_set: # such as: Project_09443_CT from the "Sample_Project" column
-                fastq_project_dir = output_directory + "/" + project + "/ "
+                fastq_project_dir = output_directory + "/" + project + "/"
                 chip_number = get_dlp_chip(sample_sheet)
                 output_yaml = fastq_project_dir + chip_number + "_metadata.yaml"
                 python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
@@ -112,10 +112,10 @@ with DAG(
     def get_dlp_chip(samplesheet):
         samplesheet.df_ss_data.reset_index()
         for index, row in samplesheet.df_ss_data.iterrows():
-            if row['Sample_Well'] == 'DLP' and 'CONTROL' not in row['Sample_Name']:
+            if row['Sample_Well'] == 'DLP' and 'CONTROL' in row['Sample_Name']:
                 # return chip from 071PP_DLP_UNSORTED_128624A_13_12_IGO_09443_CU_1_1_121
                 sample = row['Sample_Name']
-                return re.split('_[0-9]{2}_[0-9]{2}_IGO_', sample)[0]
+                return re.split('_', sample)[1]
 
     def stats(ds, **kwargs):
         sequencer_path = kwargs["params"]["sequencer_path"]
