@@ -8,9 +8,11 @@ def test_WGS_only_not_split():
 
 
 def test_get_dlp_chip():
+    # Test that the DLP chip returned is correct even when the run has multiple DLP projects with different chip IDs
     sample_sheet = SampleSheet("test/SampleSheet_220412_MICHELLE_0501_BHFNH5DSX3_DLP.csv")
-    result = []
     for project in sample_sheet.project_set:
-        result.append(demux_run_dag.get_dlp_chip(sample_sheet, project))
-        
-    assert(["128676A", "128676A", "128680A", "128680A"] == result)
+        chip_id = demux_run_dag.get_dlp_chip(sample_sheet, project)
+        if project == "13098":
+            assert(chip_id == "128676A")
+        if project == "13098_C":
+            assert(chip_id == "128680A")
