@@ -240,7 +240,7 @@ with DAG(
                 job_name = sequencer_and_run + "_" + sample
                 bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
                 dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
-                dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
+                dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{}/{} ".format(sequencer_and_run, sequencer_and_run, sample)
                 dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
                 cmd = bsub + dragen_cmd_1 + dragen_cmd_2 + dragen_cmd_3
                 cmd_set.add(cmd)
