@@ -2,6 +2,8 @@ import os
 import re
 import subprocess
 from datetime import datetime, timedelta
+
+from numpy import equal
 from SampleSheet import SampleSheet
 import scripts.organise_fastq_split_by_lane
 import pandas
@@ -112,7 +114,7 @@ with DAG(
     def get_dlp_chip(samplesheet, project):
         samplesheet.df_ss_data.reset_index()
         for index, row in samplesheet.df_ss_data.iterrows():
-            if row['Sample_Well'] == 'DLP' and 'CONTROL' in row['Sample_Name'] and project in row['Sample_Project']:
+            if row['Sample_Well'] == 'DLP' and 'CONTROL' in row['Sample_Name'] and project == row['Sample_Project']:
                 # return chip from 071PP_DLP_UNSORTED_128624A_13_12_IGO_09443_CU_1_1_121
                 sample = row['Sample_Name']
                 return re.split('_', sample)[1]
