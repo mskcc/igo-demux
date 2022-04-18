@@ -188,7 +188,7 @@ class LaunchMetrics(object):
 	@staticmethod
 	def alignment_to_genome(sample, run, sample_params, work_dir):
 		#
-		BIG_NODES = "-m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
+		# BIG_NODES = "-m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
 		os.chdir(work_dir)
 		bams_by_lane = list()
 		for fq_pair in sample.all_fastqs.lanes:
@@ -199,8 +199,8 @@ class LaunchMetrics(object):
 			fq_for_bwa = [fq_pair.r1, fq_pair.r2]
 			if fq_for_bwa[1] is None:
 				fq_for_bwa.pop(1)
-			bwa_mem = "\"/igoadmin/opt/common/CentOS_7/bwa/bwa-0.7.17/bwa mem -M -t 60 " + sample_params["REFERENCE"] + " " + " ".join(fastq_dir + fq for fq in fq_for_bwa) + " | /igoadmin/opt/common/CentOS_7/samtools/samtools-1.9/bin/samtools view -bS - > " + bam_by_lane + "\""
-			bsub_bwa_mem = "bsub -J bwa_mem___" + fastq_by_lane + " -o " + "bwa_mem___" + fastq_by_lane + ".out " + BIG_NODES + bwa_mem
+			bwa_mem = "\"/igoadmin/opt/common/CentOS_7/bwa/bwa-0.7.17/bwa mem -M -t 40 " + sample_params["REFERENCE"] + " " + " ".join(fastq_dir + fq for fq in fq_for_bwa) + " | /igoadmin/opt/common/CentOS_7/samtools/samtools-1.9/bin/samtools view -bS - > " + bam_by_lane + "\""
+			bsub_bwa_mem = "bsub -J bwa_mem___" + fastq_by_lane + " -o " + "bwa_mem___" + fastq_by_lane + ".out -n 40 -M 8 " + bwa_mem
 			print(bsub_bwa_mem)
 			call(bsub_bwa_mem, shell = True)
 		return(bams_by_lane)	
@@ -227,39 +227,38 @@ class LaunchMetrics(object):
 	# launch the picrd tools to process the bams
 	@staticmethod
 	def launch_picard(bams_by_lane, run, sample, sample_params):
-		# 
-		BIG_NODES = " -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
-		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
 		#
+		# BIG_NODES = " -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
+		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
 		prjct = sample.project.split("_")[1]
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		#
 		# merge bams
-		bsub_merge =  "bsub -w \"ended(bwa_mem___" + sample.sample_id + "*)\" -J merge_bam_files___" + sample.sample_id + " -o merge_bam_files___" + sample.sample_id + ".out " + BIG_NODES
+		bsub_merge =  "bsub -w \"ended(bwa_mem___" + sample.sample_id + "*)\" -J merge_bam_files___" + sample.sample_id + " -o merge_bam_files___" + sample.sample_id + ".out -n 40 -M 8 "
 		merge_bams = PICARD + "MergeSamFiles --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in bams_by_lane)
 		bsub_merge_bams = bsub_merge + merge_bams
 		print(bsub_merge_bams)
 		call(bsub_merge_bams, shell = True)
 		# add or replace read groups
-		add_or_replace = PICARD + "AddOrReplaceReadGroups --SORT_ORDER coordinate --CREATE_INDEX true --INPUT " + sample.sample_id + ".merged.bam  " + "--OUTPUT " + sample.sample_id + ".bam  " + "--RGID " + sample.sample_id + "  --RGLB " + sample.sample_id + " --RGPL illumina  --RGPU CUSTOM-BAM  --RGSM " + sample.sample_id + " --RGCN GCL@MSKCC"
-		bsub_add_or_replace = "bsub -J add_or_replace_read_groups___" + sample.sample_id + " -o " + "add_or_replace_read_groups___" + sample.sample_id + ".out -w \"done(merge_bam_files___" + sample.sample_id + ")\" " + BIG_NODES + add_or_replace
+		add_or_replace = PICARD + "AddOrReplaceReadGroups --SORT_ORDER coordinate --CREATE_INDEX true --INPUT " + sample.sample_id + ".merged.bam  " + "--OUTPUT " + sample.sample_id + ".bam  " + "--RGID " + sample.sample_id + "  --RGLB " + sample.sample_id + " --RGPL illumina --RGPU " + sample.project + " --RGSM " + sample.sample_id + " --RGCN GCL@MSKCC"
+		bsub_add_or_replace = "bsub -J add_or_replace_read_groups___" + sample.sample_id + " -o " + "add_or_replace_read_groups___" + sample.sample_id + ".out -w \"done(merge_bam_files___" + sample.sample_id + ")\" -n 40 -M 8 " + add_or_replace
 		print(bsub_add_or_replace)
 		call(bsub_add_or_replace, shell = True)
 		#
 		# mark duplicates
-		mark_dup = PICARD + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE " + metric_file + "___MD.txt  " + "--OUTPUT " + sample.sample_id + ".md.bam  " + "--INPUT " + sample.sample_id + ".bam"
-		bsub_mark_dup = "bsub -J mark_dup___" + sample.sample_id + " -o " + "mark_dup___" + sample.sample_id + ".out -w \"done(add_or_replace_read_groups___" + sample.sample_id + ")\" " + BIG_NODES + mark_dup
+		mark_dup = PICARD + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE " + metric_file + "___MD.txt  " + "--OUTPUT " + sample.sample_id + "___MD.bam  " + "--INPUT " + sample.sample_id + ".bam"
+		bsub_mark_dup = "bsub -J mark_dup___" + sample.sample_id + " -o " + "mark_dup___" + sample.sample_id + ".out -w \"done(add_or_replace_read_groups___" + sample.sample_id + ")\" -n 40 -M 8 " + mark_dup
 		print(bsub_mark_dup)
 		call(bsub_mark_dup, shell = True)
 		#
 		# alignment summary
-		alignment = PICARD + "CollectAlignmentSummaryMetrics --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --INPUT " + sample.sample_id + ".md.bam  " + "--OUTPUT " + metric_file + "___AM.txt"
+		alignment = PICARD + "CollectAlignmentSummaryMetrics --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --INPUT " + sample.sample_id + "___MD.bam  " + "--OUTPUT " + metric_file + "___AM.txt"
 		bsub_alignment = "bsub -J alignment_summary___" + sample.sample_id + " -o " + "alignment_summary___" + sample.sample_id + ".out -w \"done(mark_dup___" + sample.sample_id + ")\" -n 8 -M 8 " + alignment
 		print(bsub_alignment)
 		call(bsub_alignment, shell = True)
 		# determining if we need CollectHsMetrics Picard tool
 		if ("BAITS" in sample_params.keys()):
-			hs_metrics = PICARD + "CollectHsMetrics --INPUT " + sample.sample_id + ".md.bam  " + " --OUTPUT " + metric_file + "___HS.txt" +  " --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --BAIT_INTERVALS " + sample_params["BAITS"] + " --TARGET_INTERVALS " + sample_params["TARGETS"]
+			hs_metrics = PICARD + "CollectHsMetrics --INPUT " + sample.sample_id + "___MD.bam  " + " --OUTPUT " + metric_file + "___HS.txt" +  " --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --BAIT_INTERVALS " + sample_params["BAITS"] + " --TARGET_INTERVALS " + sample_params["TARGETS"]
 			bsub_hs_metrics = "bsub -J hs_metrics___" + sample.sample_id + " -o " + "hs_metrics___" + sample.sample_id + ".out -w \"done(mark_dup___" + sample.sample_id + ")\" -n 8 -M 8 " + hs_metrics
 			print(bsub_hs_metrics)
 			call(bsub_hs_metrics, shell = True)
