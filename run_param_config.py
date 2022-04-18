@@ -375,8 +375,8 @@ recipe_options_mapping_UNORDERED = {
 		},
 		"IMPACT505": {
 				# NOTE: interval list file name "IMPACT468_BAITS" is stored in LIMS and passed to pipelines, change file name with caution
-				BAITS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_GRCh38_BAITS.intervalList",
-				TARGETS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_GRCh38_TARGETS.intervalList",
+				BAITS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_BAITS.iList",
+				TARGETS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_TARGETS.iList",
 				MSKQ: "yes",
 				MD: "yes"
 		},
