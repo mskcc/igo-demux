@@ -2,6 +2,8 @@ import os
 import re
 import subprocess
 from datetime import datetime, timedelta
+
+from numpy import equal
 from SampleSheet import SampleSheet
 import scripts.organise_fastq_split_by_lane
 import pandas
@@ -71,7 +73,7 @@ with DAG(
         else:
             # DLP can demux with the default command as long as the [Settings] have 'NoLaneSplitting,true'
             # -K - wait for the job to complete
-            bsub_command = "bsub -K -n48 -q dragen -eo /igo/work/igo/igo-demux/logs/demux.log "
+            bsub_command = "bsub -K -n48 -q dragen -m id01 -eo /igo/work/igo/igo-demux/logs/demux.log "
             demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
             sequencer_path, output_directory, samplesheet_path)
             print("Running demux command: " + demux_command)
@@ -89,10 +91,10 @@ with DAG(
         subprocess.run(copy_reports_cmd, shell=True)
         
         # for DLP projects create the .yaml file
-        if is_DLP:
-            sample_sheet = output_directory + "/Reports/SampleSheet.csv "
-            stats = output_directory + "/Reports/Demultiplex_Stats.csv "
-            run_info = output_directory + "/Reports/RunInfo.xml "
+        if is_DLP and "REFERENCE" not in samplesheet_path:
+            sample_sheet_path = output_directory + "/Reports/SampleSheet.csv"
+            stats = output_directory + "/Reports/Demultiplex_Stats.csv"
+            run_info = output_directory + "/Reports/RunInfo.xml"
             #python scripts/yaml/generate_metadata.py /igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/ \
             #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/SampleSheet.csv \
             #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/Demultiplex_Stats.csv \
@@ -100,22 +102,22 @@ with DAG(
             #Project_09443_CT \
             #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/070PP_DLP_UNSORTED_metadata.yaml --revcomp_i5
             for project in sample_sheet.project_set: # such as: Project_09443_CT from the "Sample_Project" column
-                fastq_project_dir = output_directory + "/" + project + "/ "
-                chip_number = get_dlp_chip(samplesheet)
+                fastq_project_dir = output_directory + "/" + project + "/"
+                chip_number = get_dlp_chip(sample_sheet, project)
                 output_yaml = fastq_project_dir + chip_number + "_metadata.yaml"
-                python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + sample_sheet + stats + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
+                python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
                 print("Calling DLP generate yaml command: {}".format(python_cmd))
                 subprocess.check_output(python_cmd, cwd="/home/igo/shared-single-cell", shell=True)
 
         return demux_command
 
-    def get_dlp_chip(samplesheet):
+    def get_dlp_chip(samplesheet, project):
         samplesheet.df_ss_data.reset_index()
         for index, row in samplesheet.df_ss_data.iterrows():
-            if row['Sample_Well'] == 'DLP' and 'CONTROL' not in row['Sample_Name']:
+            if row['Sample_Well'] == 'DLP' and 'CONTROL' in row['Sample_Name'] and project == row['Sample_Project']:
                 # return chip from 071PP_DLP_UNSORTED_128624A_13_12_IGO_09443_CU_1_1_121
                 sample = row['Sample_Name']
-                return re.split('_[0-9]{2}_[0-9]{2}_IGO_', sample)[0]
+                return re.split('_', sample)[1]
 
     def stats(ds, **kwargs):
         sequencer_path = kwargs["params"]["sequencer_path"]
@@ -238,7 +240,7 @@ with DAG(
                 #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
                 output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
                 job_name = sequencer_and_run + "_" + sample
-                bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m id01 -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
+                bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m id02 -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
                 dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
                 dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
                 dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)

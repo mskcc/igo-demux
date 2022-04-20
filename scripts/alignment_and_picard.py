@@ -7,6 +7,7 @@ from dataclasses import dataclass
 from collections import OrderedDict
 import scripts.generate_run_params
 
+
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
 class Fastqs:
@@ -229,6 +230,7 @@ class LaunchMetrics(object):
 		# BIG_NODES = " -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
 		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
 		prjct = sample.project.split("_")[1]
+
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		#
 		# merge bams
@@ -277,11 +279,11 @@ def main(sample_sheet):
 
     # TODO fingerprinting
 
-	# TODO copy txt files to DONE folder and update ngsstats database and LIMS
-	# upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+	  # TODO copy txt files to DONE folder and update ngsstats database and LIMS
+	  # upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
         # subprocess.run(upload_stats_cmd, shell=True)
 	
-	# TODO email that stats have completed
+	  # TODO email that stats have completed
 			
 			
 if __name__ == "__main__":

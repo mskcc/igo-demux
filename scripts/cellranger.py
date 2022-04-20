@@ -181,6 +181,8 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
             tag = get_tag(sample_recipe_dict[sample])
             # if recipe within the tool being set up, lanuch cellranger
             if tag != "Skip":
+                if sample_genome_dict[sample] != "Human" and sample_genome_dict[sample] != "Mouse":
+                    sample_genome_dict[sample] = "Mouse"
                 cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
                 subprocess.run(cmd, shell=True)
                 send_json['samples'].append({'sample':'Sample_' + sample, 'type':tag, 'project':project, 'run':sequencer_and_run})
@@ -190,9 +192,11 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
 
 # sample_ID_list = ["06265_8869_1_IGO_06265_AG_3","Third-Transcriptome_IGO_11969_E_3", "Second_IGO_11969_E_2"]
 # fastq_file_list_dict = {'06265_8869_1_IGO_06265_AG_3': ['/igo/staging/FASTQ/DIANA_0453_AHFKJ5DRXY/Project_06265_AG/Sample_06265_8869_1_IGO_06265_AG_3'], 'Third-Transcriptome_IGO_11969_E_3': ['/igo/staging/FASTQ/DIANA_0450_AH3JL3DSX3/Project_11969_E/Sample_Third-Transcriptome_IGO_11969_E_3', '/igo/staging/FASTQ/DIANA_0454_BH555MDMXY/Project_11969_E/Sample_Third-Transcriptome_IGO_11969_E_3'], 'Second_IGO_11969_E_2': ['/igo/staging/FASTQ/DIANA_0453_AHFKJ5DRXY/Project_11969_E/Sample_Second_IGO_11969_E_2', '/igo/staging/FASTQ/DIANA_0450_AH3JL3DSX3/Project_11969_E/Sample_Second_IGO_11969_E_2']}
-# genome_dict = {"06265_8869_1_IGO_06265_AG_3":"Human","Third-Transcriptome_IGO_11969_E_3":"Mouse", "Second_IGO_11969_E_2":"Mouse"}
+# genome_dict = {"06265_8869_1_IGO_06265_AG_3":"Human_GeneticallyModified","Third-Transcriptome_IGO_11969_E_3":"Human", "Second_IGO_11969_E_2":"Mouse"}
 # cmd = []
 # for sample in sample_ID_list:
+#     if genome_dict[sample] != "Human" and genome_dict[sample] != "Mouse":
+#         genome_dict[sample] = "Mouse"
 #     cmd.append(generate_cellranger_cmd(sample, "count", genome_dict[sample], fastq_file_list_dict[sample], "DIANA_0453_AHFKJ5DRXY"))
 # print(cmd)
 # test_result = ["bsub -J DIANA_0453_AHFKJ5DRXY_06265_8869_1_IGO_06265_AG_3_count_cellranger -o DIANA_0453_AHFKJ5DRXY_06265_8869_1_IGO_06265_AG_3_count_cellranger.out /igo/work/nabors/tools/cellranger-6.1.2/cellranger count --id=Sample_06265_8869_1_IGO_06265_AG_3__count --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A --fastqs=/igo/staging/FASTQ/DIANA_0453_AHFKJ5DRXY/Project_06265_AG/Sample_06265_8869_1_IGO_06265_AG_3 --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200",
