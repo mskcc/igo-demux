@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import re
 from subprocess import call
@@ -7,7 +5,8 @@ import sys
 import csv
 from dataclasses import dataclass
 from collections import OrderedDict
-import generate_run_params
+import scripts.generate_run_params
+
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
@@ -181,7 +180,7 @@ class LaunchMetrics(object):
 		parameter_placement = list
 		recipe_and_genome = ["--recipe", recipe, "--species", genome]
 		# calll outside scripts and return the parameter data
-		sample_params = generate_run_params.main(recipe_and_genome)
+		sample_params = scripts.generate_run_params.main(recipe_and_genome)
 		return(sample_params)
 	
 	# let's align the fastqs to the genome!	
@@ -211,7 +210,7 @@ class LaunchMetrics(object):
 		# 
 		os.chdir(work_dir_rna)
 		PICARD_RNA = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar CollectRnaSeqMetrics "
-		prjct = sample.project[8:]
+		prjct = sample.project.split("_")[1]
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
 		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory " + work_dir_rna
@@ -230,7 +229,8 @@ class LaunchMetrics(object):
 		#
 		# BIG_NODES = " -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
 		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
-		prjct = sample.project[8:]
+		prjct = sample.project.split("_")[1]
+
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		#
 		# merge bams
@@ -264,10 +264,8 @@ class LaunchMetrics(object):
 			call(bsub_hs_metrics, shell = True)
 			
 	
-def main():
-	
-	# grab the sample sheet as an argument
-	sample_sheet = sys.argv[1]
+def main(sample_sheet):
+	sample_sheet = sample_sheet
 	
 	# Initaite objects
 	get_data = GetSampleData()
@@ -278,9 +276,16 @@ def main():
 	run = get_run.get_run(sample_sheet)
 	all_samples = get_data.get_samples(sample_sheet, run)
 	all_metrics = launch_metrics.launch_metrics(all_samples, run)
-			
-			
-############# MAIN ROUTINE
-if __name__ == "__main__":
-	main()
+
+    # TODO fingerprinting
+
+	  # TODO copy txt files to DONE folder and update ngsstats database and LIMS
+	  # upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+        # subprocess.run(upload_stats_cmd, shell=True)
 	
+	  # TODO email that stats have completed
+			
+			
+if __name__ == "__main__":
+	sample_sheet = sys.argv[1]
+	main(sample_sheet)
