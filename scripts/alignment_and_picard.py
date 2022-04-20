@@ -171,7 +171,7 @@ class LaunchMetrics(object):
 			# do the bam alignment
 			bams_by_lane = self.alignment_to_genome(sample, run, sample_params, work_dir)
 			# launch the Picard tools
-			picard_data = self.launch_picard(bams_by_lane, run, sample, sample_params)
+			self.launch_picard(bams_by_lane, run, sample, sample_params)
 			
 	# grab the parameters needed for bwa-mem and picard
 	@staticmethod
