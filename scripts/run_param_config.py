@@ -11,6 +11,7 @@ DEFAULT = "DEFAULT_TYPE"
 GENOME = "GENOME"
 REFERENCE = "REFERENCE"
 REF_FLAT = "REF_FLAT"
+GTF = "GTF"
 RIBOSOMAL_INTERVALS = "RIBOSOMAL_INTERVALS"
 GTAG = "GTAG"
 CELLRANGER_ATAC = "CELLRANGER_ATAC"
@@ -108,8 +109,8 @@ recipe_overrides = {
 """ Mapping of species to their genome-type """
 species_genome_mapping_UNORDERED = {
 		"Human": "GRCh38",
-		"Mouse": "grcm38",
-		"Mouse_GeneticallyModified": "grcm38",
+		"Mouse": "GRCm38",
+		"Mouse_GeneticallyModified": "GRCm38",
 		"Drosophilia": "dm3",
 		"Zebrafish": "danrer7",
 		"Chicken": "galGal4",
@@ -175,8 +176,9 @@ genome_reference_mapping_UNORDERED = {
 						HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_igo.map"	# TODO - Verify this
 				},
 				"RNA": {
-						REF_FLAT: '/igo/work/nabors/bed_files/GRCh38_100_Ensembl/Homo_sapiens.GRCh38.100.ref.flat',
-						RIBOSOMAL_INTERVALS: '/igo/work/nabors/bed_files/GRCh38_100_Ensembl/SHORT__Homo_sapiens.GRCh38.100.rRNA.interval.list'
+						REF_FLAT: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/Homo_sapiens.GRCh38.100.ref.flat",
+						RIBOSOMAL_INTERVALS: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/SHORT__Homo_sapiens.GRCh38.100.rRNA.interval.list",
+						GTF: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/Homo_sapiens.GRCh38.100.gtf"
 				},
 		},
 		"grcm38": {
@@ -189,8 +191,9 @@ genome_reference_mapping_UNORDERED = {
 						CELLRANGER_COUNT: "/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A"
 				},
 				"RNA": {
-						REF_FLAT: '/igo/work/nabors/genomes/GRCm38/Mus_musculus.GRCm38.99.ref_flat',
-						RIBOSOMAL_INTERVALS: '/igo/work/nabors/genomes/GRCm38/Mus_musculus.GRCm38.interval_list'
+						REF_FLAT: "/igo/work/nabors/genomes/GRCm38/Mus_musculus.GRCm38.99.ref_flat",
+						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/GRCm38/Mus_musculus.GRCm38.interval_list",
+						GTF: "/igo/work/nabors/genomes/GRCm38/Mus_musculus.GRCm38.99.gtf"
 				},
 		},
 		"mm9": {
@@ -372,8 +375,8 @@ recipe_options_mapping_UNORDERED = {
 		},
 		"IMPACT505": {
 				# NOTE: interval list file name "IMPACT468_BAITS" is stored in LIMS and passed to pipelines, change file name with caution
-				BAITS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_GRCh38_BAITS.intervalList",
-				TARGETS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_GRCh38_TARGETS.intervalList",
+				BAITS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_BAITS.iList",
+				TARGETS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_TARGETS.iList",
 				MSKQ: "yes",
 				MD: "yes"
 		},
