@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 import os
 import re
 from subprocess import call
@@ -7,7 +5,7 @@ import sys
 import csv
 from dataclasses import dataclass
 from collections import OrderedDict
-import generate_run_params
+import scripts.generate_run_params
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
@@ -264,10 +262,8 @@ class LaunchMetrics(object):
 			call(bsub_hs_metrics, shell = True)
 			
 	
-def main():
-	
-	# grab the sample sheet as an argument
-	sample_sheet = sys.argv[1]
+def main(sample_sheet):
+	sample_sheet = sample_sheet
 	
 	# Initaite objects
 	get_data = GetSampleData()
@@ -278,9 +274,16 @@ def main():
 	run = get_run.get_run(sample_sheet)
 	all_samples = get_data.get_samples(sample_sheet, run)
 	all_metrics = launch_metrics.launch_metrics(all_samples, run)
-			
-			
-############# MAIN ROUTINE
-if __name__ == "__main__":
-	main()
+
+    # TODO fingerprinting
+
+	# TODO copy txt files to DONE folder and update ngsstats database and LIMS
+	# upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+        # subprocess.run(upload_stats_cmd, shell=True)
 	
+	# TODO email that stats have completed
+			
+			
+if __name__ == "__main__":
+	sample_sheet = sys.argv[1]
+	main(sample_sheet)
