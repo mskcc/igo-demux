@@ -24,7 +24,7 @@ class SampleSheet:
 
         # dictionary of project->recipe - NOTE, not accurate for MICHELLE_0485 where 08822_PC has HumanWholeGenome & RNASeq_RiboDeplete
         self.project_dict = pandas.Series(self.df_ss_data['Sample_Well'].values,index=self.df_ss_data['Sample_Project']).to_dict()
-        self.sample_dict = pandas.Series(self.df_ss_data['Sample_Well'].values,index=self.df_ss_data['Sample_Name']).to_dict()
+        self.sample_dict = pandas.Series(self.df_ss_data['Sample_Well'].values,index=self.df_ss_data['Sample_ID']).to_dict()
         self.project_set = set(self.df_ss_data['Sample_Project'].tolist())  # Sample_Project column has the projects, convert it to a set
 
         # set of all recipes in the sample sheet
@@ -77,8 +77,6 @@ class SampleSheet:
         self.df_ss_header.to_csv(self.path, mode='a',index=False,header=False)
         self.df_ss_data.to_csv(self.path, mode='a',index=False)
 
-    def remove_sample_prefix(self):
-        self.df_ss_data['Sample_ID'] = self.df_ss_data['Sample_ID'].str.replace('Sample_' , '')
 
     """
     Creates a new [Data] section without 'Lane' information for each sample.
@@ -86,7 +84,6 @@ class SampleSheet:
     def remove_lane_information(self):
         #DRAGEN "--no-lane-splitting" requires a sample sheet without lane information
         print("Removing sample sheet lane information.")
-        self.df_ss_data.drop(columns=['Lane', 'Sample_Name'], inplace=True)
         self.df_ss_data.drop_duplicates(inplace=True) 
 
     """

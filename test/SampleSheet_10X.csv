@@ -15,8 +15,8 @@ Chemistry,Default,,,,,,,,
 BarcodeMismatchesIndex1,1,,,,,,,,
 BarcodeMismatchesIndex2,1,,,,,,,,
 [Data],,,,,,,,,
-Lane,Sample_ID,Sample_Name,Sample_Plate,Sample_Well,I7_Index_ID,index,index2,Sample_Project,Description
-1,Second_IGO_11969_E_2,Second_IGO_11969_E_2,Mouse,10X_Genomics_GeneExpression,SI-TT-G12,CTTGCATAAA,AAGCCCTGAT,Project_11969_E,vierbuct@mskcc.org
-1,06265_8869_1_IGO_06265_AG_3,06265_8869_1_IGO_06265_AG_3,Human,10X_Genomics_GeneExpression-5,SI-TT-F1,AAGATTGGAT,AAATCCCGCT,Project_06265_AG,intlekoa@mskcc.org
-2,Second_IGO_11969_E_2,Second_IGO_11969_E_2,Mouse,10X_Genomics_GeneExpression,SI-TT-G12,CTTGCATAAA,AAGCCCTGAT,Project_11969_E,vierbuct@mskcc.org
-2,06265_8869_1_IGO_06265_AG_3,06265_8869_1_IGO_06265_AG_3,Human,10X_Genomics_GeneExpression-5,SI-TT-F1,AAGATTGGAT,AAATCCCGCT,Project_06265_AG,intlekoa@mskcc.org
+Lane,Sample_ID,Sample_Plate,Sample_Well,I7_Index_ID,index,index2,Sample_Project,Description
+1,Second_IGO_11969_E_2,Mouse,10X_Genomics_GeneExpression,SI-TT-G12,CTTGCATAAA,AAGCCCTGAT,Project_11969_E,vierbuct@mskcc.org
+1,06265_8869_1_IGO_06265_AG_3,Human,10X_Genomics_GeneExpression-5,SI-TT-F1,AAGATTGGAT,AAATCCCGCT,Project_06265_AG,intlekoa@mskcc.org
+2,Second_IGO_11969_E_2,10X_Genomics_GeneExpression,SI-TT-G12,CTTGCATAAA,AAGCCCTGAT,Project_11969_E,vierbuct@mskcc.org
+2,06265_8869_1_IGO_06265_AG_3,Human,10X_Genomics_GeneExpression-5,SI-TT-F1,AAGATTGGAT,AAATCCCGCT,Project_06265_AG,intlekoa@mskcc.org
