@@ -55,9 +55,3 @@ def test_only_DLP_split():
     ss_list = x.split_sample_sheet()
     assert(len(ss_list) == 1)
     assert("Lane" in ss_list[0].df_ss_data.columns)
-
-def test_remove_sample_prefix():
-    x = SampleSheet("test/DIANA_0434.csv")
-    print(x.project_dict)
-    x.remove_sample_prefix()
-    #TODO complete
