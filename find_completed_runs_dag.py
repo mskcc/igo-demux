@@ -103,7 +103,6 @@ with DAG(
 
       print("Reading the LIMS sample sheet {}".format(orig_samplesheet))
       ss_orig = SampleSheet(orig_samplesheet)
-      ss_orig.remove_sample_prefix()
       ss_orig.path = dest_samplesheet
 
       ss_list = ss_orig.split_sample_sheet()
