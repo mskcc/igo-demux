@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import re
 from subprocess import call
@@ -5,8 +7,7 @@ import sys
 import csv
 from dataclasses import dataclass
 from collections import OrderedDict
-import scripts.generate_run_params
-
+import generate_run_params
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
@@ -20,7 +21,6 @@ class Lanes:
 
 @dataclass
 class Sample:
-	sample_dir: str
 	sample_id: str
 	genome: str
 	recipe: str
@@ -50,15 +50,15 @@ class GetSampleData:
 					got_data = True
 				elif (row[0] != "Lane") and got_data:
 					# do not process hWGS, mWGS, DLP or 10X samples.  they have their own processes
-					if ((row[4] == "HumanWholeGenome") or (row[4] == "MouseWholeGenome") or (row[4] == "DLP") or ("10X_Genomics" in row[4])):
+					if ((row[3] == "HumanWholeGenome") or (row[3] == "MouseWholeGenome") or (row[3] == "DLP") or ("10X_Genomics" in row[3])):
 						continue
-					self.all_sample_ids.append(row[2])
+					self.all_sample_ids.append(row[1])
 					# check for duplicate samples in the sample sheet
-					self.duplicate_sample = self.check_this_sample(row[2], self.all_sample_ids)
+					self.duplicate_sample = self.check_this_sample(row[1], self.all_sample_ids)
 					if not self.duplicate_sample:
 						# go to a routine to pair the reads.  and return them
 						self.all_lanes = self.get_fastqs(self, row, sample_sheet, run)
-						sr = Sample(row[1], row[2], row[3], row[4], row[8], self.all_lanes)
+						sr = Sample(row[1], row[2], row[3], row[7], self.all_lanes)
 						self.all_samples.append(sr)
 				else:
 					continue
@@ -81,7 +81,7 @@ class GetSampleData:
 	def get_fastqs(self, row, sample_sheet, run):
 		#
 		# get run from the sample sheet
-		fastq_dir = "/igo/staging/FASTQ/" + run + "/" + row[8] + "/" + row[1] + "/"
+		fastq_dir = "/igo/staging/FASTQ/" + run + "/" + row[7] + "/Sample_" + row[1] + "/"
 		fastqs  = os.listdir(fastq_dir)
 		# check the run type: PE or SE
 		run_type = self.determine_run_type(fastqs)
@@ -153,7 +153,7 @@ class LaunchMetrics(object):
 		#
 		# create output directoories
 		work_dir = "/igo/staging/stats/" + run
-		work_dir_rna = "/igo/staging/stats/" + run + "/RNA/"
+		work_dir_rna = work_dir + "/RNA/"
 		make_work_dir = "mkdir -p " + work_dir
 		make_work_rna_dir = "mkdir -p " + work_dir_rna
 		print(work_dir)
@@ -180,7 +180,7 @@ class LaunchMetrics(object):
 		parameter_placement = list
 		recipe_and_genome = ["--recipe", recipe, "--species", genome]
 		# calll outside scripts and return the parameter data
-		sample_params = scripts.generate_run_params.main(recipe_and_genome)
+		sample_params = generate_run_params.main(recipe_and_genome)
 		return(sample_params)
 	
 	# let's align the fastqs to the genome!	
@@ -202,7 +202,7 @@ class LaunchMetrics(object):
 			bsub_bwa_mem = "bsub -J bwa_mem___" + fastq_by_lane + " -o " + "bwa_mem___" + fastq_by_lane + ".out -n 40 -M 8 " + bwa_mem
 			print(bsub_bwa_mem)
 			call(bsub_bwa_mem, shell = True)
-		return(bams_by_lane)	
+		return(bams_by_lane)
 	
 	# processing the RNA data: Using DRAGEN for the alignment and CollectRNASeqMetrics Picard tool
 	@staticmethod
@@ -210,18 +210,19 @@ class LaunchMetrics(object):
 		# 
 		os.chdir(work_dir_rna)
 		PICARD_RNA = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar CollectRnaSeqMetrics "
-		prjct = sample.project.split("_")[1]
+		# prjct = sample.project.split("_")[1]
+		prjct = sample.project[8:]
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory " + work_dir_rna
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + metric_file + " --output-directory " + work_dir_rna
 		bsub_launch_dragen_rna = "bsub -J DRAGEN_RNA___" + sample.sample_id + " -o " + "DRAGEN_RNA___" + sample.sample_id + '.out -m "id01" -q dragen -n 48 -M 4 ' + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
-		if sample_params["TYPE"] == "RNA":
-			rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_params["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_params["REF_FLAT"] + "  --INPUT " + sample.sample_id + ".bam  " + "--OUTPUT " + metric_file + "___RNA.txt"
-			bsub_rnaseq = "bsub -J rnaseq___" + sample.sample_id + " -o " + "rnaseq___" + sample.sample_id + ".out -w \"done(DRAGEN_RNA___" + sample.sample_id + ")\" -n 8 -M 8 " + rnaseq
-			print(bsub_rnaseq)
-			call(bsub_rnaseq, shell = True)
+		# run Picard RNA metrics tools
+		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_params["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_params["REF_FLAT"] + "  --INPUT " + metric_file + ".bam  " + "--OUTPUT " + metric_file + "___RNA.txt"
+		bsub_rnaseq = "bsub -J rnaseq___" + sample.sample_id + " -o " + "rnaseq___" + sample.sample_id + ".out -w \"done(DRAGEN_RNA___" + sample.sample_id + ")\" -n 8 -M 8 " + rnaseq
+		print(bsub_rnaseq)
+		call(bsub_rnaseq, shell = True)
 		
 	# launch the picrd tools to process the bams
 	@staticmethod
@@ -229,8 +230,8 @@ class LaunchMetrics(object):
 		#
 		# BIG_NODES = " -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
 		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
-		prjct = sample.project.split("_")[1]
-
+		# prjct = sample.project.split("_")[1]
+		prjct = sample.project[8:]
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		#
 		# merge bams
@@ -262,10 +263,18 @@ class LaunchMetrics(object):
 			bsub_hs_metrics = "bsub -J hs_metrics___" + sample.sample_id + " -o " + "hs_metrics___" + sample.sample_id + ".out -w \"done(mark_dup___" + sample.sample_id + ")\" -n 8 -M 8 " + hs_metrics
 			print(bsub_hs_metrics)
 			call(bsub_hs_metrics, shell = True)
-			
+		# let's determine if we need WGS stats
+		if (sample_params["TYPE"] == "WGS"):
+			bsub_wait_wgs = "bsub -w \"done(mark_dup___" + sample.sample_id + ")\" -J wgs_metrics___" + sample.sample_id + " -o wgs_metrics___" + sample.sample_id + ".out -n 8 -M 8 "
+			collect_wgs = PICARD + "CollectWgsMetrics --INPUT " + sample.sample_id + "___MD.bam " + "--OUTPUT " + metric_file + "___WGS.txt --REFERENCE_SEQUENCE " + sample_params["REFERENCE"]
+			bsub_collect_wgs = bsub_wait_wgs + collect_wgs
+			print(bsub_collect_wgs)
+			call(bsub_collect_wgs, shell = True)
 	
-def main(sample_sheet):
-	sample_sheet = sample_sheet
+def main():
+	
+	# grab the sample sheet as an argument
+	sample_sheet = sys.argv[1]
 	
 	# Initaite objects
 	get_data = GetSampleData()
@@ -275,17 +284,11 @@ def main(sample_sheet):
 	# let's process the data from the sample sheet
 	run = get_run.get_run(sample_sheet)
 	all_samples = get_data.get_samples(sample_sheet, run)
-	all_metrics = launch_metrics.launch_metrics(all_samples, run)
-
-    # TODO fingerprinting
-
-	  # TODO copy txt files to DONE folder and update ngsstats database and LIMS
-	  # upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
-        # subprocess.run(upload_stats_cmd, shell=True)
-	
-	  # TODO email that stats have completed
+	launch_metrics.launch_metrics(all_samples, run)
 			
 			
+############# MAIN ROUTINE
 if __name__ == "__main__":
-	sample_sheet = sys.argv[1]
-	main(sample_sheet)
+	main()
+	
+	
