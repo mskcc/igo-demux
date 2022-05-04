@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-
 """Determines run parameters to generate stats for input recipe & species
 Args:
 		recipe: Project recipe
@@ -11,7 +9,7 @@ import re
 import sys
 import getopt
 from collections import OrderedDict
-from run_param_config import DEFAULT, GTAG, get_ordered_dic, recipe_type_mapping, species_genome_mapping, genome_reference_mapping, recipe_options_mapping, recipe_overrides
+from scripts.run_param_config import DEFAULT, GTAG, get_ordered_dic, recipe_type_mapping, species_genome_mapping, genome_reference_mapping, recipe_options_mapping, recipe_overrides
 
 def find_mapping(mapping, target):
 		"""Retrieves sample type from recipe

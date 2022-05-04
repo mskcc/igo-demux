@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-
-#!/usr/bin/env python
-
 from collections import OrderedDict
 
 # 1) Determined by recipe

@@ -4,9 +4,9 @@ import subprocess
 from datetime import datetime, timedelta
 
 from numpy import equal
+import pandas
 from SampleSheet import SampleSheet
 import scripts.organise_fastq_split_by_lane
-import pandas
 import scripts.get_total_reads_from_demux
 import scripts.cellranger
 import scripts.alignment_and_picard
