@@ -9,7 +9,7 @@ from SampleSheet import SampleSheet
 import scripts.organise_fastq_split_by_lane
 import scripts.get_total_reads_from_demux
 import scripts.cellranger
-import alignment_and_picard
+import scripts.alignment_and_picard
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
