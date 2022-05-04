@@ -1,1 +1,1 @@
-rsync -av --exclude 'test*' /igo/work/igo/igo-demux/*.py /igo/work/igo/airflow/dags/
+rsync -avr --exclude 'test*' /igo/work/igo/igo-demux/* /igo/work/igo/airflow/dags/
