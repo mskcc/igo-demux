@@ -269,10 +269,8 @@ class LaunchMetrics(object):
 			print(bsub_collect_wgs)
 			call(bsub_collect_wgs, shell = True)
 	
-def main():
-	
-	# grab the sample sheet as an argument
-	sample_sheet = sys.argv[1]
+def main(sample_sheet):
+	sample_sheet = sample_sheet
 	
 	# Initaite objects
 	get_data = GetSampleData()
@@ -282,11 +280,18 @@ def main():
 	# let's process the data from the sample sheet
 	run = get_run.get_run(sample_sheet)
 	all_samples = get_data.get_samples(sample_sheet, run)
-	launch_metrics.launch_metrics(all_samples, run)
-			
-			
-############# MAIN ROUTINE
-if __name__ == "__main__":
-	main()
+	all_metrics = launch_metrics.launch_metrics(all_samples, run)
+
+    # TODO fingerprinting
+
+	# TODO copy txt files to DONE folder and update ngsstats database and LIMS
+	# upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+    # subprocess.run(upload_stats_cmd, shell=True)
 	
+	# TODO email that stats have completed
+			
+			
+if __name__ == "__main__":
+	sample_sheet = sys.argv[1]
+	main(sample_sheet)
 	
