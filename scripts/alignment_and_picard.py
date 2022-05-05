@@ -7,8 +7,7 @@ import sys
 import csv
 from dataclasses import dataclass
 from collections import OrderedDict
-import script.generate_run_params
-import time
+import scripts.generate_run_params
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
@@ -59,7 +58,6 @@ class GetSampleData:
 					got_data = True
 					data_headers = row
 					print(data_headers)
-					# time.sleep(60)
 				elif (row[0] != "Lane") and got_data:
 					# do not process hWGS, mWGS, DLP or 10X samples.  they have their own processes
 					if (row[data_headers.index("Sample_Well")] in DO_NOT_PROCESS):
@@ -302,10 +300,7 @@ class LaunchMetrics(object):
 			print(bsub_collect_wgs)
 			call(bsub_collect_wgs, shell = True)
 	
-def main():
-	
-	# grab the sample sheet as an argument
-	sample_sheet = sys.argv[1]
+def main(sample_sheet):
 	
 	# Initaite objects
 	get_data = GetSampleData()
@@ -320,6 +315,8 @@ def main():
 			
 ############# MAIN ROUTINE
 if __name__ == "__main__":
-	main()
+	# grab the sample sheet as an argument
+	sample_sheet = sys.argv[1]
+	main(sample_sheet)
 	
 	
