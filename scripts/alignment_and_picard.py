@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import os
 import re
 from subprocess import call
@@ -5,7 +7,8 @@ import sys
 import csv
 from dataclasses import dataclass
 from collections import OrderedDict
-import scripts.generate_run_params
+import generate_run_params
+import time
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
@@ -25,6 +28,11 @@ class Sample:
 	project: str
 	all_fastqs: str
 
+# Global Variable : we do not want to process these experiments in this script
+DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP" ]
+# this list contains the headers of the columns.  we will access the data using these listings
+data_headers = list()
+
 # this class handles obtaining the data from the sample sheet and storing it in a data class to use later
 class GetSampleData:
 	#
@@ -33,30 +41,36 @@ class GetSampleData:
 		self.all_samples = list()
 		self.duplicate_sample = ""
 		self.all_fastqs = list()
-		
+	
 	# let's grab the sample sheet and run info to store into the data classes
 	# the sample sheet is in csv file format
 	def get_samples(self, sample_sheet, run):
+		#
+		global DO_NOT_PROCESS, data_headers
+		
 		csv_sample_data = list()
 		testing = list()
 		with open(sample_sheet) as csv_file:
 			csv_reader = csv.reader(csv_file, delimiter = ",")
 			got_data = False
-			# once we find the "Lane" header, let's begin to store the data
+			# once we find the "Lane" header, let's store the header row and the data
 			for row in csv_reader:
 				if (row[0] == "Lane"):
 					got_data = True
+					data_headers = row
+					print(data_headers)
+					# time.sleep(60)
 				elif (row[0] != "Lane") and got_data:
 					# do not process hWGS, mWGS, DLP or 10X samples.  they have their own processes
-					if ((row[3] == "HumanWholeGenome") or (row[3] == "MouseWholeGenome") or (row[3] == "DLP") or ("10X_Genomics" in row[3])):
+					if (row[data_headers.index("Sample_Well")] in DO_NOT_PROCESS):
 						continue
-					self.all_sample_ids.append(row[1])
+					self.all_sample_ids.append(row[data_headers.index("Sample_ID")])
 					# check for duplicate samples in the sample sheet
-					self.duplicate_sample = self.check_this_sample(row[1], self.all_sample_ids)
+					self.duplicate_sample = self.check_this_sample(row[data_headers.index("Sample_ID")], self.all_sample_ids)
 					if not self.duplicate_sample:
 						# go to a routine to pair the reads.  and return them
 						self.all_lanes = self.get_fastqs(self, row, sample_sheet, run)
-						sr = Sample(row[1], row[2], row[3], row[7], self.all_lanes)
+						sr = Sample(row[data_headers.index("Sample_ID")], row[data_headers.index("Sample_Plate")], row[data_headers.index("Sample_Well")], row[data_headers.index("Sample_Project")], self.all_lanes)
 						self.all_samples.append(sr)
 				else:
 					continue
@@ -79,7 +93,7 @@ class GetSampleData:
 	def get_fastqs(self, row, sample_sheet, run):
 		#
 		# get run from the sample sheet
-		fastq_dir = "/igo/staging/FASTQ/" + run + "/" + row[7] + "/Sample_" + row[1] + "/"
+		fastq_dir = "/igo/staging/FASTQ/" + run + "/" + row[data_headers.index("Sample_Project")] + "/Sample_" + row[data_headers.index("Sample_ID")] + "/"
 		fastqs  = os.listdir(fastq_dir)
 		# check the run type: PE or SE
 		run_type = self.determine_run_type(fastqs)
@@ -151,20 +165,25 @@ class LaunchMetrics(object):
 		#
 		# create output directoories
 		work_dir = "/igo/staging/stats/" + run
-		work_dir_rna = work_dir + "/RNA/"
 		make_work_dir = "mkdir -p " + work_dir
-		make_work_rna_dir = "mkdir -p " + work_dir_rna
-		print(work_dir)
-		print(work_dir_rna)
 		call(make_work_dir, shell = True)
-		call(make_work_rna_dir, shell = True)
 		#
 		for sample in all_samples:
 			# grab the sample parameters (bait set, type, gtag, etc)
 			sample_params = self.get_params(sample.genome, sample.recipe)
 			# process the RNA data seperately
 			if (sample_params["TYPE"] == "RNA"):
+				work_dir_rna = work_dir + "/RNA/"
+				make_work_rna_dir = "mkdir -p " + work_dir_rna
+				call(make_work_rna_dir, shell = True)
 				self.rna_alignment_and_metrics(sample, run, sample_params, work_dir_rna)
+				continue
+			# process MouseWholeGenome separately
+			if (sample.recipe == "MouseWholeGenome"):
+				work_dir_mWGS = work_dir + "/mWGS/"
+				make_work_mWGS_dir = "mkdir -p " + work_dir_mWGS
+				call(make_work_mWGS_dir, shell = True)
+				self.mWGS(sample, run, sample_params, work_dir_mWGS)
 				continue
 			# do the bam alignment
 			bams_by_lane = self.alignment_to_genome(sample, run, sample_params, work_dir)
@@ -177,8 +196,8 @@ class LaunchMetrics(object):
 		#
 		parameter_placement = list
 		recipe_and_genome = ["--recipe", recipe, "--species", genome]
-		# calll outside scripts and return the parameter data
-		sample_params = scripts.generate_run_params.main(recipe_and_genome)
+		# call outside scripts and return the parameter data
+		sample_params = generate_run_params.main(recipe_and_genome)
 		return(sample_params)
 	
 	# let's align the fastqs to the genome!	
@@ -221,6 +240,20 @@ class LaunchMetrics(object):
 		bsub_rnaseq = "bsub -J rnaseq___" + sample.sample_id + " -o " + "rnaseq___" + sample.sample_id + ".out -w \"done(DRAGEN_RNA___" + sample.sample_id + ")\" -n 8 -M 8 " + rnaseq
 		print(bsub_rnaseq)
 		call(bsub_rnaseq, shell = True)
+		
+	@staticmethod
+	def mWGS(sample, run, sample_params, work_dir_mWGS):
+		# 
+		os.chdir(work_dir_mWGS)
+		# create metrics file name
+		prjct = sample.project[8:]
+		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
+		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
+		launch_dragen_mWGS= "/opt/edico/bin/dragen --ref-dir /staging/ref/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory " +  work_dir_mWGS + " --output-file-prefix " + metric_file + ' --enable-duplicate-marking true'
+		bsub_launch_dragen_mWGS = "bsub -J DRAGEN_mWGS___" + sample.sample_id + " -o " + "DRAGEN_mWGS___" + sample.sample_id + '.out -m "id01" -q dragen -n 48 -M 4 ' + launch_dragen_mWGS
+		print(bsub_launch_dragen_mWGS)
+		call(bsub_launch_dragen_mWGS, shell = True)
+		
 		
 	# launch the picrd tools to process the bams
 	@staticmethod
@@ -269,8 +302,10 @@ class LaunchMetrics(object):
 			print(bsub_collect_wgs)
 			call(bsub_collect_wgs, shell = True)
 	
-def main(sample_sheet):
-	sample_sheet = sample_sheet
+def main():
+	
+	# grab the sample sheet as an argument
+	sample_sheet = sys.argv[1]
 	
 	# Initaite objects
 	get_data = GetSampleData()
@@ -280,18 +315,11 @@ def main(sample_sheet):
 	# let's process the data from the sample sheet
 	run = get_run.get_run(sample_sheet)
 	all_samples = get_data.get_samples(sample_sheet, run)
-	all_metrics = launch_metrics.launch_metrics(all_samples, run)
-
-    # TODO fingerprinting
-
-	# TODO copy txt files to DONE folder and update ngsstats database and LIMS
-	# upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
-    # subprocess.run(upload_stats_cmd, shell=True)
-	
-	# TODO email that stats have completed
+	launch_metrics.launch_metrics(all_samples, run)
 			
 			
+############# MAIN ROUTINE
 if __name__ == "__main__":
-	sample_sheet = sys.argv[1]
-	main(sample_sheet)
+	main()
+	
 	
