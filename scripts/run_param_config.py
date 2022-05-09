@@ -1,3 +1,7 @@
+#!/usr/bin/env python3
+
+#!/usr/bin/env python
+
 from collections import OrderedDict
 
 # 1) Determined by recipe
@@ -426,8 +430,8 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"IDT_Exome_v2_FP_Viral_Probes": {
-			BAITS: "/igo/home/igo/resources/ilist/GRCh38.p13/IDT_Exome_v2/IDT_Exome_v2_GRCh38_BAITS.intervalList",
-			TARGETS: "/igo/home/igo/resources/ilist/GRCh38.p13/IDT_Exome_v2/IDT_Exome_v2_GRCh38_TARGETS.intervalList",
+			BAITS: "/igo/home/igo/resources/ilist/GRCh38.p13/IDT_Exome_v2/IDT_Exome_v2_BAITS.baits",
+			TARGETS: "/igo/home/igo/resources/ilist/GRCh38.p13/IDT_Exome_v2/IDT_Exome_v2_TARGETS.targets",
 			MSKQ: "no",
 			MD: "yes"
 		},
