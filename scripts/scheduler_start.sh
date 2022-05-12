@@ -1,0 +1,1 @@
+nohup airflow scheduler > /igo/work/igo/airflow/scheduler.log 2>&1 &
