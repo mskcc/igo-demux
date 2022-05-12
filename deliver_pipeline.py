@@ -10,6 +10,7 @@ At time of delivery for all RNASeq projects:
 import os
 import shutil
 import logging
+import glob
 
 LAB_SHARE_DIR = "/igo/delivery/share"
 STATS_DIR = "/igo/staging/stats"
@@ -25,13 +26,27 @@ def deliver_pipeline_output(project, pi, recipe):
         # TODO automate delivery of pipelines that are copied to the delivery share manually
         print("Pipeline delivery is not yet automated for recipe {} and project {}".format(recipe, project))
 
-def find_bams(project):
+def find_bams(project, stats_base_dir):
     """
     Find all bams for a project and return a dictionary of "igo_id" -> "bam list"
     """
-    # search for all .bams named like DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1___GRCh38.bam
-    print("Searching for all .bams for project {}".format(project))
+    
+    bam_unix_regex = stats_base_dir + '/**/*_IGO_' + project + '_*.bam'
+    # search for all .bams named like /igo/staging/stats/DIANA_0479_BHM2NVDSX3/DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam
+    print("Searching for all .bams for project {} starting in folder {} matching glob {}".format(project, stats_base_dir, bam_unix_regex))
+    project_bams = glob.glob(bam_unix_regex, recursive=True)
+    print("Total bams found {}".format(len(project_bams)))
+
     bamdict = {}
+    for bam in project_bams:
+        igo_id = bam.split("_IGO_")[1]
+        igo_id = igo_id.replace(".bam","")
+        print("Adding IGO ID {} bam {} to bam dictionary".format(igo_id, bam))
+        if igo_id in bamdict: # add the bam to the list of bams for that igoId
+            bamdict[igo_id].append(bam)
+        else:
+            bamdict.update({igo_id:[bam]}) # add dictionary entry with 1 list item
+    
     return bamdict
 
 def write_bams_to_share(bamdict, delivery_folder):
