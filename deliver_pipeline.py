@@ -64,10 +64,16 @@ def write_bams_to_share(bamdict, delivery_folder):
 
     for igo_id in bamdict:
         bamlist = bamdict[igo_id]
+        dest_filename = next(reversed(bamlist[0].split("___")))
+        print("Writing delivery .bam {} to folder {}".format(dest_filename, delivery_folder))
         if len(bamlist) == 1: # skip merge if only one .bam
-            # TODO Rename "DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1___GRCh38.bam" to just "GA28_ot_IGO_12785_H_1.bam"
+            # Copy and Rename "DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam" to just "GA28_ot_IGO_12785_H_1.bam"
             shutil.copy(bamlist[0], delivery_folder)
-            logging.info("Copied {} to pipeline delivery folder".format(bamlist[0]))
+            print("Copied {} to {}".format(bamlist[0], delivery_folder))
+            shutil.move(delivery_folder + "/" + os.path.basename(bamlist[0]), delivery_folder + "/" + dest_filename)
+            msg = "Copied {} to pipeline delivery folder".format(bamlist[0])
+            logging.info(msg)
+            print(msg)
         else:
             print("Merging .bams {}".format(bamlist))
             #TODO Picard MergeSamFiles https://github.com/mskcc/igo-demux/blob/bf27d2a69d0ea640074ce4081dc035fe7178d9e6/scripts/alignment_and_picard.py#L268

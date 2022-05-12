@@ -17,3 +17,7 @@ def test_find_bams():
     bamdict = deliver_pipeline.find_bams("12785_H", tmpdir)
     print(bamdict)
     assert(len(bamdict["12785_H_1"]) == 1)
+
+    deliver_pipeline.write_bams_to_share(bamdict, tmpdir +"/abcdefg")
+
+    assert(os.path.isfile(tmpdir + "/abcdefg/GA28_ot_IGO_12785_H_1.bam"))
