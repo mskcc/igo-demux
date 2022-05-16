@@ -21,3 +21,10 @@ def test_find_bams():
     deliver_pipeline.write_bams_to_share(bamdict, tmpdir +"/abcdefg")
 
     assert(os.path.isfile(tmpdir + "/abcdefg/GA28_ot_IGO_12785_H_1.bam"))
+
+
+def test_merge_bams_command():
+    tmpdir = tempfile.mkdtemp()
+    bamdict = {"12785_H_1": ["DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam", "DIANA_0480_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam"]}
+    bsub_commands = deliver_pipeline.write_bams_to_share(bamdict,tmpdir)
+    assert(bsub_commands[0].count("--INPUT") == 2)

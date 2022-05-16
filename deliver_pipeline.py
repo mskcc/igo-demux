@@ -8,19 +8,22 @@ At time of delivery for all RNASeq projects:
 """
 
 import os
+import sys
 import shutil
 import logging
 import glob
+from subprocess import call
 
 LAB_SHARE_DIR = "/igo/delivery/share"
 STATS_DIR = "/igo/staging/stats"
+PICARD = "java -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
 
 def deliver_pipeline_output(project, pi, recipe):
     delivery_folder = LAB_SHARE_DIR + "/" + pi + "/Project_" + project + "/pipeline"
 
     if recipe.startswith("RNASeq"):
         print("Delivering all RNASeq .bams for {} {}".format(project, recipe))
-        bamdict = find_bams(project)
+        bamdict = find_bams(project, STATS_DIR)
         write_bams_to_share(bamdict, delivery_folder)
     else:
         # TODO automate delivery of pipelines that are copied to the delivery share manually
@@ -32,9 +35,9 @@ def find_bams(project, stats_base_dir):
     """
     
     bam_unix_regex = stats_base_dir + '/**/*_IGO_' + project + '_*.bam'
-    # search for all .bams named like /igo/staging/stats/DIANA_0479_BHM2NVDSX3/DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam
     print("Searching for all .bams for project {} starting in folder {} matching glob {}".format(project, stats_base_dir, bam_unix_regex))
-    project_bams = glob.glob(bam_unix_regex, recursive=True)
+    # search for all .bams named like /igo/staging/stats/DIANA_0479_BHM2NVDSX3/RNA/DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam
+    project_bams = glob.glob(bam_unix_regex, recursive=True)  # recurisive=True causes the search to be a bit slow (more than 1 min)
     print("Total bams found {}".format(len(project_bams)))
 
     bamdict = {}
@@ -58,6 +61,7 @@ def write_bams_to_share(bamdict, delivery_folder):
         print("Creating pipeline delivery folder {}".format(delivery_folder))
         os.makedirs(delivery_folder)
     
+    bsub_commands = []
     # setup log file to record all .bams copied to the delivery folder
     log_file = delivery_folder + "/bamCreation.log"
     logging.basicConfig(filename=log_file)
@@ -76,4 +80,20 @@ def write_bams_to_share(bamdict, delivery_folder):
             print(msg)
         else:
             print("Merging .bams {}".format(bamlist))
-            #TODO Picard MergeSamFiles https://github.com/mskcc/igo-demux/blob/bf27d2a69d0ea640074ce4081dc035fe7178d9e6/scripts/alignment_and_picard.py#L268
+            bsub_merge = "bsub -J merge_bam_files_to_deliver_" + igo_id + " -o merge_bam_files___" + igo_id + ".out -n 40 -M 8 "
+            merge_bams = PICARD + "MergeSamFiles --OUTPUT " + dest_filename + " ".join("--INPUT " + i for i in bamlist)
+            bsub_merge_bams = bsub_merge + merge_bams
+            print(bsub_merge_bams)
+            logging.info(bsub_merge_bams)
+            call(bsub_merge_bams, shell = True)
+            bsub_commands.append(bsub_merge_bams)
+    
+    return bsub_commands
+
+#optionally invoke directly, for example:
+#python deliver_pipeline.py 13097 abdelwao RNASeq-TruSeqPolyA
+if __name__ == '__main__':
+    project = sys.argv[1]
+    pi = sys.argv[2]
+    recipe = sys.argv[3]
+    deliver_pipeline_output(project, pi, recipe)
