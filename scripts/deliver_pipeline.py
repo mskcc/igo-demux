@@ -22,7 +22,7 @@ def deliver_pipeline_output(project, pi, recipe):
     delivery_folder = LAB_SHARE_DIR + "/" + pi + "/Project_" + project + "/pipeline"
 
     if recipe.startswith("RNASeq"):
-        print("Delivering all RNASeq .bams for {} {}".format(project, recipe))
+        print("Delivering all RNASeq .bams for {} {} {}".format(project, pi, recipe))
         bamdict = find_bams(project, STATS_DIR)
         write_bams_to_share(bamdict, delivery_folder)
     else:

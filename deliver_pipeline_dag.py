@@ -28,7 +28,7 @@ with DAG(
         project = kwargs["params"]["project"]
         pi = kwargs["params"]["pi"]
         recipe = kwargs["params"]["recipe"]
-        print("Delivering the pipeline output and/or .bams for {} {}".format(project, pi, recipe))
+        print("Delivering the pipeline output and/or .bams for {} {} {}".format(project, pi, recipe))
 
         return scripts.deliver_pipeline(project, pi, recipe)        
 
