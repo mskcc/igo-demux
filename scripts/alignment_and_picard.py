@@ -7,7 +7,8 @@ import sys
 import csv
 from dataclasses import dataclass
 from collections import OrderedDict
-import scripts.generate_run_params
+import generate_run_params
+import time
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
@@ -58,6 +59,7 @@ class GetSampleData:
 					got_data = True
 					data_headers = row
 					print(data_headers)
+					# time.sleep(60)
 				elif (row[0] != "Lane") and got_data:
 					# do not process hWGS, mWGS, DLP or 10X samples.  they have their own processes
 					if (row[data_headers.index("Sample_Well")] in DO_NOT_PROCESS):
@@ -195,7 +197,7 @@ class LaunchMetrics(object):
 		parameter_placement = list
 		recipe_and_genome = ["--recipe", recipe, "--species", genome]
 		# call outside scripts and return the parameter data
-		sample_params = scripts.generate_run_params.main(recipe_and_genome)
+		sample_params = generate_run_params.main(recipe_and_genome)
 		return(sample_params)
 	
 	# let's align the fastqs to the genome!	
@@ -229,12 +231,12 @@ class LaunchMetrics(object):
 		prjct = sample.project[8:]
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + metric_file + " --output-directory " + work_dir_rna
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory " + work_dir_rna
 		bsub_launch_dragen_rna = "bsub -J DRAGEN_RNA___" + sample.sample_id + " -o " + "DRAGEN_RNA___" + sample.sample_id + '.out -m "id01" -q dragen -n 48 -M 4 ' + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
 		# run Picard RNA metrics tools
-		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_params["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_params["REF_FLAT"] + "  --INPUT " + metric_file + ".bam  " + "--OUTPUT " + metric_file + "___RNA.txt"
+		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_params["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_params["REF_FLAT"] + "  --INPUT " + sample.sample_id + ".bam  " + "--OUTPUT " + metric_file + "___RNA.txt"
 		bsub_rnaseq = "bsub -J rnaseq___" + sample.sample_id + " -o " + "rnaseq___" + sample.sample_id + ".out -w \"done(DRAGEN_RNA___" + sample.sample_id + ")\" -n 8 -M 8 " + rnaseq
 		print(bsub_rnaseq)
 		call(bsub_rnaseq, shell = True)
@@ -300,7 +302,10 @@ class LaunchMetrics(object):
 			print(bsub_collect_wgs)
 			call(bsub_collect_wgs, shell = True)
 	
-def main(sample_sheet):
+def main():
+	
+	# grab the sample sheet as an argument
+	sample_sheet = sys.argv[1]
 	
 	# Initaite objects
 	get_data = GetSampleData()
@@ -315,8 +320,6 @@ def main(sample_sheet):
 			
 ############# MAIN ROUTINE
 if __name__ == "__main__":
-	# grab the sample sheet as an argument
-	sample_sheet = sys.argv[1]
-	main(sample_sheet)
+	main()
 	
 	
