@@ -1,4 +1,4 @@
-import deliver_pipeline
+import scripts.deliver_pipeline as deliver_pipeline
 import os
 import tempfile
 
