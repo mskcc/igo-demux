@@ -302,10 +302,7 @@ class LaunchMetrics(object):
 			print(bsub_collect_wgs)
 			call(bsub_collect_wgs, shell = True)
 	
-def main():
-	
-	# grab the sample sheet as an argument
-	sample_sheet = sys.argv[1]
+def main(sample_sheet):
 	
 	# Initaite objects
 	get_data = GetSampleData()
@@ -320,6 +317,10 @@ def main():
 			
 ############# MAIN ROUTINE
 if __name__ == "__main__":
-	main()
+	
+	# grab the sample sheet as an argument
+	sample_sheet = sys.argv[1]
+	
+	main(sample_sheet)
 	
 	
