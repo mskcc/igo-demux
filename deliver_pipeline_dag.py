@@ -20,9 +20,7 @@ with DAG(
     """ 
     Read the input arguments such as:
 
-    'params': {'project': '13097',
-               'pi': 'abdelwao',
-               'recipe',: 'RNASeq-TruSeqPolyA'},
+    {"project":"13097","pi":"abdelwao","recipe":"RNASeq-TruSeqPolyA"}
     """
     def deliver(ds, **kwargs):
         project = kwargs["params"]["project"]
