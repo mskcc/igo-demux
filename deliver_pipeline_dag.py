@@ -28,7 +28,8 @@ with DAG(
         recipe = kwargs["params"]["recipe"]
         print("Delivering the pipeline output and/or .bams for {} {} {}".format(project, pi, recipe))
 
-        return scripts.deliver_pipeline(project, pi, recipe)        
+        result = scripts.deliver_pipeline.deliver_pipeline_output(project, pi, recipe)
+        return result      
 
     deliver_pipeline_output = PythonOperator(
         task_id='deliver_pipeline',

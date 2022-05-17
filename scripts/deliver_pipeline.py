@@ -24,10 +24,11 @@ def deliver_pipeline_output(project, pi, recipe):
     if recipe.startswith("RNASeq"):
         print("Delivering all RNASeq .bams for {} {} {}".format(project, pi, recipe))
         bamdict = find_bams(project, STATS_DIR)
-        write_bams_to_share(bamdict, delivery_folder)
+        return write_bams_to_share(bamdict, delivery_folder)
     else:
         # TODO automate delivery of pipelines that are copied to the delivery share manually
         print("Pipeline delivery is not yet automated for recipe {} and project {}".format(recipe, project))
+    return "Completed pipeline delivery"
 
 def find_bams(project, stats_base_dir):
     """
@@ -68,20 +69,21 @@ def write_bams_to_share(bamdict, delivery_folder):
 
     for igo_id in bamdict:
         bamlist = bamdict[igo_id]
-        dest_filename = next(reversed(bamlist[0].split("___")))
+        # TODO .bam names are either "DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam" or just "GA28_ot_IGO_12785_H_1.bam" ?
+        # dest_filename = next(reversed(bamlist[0].split("___"))) # for DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam
+        dest_filename = os.path.basename(bamlist[0])
         print("Writing delivery .bam {} to folder {}".format(dest_filename, delivery_folder))
         if len(bamlist) == 1: # skip merge if only one .bam
-            # Copy and Rename "DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam" to just "GA28_ot_IGO_12785_H_1.bam"
+            # Copy GA28_ot_IGO_12785_H_1.bam" to delivery folder "GA28_ot_IGO_12785_H_1.bam"
             shutil.copy(bamlist[0], delivery_folder)
-            print("Copied {} to {}".format(bamlist[0], delivery_folder))
-            shutil.move(delivery_folder + "/" + os.path.basename(bamlist[0]), delivery_folder + "/" + dest_filename)
-            msg = "Copied {} to pipeline delivery folder".format(bamlist[0])
-            logging.info(msg)
+            msg = "Copied {} to {}".format(bamlist[0], delivery_folder)
             print(msg)
+            logging.info(msg)
+            #shutil.move(delivery_folder + "/" + os.path.basename(bamlist[0]), delivery_folder + "/" + dest_filename)
         else:
             print("Merging .bams {}".format(bamlist))
             bsub_merge = "bsub -J merge_bam_files_to_deliver_" + igo_id + " -o merge_bam_files___" + igo_id + ".out -n 40 -M 8 "
-            merge_bams = PICARD + "MergeSamFiles --OUTPUT " + dest_filename + " " + " ".join("--INPUT " + i for i in bamlist)
+            merge_bams = PICARD + "MergeSamFiles --OUTPUT " + delivery_folder + "/" + dest_filename + " " + " ".join("--INPUT " + i for i in bamlist)
             bsub_merge_bams = bsub_merge + merge_bams
             print(bsub_merge_bams)
             logging.info(bsub_merge_bams)
