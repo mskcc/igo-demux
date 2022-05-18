@@ -540,6 +540,12 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
+		"CDH1_RNA": {
+				BAITS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1_RNA.baits",
+				TARGETS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1_RNA.targets",
+				MSKQ: "no",
+				MD: "yes"
+		},
 		"HumanWholeGenome": {
 				MSKQ: "no",
 				MD: "yes",
