@@ -41,3 +41,4 @@ with DAG(
     )
 
     deliver_pipeline_output
+    # TODO reconcile .fastq.gz delivery list with .bam list and email if any inconsistencies?

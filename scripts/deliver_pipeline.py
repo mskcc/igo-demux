@@ -19,6 +19,9 @@ STATS_DIR = "/igo/staging/stats"
 PICARD = "java -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
 
 def deliver_pipeline_output(project, pi, recipe):
+    if not project or not pi or not recipe:
+        return "Project, pi and recipe are all required arguments."
+
     delivery_folder = LAB_SHARE_DIR + "/" + pi + "/Project_" + project + "/pipeline"
 
     if recipe.startswith("RNASeq"):
