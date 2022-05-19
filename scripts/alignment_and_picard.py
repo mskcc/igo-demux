@@ -197,7 +197,7 @@ class LaunchMetrics(object):
 		parameter_placement = list
 		recipe_and_genome = ["--recipe", recipe, "--species", genome]
 		# call outside scripts and return the parameter data
-		sample_params = generate_run_params.main(recipe_and_genome)
+		sample_params = scripts.generate_run_params.main(recipe_and_genome)
 		return(sample_params)
 	
 	# let's align the fastqs to the genome!	
