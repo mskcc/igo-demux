@@ -1,6 +1,6 @@
-# launch cell ranger pipeline (GE, VDJ, ATAC....) for 10X samples
-# launch pipeline by recipe TODO how to decide for SCRI
+# launch cell ranger pipeline (GE, VDJ, ATAC....) for 10X samples by recipe
 # put result in /igo/stats/CELLRANGER/<run_ID>
+# TODO make this function callable by run ID/project?
 
 import pandas as pd
 import re
@@ -63,7 +63,7 @@ config_dict = {
 OPTIONS = ' --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200'
 
 # 10X recipe list for different pipelines TODO 10X_Genomics_Visium, 10X_Genomics_Multiome
-COUNT_FLAVORS = ['10X_Genomics_RNA', '10X_Genomics_GeneExpression', '10X_Genomics_GeneExpression-3', '10X_Genomics_GeneExpression-5']
+COUNT_FLAVORS = ['10X_Genomics_GeneExpression-3', '10X_Genomics_GeneExpression-5']
 VDJ_FLAVORS = ['10X_Genomics_VDJ']
 ATAC_FLAVORS = ['10X_Genomics_ATAC']
 CNV_FLAVORS = ['10X_Genomics_CNV']
@@ -118,8 +118,10 @@ def get_tag(recipe):
         tag = "atac_count"
     return tag
 
-# return tag according to sample_ID for SCRI samples, all SCRI samples are starting with Project_12437
-# eg: SD-1680_Patient_D_nucseq_VDJ_IGO_12437_AN_5 will given tag as vdj
+# return tag and genome according to sample_ID for SCRI samples, all SCRI samples are starting with Project_12437
+# eg: SD-1680_Patient_D_nucseq_H_VDJ_IGO_12437_AN_5 will given tag as vdj, genome as Human
+# eg: SDtest_IGO_12437_AN_4 will given tag as skip, genome as na
+# _H: Human, _M: Mouse
 # _VDJ: vdj, _GE: count, _ATAC: "atac_count"
 def get_SCRI_tag(sample_ID):
     tag_orig = sample_ID.split("_")[sample_ID.split("_").index("IGO") - 1]
@@ -130,8 +132,19 @@ def get_SCRI_tag(sample_ID):
         tag = "count"
     if tag_orig == "ATAC":
         tag = "atac_count"
+    
+    genome = "na"
+    if tag != "Skip":
+        genome_orig = sample_ID.split("_")[sample_ID.split("_").index("IGO") - 2]
+        if genome_orig == "H":
+            genome = "Human"
+        if genome_orig == "M":
+            genome = "Mouse"
+    # if genome parameter couldn't detected, set tag back to skip
+    if genome == "na":
+        tag = "Skip"
 
-    return tag
+    return tag, genome
 
 def generate_cellranger_cmd(sample_ID, tag, genome, fastq_file_path, sequencer_and_run):
     tool = config_dict[tag]["tool"]
@@ -209,12 +222,12 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
             sample_list = project_sample_dict[project]
             # call cellranger for each sample
             for sample in sample_list:
-                tag = get_SCRI_tag(sample)
+                tag_genome = get_SCRI_tag(sample)
+                tag = tag_genome[0]
+                genome = tag_genome[1]
                 # if recipe within the tool being set up, lanuch cellranger
-                if tag != "Skip":
-                    if sample_genome_dict[sample] != "Human" and sample_genome_dict[sample] != "Mouse":
-                        sample_genome_dict[sample] = "Mouse"
-                    cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
+                if tag != "Skip" and genome != "na":
+                    cmd = generate_cellranger_cmd(sample, tag, genome, sample_fastqfile_dict[sample], sequencer_and_run)
                     subprocess.run(cmd, shell=True)
 
 # sample_ID_list = ["06265_8869_1_IGO_06265_AG_3","Third-Transcriptome_IGO_11969_E_3", "Second_IGO_11969_E_2"]
