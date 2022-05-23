@@ -228,6 +228,7 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                 # if recipe within the tool being set up, lanuch cellranger
                 if tag != "Skip" and genome != "na":
                     cmd = generate_cellranger_cmd(sample, tag, genome, sample_fastqfile_dict[sample], sequencer_and_run)
+                    cmd = cmd + " --include-introns=true"  # SCRI samples always have include-introns true
                     subprocess.run(cmd, shell=True)
 
 # sample_ID_list = ["06265_8869_1_IGO_06265_AG_3","Third-Transcriptome_IGO_11969_E_3", "Second_IGO_11969_E_2"]
