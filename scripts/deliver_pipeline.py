@@ -7,6 +7,7 @@ At time of delivery for all RNASeq projects:
 - Re-run setaccess.py (on a separate server)
 """
 
+from distutils.log import error
 import os
 import sys
 import shutil
@@ -81,17 +82,16 @@ def write_bams_to_share(bamdict, delivery_folder):
         # dest_filename = next(reversed(bamlist[0].split("___"))) # for DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam
         dest_filename = os.path.basename(bamlist[0])
         print("Writing delivery .bam {} to folder {}".format(dest_filename, delivery_folder))
-        if len(bamlist) == 1: # skip merge if only one .bam
+        if len(bamlist) == 0: # actually never skip the merge even when there is just 1 .bam
             # Copy GA28_ot_IGO_12785_H_1.bam" to delivery folder "GA28_ot_IGO_12785_H_1.bam"
             shutil.copy(bamlist[0], delivery_folder)
             msg = "Copied {} to {}".format(bamlist[0], delivery_folder)
             print(msg)
             logging.info(msg)
-            #shutil.move(delivery_folder + "/" + os.path.basename(bamlist[0]), delivery_folder + "/" + dest_filename)
         else:
             print("Merging .bams {}".format(bamlist))
             bsub_merge = "bsub -J merge_bam_files_to_deliver_" + igo_id + " -o merge_bam_files___" + igo_id + ".out -n 40 -M 8 "
-            merge_bams = PICARD + "MergeSamFiles --OUTPUT " + delivery_folder + "/" + dest_filename + " " + " ".join("--INPUT " + i for i in bamlist)
+            merge_bams = PICARD + " MergeSamFiles O=" + delivery_folder + "/" + dest_filename + " " + " ".join("I=" + i for i in bamlist)
             bsub_merge_bams = bsub_merge + merge_bams
             print(bsub_merge_bams)
             logging.info(bsub_merge_bams)
@@ -104,7 +104,7 @@ def reconcile_bam_fastq_list(project, bam_dict):
     """
     Confirm there is a .bam for every fastq.gz file delivered.  
     """
-    # Fastq naming like: "/igo/delivery/FASTQ/KIM_0682_BHJVG7BCX2/Project_08822_C/Sample_XPRO_0034_T_IGO_08822_C_1/XPRO_0034_T_IGO_08822_C_1_S43_R1_001.fastq.gz",
+    # Fastq naming like: "/igo/delivery/FASTQ/KIM_0682_BHJVG7BCX2/Project_08822_C/Sample_XPRO_0034_T_IGO_08822_C_1/XPRO_0034_T_IGO_08822_C_1_S43_L001_R1_001.fastq.gz",
     #   bam naming like: "/igo/staging/stats/DIANA_0479_BHM2NVDSX3/RNA/GA28_ot_IGO_12785_H_1.bam"
     fastq_list = get_request_fastqs(project)
 
@@ -113,14 +113,15 @@ def reconcile_bam_fastq_list(project, bam_dict):
         fastq_igo_id = get_igo_id(fastq_name)
         error_list = []
         if fastq_igo_id not in bam_dict.keys():
-            error_list.append(fastq_name + + " has no matching .bam")
+            error_list.append(fastq_name + " has no matching .bam")
 
         if len(error_list) > 0:
-            print("EMAIL THE ERROR LIST") # TODO
+            raise Exception('\n'.join(error_list))
 
 def get_igo_id(fastq_name):
     igo_id = fastq_name.split("_IGO_")[1]
-    igo_id = re.sub("_S(\d)+_R(\d)+_001.fastq.gz", '', igo_id)
+    # 12958_B_1_S18_L001_R1_001.fastq.gz
+    igo_id = re.sub("_S(\d)+_L(\d)+_R[1|2]_001.fastq.gz", '', igo_id)
     return igo_id
 
 def get_request_fastqs(request):

@@ -7,7 +7,7 @@ from airflow.operators.python import PythonOperator
 
 
 """
-    
+Airflow DAG to call the deliver_pipeline.py code.
 """
 with DAG(
     dag_id="deliver_pipeline",
@@ -41,4 +41,3 @@ with DAG(
     )
 
     deliver_pipeline_output
-    # TODO reconcile .fastq.gz delivery list with .bam list and email if any inconsistencies?
