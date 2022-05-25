@@ -7,7 +7,7 @@ def test_find_bams():
     tmpdir = tempfile.mkdtemp()
     run_path = os.path.join(tmpdir, "DIANA_0479_BHM2NVDSX3")
     os.mkdir(run_path)
-    bam_file = os.path.join(run_path, "DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam")
+    bam_file = os.path.join(run_path, "GA28_ot_IGO_12785_H_1.bam")
     bam = open(bam_file, "w")
     bam.write("SOME BAM INFORMATION FOR YOU")
     bam.close()
@@ -28,3 +28,9 @@ def test_merge_bams_command():
     bamdict = {"12785_H_1": ["DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam", "DIANA_0480_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam"]}
     bsub_commands = deliver_pipeline.write_bams_to_share(bamdict,tmpdir)
     assert(bsub_commands[0].count("--INPUT") == 2)
+
+def test_get_igo_id():
+    example = "XPRO_0034_T_IGO_08822_C_1_S43_R1_001.fastq.gz"
+    igo_id = deliver_pipeline.get_igo_id(example)
+    print("found IGO ID:" + igo_id)
+    assert("08822_C_1" == igo_id)

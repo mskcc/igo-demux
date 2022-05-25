@@ -13,10 +13,13 @@ import shutil
 import logging
 import glob
 from subprocess import call
+import requests
+import re
 
 LAB_SHARE_DIR = "/igo/delivery/share"
 STATS_DIR = "/igo/staging/stats"
 PICARD = "java -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
+NGS_STATS_FASTQ_ENDPOINT = "http://delphi.mskcc.org:8080/ngs-stats/permissions/getRequestPermissions/"
 
 def deliver_pipeline_output(project, pi, recipe):
     if not project or not pi or not recipe:
@@ -27,7 +30,9 @@ def deliver_pipeline_output(project, pi, recipe):
     if recipe.startswith("RNASeq"):
         print("Delivering all RNASeq .bams for {} {} {}".format(project, pi, recipe))
         bamdict = find_bams(project, STATS_DIR)
-        return write_bams_to_share(bamdict, delivery_folder)
+        bsub_commands =  write_bams_to_share(bamdict, delivery_folder)
+        reconcile_bam_fastq_list(project, bamdict)
+        return bsub_commands
     else:
         # TODO automate delivery of pipelines that are copied to the delivery share manually
         print("Pipeline delivery is not yet automated for recipe {} and project {}".format(recipe, project))
@@ -40,7 +45,7 @@ def find_bams(project, stats_base_dir):
     
     bam_unix_regex = stats_base_dir + '/**/*_IGO_' + project + '_*.bam'
     print("Searching for all .bams for project {} starting in folder {} matching glob {}".format(project, stats_base_dir, bam_unix_regex))
-    # search for all .bams named like /igo/staging/stats/DIANA_0479_BHM2NVDSX3/RNA/DIANA_0479_BHM2NVDSX3___P12785_H___GA28_ot_IGO_12785_H_1.bam
+    # search for all .bams named like /igo/staging/stats/DIANA_0479_BHM2NVDSX3/RNA/GA28_ot_IGO_12785_H_1.bam
     project_bams = glob.glob(bam_unix_regex, recursive=True)  # recurisive=True causes the search to be a bit slow (more than 1 min)
     print("Total bams found {}".format(len(project_bams)))
 
@@ -94,6 +99,38 @@ def write_bams_to_share(bamdict, delivery_folder):
             bsub_commands.append(bsub_merge_bams)
     
     return bsub_commands
+
+def reconcile_bam_fastq_list(project, bam_dict):
+    """
+    Confirm there is a .bam for every fastq.gz file delivered.  
+    """
+    # Fastq naming like: "/igo/delivery/FASTQ/KIM_0682_BHJVG7BCX2/Project_08822_C/Sample_XPRO_0034_T_IGO_08822_C_1/XPRO_0034_T_IGO_08822_C_1_S43_R1_001.fastq.gz",
+    #   bam naming like: "/igo/staging/stats/DIANA_0479_BHM2NVDSX3/RNA/GA28_ot_IGO_12785_H_1.bam"
+    fastq_list = get_request_fastqs(project)
+
+    for fastq in fastq_list:
+        fastq_name = os.path.basename(fastq)
+        fastq_igo_id = get_igo_id(fastq_name)
+        error_list = []
+        if fastq_igo_id not in bam_dict.keys():
+            error_list.append(fastq_name + + " has no matching .bam")
+
+        if len(error_list) > 0:
+            print("EMAIL THE ERROR LIST") # TODO
+
+def get_igo_id(fastq_name):
+    igo_id = fastq_name.split("_IGO_")[1]
+    igo_id = re.sub("_S(\d)+_R(\d)+_001.fastq.gz", '', igo_id)
+    return igo_id
+
+def get_request_fastqs(request):
+    url = NGS_STATS_FASTQ_ENDPOINT + request
+    print("Sending request {}".format(url))
+    response = requests.get(url).json()
+    # 'status': 500, 'error': 'Internal Server Error',
+    if 'status' in response.keys() and response['status'] == 500:
+        return None
+    return response['fastqs']
 
 #optionally invoke directly, for example:
 #python deliver_pipeline.py 13097 abdelwao RNASeq-TruSeqPolyA
