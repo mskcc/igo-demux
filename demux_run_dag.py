@@ -116,7 +116,7 @@ with DAG(
         for index, row in samplesheet.df_ss_data.iterrows():
             if row['Sample_Well'] == 'DLP' and 'CONTROL' in row['Sample_ID'] and project == row['Sample_Project']:
                 # return chip from 071PP_DLP_UNSORTED_128624A_13_12_IGO_09443_CU_1_1_121
-                sample = row['Sample_Name']
+                sample = row['Sample_ID']
                 return re.split('_', sample)[1]
 
     def stats(ds, **kwargs):
