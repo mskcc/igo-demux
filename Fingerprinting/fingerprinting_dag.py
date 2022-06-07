@@ -2,7 +2,7 @@ import glob
 import sys
 import re
 import json
-from platformdirs import os
+import os
 import requests
 import subprocess
 from sys import path_importer_cache, stdout
@@ -58,10 +58,10 @@ def fingerprint(project_id):
     project_id_p = "P"+project_id
     lims_host = 'igolims:8443'
     STATS_DIR = '/igo/staging/stats/'
-    REFERENCE_SEQUENCE_DIR_38 = '/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa'
+    REFERENCE_SEQUENCE_DIR_38 = '/igo/work/genomes/H.sapiens/hg38/hg38.fa'
     REFERENCE_SEQUENCE_DIR_37 = '/igo/work/genomes/H.sapiens/hg19/human_hg19.fa'
     REFERENCE_DIR_ILLUMINA = '/igo/work/genomes/H.sapiens/hg38/hg38.fa' #Illumina Alt Aware graph reference file for WGS
-    HAPLOTYPE_MAP_38 = '/home/igo/fingerprint_maps/map_files/hg38_igo.map'
+    HAPLOTYPE_MAP_38 = '/home/igo/fingerprint_maps/map_files/hg38_chr.map'
     HAPLOTYPE_MAP_37 = '/home/igo/fingerprint_maps/map_files/hg19_nochr.map'
     t_start = process_time()
 
@@ -71,7 +71,7 @@ def fingerprint(project_id):
     input_bams = set()
     print("Finding ___MD.bams for project {}".format(project_id_p))
     subprocess.call("cd /igo/staging/stats/", shell=True)
-    for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id_p + '___*___MD.bam', recursive=False):
+    for fileName in glob.glob('/igo/staging/stats/**/*_IGO_' + project_id + '*___MD.bam', recursive=False):
         input_bams.add(fileName.split('/')[len(fileName.split('/')) - 1])
         print(fileName + " Added")
 
@@ -102,7 +102,7 @@ def fingerprint(project_id):
         REFERENCE_SEQUENCE = REFERENCE_SEQUENCE_DIR_38
 
     for bam in input_bams:
-        regex = "IGO_([a-zA-Z0-9_]*?)___"
+        regex = "_IGO_([a-zA-Z0-9_]*?)___"
         igoId = re.findall(regex, bam)[0]
         patient_id = igo_id_mappings[igoId]['cmoPatientId']
         print("patient_id: " + patient_id)
@@ -114,7 +114,7 @@ def fingerprint(project_id):
 
         EXECUTION_DIR = STATS_DIR + 'VCF/'
         output_vcf = EXECUTION_DIR + 'vcf_' + project_id + '/' + patient_id + '__' + project_id + '__' + igoId + '.vcf'
-        runFolder = bam.split('___')[0]
+        runFolder = bam.split('/')[3]
         bam = STATS_DIR + runFolder + '/' + bam
         command1 = 'bsub -J "extract_fingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(igoId, HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE, patient_id)
         subprocess.call(command1, shell=True)
@@ -146,30 +146,13 @@ def fingerprint(project_id):
     print("Elapsed time to fingerprint in totall: ", t_stop - t_start) 
         
 
-#################################
-def get_project_id(file_name):
-    """ Extracts project ID from intput BAM filename.
-
-    :param file_name: string    e.g. "/PITT_0452_AHG2THBBXY_A1___P10344_C___13_cf_IGO_10344_C_20___hg19___MD.bam"
-    :return: string             e.g. "P10344_C"
-    """
-    regex = "(?<=___)P[0-9]{5}[_A-Z,a-z]*(?=___)"  # Valid project ID is "P" + 5 numbers + (optional) [ "_" + 2 letters]
-    matches = re.findall(regex, file_name)
-    if len(matches) == 0:
-        print("ERROR: Could not find Project ID in filename: %s with regex: \"%s\"" % (file_name, regex))
-        sys.exit(1)
-    if len(matches) > 1:
-        print("WARNING: More than one match: %s" % str(matches))
-
-    return matches[0]
-
 def get_igo_id(file_name):
     """ Extracts IGO ID from intput BAM filename.
 
     :param file_name: string    e.g. "/PITT_0452_AHG2THBBXY_A1___P10344_C___13_cf_IGO_10344_C_20___hg19___MD.bam"
     :return: string             e.g. "10344_C_20"
     """
-    regex = "IGO_([a-zA-Z0-9_]*?)___"
+    regex = "_IGO_([a-zA-Z0-9_]*?)___"
     matches = re.findall(regex, file_name)
     if len(matches) == 0:
         print("ERROR: Could not find IGO ID in filename: %s with regex: \"%s\"" % (file_name, regex))
