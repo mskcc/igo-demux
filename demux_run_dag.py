@@ -39,7 +39,7 @@ with DAG(
              'sequencer_path': '/igo/sequencers/johnsawyers/211206_JOHNSAWYERS_0317_000000000-K3LFK'},
     """
     def demux(ds, **kwargs):
-        dragen_demux = kwargs["params"]["dragen_demux"] # True or False
+        dragen_demux = True
         sequencer_path = kwargs["params"]["sequencer_path"]
         samplesheet_path = kwargs["params"]["samplesheet"]
         print("Starting demux {} {}".format(sequencer_path, samplesheet_path))
@@ -74,11 +74,11 @@ with DAG(
         else:
             demux_command = ""
             # -K - wait for the job to complete
-            if dragen_demux == "True":
+            if dragen_demux:
                 bsub_command = "bsub -K -n48 -q dragen -m id02 -eo " + output_directory + "/dragen-demux.log "
                 demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
                 sequencer_path, output_directory, samplesheet_path)
-            else: # Default to bcl-convert if no argument given to demux with DRAGEN
+            else: # maybe switch to bcl-convert, currently version 3.9.3 is installed and barcode mismatches is more strict than DRAGEN 3.9
                 bsub_command = "bsub -K -n72 -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -eo " + output_directory + "/bcl-convert.log "
                 demux_command = bsub_command + "/usr/bin/bcl-convert --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
             print("Running demux command: " + demux_command)
