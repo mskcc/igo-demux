@@ -126,6 +126,7 @@ with DAG(
          samplesheet.write_csv()
 
          demux_dict = {}
+         demux_dict['dragen_demux'] = 'False'
          demux_dict['samplesheet'] = samplesheet.path
          demux_dict['sequencer_path'] = completed_run_path
          demux_args_json = json.dumps(demux_dict)
