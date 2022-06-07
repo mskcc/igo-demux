@@ -74,13 +74,13 @@ with DAG(
         else:
             demux_command = ""
             # -K - wait for the job to complete
-            if dragen_demux:
+            if dragen_demux == "True":
                 bsub_command = "bsub -K -n48 -q dragen -m id02 -eo " + output_directory + "/dragen-demux.log "
                 demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
                 sequencer_path, output_directory, samplesheet_path)
             else: # Default to bcl-convert if no argument given to demux with DRAGEN
                 bsub_command = "bsub -K -n72 -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -eo " + output_directory + "/bcl-convert.log "
-                demux_command = bsub_command + "/usr/bin/bcl-convert --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
+                demux_command = bsub_command + "/usr/bin/bcl-convert --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(
                 sequencer_path, output_directory, samplesheet_path)
             print("Running demux command: " + demux_command)
             subprocess.run(demux_command, shell=True, check=True)
