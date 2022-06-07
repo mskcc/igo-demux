@@ -1,1 +1,1 @@
-nohup airflow scheduler > /igo/work/igo/airflow/scheduler.log 2>&1 &
+nohup ~/miniconda3/bin/airflow scheduler > /igo/work/igo/airflow/scheduler.log 2>&1 &
