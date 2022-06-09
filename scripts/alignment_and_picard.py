@@ -9,7 +9,7 @@ import csv
 import pickle
 from dataclasses import dataclass
 from collections import OrderedDict
-import generate_run_params
+import scripts.generate_run_params
 import time
 import shutil
 
@@ -167,7 +167,7 @@ class LaunchMetrics(object):
 	def launch_metrics(self, all_samples, run):
 		#
 		# create output directoories
-		parent_dir = "/igo/staging/stats/naborsd_workspace/"
+		parent_dir = "/igo/staging/stats/"
 		work_dir = parent_dir + run + "/"
 		rna_dir = work_dir + "RNA/"
 		mwgs_dir = work_dir + "mWGS/"
