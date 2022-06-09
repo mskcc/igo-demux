@@ -180,7 +180,7 @@ genome_reference_mapping_UNORDERED = {
 						REFERENCE: "/igo/work/nabors/genomes/hg38/hg38.fa",
 						REF_FLAT: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.refflat",
 						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.rRNA.intervals",
-						GTF: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.annotation.gtf"
+						GTF: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.chr_patch_hapl_scaff.annotation.gtf"
 				},
 		},
 		"grcm38": {
