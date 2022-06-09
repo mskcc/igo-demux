@@ -246,11 +246,13 @@ class LaunchMetrics(object):
 		
 		PICARD_RNA = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar CollectRnaSeqMetrics "
 		# prjct = sample.project.split("_")[1]
-		
 		prjct = sample.project[8:]
+		gtag = sample_params["GTAG"]
+		if (gtag == "GRCh38"):
+			gtag = "hg38"
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + gtag  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
 		bsub_launch_dragen_rna = "bsub -J DRAGEN_RNA___" + sample.sample_id + " -o " + "DRAGEN_RNA___" + sample.sample_id + '.out -m "id01" -q dragen -n 48 -M 4 ' + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
@@ -268,11 +270,9 @@ class LaunchMetrics(object):
 		os.chdir(mwgs_dir)
 		# create metrics file name
 		prjct = sample.project[8:]
-		
 		gtag = sample_params["GTAG"]
 		if (gtag == "GRCh38"):
 			gtag = "hg38"
-		
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
 		launch_dragen_mwgs= "/opt/edico/bin/dragen --ref-dir /staging/ref/" + gtag  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory ./" + " --output-file-prefix " + metric_file + ' --enable-duplicate-marking true'
@@ -348,11 +348,11 @@ class LaunchMetrics(object):
 			pickle.dump(rna_samples_and_gtags, rna_samples_and_gtags_file)
 			#
 			# create the MD, AM and WGS data files, put them back into the directory 
-			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/scripts_for_airflow/dragen_csv_2_txt.py ./ ./"
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ ./"
 			bsub_csv_2_txt = "bsub -J RNA_CSV_TO_TXT___" + run + " -o RNA_CSV_TO_TXT___" + run + ".out -w \"ended(RNASEQ___*)\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
-			rename_txt_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/scripts_for_airflow/rename_txt_files.py " + rna_dir
+			rename_txt_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/rename_txt_files.py " + rna_dir
 			bsub_rename_txt_files = "bsub -J RENAME_RNA_TXT_FILES___" + run + " -o RENAME_RNA_TXT_FILES___" + run + ".out -w \"ended(RNA_CSV_TO_TXT___*)\" -n 2 -M 8 " + rename_txt_files
 			print(bsub_rename_txt_files)
 			call(bsub_rename_txt_files, shell = True)
@@ -361,12 +361,12 @@ class LaunchMetrics(object):
 			os.chdir(mwgs_dir)
 			#
 			# create the MD, AM and WGS data files, put them back into the directory
-			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/scripts_for_airflow/dragen_csv_2_txt.py ./ " + work_dir
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ " + work_dir
 			bsub_csv_2_txt = "bsub -J mWGS_CSV_TO_TXT___" + run + " -o mWGS_CSV_TO_TXT___" + run + ".out -w \"ended(DRAGEN_mWGS___*)\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
 		
-		mv_txt_files = "python3 /igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/scripts_for_airflow/mv_txt_files.py " + work_dir
+		mv_txt_files = "python3 /igo/work/igo/igo-demux/scripts/mv_txt_files.py " + work_dir
 		bsub_mv_all_txt = "bsub -J MOVE_TXT_FILES___" + run + " -o " + "MOVE_TXT_FILES___" + run + ".out -w \"ended(*)\" -n 2 -M 8 " + mv_txt_files
 		print(bsub_mv_all_txt)
 		call(bsub_mv_all_txt, shell = True)
