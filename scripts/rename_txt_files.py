@@ -13,7 +13,7 @@ def main(rna_dir):
 	
 	work_dir = rna_dir[:-4]
 	
-	run = rna_dir.split("/")[5]
+	run = rna_dir.split("/")[4]
 	
 	rna_samples_and_gtags_file = open("rna_samples_and_gtags.pickle", "rb")
 	rna_samples_and_gtags = pickle.load(rna_samples_and_gtags_file)
