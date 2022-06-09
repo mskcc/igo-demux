@@ -32,7 +32,7 @@ for fastq_dir in ${FASTQ_DIRS}; do
 
   reports="/Reports/"
   dragen_reports_dir=$fastq_dir$reports
-  dragen_replay=$fastq_dir"/dragen-replay.json"
+  dragen_replay=$dragen_reports_dir"/Demultiplex_Stats.csv"
   echo $dragen_replay
   
   # Check for bcl2fastq laneBarcode.html existence
@@ -49,7 +49,7 @@ for fastq_dir in ${FASTQ_DIRS}; do
     echo "scp $copiednamePlus to $toName"
     scp -p $copiednamePlus igo@igo:$toName
   elif [ -f $dragen_replay ]; then
-    # This was a DRAGEN demux
+    # This was a DRAGEN or bclconvert demux
     toDir=/srv/www/sequencing-qc/static/html/FASTQ/
     toNameLocal=$homedir$runFullName$html
     toNameRemote=$toDir$runFullName$html
