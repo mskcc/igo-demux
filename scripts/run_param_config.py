@@ -166,8 +166,8 @@ genome_reference_mapping_UNORDERED = {
 		},
 		"grch38": {
 				DEFAULT: {
-						GENOME: "/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa",
-						REFERENCE: "/igo/work/genomes/H.sapiens/GRCh38.p13/GRCh38.p13.dna.primary.assembly.fa",
+						GENOME: "/igo/work/nabors/genomes/hg38/hg38.fa",
+						REFERENCE: "/igo/work/nabors/genomes/hg38/hg38.fa",
 						CELLRANGER_ATAC: "/igo/work/nabors/genomes/10X_Genomics/ATAC/refdata-cellranger-atac-GRCh38-1.0.1",
 						CELLRANGER_VDJ: "/igo/work/nabors/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-2.0.0",
 						CELLRANGER_CNV: "/igo/work/nabors/10X_Genomics_references/CNV/refdata-GRCh38-1.0.0",
@@ -176,9 +176,11 @@ genome_reference_mapping_UNORDERED = {
 						HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_igo.map"	# TODO - Verify this
 				},
 				"RNA": {
-						REF_FLAT: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/Homo_sapiens.GRCh38.100.ref.flat",
-						RIBOSOMAL_INTERVALS: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/SHORT__Homo_sapiens.GRCh38.100.rRNA.interval.list",
-						GTF: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/Homo_sapiens.GRCh38.100.gtf"
+						GENOME: "/igo/work/nabors/genomes/hg38/hg38.fa",
+						REFERENCE: "/igo/work/nabors/genomes/hg38/hg38.fa",
+						REF_FLAT: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.refflat",
+						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.rRNA.intervals",
+						GTF: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.annotation.gtf"
 				},
 		},
 		"grcm38": {
@@ -375,14 +377,14 @@ recipe_options_mapping_UNORDERED = {
 		},
 		"IMPACT505": {
 				# NOTE: interval list file name "IMPACT468_BAITS" is stored in LIMS and passed to pipelines, change file name with caution
-				BAITS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_BAITS.baits",
-				TARGETS: "/igo/home/igo/resources/ilist/GRCh38.p13/IMPACT505/IMPACT505_TARGETS.targets",
+				BAITS: "/igo/home/igo/resources/ilist/hg38/IMPACT505/IMPACT505_BAITS.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/IMPACT505/IMPACT505_TARGETS.targets",
 				MSKQ: "yes",
 				MD: "yes"
 		},
 		"HemePACT_v4": {
-				BAITS: "/igo/home/igo/resources/ilist/HemePACT_v4/b38/HemePACT_v4_BAITS.iList",
-				TARGETS: "/igo/home/igo/resources/ilist/HemePACT_v4/b38/HemePACT_v4_TARGETS.iList",
+				BAITS: "/igo/home/igo/resources/ilist/hg38/HemePACT_v4/HemePACT_v4_BAITS.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/HemePACT_v4/HemePACT_v4_TARGETS.targets",
 				MSKQ: "yes",
 				MD: "yes"
 		},
@@ -430,8 +432,8 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"IDT_Exome_v2_FP_Viral_Probes": {
-			BAITS: "/igo/home/igo/resources/ilist/GRCh38.p13/IDT_Exome_v2/IDT_Exome_v2_BAITS.baits",
-			TARGETS: "/igo/home/igo/resources/ilist/GRCh38.p13/IDT_Exome_v2/IDT_Exome_v2_TARGETS.targets",
+			BAITS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_BAITS.baits",
+			TARGETS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_TARGETS.targets",
 			MSKQ: "no",
 			MD: "yes"
 		},
@@ -478,8 +480,8 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"MSK-ACCESS_v1": {
-				BAITS: "/home/igo/resources/BED-Targets/MSK-ACCESS_v1/MSK-ACCESS-v1_0-probesAllwFP_GRCh38.baits",
-				TARGETS: "/home/igo/resources/BED-Targets/MSK-ACCESS_v1/MSK-ACCESS-v1_0-probesAllwFP_GRCh38.targets",
+				BAITS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v1/MSK-ACCESS-v1_0-probesAllwFP.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v1/MSK-ACCESS-v1_0-probesAllwFP.targets",
 				MSKQ: "no",
 				MD: "yes",
 				HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_no_chr_ACCESS_unordered.map"
