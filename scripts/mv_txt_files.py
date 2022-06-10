@@ -28,11 +28,11 @@ def main(work_dir):
 	call(delphi_endpoint, shell = True)
 	
 	# give time for NGS to post data
-	time.sleep(120)
+	time.sleep(100)
 	
 	lims_endpoint = "curl -k https://igolims.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQc?runId=" + run
 	print(lims_endpoint)
-	call(delphi_endpoint, shell = True)
+	call(lims_endpoint, shell = True)
 	
 	
 	
