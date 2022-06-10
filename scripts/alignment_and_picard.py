@@ -212,7 +212,7 @@ class LaunchMetrics(object):
 	def get_params(genome, recipe):
 		#
 		# call outside scripts and return the parameter data
-		sample_params = generate_run_params.main(["--recipe", recipe, "--species", genome])
+		sample_params = scripts.generate_run_params.main(["--recipe", recipe, "--species", genome])
 		return(sample_params)
 	
 	
