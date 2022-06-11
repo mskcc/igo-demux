@@ -250,6 +250,8 @@ class LaunchMetrics(object):
 		gtag = sample_params["GTAG"]
 		if (gtag == "GRCh38"):
 			gtag = "hg38"
+		else:
+			gtag = "GRCm38"
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
 		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + gtag  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
@@ -270,12 +272,9 @@ class LaunchMetrics(object):
 		os.chdir(mwgs_dir)
 		# create metrics file name
 		prjct = sample.project[8:]
-		gtag = sample_params["GTAG"]
-		if (gtag == "GRCh38"):
-			gtag = "hg38"
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_mwgs= "/opt/edico/bin/dragen --ref-dir /staging/ref/" + gtag  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory ./" + " --output-file-prefix " + metric_file + ' --enable-duplicate-marking true'
+		launch_dragen_mwgs= "/opt/edico/bin/dragen --ref-dir /staging/ref/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory ./" + " --output-file-prefix " + metric_file + ' --enable-duplicate-marking true'
 		bsub_launch_dragen_mwgs = "bsub -J DRAGEN_mWGS___" + sample.sample_id + " -o " + "DRAGEN_mWGS___" + sample.sample_id + '.out -m "id01" -q dragen -n 48 -M 4 ' + launch_dragen_mwgs
 		print(bsub_launch_dragen_mwgs)
 		call(bsub_launch_dragen_mwgs, shell = True)
