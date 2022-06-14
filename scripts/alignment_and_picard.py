@@ -172,11 +172,11 @@ class LaunchMetrics(object):
 		rna_dir = work_dir + "RNA/"
 		mwgs_dir = work_dir + "mWGS/"
 		
-		#in case metrics are run again
-		if os.path.isdir(work_dir):
-			shutil.rmtree(work_dir)
-		
-		os.mkdir(work_dir)
+		# check for the work directory
+		if not os.path.isdir(work_dir):
+			# create the directory if it is not already there
+			os.mkdir(work_dir)
+			# shutil.rmtree(work_dir)
 		os.chdir(work_dir)
 		
 		#
