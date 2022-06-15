@@ -8,11 +8,6 @@ import subprocess
 from sys import path_importer_cache, stdout
 from time import process_time
 
-"""""
-from getSampleManifests import get_sample_manifests
-from getSampleManifests import get_igo_id_mappings
-from getSampleManifests import get_igo_id
-"""
 
 sample_id_manifests = {
     # IGO_ID -> { "igoId": IGO_ID, "cmoPatientId": {CMO_PATIENT_ID}, "tumorOrNormal": {"Tumor"/"Normal"} }
@@ -55,35 +50,41 @@ igoId_to_correctedCmoPatientId_map = {
 MAPPED_FIELDS = ["cmoPatientId", "tumorOrNormal"]
 
 def fingerprint(project_id):
-    project_id_p = "P"+project_id
+    """ The steps for fingerprinting a project are:
+            - Find bams for the project
+            - call gatk ExtractFingerprint to convert .bam to extracted fingerprints in .vcf format
+            - call gatk CrosscheckFingerprints
+            - load results to the database
+    """
+    
     lims_host = 'igolims:8443'
     STATS_DIR = '/igo/staging/stats/'
     REFERENCE_SEQUENCE_DIR_38 = '/igo/work/genomes/H.sapiens/hg38/hg38.fa'
-    REFERENCE_SEQUENCE_DIR_37 = '/igo/work/genomes/H.sapiens/hg19/human_hg19.fa'
-    REFERENCE_DIR_ILLUMINA = '/igo/work/genomes/H.sapiens/hg38/hg38.fa' #Illumina Alt Aware graph reference file for WGS
     HAPLOTYPE_MAP_38 = '/home/igo/fingerprint_maps/map_files/hg38_chr.map'
+    REFERENCE_SEQUENCE_DIR_37 = '/igo/work/genomes/H.sapiens/hg19/human_hg19.fa'
     HAPLOTYPE_MAP_37 = '/home/igo/fingerprint_maps/map_files/hg19_nochr.map'
     t_start = process_time()
 
     vcfs = []
     
-    #find all bams
-    input_bams = set()
-    print("Finding ___MD.bams for project {}".format(project_id_p))
+    # find all bams for the project
+    print("Finding ___MD.bams for project {}".format(project_id))
     subprocess.call("cd /igo/staging/stats/", shell=True)
+    input_bams = set()
     for fileName in glob.glob('/igo/staging/stats/**/*_IGO_' + project_id + '*___MD.bam', recursive=False):
-        input_bams.add(fileName.split('/')[len(fileName.split('/')) - 1])
+        input_bams.add(fileName)
         print(fileName + " Added")
 
     if (len(input_bams) == 0):
         print('No Picard .bams found, searching again')
+        project_id_p = 'P' + project_id
+        # search for .bams named like 'RUTH_0084_AHWWTHDSX2___P10811_I___Sample_IM-GBM-111-CSF_IGO_10811_I_15.bam'
         for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id_p + '___*.bam', recursive=False):
-            print(fileName)
-            baseName = os.path.basename(fileName)
-            input_bams.add(baseName)
+            input_bams.add(fileName)
+            print(fileName + " Added")
     
-    print("Number of BAM files: ", len(input_bams))
-    igo_ids=list(set(list(map(lambda bam: get_igo_id(bam), input_bams))))
+    print("Total number of BAM files: ", len(input_bams))
+    igo_ids = list(set(list(map(lambda bam: get_igo_id(bam), input_bams))))
     print("number of igo ids: " , len(igo_ids))
     sample_manifest = get_sample_manifests(igo_ids, lims_host)
     igo_id_mappings = get_igo_id_mappings(sample_manifest, MAPPED_FIELDS)
@@ -92,15 +93,13 @@ def fingerprint(project_id):
     extractFingerprint_start = process_time()
     command0 = 'mkdir /igo/staging/stats/VCF/vcf_{}'.format(project_id)
     subprocess.call(command0, shell=True)
-    HAPLOTYPE_MAP = ''
-    REFERENCE_SEQUENCE = ''
+
+    HAPLOTYPE_MAP = HAPLOTYPE_MAP_38
+    REFERENCE_SEQUENCE = REFERENCE_SEQUENCE_DIR_38
     if 'h37___' in next(iter(input_bams)).lower():
         HAPLOTYPE_MAP = HAPLOTYPE_MAP_37
         REFERENCE_SEQUENCE = REFERENCE_SEQUENCE_DIR_37
-    else:
-        HAPLOTYPE_MAP = HAPLOTYPE_MAP_38
-        REFERENCE_SEQUENCE = REFERENCE_SEQUENCE_DIR_38
-
+    
     for bam in input_bams:
         regex = "_IGO_([a-zA-Z0-9_]*?)___"
         igoId = re.findall(regex, bam)[0]
@@ -114,8 +113,6 @@ def fingerprint(project_id):
 
         EXECUTION_DIR = STATS_DIR + 'VCF/'
         output_vcf = EXECUTION_DIR + 'vcf_' + project_id + '/' + patient_id + '__' + project_id + '__' + igoId + '.vcf'
-        runFolder = bam.split('/')[3]
-        bam = STATS_DIR + runFolder + '/' + bam
         command1 = 'bsub -J "extract_fingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk ExtractFingerprint --HAPLOTYPE_MAP \'{}\'  --INPUT \'{}\' --OUTPUT \'{}\' --REFERENCE_SEQUENCE \'{}\' --SAMPLE_ALIAS \'{}\''.format(igoId, HAPLOTYPE_MAP, bam, output_vcf, REFERENCE_SEQUENCE, patient_id)
         subprocess.call(command1, shell=True)
         print("Running extract fingerprint: " + command1)
@@ -142,9 +139,7 @@ def fingerprint(project_id):
     copy_command = 'bsub -w "done(CrosscheckFingerprint_{})" cp /igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv /igo/stats/DONE/crosscheck_metrics/{}/{}.crosscheck_metrics'.format(project_id, project_id, project_id, project_id, project_id)
     subprocess.call(copy_command, shell=True)
 
-    t_stop = process_time()
-    print("Elapsed time to fingerprint in totall: ", t_stop - t_start) 
-        
+    # TODO call http://delphi.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project=12345
 
 def get_igo_id(file_name):
     """ Extracts IGO ID from intput BAM filename.
