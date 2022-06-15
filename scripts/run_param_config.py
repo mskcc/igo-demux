@@ -176,11 +176,11 @@ genome_reference_mapping_UNORDERED = {
 						HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_igo.map"	# TODO - Verify this
 				},
 				"RNA": {
-						GENOME: "/igo/work/nabors/genomes/hg38/hg38.fa",
-						REFERENCE: "/igo/work/nabors/genomes/hg38/hg38.fa",
-						REF_FLAT: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.refflat",
-						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.rRNA.intervals",
-						GTF: "/igo/work/nabors/genomes/hg38/RNA/gencode.v40.chr_patch_hapl_scaff.annotation.gtf"
+						GENOME: "/igo/work/nabors/genomes/GRCh38_100/Homo_sapiens.GRCh38.dna.primary_assembly.fa",
+						REFERENCE: "/igo/work/nabors/genomes/GRCh38_100/Homo_sapiens.GRCh38.dna.primary_assembly.fa",
+						REF_FLAT: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/Homo_sapiens.GRCh38.100.ref.flat",
+						RIBOSOMAL_INTERVALS: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/SHORT__Homo_sapiens.GRCh38.100.rRNA.interval.list",
+						GTF: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/Homo_sapiens.GRCh38.100.gtf"
 				},
 		},
 		"grcm38": {
