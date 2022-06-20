@@ -43,13 +43,14 @@ def deliver_pipeline_output(project, pi, recipe):
             print("No cellragner result available")
         else:
             # create pipeline folder if not exists
-            if not os.path.exists(delivery_folder):
-                print("Creating pipeline delivery folder {}".format(delivery_folder))
-                os.makedirs(delivery_folder)
+            cellranger_delivery_folder = delivery_folder + "/cellranger"
+            if not os.path.exists(cellranger_delivery_folder):
+                print("Creating pipeline delivery folder {}".format(cellranger_delivery_folder))
+                os.makedirs(cellranger_delivery_folder)
 
             # copy each sample folder to the delivery folder
             for folder in folder_list:
-                shutil.copytree(folder, delivery_folder)
+                shutil.copytree(folder, cellranger_delivery_folder)
 
     else:
         # TODO automate delivery of pipelines that are copied to the delivery share manually
