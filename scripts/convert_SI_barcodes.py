@@ -9,17 +9,16 @@ def convert_SI_barcodes(samplesheet):
     """ from here, we will need to convert the variables so it can be used in SampleSheet.py """
     
     print("Converting 10X samplesheet with SI barcodes to their real barcodes")
+
     # create new data frame for special sample sheet for the quad barcodes
-    quad_ss_data = pd.DataFrame()
+    quad_ss_data = pd.DataFrame(columns=samplesheet.df_ss_data.columns.values)
     
     # row_position will make sure we will skip down to the correct rows when creating the new sample sheet rows
     row_position = 0
     for x in range(0, len(samplesheet.df_ss_data["index"]), 1):
         # get the quad from the imported variables
         si_barcode = samplesheet.df_ss_data["index"].loc[x].replace("-", "_")
-        print("BARCODE:" + si_barcode)
-        quad_list = vars()[si_barcode]
-        print("QUAD LIST:" + quad_list)
+        quad_list = globals()[si_barcode]  # lookup "SI-" barcode in the global variable list
         # loop thru the quad set of barcodes and use these to replace the SI barcodes
         for y in range(0, len(quad_list), 1):
             quad_ss_data.loc[row_position] = samplesheet.df_ss_data.loc[x]
