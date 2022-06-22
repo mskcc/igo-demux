@@ -3,8 +3,7 @@ from SampleSheet import SampleSheet
 from scripts.cellranger_indexes import *
 
 def convert_SI_barcodes(samplesheet):
-    """ function to convert SI barcodes from sample sheet to the 10X quad barcodes from the cellranger_indexes.py script """
-    """ from here, we will need to convert the variables so it can be used in SampleSheet.py """
+    """ function to convert SI barcodes from sample sheet to the 10X quad barcodes from the cellranger_indexes.py """
     
     print("Converting 10X samplesheet with SI barcodes to their real barcodes")
 
