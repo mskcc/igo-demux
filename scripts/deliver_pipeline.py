@@ -16,6 +16,7 @@ import glob
 from subprocess import call
 import requests
 import re
+import scripts.deliver_cellranger
 
 LAB_SHARE_DIR = "/igo/delivery/share"
 STATS_DIR = "/igo/staging/stats"
@@ -34,6 +35,23 @@ def deliver_pipeline_output(project, pi, recipe):
         bsub_commands =  write_bams_to_share(bamdict, delivery_folder)
         reconcile_bam_fastq_list(project, bamdict)
         return bsub_commands
+    
+    # if 10X recipe, copy cell ranger result to project folder
+    elif recipe.startswith("10X_Genomics"):
+        folder_list = scripts.deliver_cellranger.find_cellranger(project)
+        if len(folder_list) == 0:
+            print("No cellragner result available")
+        else:
+            # create pipeline folder if not exists
+            cellranger_delivery_folder = delivery_folder + "/cellranger"
+            if not os.path.exists(cellranger_delivery_folder):
+                print("Creating pipeline delivery folder {}".format(cellranger_delivery_folder))
+                os.makedirs(cellranger_delivery_folder)
+
+            # copy each sample folder to the delivery folder
+            for folder in folder_list:
+                shutil.copytree(folder, cellranger_delivery_folder)
+
     else:
         # TODO automate delivery of pipelines that are copied to the delivery share manually
         print("Pipeline delivery is not yet automated for recipe {} and project {}".format(recipe, project))
