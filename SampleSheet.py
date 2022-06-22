@@ -2,6 +2,7 @@ import pandas
 import re
 import os
 from copy import deepcopy
+from scripts.cellranger_indexes import *
 
 """
 Reads an IGO LIMS generated sample sheet .csv and splits the sample sheet if necessary to generate sample sheets ready for 
@@ -131,7 +132,9 @@ class SampleSheet:
             tenx_path = os.path.splitext(self.path)[0]+'_10X.csv'
             # if ATAC because read length is 51,50 () for example DIANA_427 must use cellranger-ATAC mkfastq 
             tenx_ss = SampleSheet(self.df_ss_header, tenx_data, tenx_path)
-            split_ss_list.append(tenx_ss)
+            # convert SI barcodes to their real barcodes
+            tenx_ss_real_barcodes = convert_SI_barcodes(tenx_ss)
+            split_ss_list.append(tenx_ss_real_barcodes)
             was_split = True
 
         if was_split:
@@ -142,3 +145,25 @@ class SampleSheet:
             split_ss_list = [ss_copy]
 
         return split_ss_list
+
+def convert_SI_barcodes(samplesheet):
+    """ function to convert SI barcodes from sample sheet to the 10X quad barcodes from the cellranger_indexes.py """
+    
+    print("Converting 10X samplesheet with SI barcodes to their real barcodes")
+
+    # create new data frame for special sample sheet for the quad barcodes
+    quad_ss_data = pandas.DataFrame(columns=samplesheet.df_ss_data.columns.values)
+    
+    # row_position will make sure we will skip down to the correct rows when creating the new sample sheet rows
+    row_position = 0
+    for x in range(0, len(samplesheet.df_ss_data["index"]), 1):
+        # get the quad from the imported variables
+        si_barcode = samplesheet.df_ss_data["index"].loc[x].replace("-", "_")
+        quad_list = globals()[si_barcode]  # lookup "SI-" barcode in the global variable list
+        # loop thru the quad set of barcodes and use these to replace the SI barcodes
+        for y in range(0, len(quad_list), 1):
+            quad_ss_data.loc[row_position] = samplesheet.df_ss_data.loc[x]
+            quad_ss_data["index"].loc[row_position] = quad_list[y]
+            row_position += 1
+
+    return SampleSheet(samplesheet.df_ss_header, quad_ss_data, samplesheet.path)

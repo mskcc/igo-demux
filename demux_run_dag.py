@@ -65,28 +65,20 @@ with DAG(
         else:
             output_directory = "/igo/staging/FASTQ/" + sequencer_and_run
         
-        is_DRAGEN_demux = True
-        
-        if is_10X:
-            is_DRAGEN_demux = False
-            # TODO for 10X build correct mkfastq command, special 10X barcodes can't go to dragen
-            demux_command = "mkfastq command is not yet supported, this must be launched at the command line by the Data Team"
-            print(demux_command)
-        else:
-            demux_command = ""
-            # -K - wait for the job to complete
-            if dragen_demux == 'True':
-                bsub_command = "bsub -K -n48 -q dragen -m id02 -eo " + output_directory + "/dragen-demux.log "
-                # same as bcl-convert arguments except:  "--bcl-conversion-only true --bcl-only-matched-reads true"
-                demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
-            else: # default to bcl-convert
-                bsub_command = "bsub -K -n72 -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -eo " + output_directory + "/bcl-convert.log "
-                demux_command = bsub_command + "/usr/bin/bcl-convert --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
-            print("Running demux command: " + demux_command)
-            subprocess.run(demux_command, shell=True, check=True)
+        demux_command = ""
+        # -K - wait for the job to complete
+        if dragen_demux == 'True':
+            bsub_command = "bsub -K -n48 -q dragen -m id02 -eo " + output_directory + "/dragen-demux.log "
+            # same as bcl-convert arguments except:  "--bcl-conversion-only true --bcl-only-matched-reads true"
+            demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
+        else: # default to bcl-convert
+            bsub_command = "bsub -K -n72 -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -eo " + output_directory + "/bcl-convert.log "
+            demux_command = bsub_command + "/usr/bin/bcl-convert --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
+        print("Running demux command: " + demux_command)
+        subprocess.run(demux_command, shell=True, check=True)
 
         # if the demux was successful:
-        if is_DRAGEN_demux and not is_DLP:
+        if not is_DLP:
             print("Adding sample sub-folders to the DRAGEN demux.")
             scripts.organise_fastq_split_by_lane.create_fastq_folders(output_directory)
             scripts.organise_fastq_split_by_lane.correct_fastq_list_csv(output_directory+"/Reports")
