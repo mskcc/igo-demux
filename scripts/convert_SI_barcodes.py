@@ -1,31 +1,32 @@
-import csv
+from random import sample
 import pandas as pd
-import numpy as np
-import argparse
-import os
-import glob
-from xml.etree import ElementTree
 from subprocess import call
+from SampleSheet import SampleSheet
 from scripts.cellranger_indexes import *
 
-def convert_SI_barcodes(tenx_ss):
-  """ function to convert SI barcodes from sample sheet to the 10X quad barcodes from the cellranger_indexes.py script """
-  """ from here, we will need to convert the variables so it can be used in SampleSheet.py """
-  
-  # create new data frame for special sample sheet for the quad barcodes
-  quad_ss_data = pd.DataFrame(columns = header)
-  # row_position will make sure we will skip down to the correct rows when creating the new 
-  row_position = 0
+def convert_SI_barcodes(samplesheet):
+    """ function to convert SI barcodes from sample sheet to the 10X quad barcodes from the cellranger_indexes.py script """
+    """ from here, we will need to convert the variables so it can be used in SampleSheet.py """
+    
+    print("Converting 10X samplesheet with SI barcodes to their real barcodes")
+    # create new data frame for special sample sheet for the quad barcodes
+    quad_ss_data = pd.DataFrame()
+    
+    # row_position will make sure we will skip down to the correct rows when creating the new sample sheet rows
+    row_position = 0
+    for x in range(0, len(samplesheet.df_ss_data["index"]), 1):
+        # get the quad from the imported variables
+        si_barcode = samplesheet.df_ss_data["index"].loc[x].replace("-", "_")
+        print("BARCODE:" + si_barcode)
+        quad_list = vars()[si_barcode]
+        print("QUAD LIST:" + quad_list)
+        # loop thru the quad set of barcodes and use these to replace the SI barcodes
+        for y in range(0, len(quad_list), 1):
+            quad_ss_data.loc[row_position] = samplesheet.df_ss_data.loc[x]
+            quad_ss_data["index"].loc[row_position] = quad_list[y]
+            row_position += 1
 
-  for x in range(0, len(sample_data["index"]), 1):
-	  # get the quad from the imported variables
-	  si_barcode = sample_data["index"].loc[x].replace("-", "_")
-	  quad_list = vars()[si_barcode]
-    # loop thru the quad set of barcodes and use these to replace the SI barcodes
-	  for y in range(0, len(quad_list), 1):
-		  quad_ss_data.loc[row_position] = sample_data.loc[x]
-		  quad_ss_data["index"].loc[row_position] = quad_list[y]
-		  row_position += 1
+    return SampleSheet(samplesheet.df_ss_header, quad_ss_data, samplesheet.path)
   
 
   
