@@ -1,5 +1,4 @@
-from SampleSheet import SampleSheet
-from scripts.convert_SI_barcodes import *
+from SampleSheet import SampleSheet,convert_SI_barcodes
 import pytest
 
 def test_read_10X_sample_sheet():
