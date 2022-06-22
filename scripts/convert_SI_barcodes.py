@@ -1,6 +1,4 @@
-from random import sample
 import pandas as pd
-from subprocess import call
 from SampleSheet import SampleSheet
 from scripts.cellranger_indexes import *
 
