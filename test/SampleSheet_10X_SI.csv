@@ -15,7 +15,7 @@ Chemistry,Default,,,,,,,
 BarcodeMismatchesIndex1,1,,,,,,,
 BarcodeMismatchesIndex2,1,,,,,,,
 CreateFastqForIndexReads,1,,,,,,,
-[Data],,,,,,,,
-Lane,Sample_ID,Sample_Name,Sample_Plate,Sample_Well,I7_Index_ID,index,index2,Sample_Project,Description
-2,IM-1613_RU1697a_IGO_12437_AD_11,IM-1613_RU1697a_IGO_12437_AD_11,Mouse,10X_Genomics,SI-GA-G9,SI-GA-G9,SI-GA-G9,Project_12437_AD,peerd@mskcc.org
-3,IM-1613_RU1697a_IGO_12437_AD_11,IM-1613_RU1697a_IGO_12437_AD_11,Mouse,10X_Genomics,SI-GA-G9,SI-GA-G9,SI-GA-G9,Project_12437_AD,peerd@mskcc.org
+[Data],,,,,,,
+Lane,Sample_ID,Sample_Plate,Sample_Well,I7_Index_ID,index,index2,Sample_Project,Description
+2,IM-1613_RU1697a_IGO_12437_AD_11,Mouse,10X_Genomics,SI-GA-G9,SI-GA-G9,SI-GA-G9,Project_12437_AD,peerd@mskcc.org
+3,IM-1613_RU1697a_IGO_12437_AD_11,Mouse,10X_Genomics,SI-GA-G9,SI-GA-G9,SI-GA-G9,Project_12437_AD,peerd@mskcc.org

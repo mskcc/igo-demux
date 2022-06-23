@@ -156,14 +156,15 @@ def convert_SI_barcodes(samplesheet):
     
     # row_position will make sure we will skip down to the correct rows when creating the new sample sheet rows
     row_position = 0
-    for x in range(0, len(samplesheet.df_ss_data["index"]), 1):
+    for x in range(0, len(samplesheet.df_ss_data["index"])):
         # get the quad from the imported variables
         si_barcode = samplesheet.df_ss_data["index"].loc[x].replace("-", "_")
         quad_list = globals()[si_barcode]  # lookup "SI-" barcode in the global variable list
         # loop thru the quad set of barcodes and use these to replace the SI barcodes
-        for y in range(0, len(quad_list), 1):
+        for y in range(0, len(quad_list)):
             quad_ss_data.loc[row_position] = samplesheet.df_ss_data.loc[x]
             quad_ss_data["index"].loc[row_position] = quad_list[y]
             row_position += 1
 
+    quad_ss_data = quad_ss_data.drop(columns=['index2'])
     return SampleSheet(samplesheet.df_ss_header, quad_ss_data, samplesheet.path)
