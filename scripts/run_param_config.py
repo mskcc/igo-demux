@@ -528,9 +528,9 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"TWIST_mWES": {
-			BAITS: "/home/igo/resources/ilist/TWIST_mWES/Twist_mWES_BAITS.IntervalList",
-			TARGETS: "/home/igo/resources/ilist/TWIST_mWES/Twist_mWES_TARGETS.IntervalList"
+		"Twist_mWES": {
+			BAITS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_BAITS.IntervalList",
+			TARGETS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_TARGETS.IntervalList"
 		},
 		"Twist_Kentsis_spikeinWES_RK_V3": {
 			BAITS: "/home/igo/resources/ilist/Twist_Kentsis_spikeinWES_RK_V3/Twist_Kentsis_spikeinWES_RK_V3_BAITS.intervalList",
