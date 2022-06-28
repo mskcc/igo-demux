@@ -32,7 +32,7 @@ class Sample:
 	all_fastqs: str
 
 # Global Variable : we do not want to process these experiments in this script
-DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP"]
+DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP", "MissionBio"]
 # this list contains the headers of the columns.  we will access the data using these listings
 data_headers = list()
 
@@ -63,8 +63,8 @@ class GetSampleData:
 					data_headers = row
 					print(data_headers)
 				elif (row[0] != "Lane") and got_data:
-					# do not process hWGS, mWGS, DLP or 10X samples.  they have their own processes
-					if (row[data_headers.index("Sample_Well")] in DO_NOT_PROCESS):
+					# do not process hWGS, DLP, 10X samples or MissionBio - they have their own processes
+					if any(s in row[data_headers.index("Sample_Well")] for s in DO_NOT_PROCESS):
 						continue
 					self.all_sample_ids.append(row[data_headers.index("Sample_ID")])
 					# check for duplicate samples in the sample sheet
@@ -397,3 +397,4 @@ if __name__ == "__main__":
 # work_dir_mWGS = work_dir + "/mWGS/"
 # make_work_mWGS_dir = "mkdir -p " + work_dir_mWGS
 # call(make_work_mWGS_dir, shell = True)
+	
