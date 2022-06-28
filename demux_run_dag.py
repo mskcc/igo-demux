@@ -131,7 +131,8 @@ with DAG(
         if "DLP" in sample_sheet.recipe_set:
            return "No DLP stats"
 
-        if any("10X_" in s for s in sample_sheet.recipe_set):
+        # check for 10X or MissionBio - will just post demux stats to NGS and LIMS
+        if any("10X_" in s for s in sample_sheet.recipe_set) or any("MissionBio" in s for s in sample_sheet.recipe_set):
             # TODO write code to launch user 10X pipelines
             # consider the situation that all the demux is done on dragen
 
