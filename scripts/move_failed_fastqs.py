@@ -20,23 +20,33 @@ def move_failed_fastqs(igo_id, run):
 
     project_id = get_project_id(igo_id)
 
-    # for example: "/igo/staging/FASTQ/MICHELLE_0523_BHM52WDSX3/Project_13220_B"
-    fastq_path = FASTQ_DIR + run + "/Project_" + project_id
-    fastq_dest = FAILED_FASTQ_DIR + run + "/Project_" + project_id
-
     error_msg = "" # store error messages at any step
 
     # first try to move any fastq.gz files
+    # for example: "/igo/staging/FASTQ/MICHELLE_0523_BHM52WDSX3/Project_13220_B"
+    fastq_path = FASTQ_DIR + run + "/Project_" + project_id
+    fastq_dest = FAILED_FASTQ_DIR + run + "/Project_" + project_id
     if not os.path.exists(fastq_path):
         error_msg = "Path does not exist:" + fastq_path
         print(error_msg)
     else:
+        if not os.path.exists(fastq_dest):
+            os.makedirs(fastq_dest)
         for folder in glob.glob(fastq_path + "/*_IGO_" + igo_id, recursive=False):
+            # if the run is already archived this will mail run as the 'igo' user
             print("Moving folder: " + folder)
-            shutil.move(folder, fastq_dest)
+            dest = shutil.move(folder, fastq_dest)
+            print("Moved to " + dest)
 
     # then remove any .bam files for the fastq.gz(s)   
-    #TODO
+    bam_path = STATS_DIR + run
+    if not os.path.exists(bam_path):
+        msg = "Bam path does not exist:" + bam_path
+        print(msg)
+    else:
+        for file in glob.glob(bam_path + "/*_IGO_" + igo_id, recursive=True):
+            print("Moving .bam " + file)
+            shutil.move(file, fastq_dest)
 
     if error_msg != "":
         raise Exception(error_msg)
