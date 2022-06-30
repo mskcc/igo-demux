@@ -10,6 +10,7 @@ import scripts.organise_fastq_split_by_lane
 import scripts.get_total_reads_from_demux
 import scripts.cellranger
 import scripts.alignment_and_picard
+from Fingerprinting import fingerprinting_dag
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -133,7 +134,6 @@ with DAG(
 
         # check for 10X or MissionBio - will just post demux stats to NGS and LIMS
         if any("10X_" in s for s in sample_sheet.recipe_set) or any("MissionBio" in s for s in sample_sheet.recipe_set):
-            # TODO write code to launch user 10X pipelines
             # consider the situation that all the demux is done on dragen
 
             # step 1, generate txt files containing total reads and upload to qc website
@@ -154,6 +154,35 @@ with DAG(
 
         return "Completed"
 
+    def fingerprinting(ds, **kwargs):
+        # read in sample sheet as arguments, filter out projects that need to run fingerprinting
+        recipe_list_for_fp = [".*IMPACT*", ".*Heme*", "IDT_Exome*", "WholeExomeSequencing", "Twist_Exome", "MSK-ACCESS*"]
+        # call fingerprinting_dag.py for each project
+        samplesheet_path = kwargs["params"]["samplesheet"]
+        # get project list for running fingerprinting by recipe
+        sample_sheet = SampleSheet(samplesheet_path)
+        project_list_to_run = []
+        for project, recipe in sample_sheet.project_dict.items():
+            for recipe_list_item in recipe_list_for_fp:
+                print(project, recipe)
+                expr = re.compile(recipe_list_item)
+                if(expr.match(recipe)):
+                    project_list_to_run.append(project)
+                    break
+        print("Projects need to run fp: {}".format(project_list_to_run))
+        if len(project_list_to_run) == 0:
+            return "No project need to run fingerprinting"
+        else:
+            for project in project_list_to_run:
+                fingerprinting_dag.fingerprint(project[8:])
+
+        return "Complete"
+
+    def email_notifier(ds, **kwargs):
+        sequencer_path = kwargs["params"]["sequencer_path"]
+        samplesheet_path = kwargs["params"]["samplesheet"]
+        return "Complete"
+
     demux_run = PythonOperator(
         task_id='start_the_demux',
         python_callable=demux,
@@ -172,7 +201,27 @@ with DAG(
         dag=dag
     )
 
-    demux_run >> launch_stats
+    # step for calling fingerprinting if needed
+    launch_fingerprinting = PythonOperator(
+        task_id='launch_fingerprinting',
+        python_callable=fingerprinting,
+        provide_context=True,
+        email_on_failure=True,
+        email='skigodata@mskcc.org',
+        dag=dag
+    )
+
+    # step for sending email on stats finish successfully
+    sending_stats_email = PythonOperator(
+        task_id='sending_stats_email',
+        python_callable=email_notifier,
+        provide_context=True,
+        email_on_failure=True,
+        email='skigodata@mskcc.org',
+        dag=dag
+    )
+
+    demux_run >> launch_stats >> launch_fingerprinting >> sending_stats_email
 
 
     def launch_wgs_stats(sample_sheet, sequencer_and_run):
