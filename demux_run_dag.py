@@ -10,12 +10,13 @@ import scripts.organise_fastq_split_by_lane
 import scripts.get_total_reads_from_demux
 import scripts.cellranger
 import scripts.alignment_and_picard
-from Fingerprinting import fingerprinting_dag
+import Fingerprinting.fingerprinting_dag
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from airflow.operators.email_operator import EmailOperator
 from airflow.models import Variable
+from airflow.utils.email import send_email
 
 
 """
@@ -176,12 +177,19 @@ with DAG(
             for project in project_list_to_run:
                 fingerprinting_dag.fingerprint(project[8:])
 
-        return "Complete"
+        return "Completed"
 
     def email_notifier(ds, **kwargs):
-        sequencer_path = kwargs["params"]["sequencer_path"]
         samplesheet_path = kwargs["params"]["samplesheet"]
-        return "Complete"
+        samplesheet = os.path.basename(samplesheet_path)
+        samplesheet_no_ext = os.path.splitext(samplesheet)[0]  # SampleSheet_210331_MICHELLE_0360_BH5KFYDRXY
+        sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
+
+        send_email(
+            to=["skigodata@mskcc.org"],
+            subject='IGO Cluster Stats Finished',
+            html_content="{} stats done".format(sequencer_and_run)
+        )
 
     demux_run = PythonOperator(
         task_id='start_the_demux',
