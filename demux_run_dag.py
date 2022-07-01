@@ -175,7 +175,7 @@ with DAG(
             return "No project need to run fingerprinting"
         else:
             for project in project_list_to_run:
-                fingerprinting_dag.fingerprint(project[8:])
+                Fingerprinting.fingerprinting_dag.fingerprint(project[8:])
 
         return "Completed"
 
