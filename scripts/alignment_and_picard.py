@@ -359,11 +359,11 @@ class LaunchMetrics(object):
 			#
 			# create the MD, AM and WGS data files, put them back into the directory 
 			RNAMetricsJobName = run + "___RNA_METRICS___*"
-			csv_2_txt = "/igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ ./"
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ ./"
 			bsub_csv_2_txt = "bsub -J RNA_CSV_TO_TXT___" + run + " -o RNA_CSV_TO_TXT___" + run + ".out -w \"ended(" + RNAMetricsJobName + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
-			rename_txt_files = "/igo/work/igo/igo-demux/scripts/rename_txt_files.py " + rna_dir
+			rename_txt_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/rename_txt_files.py " + rna_dir
 			bsub_rename_txt_files = "bsub -J RENAME_RNA_TXT_FILES___" + run + " -o RENAME_RNA_TXT_FILES___" + run + ".out -w \"ended(RNA_CSV_TO_TXT___" + run + ")\" -n 2 -M 8 " + rename_txt_files
 			print(bsub_rename_txt_files)
 			call(bsub_rename_txt_files, shell = True)
@@ -373,7 +373,7 @@ class LaunchMetrics(object):
 			#
 			# create the MD, AM and WGS data files, put them back into the directory
 			MWGSDragenJobName = run + "___DRAGEN_mWGS___*"
-			csv_2_txt = "/igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ " + work_dir
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ " + work_dir
 			bsub_csv_2_txt = "bsub -J mWGS_CSV_TO_TXT___" + run + " -o mWGS_CSV_TO_TXT___" + run + ".out -w \"ended(" + MWGSDragenJobName + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
