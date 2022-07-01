@@ -31,7 +31,7 @@ class Sample:
 	all_fastqs: str
 
 # Global Variable : we do not want to process these experiments in this script
-DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP", "MissionBio"]
+DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP"]
 # this list contains the headers of the columns.  we will access the data using these listings
 data_headers = list()
 
