@@ -103,6 +103,7 @@ recipe_overrides = {
 		},
 		"Mouse": {
 				"M-IMPACT_v1": "mm10",
+				"M-IMPACT_v2": "mm10",
 				"10X_Genomics_Multiome": "mm10"
 		}
 }
