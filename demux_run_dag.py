@@ -157,7 +157,7 @@ with DAG(
 
     def fingerprinting(ds, **kwargs):
         # read in sample sheet as arguments, filter out projects that need to run fingerprinting
-        recipe_list_for_fp = [".*IMPACT*", ".*Heme*", "IDT_Exome*", "WholeExomeSequencing", "Twist_Exome", "MSK-ACCESS*"]
+        recipe_list_for_fp = [".*IMPACT*", ".*Heme*", "IDT_Exome*", "WholeExomeSequencing", "Twist_Exome", "MSK-ACCESS*", "CMO-CH"]
         # call fingerprinting_dag.py for each project
         samplesheet_path = kwargs["params"]["samplesheet"]
         # get project list for running fingerprinting by recipe
