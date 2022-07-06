@@ -37,7 +37,7 @@ def deliver_pipeline_output(project, pi, recipe):
         return bsub_commands
     
     # if 10X recipe, copy cell ranger result to project folder
-    elif recipe.startswith("10X_Genomics"):
+    elif recipe.startswith("10XGenomics"):
         folder_list = scripts.deliver_cellranger.find_cellranger(project)
         if len(folder_list) == 0:
             print("No cellragner result available")
