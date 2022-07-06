@@ -1,7 +1,4 @@
-#!/usr/bin/env python3
-
 import os
-import re
 from subprocess import call
 import sys
 import csv
@@ -9,8 +6,6 @@ import pickle
 from dataclasses import dataclass
 from collections import OrderedDict
 import scripts.generate_run_params
-import time
-import shutil
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
@@ -255,7 +250,7 @@ class LaunchMetrics(object):
 		RNADragenJobNameHeader = run + "___RNA_DRAGEN___"
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
 		bsub_launch_dragen_rna = "bsub -J " + RNADragenJobNameHeader + sample.sample_id + " -o " + RNADragenJobNameHeader + sample.sample_id + ".out -m id01 -q dragen -n 48 -M 4 " + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)

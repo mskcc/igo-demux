@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-
-#!/usr/bin/env python
-
 from collections import OrderedDict
 
 # 1) Determined by recipe
@@ -555,7 +551,7 @@ recipe_options_mapping_UNORDERED = {
 				HAPLOTYPE_MAP: "", # TODO - Add this
 				GENOME: "/igo/work/genomes/H.sapiens/GRCh38.p13/ncbi-genomes-2021-09-23/GCF_000001405.39_GRCh38.p13_genomic.fna",  # References that created DRAGEN reference
 				REFERENCE: "/igo/work/genomes/H.sapiens/GRCh38.p13/ncbi-genomes-2021-09-23/GCF_000001405.39_GRCh38.p13_genomic.fna",
-				DGN_REFERENCE: "/staging/ref/GRCh38"
+				DGN_REFERENCE: "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		},
 		"MouseWholeGenome": {
 				MSKQ: "no",
