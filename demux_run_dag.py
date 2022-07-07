@@ -226,7 +226,7 @@ with DAG(
         sample_dict = pandas.Series(sample_sheet.df_ss_data['Sample_Project'].values,index=sample_sheet.df_ss_data['Sample_ID']).to_dict()
         # Create DRAGEN pipeline command, for example:
         # bsub -J RAD_Pt_20_T_IGO_04540_P_15 -o RAD_Pt_20_T_IGO_04540_P_15.out -q dragen -n 48 -M 4 
-        # /opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/work/luc/DIANA_0441_fastq_list.csv 
+        # /opt/edico/bin/dragen --ref-dir /staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559 --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/work/luc/DIANA_0441_fastq_list.csv 
         # --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id RAD_Pt_20_T_IGO_04540_P_15 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
         cmd_set = set()
         
@@ -240,7 +240,7 @@ with DAG(
                 output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
                 job_name = sequencer_and_run + "_" + sample
                 bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m id01 -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
-                dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/GRCh38_graph --enable-duplicate-marking true --enable-map-align-output true "
+                dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559 --enable-duplicate-marking true --enable-map-align-output true "
                 dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
                 dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
                 cmd = bsub + dragen_cmd_1 + dragen_cmd_2 + dragen_cmd_3

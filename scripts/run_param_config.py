@@ -1,7 +1,3 @@
-#!/usr/bin/env python3
-
-#!/usr/bin/env python
-
 from collections import OrderedDict
 
 # 1) Determined by recipe
@@ -177,11 +173,11 @@ genome_reference_mapping_UNORDERED = {
 						HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_igo.map"	# TODO - Verify this
 				},
 				"RNA": {
-						GENOME: "/igo/work/nabors/genomes/GRCh38_100/Homo_sapiens.GRCh38.dna.primary_assembly.fa",
-						REFERENCE: "/igo/work/nabors/genomes/GRCh38_100/Homo_sapiens.GRCh38.dna.primary_assembly.fa",
-						REF_FLAT: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/Homo_sapiens.GRCh38.100.ref.flat",
-						RIBOSOMAL_INTERVALS: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/SHORT__Homo_sapiens.GRCh38.100.rRNA.interval.list",
-						GTF: "/igo/work/nabors/bed_files/GRCh38_100_Ensembl/Homo_sapiens.GRCh38.100.gtf"
+						GENOME: "/igo/work/nabors/genomes/hg38/hg38.fa",
+						REFERENCE: "/igo/work/nabors/genomes/hg38/hg38.fa",
+						REF_FLAT: "/igo/work/genomes/H.sapiens/hg38/ref_flat.txt",
+						RIBOSOMAL_INTERVALS: "/igo/work/genomes/H.sapiens/hg38/ribosomal.interval_list",
+						GTF: "/igo/work/genomes/H.sapiens/hg38/gencode.v40.chr_patch_hapl_scaff.annotation.gtf"
 				},
 		},
 		"grcm38": {
@@ -555,7 +551,7 @@ recipe_options_mapping_UNORDERED = {
 				HAPLOTYPE_MAP: "", # TODO - Add this
 				GENOME: "/igo/work/genomes/H.sapiens/GRCh38.p13/ncbi-genomes-2021-09-23/GCF_000001405.39_GRCh38.p13_genomic.fna",  # References that created DRAGEN reference
 				REFERENCE: "/igo/work/genomes/H.sapiens/GRCh38.p13/ncbi-genomes-2021-09-23/GCF_000001405.39_GRCh38.p13_genomic.fna",
-				DGN_REFERENCE: "/staging/ref/GRCh38"
+				DGN_REFERENCE: "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		},
 		"MouseWholeGenome": {
 				MSKQ: "no",
