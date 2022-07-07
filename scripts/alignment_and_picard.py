@@ -1,7 +1,4 @@
-#!/usr/bin/env python3
-
 import os
-import re
 from subprocess import call
 import sys
 import csv
@@ -9,8 +6,6 @@ import pickle
 from dataclasses import dataclass
 from collections import OrderedDict
 import scripts.generate_run_params
-import time
-import shutil
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
@@ -31,7 +26,7 @@ class Sample:
 	all_fastqs: str
 
 # Global Variable : we do not want to process these experiments in this script
-DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP", "MissionBio"]
+DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP"]
 # this list contains the headers of the columns.  we will access the data using these listings
 data_headers = list()
 
@@ -255,7 +250,7 @@ class LaunchMetrics(object):
 		RNADragenJobNameHeader = run + "___RNA_DRAGEN___"
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/RNA/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r /staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
 		bsub_launch_dragen_rna = "bsub -J " + RNADragenJobNameHeader + sample.sample_id + " -o " + RNADragenJobNameHeader + sample.sample_id + ".out -m id01 -q dragen -n 48 -M 4 " + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
@@ -359,11 +354,11 @@ class LaunchMetrics(object):
 			#
 			# create the MD, AM and WGS data files, put them back into the directory 
 			RNAMetricsJobName = run + "___RNA_METRICS___*"
-			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/scripts_for_airflow/dragen_csv_2_txt.py ./ ./"
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ ./"
 			bsub_csv_2_txt = "bsub -J RNA_CSV_TO_TXT___" + run + " -o RNA_CSV_TO_TXT___" + run + ".out -w \"ended(" + RNAMetricsJobName + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
-			rename_txt_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/scripts_for_airflow/rename_txt_files.py " + rna_dir
+			rename_txt_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/rename_txt_files.py " + rna_dir
 			bsub_rename_txt_files = "bsub -J RENAME_RNA_TXT_FILES___" + run + " -o RENAME_RNA_TXT_FILES___" + run + ".out -w \"ended(RNA_CSV_TO_TXT___" + run + ")\" -n 2 -M 8 " + rename_txt_files
 			print(bsub_rename_txt_files)
 			call(bsub_rename_txt_files, shell = True)
@@ -373,7 +368,7 @@ class LaunchMetrics(object):
 			#
 			# create the MD, AM and WGS data files, put them back into the directory
 			MWGSDragenJobName = run + "___DRAGEN_mWGS___*"
-			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/scripts_for_airflow/dragen_csv_2_txt.py ./ " + work_dir
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ " + work_dir
 			bsub_csv_2_txt = "bsub -J mWGS_CSV_TO_TXT___" + run + " -o mWGS_CSV_TO_TXT___" + run + ".out -w \"ended(" + MWGSDragenJobName + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
