@@ -167,7 +167,7 @@ with DAG(
             for recipe_list_item in recipe_list_for_fp:
                 print(project, recipe)
                 expr = re.compile(recipe_list_item)
-                if(expr.match(recipe)):
+                if expr.match(recipe):
                     project_list_to_run.append(project)
                     break
         print("Projects need to run fp: {}".format(project_list_to_run))
@@ -220,8 +220,8 @@ with DAG(
     )
 
     # step for sending email on stats finish successfully
-    sending_stats_email = PythonOperator(
-        task_id='sending_stats_email',
+    send_stats_email = PythonOperator(
+        task_id='send_stats_email',
         python_callable=email_notifier,
         provide_context=True,
         email_on_failure=True,
@@ -229,7 +229,7 @@ with DAG(
         dag=dag
     )
 
-    demux_run >> launch_stats >> launch_fingerprinting >> sending_stats_email
+    demux_run >> launch_stats >> launch_fingerprinting >> send_stats_email
 
 
     def launch_wgs_stats(sample_sheet, sequencer_and_run):
