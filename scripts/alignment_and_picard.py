@@ -373,8 +373,8 @@ class LaunchMetrics(object):
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
 		
-		mv_txt_files = "python3 /igo/work/igo/igo-demux/scripts/mv_txt_files.py " + work_dir
-		bsub_mv_all_txt = "bsub -J MOVE_TXT_FILES___" + run + " -o " + "MOVE_TXT_FILES___" + run + ".out -w \"ended(" + run + "___*)\" -n 2 -M 8 " + mv_txt_files
+		mv_txt_files = "python3 /igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/scripts_for_airflow/mv_txt_files.py " + work_dir
+		bsub_mv_all_txt = "bsub -K -J MOVE_TXT_FILES___" + run + " -o " + "MOVE_TXT_FILES___" + run + ".out -w \"ended(" + run + "___*)\" -n 2 -M 8 " + mv_txt_files
 		print(bsub_mv_all_txt)
 		call(bsub_mv_all_txt, shell = True)
 		

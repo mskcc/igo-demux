@@ -136,10 +136,14 @@ def fingerprint(project_id):
     if not os.path.exists(done_path):
         os.makedirs(done_path)
     # Example copy to file name:  /igo/stats/DONE/crosscheck_metrics/08236_J/08236_J.crosscheck_metrics
-    copy_command = 'bsub -w "done(CrosscheckFingerprint_{})" cp /igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv /igo/stats/DONE/crosscheck_metrics/{}/{}.crosscheck_metrics'.format(project_id, project_id, project_id, project_id, project_id)
+    copy_command = 'bsub -K -w "done(CrosscheckFingerprint_{})" cp /igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv /igo/stats/DONE/crosscheck_metrics/{}/{}.crosscheck_metrics'.format(project_id, project_id, project_id, project_id, project_id)
     subprocess.call(copy_command, shell=True)
 
-    # TODO call http://delphi.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project=12345
+    # TODO change to requests.get() instead of curl
+    # call http://delphi.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project=12345 to update the result
+    DELPHI_ENDPOINT = "http://delphi.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project={}".format(project_id)
+    command_pushdata = "curl \"{}\"".format(DELPHI_ENDPOINT)
+    subprocess.call(command_pushdata, shell=True)
 
 def get_igo_id(file_name):
     """ Extracts IGO ID from intput BAM filename.
