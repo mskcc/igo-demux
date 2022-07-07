@@ -1,2 +1,2 @@
 # igo-demux
-Demultiplex Illumina sequencer output with DRAGEN and launch pipelines.
+Demultiplex Illumina sequencer output with DRAGEN or BCL Convert and launch pipelines.
