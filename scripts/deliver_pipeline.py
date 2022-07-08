@@ -50,7 +50,9 @@ def deliver_pipeline_output(project, pi, recipe):
 
             # copy each sample folder to the delivery folder
             for folder in folder_list:
-                shutil.copytree(folder, cellranger_delivery_folder)
+                sample_name = folder.split("/")[-1]
+                sample_delivery_name = cellranger_delivery_folder + "/" + sample_name
+                shutil.copytree(folder, sample_delivery_name)
 
     else:
         # TODO automate delivery of pipelines that are copied to the delivery share manually
