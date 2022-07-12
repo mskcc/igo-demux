@@ -34,7 +34,7 @@ def find_cellranger(project):
             for sample_folder in sample_folder_list:
                 sample_folder_fullpath = cellranger_file_path_prefix + sample_folder
                 if os.path.isdir(sample_folder_fullpath):
-                    print(sample_folder_fullpath)
+                    print("cellranger output folder found: {}".format(sample_folder_fullpath))
                     sample = sample_folder.split("/")[-1]
                     if sample in cellranger_file_list_dict.keys():
                         cellranger_file_list_dict[sample].append(sample_folder_fullpath)

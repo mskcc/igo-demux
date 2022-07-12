@@ -7,6 +7,7 @@ import requests
 import subprocess
 from sys import path_importer_cache, stdout
 from time import process_time
+import shutil
 
 
 sample_id_manifests = {
@@ -121,7 +122,7 @@ def fingerprint(project_id):
     extractFingerprint_finish = process_time()
     print('Elapsed time to extract fingerprint for all bams: ', extractFingerprint_finish - extractFingerprint_start)
     # TODO redirect bsub output to file and check return value of the command?
-    command_crosscheck = 'bsub -n 9 -M 6 -w "ended(extract_fingerprint_*)" -J "CrosscheckFingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=/igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(project_id, project_id, project_id, HAPLOTYPE_MAP)    
+    command_crosscheck = 'bsub -K -n 9 -M 6 -w "ended(extract_fingerprint_*)" -J "CrosscheckFingerprint_{}" /home/igo/resources/gatk-4.1.9.0/gatk CrosscheckFingerprints LOD_THRESHOLD=-5.0 CROSSCHECK_BY=FILE NUM_THREADS=30 OUTPUT=/igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv HAPLOTYPE_MAP=\'{}\' INPUT='.format(project_id, project_id, project_id, HAPLOTYPE_MAP)    
     vcfInputs = " INPUT=".join(vcfs)
     
     command_crosscheck += vcfInputs
@@ -136,14 +137,21 @@ def fingerprint(project_id):
     if not os.path.exists(done_path):
         os.makedirs(done_path)
     # Example copy to file name:  /igo/stats/DONE/crosscheck_metrics/08236_J/08236_J.crosscheck_metrics
-    copy_command = 'bsub -K -w "done(CrosscheckFingerprint_{})" cp /igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv /igo/stats/DONE/crosscheck_metrics/{}/{}.crosscheck_metrics'.format(project_id, project_id, project_id, project_id, project_id)
-    subprocess.call(copy_command, shell=True)
+    source_filename = "/igo/staging/stats/VCF/vcf_{}/crosscheck_fingerprint_{}.tsv".format(project_id, project_id)
+    destination_filename = "/igo/stats/DONE/crosscheck_metrics/{}/{}.crosscheck_metrics".format(project_id, project_id, project_id)
+    shutil.copy(source_filename, destination_filename)
+    print("VCF file of {} is copied and renamed".format(project_id))
 
-    # TODO change to requests.get() instead of curl
     # call http://delphi.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project=12345 to update the result
     DELPHI_ENDPOINT = "http://delphi.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project={}".format(project_id)
-    command_pushdata = "curl \"{}\"".format(DELPHI_ENDPOINT)
-    subprocess.call(command_pushdata, shell=True)
+    try:
+        resp = requests.get(DELPHI_ENDPOINT, verify=False)
+        print(resp.json())
+    except:
+        print("Request Failed: {}".format(DELPHI_ENDPOINT))
+        print(resp.raise_for_status())
+
+    print("Fingerprinting finished for project {}".format(project_id))
 
 def get_igo_id(file_name):
     """ Extracts IGO ID from intput BAM filename.
