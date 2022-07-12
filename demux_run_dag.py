@@ -163,7 +163,7 @@ with DAG(
         # get project list for running fingerprinting by recipe
         sample_sheet = SampleSheet(samplesheet_path)
         # dictionary of project_ID->genome
-        project_genome_dict = pd.Series(sample_sheet.df_ss_data['Sample_Plate'].values,index=sample_sheet.df_ss_data['Sample_Project']).to_dict()
+        project_genome_dict = pandas.Series(sample_sheet.df_ss_data['Sample_Plate'].values,index=sample_sheet.df_ss_data['Sample_Project']).to_dict()
         project_list_to_run = []        
         for project, recipe in sample_sheet.project_dict.items():
             # fingerprinting only support human
