@@ -100,14 +100,15 @@ recipe_overrides = {
 		"Mouse": {
 				"M-IMPACT_v1": "mm10",
 				"M-IMPACT_v2": "mm10",
+				"Twist_mWES": "mm10",
 				"10X_Genomics_Multiome": "mm10"
 		}
 }
 """ Mapping of species to their genome-type """
 species_genome_mapping_UNORDERED = {
 		"Human": "GRCh38",
-		"Mouse": "GRCm38",
-		"Mouse_GeneticallyModified": "GRCm38",
+		"Mouse": "grcm39",
+		"Mouse_GeneticallyModified": "grcm39",
 		"Drosophilia": "dm3",
 		"Zebrafish": "danrer7",
 		"Chicken": "galGal4",
@@ -193,6 +194,17 @@ genome_reference_mapping_UNORDERED = {
 						REF_FLAT: "/igo/work/nabors/genomes/GRCm38/Mus_musculus.GRCm38.99.ref_flat",
 						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/GRCm38/Mus_musculus.GRCm38.interval_list",
 						GTF: "/igo/work/nabors/genomes/GRCm38/Mus_musculus.GRCm38.99.gtf"
+				},
+		},
+		"grcm39": {
+				DEFAULT: {
+						GENOME: "/igo/work/nabors/genomes/grcm39/Mus_musculus.GRCm39.dna.primary_assembly.fa",
+						REFERENCE: "/igo/work/nabors/genomes/grcm39/Mus_musculus.GRCm39.dna.primary_assembly.fa",
+				},
+				"RNA": {
+						REF_FLAT: "/igo/work/nabors/genomes/grcm39/Mus_musculus.GRCm39.107.ref.flat",
+						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/grcm39/Mus_musculus.GRCm39.107.rRNA.intervals",
+						GTF: "/igo/work/nabors/genomes/grcm39/Mus_musculus.GRCm39.107.gtf"
 				},
 		},
 		"mm9": {
