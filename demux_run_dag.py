@@ -157,19 +157,23 @@ with DAG(
 
     def fingerprinting(ds, **kwargs):
         # read in sample sheet as arguments, filter out projects that need to run fingerprinting
-        recipe_list_for_fp = [".*IMPACT*", ".*Heme*", "IDT_Exome*", "WholeExomeSequencing", "Twist_Exome", "MSK-ACCESS*", "CMO-CH"]
+        recipe_list_for_fp = [".*IMPACT*", ".*Heme*", "IDT_Exome*", "WholeExomeSequencing", "Twist_Exome", "MSK-ACCESS*", "CMO-CH", "HumanWholeGenome"]
         # call fingerprinting_dag.py for each project
         samplesheet_path = kwargs["params"]["samplesheet"]
         # get project list for running fingerprinting by recipe
         sample_sheet = SampleSheet(samplesheet_path)
-        project_list_to_run = []
+        # dictionary of project_ID->genome
+        project_genome_dict = pandas.Series(sample_sheet.df_ss_data['Sample_Plate'].values,index=sample_sheet.df_ss_data['Sample_Project']).to_dict()
+        project_list_to_run = []        
         for project, recipe in sample_sheet.project_dict.items():
-            for recipe_list_item in recipe_list_for_fp:
-                print(project, recipe)
-                expr = re.compile(recipe_list_item)
-                if expr.match(recipe):
-                    project_list_to_run.append(project)
-                    break
+            # fingerprinting only support human
+            if project_genome_dict[project] == "Human":
+                for recipe_list_item in recipe_list_for_fp:
+                    print(project, recipe)
+                    expr = re.compile(recipe_list_item)
+                    if expr.match(recipe):
+                        project_list_to_run.append(project)
+                        break
         print("Projects need to run fp: {}".format(project_list_to_run))
         if len(project_list_to_run) == 0:
             return "No project need to run fingerprinting"

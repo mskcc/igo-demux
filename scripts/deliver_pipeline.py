@@ -5,6 +5,10 @@ At time of delivery for all RNASeq projects:
 - Merge each .bam for the same sample when multiple .bams and write to the delivery/pipeline directory
 - Log all input .bams merged in the delivery/pipeline directory
 - Re-run setaccess.py (on a separate server)
+
+At time of delivery for all 10X projects:
+- Search under folder /igo/stats/CELLRANGER/ for any possible cell ranger output
+- If existing, then copy to delivery/pipeline/cellranger directory
 """
 
 from distutils.log import error
@@ -36,8 +40,8 @@ def deliver_pipeline_output(project, pi, recipe):
         reconcile_bam_fastq_list(project, bamdict)
         return bsub_commands
     
-    # if 10X recipe, copy cell ranger result to project folder
-    elif recipe.startswith("10XGenomics"):
+    # if 10X recipe or SCRI project starting with 12437, copy cell ranger result to project folder
+    elif recipe.startswith("10XGenomics") or project.startswith("12437_"):
         folder_list = scripts.deliver_cellranger.find_cellranger(project)
         if len(folder_list) == 0:
             print("No cellragner result available")
@@ -52,6 +56,7 @@ def deliver_pipeline_output(project, pi, recipe):
             for folder in folder_list:
                 sample_name = folder.split("/")[-1]
                 sample_delivery_name = cellranger_delivery_folder + "/" + sample_name
+                print("copy {}".format(folder))
                 shutil.copytree(folder, sample_delivery_name)
 
     else:
