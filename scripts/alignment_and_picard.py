@@ -283,7 +283,7 @@ class LaunchMetrics(object):
 		if (gtag == "GRCh38"):
 		 	rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
-			rna_path = "/staging/ref/RNA/grcm39"
+			rna_path = "/staging/ref/grcm39"
 			
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
