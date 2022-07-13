@@ -245,11 +245,14 @@ class LaunchMetrics(object):
 		PICARD_RNA = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar CollectRnaSeqMetrics "
 		# prjct = sample.project.split("_")[1]
 		prjct = sample.project[8:]
+		
+		# get the correct path for the reference
 		gtag = sample_params["GTAG"]
 		if (gtag == "GRCh38"):
 		 	rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
 			rna_path = "/staging/ref/RNA/grcm39"
+			
 		RNADragenJobNameHeader = run + "___RNA_DRAGEN___"
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
@@ -275,9 +278,16 @@ class LaunchMetrics(object):
 		
 		# create metrics file name
 		prjct = sample.project[8:]
+		
+		# get the correct path for the reference
+		if (gtag == "GRCh38"):
+		 	rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
+		else:
+			rna_path = "/staging/ref/RNA/grcm39"
+			
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen = "/opt/edico/bin/dragen --ref-dir /staging/ref/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory ./" + " --output-file-prefix " + metric_file + ' --enable-duplicate-marking true'
+		launch_dragen = "/opt/edico/bin/dragen --ref-dir " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory ./" + " --output-file-prefix " + metric_file + " --enable-duplicate-marking true"
 		bsub_launch_dragen = "bsub -J " +  DragenJobNameHeader  + sample.sample_id + " -o " + DragenJobNameHeader + sample.sample_id + ".out -m \"id01 id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
