@@ -27,6 +27,8 @@ class Sample:
 
 # Global Variable : we do not want to process these experiments in this script
 DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP"]
+# These recipes will be evaluated using DRAGEN because of their larger size of fastqs
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "CustomCapture", "MouseWholeGenome"]
 # this list contains the headers of the columns.  we will access the data using these listings
 data_headers = list()
 
@@ -160,11 +162,12 @@ class LaunchMetrics(object):
 		
 	def launch_metrics(self, all_samples, run):
 		#
+		global RUN_ON_DRAGEN
 		# create output directoories
 		parent_dir = "/igo/staging/stats/"
 		work_dir = parent_dir + run + "/"
 		rna_dir = work_dir + "RNA/"
-		mwgs_dir = work_dir + "mWGS/"
+		dragen_dir = work_dir + "DRAGEN/"
 		
 		# check for the work directory
 		if not os.path.isdir(work_dir):
@@ -187,18 +190,18 @@ class LaunchMetrics(object):
 				self.rna_alignment_and_metrics(sample, run, sample_params, rna_dir)
 				rna_samples_and_gtags.append([sample.sample_id, sample_params["GTAG"]])
 				continue
-			# process MouseWholeGenome separately
-			if (sample.recipe == "MouseWholeGenome"):
-				if not os.path.isdir(mwgs_dir):
-					os.mkdir(mwgs_dir)
-				self.mwgs(sample, run, sample_params)
+			# check to see if we need to run the samples on dragen
+			if any(s in sample.recipe for s in RUN_ON_DRAGEN):
+				if not os.path.isdir(dragen_dir):
+					os.mkdir(dragen_dir)
+				self.dragen(sample, run, sample_params)
 				continue
 			# do the bam alignment
 			bams_by_lane, BWAJobNameHeader = self.alignment_to_genome(sample, run, sample_params, work_dir)
 			# launch the Picard tools
 			self.launch_picard(bams_by_lane, run, sample, sample_params, BWAJobNameHeader)
 			# launch rename of RNA metric files
-		self.post_data_files(run, rna_samples_and_gtags, work_dir, rna_dir, mwgs_dir)
+		self.post_data_files(run, rna_samples_and_gtags, work_dir, rna_dir, dragen_dir)
 			
 			
 	# grab the parameters needed for bwa-mem and picard
@@ -250,8 +253,8 @@ class LaunchMetrics(object):
 		RNADragenJobNameHeader = run + "___RNA_DRAGEN___"
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
-		bsub_launch_dragen_rna = "bsub -J " + RNADragenJobNameHeader + sample.sample_id + " -o " + RNADragenJobNameHeader + sample.sample_id + ".out -m id01 -q dragen -n 48 -M 4 " + launch_dragen_rna
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
+		bsub_launch_dragen_rna = "bsub -J " + RNADragenJobNameHeader + sample.sample_id + " -o " + RNADragenJobNameHeader + sample.sample_id + ".out -m \"id01 id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
 		
@@ -264,20 +267,20 @@ class LaunchMetrics(object):
 		
 		
 	@staticmethod
-	def mwgs(sample, run, sample_params, mwgs_dir):
+	def dragen(sample, run, sample_params, dragen_dir):
 		#
-		os.chdir(mwgs_dir)
+		os.chdir(dragen_dir)
 		
-		MWGSDragenJobNameHeader = run + "___DRAGEN_mWGS___"
+		DragenJobNameHeader = run + "___DRAGEN___"
 		
 		# create metrics file name
 		prjct = sample.project[8:]
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_mwgs= "/opt/edico/bin/dragen --ref-dir /staging/ref/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory ./" + " --output-file-prefix " + metric_file + ' --enable-duplicate-marking true'
-		bsub_launch_dragen_mwgs = "bsub -J " +  MWGSDragenJobNameHeader  + sample.sample_id + " -o " + MWGSDragenJobNameHeader + sample.sample_id + '.out -m "id01" -q dragen -n 48 -M 4 ' + launch_dragen_mwgs
-		print(bsub_launch_dragen_mwgs)
-		call(bsub_launch_dragen_mwgs, shell = True)
+		launch_dragen = "/opt/edico/bin/dragen --ref-dir /staging/ref/" + sample_params["GTAG"]  +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory ./" + " --output-file-prefix " + metric_file + ' --enable-duplicate-marking true'
+		bsub_launch_dragen = "bsub -J " +  DragenJobNameHeader  + sample.sample_id + " -o " + DragenJobNameHeader + sample.sample_id + ".out -m \"id01 id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen
+		print(bsub_launch_dragen)
+		call(bsub_launch_dragen, shell = True)
 		
 		
 	# launch the picrd tools to process the bams
@@ -340,7 +343,7 @@ class LaunchMetrics(object):
 		
 	# let's gather the txt data files and move them
 	@staticmethod
-	def post_data_files(run, rna_samples_and_gtags, work_dir, rna_dir, mwgs_dir):
+	def post_data_files(run, rna_samples_and_gtags, work_dir, rna_dir, dragen_dir):
 		#
 		sequencer = run.split("_")[0]
 		os.chdir(work_dir)
@@ -363,13 +366,13 @@ class LaunchMetrics(object):
 			print(bsub_rename_txt_files)
 			call(bsub_rename_txt_files, shell = True)
 			
-		if os.path.isdir(mwgs_dir):
-			os.chdir(mwgs_dir)
+		if os.path.isdir(dragen_dir):
+			os.chdir(dragen_dir)
 			#
 			# create the MD, AM and WGS data files, put them back into the directory
-			MWGSDragenJobName = run + "___DRAGEN_mWGS___*"
+			DragenJobName = run + "___DRAGEN___*"
 			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ " + work_dir
-			bsub_csv_2_txt = "bsub -J mWGS_CSV_TO_TXT___" + run + " -o mWGS_CSV_TO_TXT___" + run + ".out -w \"ended(" + MWGSDragenJobName + ")\" -n 2 -M 8 " + csv_2_txt
+			bsub_csv_2_txt = "bsub -J DRAGEN_CSV_TO_TXT___" + run + " -o DRAGEN_CSV_TO_TXT___" + run + ".out -w \"ended(" + DragenJobName + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
 		
@@ -409,3 +412,4 @@ if __name__ == "__main__":
 # work_dir_mWGS = work_dir + "/mWGS/"
 # make_work_mWGS_dir = "mkdir -p " + work_dir_mWGS
 # call(make_work_mWGS_dir, shell = True)
+	
