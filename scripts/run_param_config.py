@@ -551,6 +551,12 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
+		"diaz_CH_v3": {
+				BAITS: "/igo/work/nabors/bed_files/diaz_CH_v3/diaz_CH_v3.baits",
+				TARGETS: "/igo/work/nabors/bed_files/diaz_CH_v3/diaz_CH_v3.targets",
+				MSKQ: "no",
+				MD: "yes"
+		},
 		"CDH1_RNA": {
 				BAITS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1_RNA.baits",
 				TARGETS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1_RNA.targets",
