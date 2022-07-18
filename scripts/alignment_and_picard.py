@@ -280,6 +280,7 @@ class LaunchMetrics(object):
 		prjct = sample.project[8:]
 		
 		# get the correct path for the reference
+		gtag = sample_params["GTAG"]
 		if (gtag == "GRCh38"):
 		 	rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
