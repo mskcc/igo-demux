@@ -30,7 +30,8 @@ NGS_STATS_FASTQ_ENDPOINT = "http://delphi.mskcc.org:8080/ngs-stats/permissions/g
 def deliver_pipeline_output(project, pi, recipe):
     if not project or not pi or not recipe:
         return "Project, pi and recipe are all required arguments."
-
+    # change pi to all lowercase
+    pi = pi.lower()
     delivery_folder = LAB_SHARE_DIR + "/" + pi + "/Project_" + project + "/pipeline"
 
     if recipe.startswith("RNASeq"):

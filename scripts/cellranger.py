@@ -214,6 +214,7 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                     if sample_genome_dict[sample] != "Human" and sample_genome_dict[sample] != "Mouse":
                         sample_genome_dict[sample] = "Mouse"
                     cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
+                    print(cmd)
                     subprocess.run(cmd, shell=True)
                     send_json['samples'].append({'sample':'Sample_' + sample, 'type':tag, 'project':project, 'run':sequencer_and_run})
             if send_json['samples']:
@@ -229,6 +230,7 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                 if tag != "Skip" and genome != "na":
                     cmd = generate_cellranger_cmd(sample, tag, genome, sample_fastqfile_dict[sample], sequencer_and_run)
                     cmd = cmd + " --include-introns=true"  # SCRI samples always have include-introns true
+                    print(cmd)
                     subprocess.run(cmd, shell=True)
 
 # sample_ID_list = ["06265_8869_1_IGO_06265_AG_3","Third-Transcriptome_IGO_11969_E_3", "Second_IGO_11969_E_2"]

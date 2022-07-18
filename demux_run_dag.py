@@ -189,10 +189,16 @@ with DAG(
         samplesheet_no_ext = os.path.splitext(samplesheet)[0]  # SampleSheet_210331_MICHELLE_0360_BH5KFYDRXY
         sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
 
+        # DLP and reference demux don't have stats, only demux
+        if samplesheet_no_ext.endswith("_DLP") or samplesheet_no_ext.endswith("_REFERENCE"):
+            content = "{} demux done".format(sequencer_and_run)
+        else:
+            content = "{} stats done".format(sequencer_and_run)
+
         send_email(
             to=["skigodata@mskcc.org"],
             subject='IGO Cluster Stats Finished',
-            html_content="{} stats done".format(sequencer_and_run)
+            html_content=content
         )
 
     demux_run = PythonOperator(
