@@ -174,11 +174,8 @@ class LaunchMetrics(object):
 			# create the directory if it is not already there
 			os.mkdir(work_dir)
 			# shutil.rmtree(work_dir)
+			
 		os.chdir(work_dir)
-		
-		#
-		# define a list for all RNA samples.  cannot use the metric file name for the RNA bams
-		rna_samples_and_gtags = list()
 		
 		for sample in all_samples:
 			# grab the sample parameters (bait set, type, gtag, etc)
@@ -188,7 +185,6 @@ class LaunchMetrics(object):
 				if not os.path.isdir(rna_dir):
 					os.mkdir(rna_dir)
 				self.rna_alignment_and_metrics(sample, run, sample_params, rna_dir)
-				rna_samples_and_gtags.append([sample.sample_id, sample_params["GTAG"]])
 				continue
 			# check to see if we need to run the samples on dragen
 			if any(s in sample.recipe for s in RUN_ON_DRAGEN):
@@ -201,7 +197,7 @@ class LaunchMetrics(object):
 			# launch the Picard tools
 			self.launch_picard(bams_by_lane, run, sample, sample_params, BWAJobNameHeader)
 			# launch rename of RNA metric files
-		self.post_data_files(run, rna_samples_and_gtags, work_dir, rna_dir, dragen_dir)
+		self.post_data_files(run, work_dir, rna_dir, dragen_dir)
 			
 			
 	# grab the parameters needed for bwa-mem and picard
@@ -256,14 +252,14 @@ class LaunchMetrics(object):
 		RNADragenJobNameHeader = run + "___RNA_DRAGEN___"
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + sample.sample_id + " --output-directory ./" 
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + metric_file + " --output-directory ./" 
 		bsub_launch_dragen_rna = "bsub -J " + RNADragenJobNameHeader + sample.sample_id + " -o " + RNADragenJobNameHeader + sample.sample_id + ".out -m \"id01 id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
 		
 		# run Picard RNA metrics tools
 		RNAMetricsJobNameHeader = run + "___RNA_METRICS___"
-		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_params["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_params["REF_FLAT"] + "  --INPUT " + sample.sample_id + ".bam  " + "--OUTPUT " + metric_file + "___RNA.txt"
+		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_params["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_params["REF_FLAT"] + "  --INPUT " + metric_file + ".bam  " + "--OUTPUT " + metric_file + "___RNA.txt"
 		bsub_rnaseq = "bsub -J " + RNAMetricsJobNameHeader + sample.sample_id + " -o " + RNAMetricsJobNameHeader + sample.sample_id + ".out -w \"done(" + RNADragenJobNameHeader + sample.sample_id + ")\" -n 8 -M 8 " + rnaseq
 		print(bsub_rnaseq)
 		call(bsub_rnaseq, shell = True)
@@ -354,17 +350,14 @@ class LaunchMetrics(object):
 		
 	# let's gather the txt data files and move them
 	@staticmethod
-	def post_data_files(run, rna_samples_and_gtags, work_dir, rna_dir, dragen_dir):
+	def post_data_files(run, work_dir, rna_dir, dragen_dir):
 		#
 		sequencer = run.split("_")[0]
 		os.chdir(work_dir)
 		
 		# check to see if this run had any rna samples
-		# if rna_samples_and_gtags:
 		if os.path.isdir(rna_dir):
 			os.chdir(rna_dir)
-			rna_samples_and_gtags_file = open('rna_samples_and_gtags.pickle', 'ab')
-			pickle.dump(rna_samples_and_gtags, rna_samples_and_gtags_file)
 			#
 			# create the MD, AM and WGS data files, put them back into the directory 
 			RNAMetricsJobName = run + "___RNA_METRICS___*"
@@ -372,10 +365,10 @@ class LaunchMetrics(object):
 			bsub_csv_2_txt = "bsub -J RNA_CSV_TO_TXT___" + run + " -o RNA_CSV_TO_TXT___" + run + ".out -w \"ended(" + RNAMetricsJobName + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
-			rename_txt_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/rename_txt_files.py " + rna_dir
-			bsub_rename_txt_files = "bsub -J RENAME_RNA_TXT_FILES___" + run + " -o RENAME_RNA_TXT_FILES___" + run + ".out -w \"ended(RNA_CSV_TO_TXT___" + run + ")\" -n 2 -M 8 " + rename_txt_files
-			print(bsub_rename_txt_files)
-			call(bsub_rename_txt_files, shell = True)
+			rename_bam_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/renameRNAbamFiles.py " + rna_dir
+			bsub_rename_bam_files = "bsub -J RENAME_RNA_BAM_FILES___" + run + " -o RENAME_RNA_TXT_FILES___" + run + ".out -w \"ended(RNA_CSV_TO_TXT___" + run + ")\" -n 2 -M 8 " + rename_bam_files
+			print(bsub_rename_bam_files)
+			call(bsub_rename_bam_files, shell = True)
 			
 		if os.path.isdir(dragen_dir):
 			os.chdir(dragen_dir)
