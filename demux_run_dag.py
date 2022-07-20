@@ -10,6 +10,7 @@ import scripts.organise_fastq_split_by_lane
 import scripts.get_total_reads_from_demux
 import scripts.cellranger
 import scripts.alignment_and_picard
+import scripts.getSequencingReadData
 import Fingerprinting.fingerprinting_dag
 
 from airflow import DAG
@@ -53,6 +54,10 @@ with DAG(
 
         sample_sheet = SampleSheet(samplesheet_path)
         
+        # Let's check to see if this run is an Cellranger ATAC run
+        atac = scripts.getSequencingReadData.main(sequencer_path)
+        
+        
         is_DLP = False
         if "DLP" in sample_sheet.recipe_set:
             is_DLP = True
@@ -73,6 +78,10 @@ with DAG(
             bsub_command = "bsub -K -n48 -q dragen -m id02 -eo " + output_directory + "/dragen-demux.log "
             # same as bcl-convert arguments except:  "--bcl-conversion-only true --bcl-only-matched-reads true"
             demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
+        elif (atac):
+          # use cellranger atac mkfastq to demux if run is ATAC
+          bsub_command = " bsub -K -n 2 -M 8 -eo " +  output_directory + "/cellranger-atac-mkfastq--demux.log "
+          demux_command =  bsub_command + "/igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac mkfastq --input-dir \'{}\' --sample-sheet \'{}\' --output-dir \'{}\' --barcode-mismatches 1 --nopreflight --disable-ui --jobmode=lsf --mempercore=64 --maxjobs=200".format(sequencer_path, samplesheet_path, output_directory)
         else: # default to bcl-convert
             bsub_command = "bsub -K -n72 -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -eo " + output_directory + "/bcl-convert.log "
             demux_command = bsub_command + "/usr/bin/bcl-convert --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
