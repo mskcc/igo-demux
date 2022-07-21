@@ -32,6 +32,8 @@ def getSequencingReadData(sequencerPath):
 	# check the read lengths.  if they equal the atacReads list, then set atac variable to True
 	if (detectedReads == atacReads):
 		atac = True
+	else:
+		atac = False
 		
 	return(atac)
 		
