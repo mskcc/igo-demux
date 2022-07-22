@@ -331,7 +331,7 @@ class LaunchMetrics(object):
 		# speial header for AddOrReplaceReadGroups
 		AORRGJobNameHeader = run + "___AddOrReplaceReadGroups___"
 		MergeBamsJobNameHeader = run + "___MERGE_BAMS___"
-		merge_bams = PICARD + "MergeSamFiles --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in aorrgBamsByLane)
+		merge_bams = PICARD + "MergeSamFiles --SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in aorrgBamsByLane)
 		bsub_merge =  "bsub -w \"ended(" + AORRGJobNameHeader + sample.sample_id + "*)\" -J " + MergeBamsJobNameHeader + sample.sample_id + " -o " +  MergeBamsJobNameHeader + sample.sample_id + ".out -n 40 -M 8 "
 		bsub_merge_bams = bsub_merge + merge_bams
 		print(bsub_merge_bams)
