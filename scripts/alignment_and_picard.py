@@ -164,7 +164,7 @@ class LaunchMetrics(object):
 		#
 		global RUN_ON_DRAGEN
 		# create output directoories
-		parent_dir = "/igo/staging/stats/"
+		parent_dir = "/igo/staging/stats/naborsd_workspace/"
 		work_dir = parent_dir + run + "/"
 		rna_dir = work_dir + "RNA/"
 		dragen_dir = work_dir + "DRAGEN/"
@@ -193,9 +193,9 @@ class LaunchMetrics(object):
 				self.dragen(sample, run, sample_params)
 				continue
 			# do the bam alignment
-			aorrgBamsByLane = self.alignment_to_genome(sample, run, sample_params, work_dir)
+			aorrgBamsByLane = self.alignment_to_genome(self, sample, run, sample_params, work_dir)
 			# launch the Picard tools
-			self.launch_picard(bams_by_lane, run, sample, sample_params, BWAJobNameHeader)
+			self.launch_picard(aorrgBamsByLane, run, sample, sample_params)
 			# launch rename of RNA metric files
 		self.post_data_files(run, work_dir, rna_dir, dragen_dir)
 			
@@ -220,18 +220,16 @@ class LaunchMetrics(object):
 		# add or replace read groups
 		AORRGJobNameHeader = run + "___AddOrReplaceReadGroups___"
 		aorrgBamByLane = bam_by_lane[:-4] + ".aorrg.bam"
-		add_or_replace = PICARD_AORRG + "--SORT_ORDER coordinate --CREATE_INDEX true --INPUT " + bam_by_lane + " --OUTPUT " + aorrgBamByLane + " --RGID " + sample[7:] + "  --RGLB " + sample[7:] + " --RGPL illumina  --RGPU IGO-BAM  --RGSM " + sample[7:] + " --RGCN IGO@MSKCC"
-		bsub_add_or_replace = "bsub -J " + AORRGJobNameHeader + bam_by_lane[:-4] + " -o " + AORRGJobNameHeader + bam_by_lane[:-4] + ".out -w \"ended(" + bwamemJobName +  ")\" " + BIG_NODES + add_or_replace
+		add_or_replace = PICARD_AORRG + "--SORT_ORDER coordinate --CREATE_INDEX true --INPUT " + bam_by_lane + " --OUTPUT " + aorrgBamByLane + " --RGID " + sample.sample_id + "  --RGLB " + sample.sample_id + " --RGPL illumina  --RGPU IGO-BAM  --RGSM " + sample.sample_id + " --RGCN IGO@MSKCC"
+		bsub_add_or_replace = "bsub -J " + AORRGJobNameHeader + bam_by_lane[:-4] + " -o " + AORRGJobNameHeader + bam_by_lane[:-4] + ".out -w \"ended(" + bwamemJobName +  ")\" -n 40 -M 8 " + add_or_replace
 		print(bsub_add_or_replace)
 		call(bsub_add_or_replace, shell = True)
 		return(aorrgBamByLane)
-	
-	
-	
-	
+		
+
 	# let's align the fastqs to the genome!	
 	@staticmethod
-	def alignment_to_genome(sample, run, sample_params, work_dir):
+	def alignment_to_genome(self, sample, run, sample_params, work_dir):
 		#
 		# BIG_NODES = "-m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
 		aorrgBamsByLane = list()
@@ -253,11 +251,10 @@ class LaunchMetrics(object):
 			call(bsub_bwa_mem, shell = True)
 			
 			# do add or replace read group after alignment by bwa-mem
-			aorrgBamsByLane.append(AddOrReplaceReadGroups(bam_by_lane, sample.sample_id, bwamemJobName, run))
+			aorrgBamsByLane.append(self.AddOrReplaceReadGroups(bam_by_lane, sample, bwamemJobName, run))
 			
 		return(aorrgBamsByLane)
-	
-	
+		
 	# processing the RNA data: Using DRAGEN for the alignment and CollectRNASeqMetrics Picard tool
 	@staticmethod
 	def rna_alignment_and_metrics(sample, run, sample_params, rna_dir):
@@ -340,7 +337,7 @@ class LaunchMetrics(object):
 		# mark duplicates
 		MarkDupsJobNameHeader = run + "___MARK_DUPLICATES___"
 		mark_dup = PICARD + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE " + metric_file + "___MD.txt  " + "--OUTPUT " + sample.sample_id + "___MD.bam  " + "--INPUT " + sample.sample_id + ".merged.bam"
-		bsub_mark_dup = "bsub -J " + MarkDupsJobNameHeader + sample.sample_id + " -o " + MarkDupsJobNameHeader + sample.sample_id + ".out -w \"done(" + AORRGJobNameHeader + sample.sample_id + ")\" -n 40 -M 8 " + mark_dup
+		bsub_mark_dup = "bsub -J " + MarkDupsJobNameHeader + sample.sample_id + " -o " + MarkDupsJobNameHeader + sample.sample_id + ".out -w \"done(" + MergeBamsJobNameHeader + sample.sample_id + ")\" -n 40 -M 8 " + mark_dup
 		print(bsub_mark_dup)
 		call(bsub_mark_dup, shell = True)
 		
@@ -403,8 +400,8 @@ class LaunchMetrics(object):
 		
 		mv_txt_files = "python3 /igo/work/igo/igo-demux/scripts/mv_txt_files.py " + work_dir
 		bsub_mv_all_txt = "bsub -K -J MOVE_TXT_FILES___" + run + " -o " + "MOVE_TXT_FILES___" + run + ".out -w \"ended(" + run + "___*)\" -n 2 -M 8 " + mv_txt_files
-		print(bsub_mv_all_txt)
-		call(bsub_mv_all_txt, shell = True)
+		# print(bsub_mv_all_txt)
+		# call(bsub_mv_all_txt, shell = True)
 		
 	
 def main(sample_sheet):
