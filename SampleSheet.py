@@ -169,6 +169,6 @@ def convert_SI_barcodes(samplesheet):
     quad_ss_data = quad_ss_data.drop(columns=['index2'])
     # make sure BarcodeMismatchesIndex1 is set to zero to prevent collisions with other samples in a specific lane
     # drop the row for BarcodeMismatchesIndex2
-    samplesheet.df_ss_header.loc[len(samplesheet.df_ss_header.index)-3] = ["BarcodeMismatchesIndex1",0,"","","","","","",""]
-    samplesheet.df_ss_header.drop.loc[len(samplesheet.df_ss_header.index)-2]
+    # samplesheet.df_ss_header.loc[len(samplesheet.df_ss_header.index)-3] = ["BarcodeMismatchesIndex1",0,"","","","","","",""]
+    # samplesheet.df_ss_header.drop.loc[len(samplesheet.df_ss_header.index)-2]
     return SampleSheet(samplesheet.df_ss_header, quad_ss_data, samplesheet.path)
