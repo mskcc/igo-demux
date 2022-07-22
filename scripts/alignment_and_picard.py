@@ -193,7 +193,7 @@ class LaunchMetrics(object):
 				self.dragen(sample, run, sample_params)
 				continue
 			# do the bam alignment
-			bams_by_lane, BWAJobNameHeader = self.alignment_to_genome(sample, run, sample_params, work_dir)
+			aorrgBamsByLane = self.alignment_to_genome(sample, run, sample_params, work_dir)
 			# launch the Picard tools
 			self.launch_picard(bams_by_lane, run, sample, sample_params, BWAJobNameHeader)
 			# launch rename of RNA metric files
@@ -209,11 +209,32 @@ class LaunchMetrics(object):
 		return(sample_params)
 	
 	
+	# this routine does add or replace read groupls by lane
+	@staticmethod
+	def AddOrReplaceReadGroups(bam_by_lane, sample, bwamemJobName, run):
+		#
+		PICARD_AORRG = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar AddOrReplaceReadGroups "
+		print(bam_by_lane)
+		
+		#
+		# add or replace read groups
+		AORRGJobNameHeader = run + "___AddOrReplaceReadGroups___"
+		aorrgBamByLane = bam_by_lane[:-4] + ".aorrg.bam"
+		add_or_replace = PICARD_AORRG + "--SORT_ORDER coordinate --CREATE_INDEX true --INPUT " + bam_by_lane + " --OUTPUT " + aorrgBamByLane + " --RGID " + sample[7:] + "  --RGLB " + sample[7:] + " --RGPL illumina  --RGPU IGO-BAM  --RGSM " + sample[7:] + " --RGCN IGO@MSKCC"
+		bsub_add_or_replace = "bsub -J " + AORRGJobNameHeader + bam_by_lane[:-4] + " -o " + AORRGJobNameHeader + bam_by_lane[:-4] + ".out -w \"ended(" + bwamemJobName +  ")\" " + BIG_NODES + add_or_replace
+		print(bsub_add_or_replace)
+		call(bsub_add_or_replace, shell = True)
+		return(aorrgBamByLane)
+	
+	
+	
+	
 	# let's align the fastqs to the genome!	
 	@staticmethod
 	def alignment_to_genome(sample, run, sample_params, work_dir):
 		#
 		# BIG_NODES = "-m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
+		aorrgBamsByLane = list()
 		BWAJobNameHeader = run + "___BWA_MEM___"
 		os.chdir(work_dir)
 		bams_by_lane = list()
@@ -221,15 +242,20 @@ class LaunchMetrics(object):
 			fastq_dir = "/igo/staging/FASTQ/" + run + "/" + sample.project + "/Sample_" + sample.sample_id + "/"
 			fastq_by_lane = fq_pair.r1[:-16]
 			bam_by_lane = fastq_by_lane + ".bam"
+			bwamemJobName = BWAJobNameHeader + fastq_by_lane
 			bams_by_lane.append(bam_by_lane)
 			fq_for_bwa = [fq_pair.r1, fq_pair.r2]
 			if fq_for_bwa[1] is None:
 				fq_for_bwa.pop(1)
 			bwa_mem = "\"/igoadmin/opt/common/CentOS_7/bwa/bwa-0.7.17/bwa mem -M -t 40 " + sample_params["REFERENCE"] + " " + " ".join(fastq_dir + fq for fq in fq_for_bwa) + " | /igoadmin/opt/common/CentOS_7/samtools/samtools-1.9/bin/samtools view -bS - > " + bam_by_lane + "\""
-			bsub_bwa_mem = "bsub -J "+  BWAJobNameHeader + fastq_by_lane + " -o " + BWAJobNameHeader + fastq_by_lane + ".out -n 40 -M 8 " + bwa_mem
+			bsub_bwa_mem = "bsub -J " +  bwamemJobName + " -o " + bwamemJobName + ".out -n 40 -M 8 " + bwa_mem
 			print(bsub_bwa_mem)
 			call(bsub_bwa_mem, shell = True)
-		return(bams_by_lane, BWAJobNameHeader)
+			
+			# do add or replace read group after alignment by bwa-mem
+			aorrgBamsByLane.append(AddOrReplaceReadGroups(bam_by_lane, sample.sample_id, bwamemJobName, run))
+			
+		return(aorrgBamsByLane)
 	
 	
 	# processing the RNA data: Using DRAGEN for the alignment and CollectRNASeqMetrics Picard tool
@@ -292,7 +318,7 @@ class LaunchMetrics(object):
 		
 	# launch the picrd tools to process the bams
 	@staticmethod
-	def launch_picard(bams_by_lane, run, sample, sample_params, BWAJobNameHeader):
+	def launch_picard(aorrgBamsByLane, run, sample, sample_params, BWAJobNameHeader):
 		#
 		# BIG_NODES = " -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
 		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
@@ -302,23 +328,18 @@ class LaunchMetrics(object):
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 	
 		# merge bams
+		# speial header for AddOrReplaceReadGroups
+		AORRGJobNameHeader = run + "___AddOrReplaceReadGroups___"
 		MergeBamsJobNameHeader = run + "___MERGE_BAMS___"
-		merge_bams = PICARD + "MergeSamFiles --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in bams_by_lane)
-		bsub_merge =  "bsub -w \"ended(" + BWAJobNameHeader + sample.sample_id + "*)\" -J " + MergeBamsJobNameHeader + sample.sample_id + " -o " +  MergeBamsJobNameHeader + sample.sample_id + ".out -n 40 -M 8 "
+		merge_bams = PICARD + "MergeSamFiles --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in aorrgBamsByLane)
+		bsub_merge =  "bsub -w \"ended(" + AORRGJobNameHeader + sample.sample_id + "*)\" -J " + MergeBamsJobNameHeader + sample.sample_id + " -o " +  MergeBamsJobNameHeader + sample.sample_id + ".out -n 40 -M 8 "
 		bsub_merge_bams = bsub_merge + merge_bams
 		print(bsub_merge_bams)
 		call(bsub_merge_bams, shell = True)
 		
-		# add or replace read groups
-		AORRGJobNameHeader = run + "___AORRG___"
-		add_or_replace = PICARD + "AddOrReplaceReadGroups --SORT_ORDER coordinate --CREATE_INDEX true --INPUT " + sample.sample_id + ".merged.bam  " + "--OUTPUT " + sample.sample_id + ".bam  " + "--RGID " + sample.sample_id + "  --RGLB " + sample.sample_id + " --RGPL illumina --RGPU " + sample.project + " --RGSM " + sample.sample_id + " --RGCN GCL@MSKCC"
-		bsub_add_or_replace = "bsub -J " + AORRGJobNameHeader + sample.sample_id + " -o " + AORRGJobNameHeader + sample.sample_id + ".out -w \"done(" + MergeBamsJobNameHeader + sample.sample_id + ")\" -n 40 -M 8 " + add_or_replace
-		print(bsub_add_or_replace)
-		call(bsub_add_or_replace, shell = True)
-		
 		# mark duplicates
 		MarkDupsJobNameHeader = run + "___MARK_DUPLICATES___"
-		mark_dup = PICARD + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE " + metric_file + "___MD.txt  " + "--OUTPUT " + sample.sample_id + "___MD.bam  " + "--INPUT " + sample.sample_id + ".bam"
+		mark_dup = PICARD + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE " + metric_file + "___MD.txt  " + "--OUTPUT " + sample.sample_id + "___MD.bam  " + "--INPUT " + sample.sample_id + ".merged.bam"
 		bsub_mark_dup = "bsub -J " + MarkDupsJobNameHeader + sample.sample_id + " -o " + MarkDupsJobNameHeader + sample.sample_id + ".out -w \"done(" + AORRGJobNameHeader + sample.sample_id + ")\" -n 40 -M 8 " + mark_dup
 		print(bsub_mark_dup)
 		call(bsub_mark_dup, shell = True)
