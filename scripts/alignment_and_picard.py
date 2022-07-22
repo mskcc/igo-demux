@@ -318,7 +318,7 @@ class LaunchMetrics(object):
 		
 	# launch the picrd tools to process the bams
 	@staticmethod
-	def launch_picard(aorrgBamsByLane, run, sample, sample_params, BWAJobNameHeader):
+	def launch_picard(aorrgBamsByLane, run, sample, sample_params):
 		#
 		# BIG_NODES = " -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
 		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
