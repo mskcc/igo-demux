@@ -190,7 +190,7 @@ class LaunchMetrics(object):
 			if any(s in sample.recipe for s in RUN_ON_DRAGEN):
 				if not os.path.isdir(dragen_dir):
 					os.mkdir(dragen_dir)
-				self.dragen(sample, run, sample_params)
+				self.dragen(sample, run, sample_params, dragen_dir)
 				continue
 			# do the bam alignment
 			aorrgBamsByLane = self.alignment_to_genome(self, sample, run, sample_params, work_dir)
