@@ -102,8 +102,8 @@ def fingerprint(project_id):
         REFERENCE_SEQUENCE = REFERENCE_SEQUENCE_DIR_37
     
     for bam in input_bams:
-        regex = "_IGO_([a-zA-Z0-9_]*?)___"
-        igoId = re.findall(regex, bam)[0]
+        regex = "_IGO_([a-zA-Z0-9_]*?)(___|.bam)"
+        igoId = re.search(regex, bam).group(1)
         patient_id = igo_id_mappings[igoId]['cmoPatientId']
         print("patient_id: " + patient_id)
         if (igoId not in processedIgoIds):
