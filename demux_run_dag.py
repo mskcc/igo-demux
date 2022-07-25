@@ -142,8 +142,7 @@ with DAG(
         if "DLP" in sample_sheet.recipe_set:
            return "No DLP stats"
 
-        # check for 10X or MissionBio - will just post demux stats to NGS and LIMS
-        if any("10X_" in s for s in sample_sheet.recipe_set) or any("MissionBio" in s for s in sample_sheet.recipe_set):
+        if any("10X_" in s for s in sample_sheet.recipe_set):
             # consider the situation that all the demux is done on dragen
 
             # step 1, generate txt files containing total reads and upload to qc website
@@ -152,7 +151,9 @@ with DAG(
             subprocess.run(upload_stats_cmd, shell=True)
 
             # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
-            scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run)
+            # trim sequencer_and_run if postfix like _10X exsiting
+            sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+            scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
 
             return "launching 10X Pipeline"
         
@@ -169,6 +170,10 @@ with DAG(
         recipe_list_for_fp = [".*IMPACT*", ".*Heme*", "IDT_Exome*", "WholeExomeSequencing", "Twist_Exome", "MSK-ACCESS*", "CMO-CH", "HumanWholeGenome"]
         # call fingerprinting_dag.py for each project
         samplesheet_path = kwargs["params"]["samplesheet"]
+
+        if "REFERENCE" in samplesheet_path:
+            return "No fingerprinting for reference "  + samplesheet_path
+
         # get project list for running fingerprinting by recipe
         sample_sheet = SampleSheet(samplesheet_path)
         # dictionary of project_ID->genome

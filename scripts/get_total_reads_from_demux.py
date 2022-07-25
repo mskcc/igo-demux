@@ -42,7 +42,9 @@ def write_to_am_txt(run_ID, sample_ID, total_reads, output_path):
         _file.write(data_line)
             
 def run(sample_sheet, sequencer_and_run):
+    # remove postfix if existing, eg: DIANA_0502_BHM3VKDSX3_10X will convert to DIANA_0502_BHM3VKDSX3
     sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+    
     sequencer = sequencer_and_run.split("_")[0]
     stats_done_dir = "/igo/stats/DONE/" + sequencer + "/"
     demux_report_file = "/igo/staging/FASTQ/" + sequencer_and_run + "/Reports/Demultiplex_Stats.csv"
