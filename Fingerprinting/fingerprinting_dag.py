@@ -159,16 +159,13 @@ def get_igo_id(file_name):
     :param file_name: string    e.g. "/PITT_0452_AHG2THBBXY_A1___P10344_C___13_cf_IGO_10344_C_20___hg19___MD.bam"
     :return: string             e.g. "10344_C_20"
     """
-    regex = "_IGO_([a-zA-Z0-9_]*?)___"
-    matches = re.findall(regex, file_name)
-    if len(matches) == 0:
+    regex = "_IGO_([a-zA-Z0-9_]*?)(___|.bam)"
+    match = re.search(regex, file_name)
+    if match == None:
         print("ERROR: Could not find IGO ID in filename: %s with regex: \"%s\"" % (file_name, regex))
         sys.exit(1)
-    if len(matches) > 1:
-        print("WARNING: More than one match: %s" % str(matches))
 
-    return matches[0]
-
+    return match.group(1)
 
 def get_sample_manifests(igo_ids, lims_host):
     """ Retrieves list of metadata (manifest) for the given IGO ID
