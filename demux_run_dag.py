@@ -53,24 +53,15 @@ with DAG(
         sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
 
         sample_sheet = SampleSheet(samplesheet_path)
-        
+        output_directory = "/igo/staging/FASTQ/" + sequencer_and_run
+
         # Let's check to see if this run is an Cellranger ATAC run
         atac = scripts.getSequencingReadData.main(sequencer_path)
         
-        
+        # check if the sample sheet contains DLP project
         is_DLP = False
         if "DLP" in sample_sheet.recipe_set:
-            is_DLP = True
-        is_10X = False
-        if len(sample_sheet.barcode_list_10X) > 0:
-            is_10X = True
-
-        if is_DLP:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_DLP"
-        if is_10X:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run + "_10X"
-        else:
-            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run
+            is_DLP = True 
         
         demux_command = ""
         # -K - wait for the job to complete
