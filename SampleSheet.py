@@ -167,8 +167,14 @@ def convert_SI_barcodes(samplesheet):
             row_position += 1
 
     quad_ss_data = quad_ss_data.drop(columns=['index2'])
+    
     # make sure BarcodeMismatchesIndex1 is set to zero to prevent collisions with other samples in a specific lane
-    # drop the row for BarcodeMismatchesIndex2
-    # samplesheet.df_ss_header.loc[len(samplesheet.df_ss_header.index)-3] = ["BarcodeMismatchesIndex1",0,"","","","","","",""]
-    # samplesheet.df_ss_header.drop.loc[len(samplesheet.df_ss_header.index)-2]
+    # drop the row for BarcodeMismatchesIndex2, add the OverrideCycles and its mask to samplesheet.df_ss_header
+    
+    samplesheet.df_ss_header.loc[13, "Unnamed: 1"] = 0
+    samplesheet.df_ss_header.loc[14, "[Header]"] = "OverrideCycles"
+    samplesheet.df_ss_header.loc[14, "Unnamed: 1"] = "Y29;I8N2;N10;Y89"
+        
     return SampleSheet(samplesheet.df_ss_header, quad_ss_data, samplesheet.path)
+
+    
