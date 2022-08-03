@@ -2,7 +2,6 @@ import sequencer
 import os
 import datetime
 import json
-import shutil
 import time
 
 from SampleSheet import SampleSheet
@@ -150,4 +149,4 @@ with DAG(
          send_demux_email >> trigger_dag_demux
 
       # Airflow can only call the demux endpoint once at a specific time, do not allow demux endpoint calls to overlap
-      time.sleep(10)
+      time.sleep(5)
