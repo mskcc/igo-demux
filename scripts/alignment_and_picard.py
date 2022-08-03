@@ -276,7 +276,7 @@ class LaunchMetrics(object):
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
 		launch_dragen_rna = "/opt/edico/bin/dragen -f -r " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + metric_file + " --output-directory ./" 
-		bsub_launch_dragen_rna = "bsub -J " + RNADragenJobNameHeader + sample.sample_id + " -o " + RNADragenJobNameHeader + sample.sample_id + ".out -m \"id01 id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen_rna
+		bsub_launch_dragen_rna = "bsub -J " + RNADragenJobNameHeader + sample.sample_id + " -o " + RNADragenJobNameHeader + sample.sample_id + ".out -m \"id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
 		
@@ -309,7 +309,7 @@ class LaunchMetrics(object):
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
 		launch_dragen = "/opt/edico/bin/dragen --ref-dir " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory ./" + " --output-file-prefix " + metric_file + " --enable-duplicate-marking true"
-		bsub_launch_dragen = "bsub -J " +  DragenJobNameHeader  + sample.sample_id + " -o " + DragenJobNameHeader + sample.sample_id + ".out -m \"id01 id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen
+		bsub_launch_dragen = "bsub -J " +  DragenJobNameHeader  + sample.sample_id + " -o " + DragenJobNameHeader + sample.sample_id + ".out -m \"id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		
