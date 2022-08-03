@@ -31,6 +31,7 @@ DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP"]
 RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "CustomCapture", "MouseWholeGenome"]
 # this list contains the headers of the columns.  we will access the data using these listings
 data_headers = list()
+PICARD_VERSION = "2_23_2"
 
 # this class handles obtaining the data from the sample sheet and storing it in a data class to use later
 class GetSampleData:
@@ -261,14 +262,13 @@ class LaunchMetrics(object):
 		# 
 		os.chdir(rna_dir)
 		
-		PICARD_RNA = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar CollectRnaSeqMetrics "
 		# prjct = sample.project.split("_")[1]
 		prjct = sample.project[8:]
 		
 		# get the correct path for the reference
 		gtag = sample_params["GTAG"]
 		if (gtag == "GRCh38"):
-		 	rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
+			rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
 			rna_path = "/staging/ref/RNA/grcm39"
 			
@@ -282,7 +282,8 @@ class LaunchMetrics(object):
 		
 		# run Picard RNA metrics tools
 		RNAMetricsJobNameHeader = run + "___RNA_METRICS___"
-		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_params["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_params["REF_FLAT"] + "  --INPUT " + metric_file + ".bam  " + "--OUTPUT " + metric_file + "___RNA.txt"
+		PICARD_RNA = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar CollectRnaSeqMetrics "
+		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_params["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_params["REF_FLAT"] + "  --INPUT " + metric_file + ".bam  " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___RNA.txt"
 		bsub_rnaseq = "bsub -J " + RNAMetricsJobNameHeader + sample.sample_id + " -o " + RNAMetricsJobNameHeader + sample.sample_id + ".out -w \"done(" + RNADragenJobNameHeader + sample.sample_id + ")\" -n 8 -M 8 " + rnaseq
 		print(bsub_rnaseq)
 		call(bsub_rnaseq, shell = True)
@@ -301,7 +302,7 @@ class LaunchMetrics(object):
 		# get the correct path for the reference
 		gtag = sample_params["GTAG"]
 		if (gtag == "GRCh38"):
-		 	rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
+			rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
 			rna_path = "/staging/ref/grcm39"
 			
@@ -317,17 +318,16 @@ class LaunchMetrics(object):
 	@staticmethod
 	def launch_picard(aorrgBamsByLane, run, sample, sample_params):
 		#
-		# BIG_NODES = " -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
-		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
 		
 		# prjct = sample.project.split("_")[1]
 		prjct = sample.project[8:]
 		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
 	
 		# merge bams
-		# speial header for AddOrReplaceReadGroups
+		# special header for AddOrReplaceReadGroups
 		AORRGJobNameHeader = run + "___AddOrReplaceReadGroups___"
 		MergeBamsJobNameHeader = run + "___MERGE_BAMS___"
+		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
 		merge_bams = PICARD + "MergeSamFiles --SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in aorrgBamsByLane)
 		bsub_merge =  "bsub -w \"ended(" + AORRGJobNameHeader + sample.sample_id + "*)\" -J " + MergeBamsJobNameHeader + sample.sample_id + " -o " +  MergeBamsJobNameHeader + sample.sample_id + ".out -n 40 -M 8 "
 		bsub_merge_bams = bsub_merge + merge_bams
@@ -336,14 +336,14 @@ class LaunchMetrics(object):
 		
 		# mark duplicates
 		MarkDupsJobNameHeader = run + "___MARK_DUPLICATES___"
-		mark_dup = PICARD + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE " + metric_file + "___MD.txt  " + "--OUTPUT " + sample.sample_id + "___MD.bam  " + "--INPUT " + sample.sample_id + ".merged.bam"
+		mark_dup = PICARD + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE " + metric_file + "___" + PICARD_VERSION + "___MD.txt  " + "--OUTPUT " + sample.sample_id + "___MD.bam  " + "--INPUT " + sample.sample_id + ".merged.bam"
 		bsub_mark_dup = "bsub -J " + MarkDupsJobNameHeader + sample.sample_id + " -o " + MarkDupsJobNameHeader + sample.sample_id + ".out -w \"done(" + MergeBamsJobNameHeader + sample.sample_id + ")\" -n 40 -M 8 " + mark_dup
 		print(bsub_mark_dup)
 		call(bsub_mark_dup, shell = True)
 		
 		# alignment summary
 		AlignmentJobNameHeader = run + "___ALIGNMENT_SUMMARY___"
-		alignment = PICARD + "CollectAlignmentSummaryMetrics --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --INPUT " + sample.sample_id + "___MD.bam  " + "--OUTPUT " + metric_file + "___AM.txt"
+		alignment = PICARD + "CollectAlignmentSummaryMetrics --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --INPUT " + sample.sample_id + "___MD.bam  " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___AM.txt"
 		bsub_alignment = "bsub -J " + AlignmentJobNameHeader + sample.sample_id + " -o " + AlignmentJobNameHeader + sample.sample_id + ".out -w \"done(" + MarkDupsJobNameHeader + sample.sample_id + ")\" -n 8 -M 8 " + alignment
 		print(bsub_alignment)
 		call(bsub_alignment, shell = True)
@@ -351,7 +351,7 @@ class LaunchMetrics(object):
 		# determining if we need CollectHsMetrics Picard tool
 		if ("BAITS" in sample_params.keys()):
 			HsMetricsJobNameHeader = run + "___HS_METRICS___"
-			hs_metrics = PICARD + "CollectHsMetrics --INPUT " + sample.sample_id + "___MD.bam  " + " --OUTPUT " + metric_file + "___HS.txt" +  " --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --BAIT_INTERVALS " + sample_params["BAITS"] + " --TARGET_INTERVALS " + sample_params["TARGETS"]
+			hs_metrics = PICARD + "CollectHsMetrics --INPUT " + sample.sample_id + "___MD.bam  " + " --OUTPUT " + metric_file + "___" + PICARD_VERSION + "___HS.txt" +  " --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --BAIT_INTERVALS " + sample_params["BAITS"] + " --TARGET_INTERVALS " + sample_params["TARGETS"]
 			bsub_hs_metrics = "bsub -J " + HsMetricsJobNameHeader + sample.sample_id + " -o " + HsMetricsJobNameHeader + sample.sample_id + ".out -w \"done(" + MarkDupsJobNameHeader + sample.sample_id + ")\" -n 8 -M 8 " + hs_metrics
 			print(bsub_hs_metrics)
 			call(bsub_hs_metrics, shell = True)
@@ -360,7 +360,7 @@ class LaunchMetrics(object):
 		if (sample_params["TYPE"] == "WGS"):
 			WGSMetricsJobNameHeader = run + "___WGS_METRICS___"
 			bsub_wait_wgs = "bsub -w \"done(" + MarkDupsJobNameHeader + sample.sample_id + ")\" -J " + WGSMetricsJobNameHeader + sample.sample_id + " -o " + WGSMetricsJobNameHeader + sample.sample_id + ".out -n 8 -M 8 "
-			collect_wgs = PICARD + "CollectWgsMetrics --INPUT " + sample.sample_id + "___MD.bam " + "--OUTPUT " + metric_file + "___WGS.txt --REFERENCE_SEQUENCE " + sample_params["REFERENCE"]
+			collect_wgs = PICARD + "CollectWgsMetrics --INPUT " + sample.sample_id + "___MD.bam " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___WGS.txt --REFERENCE_SEQUENCE " + sample_params["REFERENCE"]
 			bsub_collect_wgs = bsub_wait_wgs + collect_wgs
 			print(bsub_collect_wgs)
 			call(bsub_collect_wgs, shell = True)
@@ -405,7 +405,6 @@ class LaunchMetrics(object):
 		
 	
 def main(sample_sheet):
-	
 	# Initaite objects
 	get_data = GetSampleData()
 	launch_metrics = LaunchMetrics()
