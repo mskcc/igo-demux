@@ -7,11 +7,11 @@ import os
 import shutil
 
 
-def main(rna_dir):
+def main(rna_directory):
 	#
-	os.chdir(rna_dir)
+	os.chdir(rna_directory)
 	
-	work_dir = rna_dir[:-5]
+	work_dir = rna_directory[:-5]
 	
 	txt_files = list()
 	
@@ -26,14 +26,14 @@ def main(rna_dir):
 		
 	# rename the bam files 
 	for bam in glob.iglob("*.bam"):
-		renamedBam = bam.split("___")[2] + bam[-4:]
-		os.rename(bam, renamedBam)
+		renamed_bam = bam.split("___")[2] + bam[-4:]
+		os.rename(bam, renamed_bam)
 		
 		
 		
 ############# MAIN ROUTINE #########
 if __name__ == "__main__":
 	
-	rna_dir = sys.argv[1]
+	rna_directory = sys.argv[1]
 	
-	main(rna_dir)
+	main(rna_directory)

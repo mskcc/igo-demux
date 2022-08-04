@@ -92,8 +92,8 @@ class GetSampleData:
 	def get_fastqs(self, row, sample_sheet, run):
 		#
 		# get run from the sample sheet
-		fastq_dir = "/igo/staging/FASTQ/" + run + "/" + row[data_headers.index("Sample_Project")] + "/Sample_" + row[data_headers.index("Sample_ID")] + "/"
-		fastqs  = os.listdir(fastq_dir)
+		fastq_directory = "/igo/staging/FASTQ/" + run + "/" + row[data_headers.index("Sample_Project")] + "/Sample_" + row[data_headers.index("Sample_ID")] + "/"
+		fastqs  = os.listdir(fastq_directory)
 		# check the run type: PE or SE
 		run_type = self.determine_run_type(fastqs)
 		# put the fastqs in order by lane
@@ -165,202 +165,201 @@ class LaunchMetrics(object):
 		#
 		global RUN_ON_DRAGEN
 		# create output directoories
-		parent_dir = "/igo/staging/stats/"
-		work_dir = parent_dir + run + "/"
-		rna_dir = work_dir + "RNA/"
-		dragen_dir = work_dir + "DRAGEN/"
+		parent_directory = "/igo/staging/stats/"
+		work_directory = parent_directory + run + "/"
+		rna_directory = work_directory + "RNA/"
+		dragen_directory = work_directory + "DRAGEN/"
 		
 		# check for the work directory
-		if not os.path.isdir(work_dir):
+		if not os.path.isdir(work_directory):
 			# create the directory if it is not already there
-			os.mkdir(work_dir)
-			# shutil.rmtree(work_dir)
+			os.mkdir(work_directory)
+			# shutil.rmtree(work_directory)
 			
-		os.chdir(work_dir)
+		os.chdir(work_directory)
 		
 		for sample in all_samples:
 			# grab the sample parameters (bait set, type, gtag, etc)
-			sample_params = self.get_params(sample.genome, sample.recipe)
+			sample_parameters = self.get_parameters(sample.genome, sample.recipe)
 			# process the RNA data seperately
-			if (sample_params["TYPE"] == "RNA"):
-				if not os.path.isdir(rna_dir):
-					os.mkdir(rna_dir)
-				self.rna_alignment_and_metrics(sample, run, sample_params, rna_dir)
+			if (sample_parameters["TYPE"] == "RNA"):
+				if not os.path.isdir(rna_directory):
+					os.mkdir(rna_directory)
+				self.rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory)
 				continue
 			# check to see if we need to run the samples on dragen
 			if any(s in sample.recipe for s in RUN_ON_DRAGEN):
-				if not os.path.isdir(dragen_dir):
-					os.mkdir(dragen_dir)
-				self.dragen(sample, run, sample_params, dragen_dir)
+				if not os.path.isdir(dragen_directory):
+					os.mkdir(dragen_directory)
+				self.dragen(sample, run, sample_parameters, dragen_directory)
 				continue
 			# do the bam alignment
-			aorrgBamsByLane = self.alignment_to_genome(self, sample, run, sample_params, work_dir)
+			bams_by_lane, bwa_mem_job_name  = self.alignment_to_genome(self, sample, run, sample_parameters, work_directory)
 			# launch the Picard tools
-			self.launch_picard(aorrgBamsByLane, run, sample, sample_params)
+			self.launch_picard(bams_by_lane, bwa_mem_job_name, sample, sample_parameters)
 			# launch rename of RNA metric files
-		self.post_data_files(run, work_dir, rna_dir, dragen_dir)
+		self.post_data_files(run, work_directory, rna_directory, dragen_directory)
 			
 			
 	# grab the parameters needed for bwa-mem and picard
 	@staticmethod
-	def get_params(genome, recipe):
+	def get_parameters(genome, recipe):
 		#
 		# call outside scripts and return the parameter data
-		sample_params = scripts.generate_run_params.main(["--recipe", recipe, "--species", genome])
-		return(sample_params)
+		sample_parameters = scripts.generate_run_params.main(["--recipe", recipe, "--species", genome])
+		return(sample_parameters)
 	
 	
 	# this routine does add or replace read groupls by lane
-	@staticmethod
-	def AddOrReplaceReadGroups(bam_by_lane, sample, bwamemJobName, run):
+	# @staticmethod
+	# def add_or_replace_read_groups(bam_by_lane, sample, bwa_mem_job_name, run):
 		#
-		PICARD_AORRG = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar AddOrReplaceReadGroups "
-		print(bam_by_lane)
+	# 	picard_aorrg = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar AddOrReplaceReadGroups "
+	# 	print(bam_by_lane)
 		
 		#
 		# add or replace read groups
-		AORRGJobNameHeader = run + "___AddOrReplaceReadGroups___"
-		aorrgBamByLane = bam_by_lane[:-4] + ".aorrg.bam"
-		add_or_replace = PICARD_AORRG + "--SORT_ORDER coordinate --CREATE_INDEX true --INPUT " + bam_by_lane + " --OUTPUT " + aorrgBamByLane + " --RGID " + sample.sample_id + "  --RGLB " + sample.sample_id + " --RGPL illumina  --RGPU IGO-BAM  --RGSM " + sample.sample_id + " --RGCN IGO@MSKCC"
-		bsub_add_or_replace = "bsub -J " + AORRGJobNameHeader + bam_by_lane[:-4] + " -o " + AORRGJobNameHeader + bam_by_lane[:-4] + ".out -w \"ended(" + bwamemJobName +  ")\" -n 40 -M 8 " + add_or_replace
-		print(bsub_add_or_replace)
-		call(bsub_add_or_replace, shell = True)
-		return(aorrgBamByLane)
+	# 	aorrg_job_name_header = run + "___AddOrReplaceReadGroups___"
+	# 	aorrg_bam_by_lane = bam_by_lane[:-4] + ".aorrg.bam"
+	# 	add_or_replace = picard_aorrg + "--SORT_ORDER coordinate --CREATE_INDEX true --INPUT " + bam_by_lane + " --OUTPUT " + aorrg_bam_by_lane + " --RGID " + sample.sample_id + "  --RGLB " + sample.sample_id + " --RGPL illumina  --RGPU IGO-BAM  --RGSM " + sample.sample_id + " --RGCN IGO@MSKCC"
+	# 	bsub_add_or_replace = "bsub -J " + aorrg_job_name_header + bam_by_lane[:-4] + " -o " + aorrg_job_name_header + bam_by_lane[:-4] + ".out -w \"ended(" + bwa_mem_job_name +  ")\" -n 40 -M 8 " + add_or_replace
+	# 	print(bsub_add_or_replace)
+	# 	call(bsub_add_or_replace, shell = True)
+	# 	return(aorrg_bam_by_lane)
 		
 
 	# let's align the fastqs to the genome!	
 	@staticmethod
-	def alignment_to_genome(self, sample, run, sample_params, work_dir):
+	def alignment_to_genome(self, sample, run, sample_parameters, work_directory):
 		#
 		# BIG_NODES = "-m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
-		aorrgBamsByLane = list()
-		BWAJobNameHeader = run + "___BWA_MEM___"
-		os.chdir(work_dir)
+		# aorrg_bams_by_lane = list()
+		bwa_job_name_header = run + "___BWA_MEM___"
+		os.chdir(work_directory)
 		bams_by_lane = list()
 		for fq_pair in sample.all_fastqs.lanes:
-			fastq_dir = "/igo/staging/FASTQ/" + run + "/" + sample.project + "/Sample_" + sample.sample_id + "/"
+			fastq_directory = "/igo/staging/FASTQ/" + run + "/" + sample.project + "/Sample_" + sample.sample_id + "/"
 			fastq_by_lane = fq_pair.r1[:-16]
 			bam_by_lane = fastq_by_lane + ".bam"
-			bwamemJobName = BWAJobNameHeader + fastq_by_lane
+			bwa_mem_job_name = bwa_job_name_header + fastq_by_lane
 			bams_by_lane.append(bam_by_lane)
 			fq_for_bwa = [fq_pair.r1, fq_pair.r2]
 			if fq_for_bwa[1] is None:
 				fq_for_bwa.pop(1)
-			bwa_mem = "\"/igoadmin/opt/common/CentOS_7/bwa/bwa-0.7.17/bwa mem -M -t 40 " + sample_params["REFERENCE"] + " " + " ".join(fastq_dir + fq for fq in fq_for_bwa) + " | /igoadmin/opt/common/CentOS_7/samtools/samtools-1.9/bin/samtools view -bS - > " + bam_by_lane + "\""
-			bsub_bwa_mem = "bsub -J " +  bwamemJobName + " -o " + bwamemJobName + ".out -n 40 -M 8 " + bwa_mem
+			bwa_mem = "\"/igoadmin/opt/common/CentOS_7/bwa/bwa-0.7.17/bwa mem -M -t 40 " + sample_parameters["REFERENCE"] + " " + " ".join(fastq_directory + fq for fq in fq_for_bwa) + " | /igoadmin/opt/common/CentOS_7/samtools/samtools-1.9/bin/samtools view -bS - > " + bam_by_lane + "\""
+			bsub_bwa_mem = "bsub -J " +  bwa_mem_job_name + " -o " + bwa_mem_job_name + ".out -n 40 -M 8 " + bwa_mem
 			print(bsub_bwa_mem)
 			call(bsub_bwa_mem, shell = True)
-			
 			# do add or replace read group after alignment by bwa-mem
-			aorrgBamsByLane.append(self.AddOrReplaceReadGroups(bam_by_lane, sample, bwamemJobName, run))
-			
-		return(aorrgBamsByLane)
+			# aorrg_bams_by_lane.append(self.add_or_replace_read_groups(bam_by_lane, sample, bwa_mem_job_name, run))
+		return(bams_by_lane, bwa_mem_job_name)
 		
 	# processing the RNA data: Using DRAGEN for the alignment and CollectRNASeqMetrics Picard tool
 	@staticmethod
-	def rna_alignment_and_metrics(sample, run, sample_params, rna_dir):
+	def rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory):
 		# 
-		os.chdir(rna_dir)
+		os.chdir(rna_directory)
 		
 		# prjct = sample.project.split("_")[1]
 		prjct = sample.project[8:]
 		
 		# get the correct path for the reference
-		gtag = sample_params["GTAG"]
+		gtag = sample_parameters["GTAG"]
 		if (gtag == "GRCh38"):
 			rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
 			rna_path = "/staging/ref/RNA/grcm39"
 			
-		RNADragenJobNameHeader = run + "___RNA_DRAGEN___"
-		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
+		rna_dragen_job_name_header = run + "___RNA_DRAGEN___"
+		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_parameters["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_params["GTF"] + " --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + metric_file + " --output-directory ./" 
-		bsub_launch_dragen_rna = "bsub -J " + RNADragenJobNameHeader + sample.sample_id + " -o " + RNADragenJobNameHeader + sample.sample_id + ".out -m \"id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen_rna
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id   + " -a " + sample_parameters["GTF"] + " --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true " + " --output-file-prefix " + metric_file + " --output-directory ./" 
+		bsub_launch_dragen_rna = "bsub -J " + rna_dragen_job_name_header + sample.sample_id + " -o " + rna_dragen_job_name_header + sample.sample_id + ".out -m \"id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
 		
 		# run Picard RNA metrics tools
-		RNAMetricsJobNameHeader = run + "___RNA_METRICS___"
+		rna_metrics_job_name_header = run + "___RNA_METRICS___"
 		PICARD_RNA = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar CollectRnaSeqMetrics "
-		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_params["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_params["REF_FLAT"] + "  --INPUT " + metric_file + ".bam  " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___RNA.txt"
-		bsub_rnaseq = "bsub -J " + RNAMetricsJobNameHeader + sample.sample_id + " -o " + RNAMetricsJobNameHeader + sample.sample_id + ".out -w \"done(" + RNADragenJobNameHeader + sample.sample_id + ")\" -n 8 -M 8 " + rnaseq
+		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_parameters["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_parameters["REF_FLAT"] + "  --INPUT " + metric_file + ".bam  " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___RNA.txt"
+		bsub_rnaseq = "bsub -J " + rna_metrics_job_name_header + sample.sample_id + " -o " + rna_metrics_job_name_header + sample.sample_id + ".out -w \"done(" + rna_dragen_job_name_header + sample.sample_id + ")\" -n 8 -M 8 " + rnaseq
 		print(bsub_rnaseq)
 		call(bsub_rnaseq, shell = True)
 		
 		
 	@staticmethod
-	def dragen(sample, run, sample_params, dragen_dir):
+	def dragen(sample, run, sample_parameters, dragen_directory):
 		#
-		os.chdir(dragen_dir)
+		os.chdir(dragen_directory)
 		
-		DragenJobNameHeader = run + "___DRAGEN___"
+		dragen_job_name_header = run + "___DRAGEN___"
 		
 		# create metrics file name
 		prjct = sample.project[8:]
 		
 		# get the correct path for the reference
-		gtag = sample_params["GTAG"]
+		gtag = sample_parameters["GTAG"]
 		if (gtag == "GRCh38"):
 			rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
 			rna_path = "/staging/ref/grcm39"
 			
-		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
+		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_parameters["GTAG"]
 		fastq_list = "/igo/staging/FASTQ/" + run + "/Reports/fastq_list.csv "
 		launch_dragen = "/opt/edico/bin/dragen --ref-dir " + rna_path +  " --fastq-list " + fastq_list + " --fastq-list-sample-id " + sample.sample_id + " --intermediate-results-dir /staging/temp --output-directory ./" + " --output-file-prefix " + metric_file + " --enable-duplicate-marking true"
-		bsub_launch_dragen = "bsub -J " +  DragenJobNameHeader  + sample.sample_id + " -o " + DragenJobNameHeader + sample.sample_id + ".out -m \"id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen
+		bsub_launch_dragen = "bsub -J " +  dragen_job_name_header  + sample.sample_id + " -o " + dragen_job_name_header + sample.sample_id + ".out -m \"id02 id03\" -q dragen -n 48 -M 4 " + launch_dragen
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		
 		
 	# launch the picrd tools to process the bams
 	@staticmethod
-	def launch_picard(aorrgBamsByLane, run, sample, sample_params):
+	def launch_picard(bams_by_lane, bwa_mem_job_name, run, sample, sample_parameters):
 		#
 		
 		# prjct = sample.project.split("_")[1]
 		prjct = sample.project[8:]
-		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_params["GTAG"]
+		metric_file = run + "___P" + prjct + "___" + sample.sample_id + "___" + sample_parameters["GTAG"]
 	
 		# merge bams
-		# special header for AddOrReplaceReadGroups
-		AORRGJobNameHeader = run + "___AddOrReplaceReadGroups___"
-		MergeBamsJobNameHeader = run + "___MERGE_BAMS___"
+		# special header for add_or_replace_read_groups
+		# aorrg_job_name_header = run + "___AddOrReplaceReadGroups___"
+		bwa_mem_job_header = run + "___BWA_MEM___"
+		merge_bams_job_name_header = run + "___MERGE_BAMS___"
 		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
-		merge_bams = PICARD + "MergeSamFiles --SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in aorrgBamsByLane)
-		bsub_merge =  "bsub -w \"ended(" + AORRGJobNameHeader + sample.sample_id + "*)\" -J " + MergeBamsJobNameHeader + sample.sample_id + " -o " +  MergeBamsJobNameHeader + sample.sample_id + ".out -n 40 -M 8 "
+		merge_bams = PICARD + "MergeSamFiles --SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in bams_by_lane)
+		bsub_merge =  "bsub -w \"ended(" + sample.sample_id + "*)\" -J " + merge_bams_job_name_header + sample.sample_id + " -o " +  merge_bams_job_name_header + sample.sample_id + ".out -n 40 -M 8 "
 		bsub_merge_bams = bsub_merge + merge_bams
 		print(bsub_merge_bams)
 		call(bsub_merge_bams, shell = True)
 		
 		# mark duplicates
-		MarkDupsJobNameHeader = run + "___MARK_DUPLICATES___"
+		mark_duplicates_job_name_header = run + "___MARK_DUPLICATES___"
 		mark_dup = PICARD + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE " + metric_file + "___" + PICARD_VERSION + "___MD.txt  " + "--OUTPUT " + sample.sample_id + "___MD.bam  " + "--INPUT " + sample.sample_id + ".merged.bam"
-		bsub_mark_dup = "bsub -J " + MarkDupsJobNameHeader + sample.sample_id + " -o " + MarkDupsJobNameHeader + sample.sample_id + ".out -w \"done(" + MergeBamsJobNameHeader + sample.sample_id + ")\" -n 40 -M 8 " + mark_dup
+		bsub_mark_dup = "bsub -J " + mark_duplicates_job_name_header + sample.sample_id + " -o " + mark_duplicates_job_name_header + sample.sample_id + ".out -w \"done(" + merge_bams_job_name_header + sample.sample_id + ")\" -n 40 -M 8 " + mark_dup
 		print(bsub_mark_dup)
 		call(bsub_mark_dup, shell = True)
 		
 		# alignment summary
-		AlignmentJobNameHeader = run + "___ALIGNMENT_SUMMARY___"
-		alignment = PICARD + "CollectAlignmentSummaryMetrics --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --INPUT " + sample.sample_id + "___MD.bam  " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___AM.txt"
-		bsub_alignment = "bsub -J " + AlignmentJobNameHeader + sample.sample_id + " -o " + AlignmentJobNameHeader + sample.sample_id + ".out -w \"done(" + MarkDupsJobNameHeader + sample.sample_id + ")\" -n 8 -M 8 " + alignment
+		alignment_job_name_header = run + "___ALIGNMENT_SUMMARY___"
+		alignment = PICARD + "CollectAlignmentSummaryMetrics --REFERENCE_SEQUENCE " + sample_parameters["REFERENCE"] + " --INPUT " + sample.sample_id + "___MD.bam  " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___AM.txt"
+		bsub_alignment = "bsub -J " + alignment_job_name_header + sample.sample_id + " -o " + alignment_job_name_header + sample.sample_id + ".out -w \"done(" + mark_duplicates_job_name_header + sample.sample_id + ")\" -n 8 -M 8 " + alignment
 		print(bsub_alignment)
 		call(bsub_alignment, shell = True)
 		
 		# determining if we need CollectHsMetrics Picard tool
-		if ("BAITS" in sample_params.keys()):
-			HsMetricsJobNameHeader = run + "___HS_METRICS___"
-			hs_metrics = PICARD + "CollectHsMetrics --INPUT " + sample.sample_id + "___MD.bam  " + " --OUTPUT " + metric_file + "___" + PICARD_VERSION + "___HS.txt" +  " --REFERENCE_SEQUENCE " + sample_params["REFERENCE"] + " --BAIT_INTERVALS " + sample_params["BAITS"] + " --TARGET_INTERVALS " + sample_params["TARGETS"]
-			bsub_hs_metrics = "bsub -J " + HsMetricsJobNameHeader + sample.sample_id + " -o " + HsMetricsJobNameHeader + sample.sample_id + ".out -w \"done(" + MarkDupsJobNameHeader + sample.sample_id + ")\" -n 8 -M 8 " + hs_metrics
+		if ("BAITS" in sample_parameters.keys()):
+			hs_metrics_job_name_header = run + "___HS_METRICS___"
+			hs_metrics = PICARD + "CollectHsMetrics --INPUT " + sample.sample_id + "___MD.bam  " + " --OUTPUT " + metric_file + "___" + PICARD_VERSION + "___HS.txt" +  " --REFERENCE_SEQUENCE " + sample_parameters["REFERENCE"] + " --BAIT_INTERVALS " + sample_parameters["BAITS"] + " --TARGET_INTERVALS " + sample_parameters["TARGETS"]
+			bsub_hs_metrics = "bsub -J " + hs_metrics_job_name_header + sample.sample_id + " -o " + hs_metrics_job_name_header + sample.sample_id + ".out -w \"done(" + mark_duplicates_job_name_header + sample.sample_id + ")\" -n 8 -M 8 " + hs_metrics
 			print(bsub_hs_metrics)
 			call(bsub_hs_metrics, shell = True)
 			
 		# let's determine if we need WGS stats
-		if (sample_params["TYPE"] == "WGS"):
-			WGSMetricsJobNameHeader = run + "___WGS_METRICS___"
-			bsub_wait_wgs = "bsub -w \"done(" + MarkDupsJobNameHeader + sample.sample_id + ")\" -J " + WGSMetricsJobNameHeader + sample.sample_id + " -o " + WGSMetricsJobNameHeader + sample.sample_id + ".out -n 8 -M 8 "
-			collect_wgs = PICARD + "CollectWgsMetrics --INPUT " + sample.sample_id + "___MD.bam " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___WGS.txt --REFERENCE_SEQUENCE " + sample_params["REFERENCE"]
+		if (sample_parameters["TYPE"] == "WGS"):
+			wgs_metrics_job_name_header = run + "___WGS_METRICS___"
+			bsub_wait_wgs = "bsub -w \"done(" + mark_duplicates_job_name_header + sample.sample_id + ")\" -J " + wgs_metrics_job_name_header + sample.sample_id + " -o " + wgs_metrics_job_name_header + sample.sample_id + ".out -n 8 -M 8 "
+			collect_wgs = PICARD + "CollectWgsMetrics --INPUT " + sample.sample_id + "___MD.bam " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___WGS.txt --REFERENCE_SEQUENCE " + sample_parameters["REFERENCE"]
 			bsub_collect_wgs = bsub_wait_wgs + collect_wgs
 			print(bsub_collect_wgs)
 			call(bsub_collect_wgs, shell = True)
@@ -368,37 +367,37 @@ class LaunchMetrics(object):
 		
 	# let's gather the txt data files and move them
 	@staticmethod
-	def post_data_files(run, work_dir, rna_dir, dragen_dir):
+	def post_data_files(run, work_directory, rna_directory, dragen_directory):
 		#
 		sequencer = run.split("_")[0]
-		os.chdir(work_dir)
+		os.chdir(work_directory)
 		
 		# check to see if this run had any rna samples
-		if os.path.isdir(rna_dir):
-			os.chdir(rna_dir)
+		if os.path.isdir(rna_directory):
+			os.chdir(rna_directory)
 			#
 			# create the MD, AM and WGS data files, put them back into the directory 
-			RNAMetricsJobName = run + "___RNA_METRICS___*"
+			rna_metrics_job_name = run + "___RNA_METRICS___*"
 			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ ./"
-			bsub_csv_2_txt = "bsub -J RNA_CSV_TO_TXT___" + run + " -o RNA_CSV_TO_TXT___" + run + ".out -w \"ended(" + RNAMetricsJobName + ")\" -n 2 -M 8 " + csv_2_txt
+			bsub_csv_2_txt = "bsub -J RNA_CSV_TO_TXT___" + run + " -o RNA_CSV_TO_TXT___" + run + ".out -w \"ended(" + rna_metrics_job_name + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
-			rename_bam_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/renameRNAbamFiles.py " + rna_dir
+			rename_bam_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/rename_rna_bam_files.py " + rna_directory
 			bsub_rename_bam_files = "bsub -J RENAME_RNA_BAM_FILES___" + run + " -o RENAME_RNA_TXT_FILES___" + run + ".out -w \"ended(RNA_CSV_TO_TXT___" + run + ")\" -n 2 -M 8 " + rename_bam_files
 			print(bsub_rename_bam_files)
 			call(bsub_rename_bam_files, shell = True)
 			
-		if os.path.isdir(dragen_dir):
-			os.chdir(dragen_dir)
+		if os.path.isdir(dragen_directory):
+			os.chdir(dragen_directory)
 			#
 			# create the MD, AM and WGS data files, put them back into the directory
-			DragenJobName = run + "___DRAGEN___*"
-			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ " + work_dir
-			bsub_csv_2_txt = "bsub -J DRAGEN_CSV_TO_TXT___" + run + " -o DRAGEN_CSV_TO_TXT___" + run + ".out -w \"ended(" + DragenJobName + ")\" -n 2 -M 8 " + csv_2_txt
+			dragen_job_name = run + "___DRAGEN___*"
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_2_txt.py ./ " + work_directory
+			bsub_csv_2_txt = "bsub -J DRAGEN_CSV_TO_TXT___" + run + " -o DRAGEN_CSV_TO_TXT___" + run + ".out -w \"ended(" + dragen_job_name + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
 		
-		mv_txt_files = "python3 /igo/work/igo/igo-demux/scripts/mv_txt_files.py " + work_dir
+		mv_txt_files = "python3 /igo/work/igo/igo-demux/scripts/mv_txt_files.py " + work_directory
 		bsub_mv_all_txt = "bsub -K -J MOVE_TXT_FILES___" + run + " -o " + "MOVE_TXT_FILES___" + run + ".out -w \"ended(" + run + "___*)\" -n 2 -M 8 " + mv_txt_files
 		print(bsub_mv_all_txt)
 		call(bsub_mv_all_txt, shell = True)
@@ -427,10 +426,10 @@ if __name__ == "__main__":
 	
 	
 # extra code
-# work_dir_rna = work_dir + "/RNA/"
-# make_work_rna_dir = "mkdir -p " + work_dir_rna
-# call(make_work_rna_dir, shell = True)
-# work_dir_mWGS = work_dir + "/mWGS/"
-# make_work_mWGS_dir = "mkdir -p " + work_dir_mWGS
-# call(make_work_mWGS_dir, shell = True)
+# work_directory_rna = work_directory + "/RNA/"
+# make_work_rna_directory = "mkdir -p " + work_directory_rna
+# call(make_work_rna_directory, shell = True)
+# work_directory_mWGS = work_directory + "/mWGS/"
+# make_work_mWGS_directory = "mkdir -p " + work_directory_mWGS
+# call(make_work_mWGS_directory, shell = True)
 	

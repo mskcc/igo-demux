@@ -7,9 +7,9 @@ from subprocess import call
 import shutil
 import time
 
-def main(work_dir):
+def main(work_directory):
 	
-	os.chdir(work_dir)
+	os.chdir(work_directory)
 	
 	
 	# move MD, AM, HS, WGS and RNA txt files to /igo/stats/DONE
@@ -20,8 +20,8 @@ def main(work_dir):
 
 	for txt_file in glob.iglob("*txt"):
 		if (txt_file[-7:] in VALID_SUFFIXES):
-			DONE_DIR = "/igo/stats/DONE/" + sequencer + "/" + txt_file
-			shutil.move(txt_file, DONE_DIR)
+			DONE_directory = "/igo/stats/DONE/" + sequencer + "/" + txt_file
+			shutil.move(txt_file, DONE_directory)
 		
 	delphi_endpoint = "curl http://delphi.mskcc.org:8080/ngs-stats/picardstats/updaterun/" + sequencer + "/" + run
 	print(delphi_endpoint)
@@ -41,9 +41,9 @@ def main(work_dir):
 ############# MAIN ROUTINE
 if __name__ == "__main__":
 	
-	work_dir = sys.argv[1]
+	work_directory = sys.argv[1]
 	
-	main(work_dir)
+	main(work_directory)
 	
 	
 # bsub_delphi_endpoint = "bsub -J PUSH_TO_DELPHI___" + run + " -o PUSH_TO_DELPHI___" + run + ".out -w \"ended(MOVE_ALL_RNA_TXT_FILES___*)\" -n 2 -M 8 " + delphi_endpoint
