@@ -164,8 +164,8 @@ class LaunchMetrics(object):
 	def launch_metrics(self, all_samples, run):
 		#
 		global RUN_ON_DRAGEN
-		# create output directoories
-		parent_directory = "/igo/staging/stats/"
+		# create output directories
+		parent_directory = "/igo/staging/stats/naborsd_workspace/"
 		work_directory = parent_directory + run + "/"
 		rna_directory = work_directory + "RNA/"
 		dragen_directory = work_directory + "DRAGEN/"
@@ -194,9 +194,9 @@ class LaunchMetrics(object):
 				self.dragen(sample, run, sample_parameters, dragen_directory)
 				continue
 			# do the bam alignment
-			bams_by_lane, bwa_mem_job_name  = self.alignment_to_genome(self, sample, run, sample_parameters, work_directory)
+			bams_by_lane = self.alignment_to_genome(self, sample, run, sample_parameters, work_directory)
 			# launch the Picard tools
-			self.launch_picard(bams_by_lane, bwa_mem_job_name, sample, sample_parameters)
+			self.launch_picard(bams_by_lane, run, sample, sample_parameters)
 			# launch rename of RNA metric files
 		self.post_data_files(run, work_directory, rna_directory, dragen_directory)
 			
@@ -252,7 +252,7 @@ class LaunchMetrics(object):
 			call(bsub_bwa_mem, shell = True)
 			# do add or replace read group after alignment by bwa-mem
 			# aorrg_bams_by_lane.append(self.add_or_replace_read_groups(bam_by_lane, sample, bwa_mem_job_name, run))
-		return(bams_by_lane, bwa_mem_job_name)
+		return(bams_by_lane)
 		
 	# processing the RNA data: Using DRAGEN for the alignment and CollectRNASeqMetrics Picard tool
 	@staticmethod
@@ -314,7 +314,7 @@ class LaunchMetrics(object):
 		
 	# launch the picrd tools to process the bams
 	@staticmethod
-	def launch_picard(bams_by_lane, bwa_mem_job_name, run, sample, sample_parameters):
+	def launch_picard(bams_by_lane, run, sample, sample_parameters):
 		#
 		
 		# prjct = sample.project.split("_")[1]
@@ -328,7 +328,7 @@ class LaunchMetrics(object):
 		merge_bams_job_name_header = run + "___MERGE_BAMS___"
 		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
 		merge_bams = PICARD + "MergeSamFiles --SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in bams_by_lane)
-		bsub_merge =  "bsub -w \"ended(" + sample.sample_id + "*)\" -J " + merge_bams_job_name_header + sample.sample_id + " -o " +  merge_bams_job_name_header + sample.sample_id + ".out -n 40 -M 8 "
+		bsub_merge =  "bsub -w \"ended(" + bwa_mem_job_header + sample.sample_id + "*)\" -J " + merge_bams_job_name_header + sample.sample_id + " -o " +  merge_bams_job_name_header + sample.sample_id + ".out -n 40 -M 8 "
 		bsub_merge_bams = bsub_merge + merge_bams
 		print(bsub_merge_bams)
 		call(bsub_merge_bams, shell = True)

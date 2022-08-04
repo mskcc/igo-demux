@@ -24,15 +24,15 @@ def main(work_directory):
 			shutil.move(txt_file, DONE_directory)
 		
 	delphi_endpoint = "curl http://delphi.mskcc.org:8080/ngs-stats/picardstats/updaterun/" + sequencer + "/" + run
-	print(delphi_endpoint)
-	call(delphi_endpoint, shell = True)
+	# print(delphi_endpoint)
+	# call(delphi_endpoint, shell = True)
 	
 	# give time for NGS to post data
 	time.sleep(100)
 	
 	lims_endpoint = "curl -k https://igolims.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQc?runId=" + run
-	print(lims_endpoint)
-	call(lims_endpoint, shell = True)
+	# print(lims_endpoint)
+	# call(lims_endpoint, shell = True)
 	
 	
 	
