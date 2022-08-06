@@ -381,7 +381,7 @@ class LaunchMetrics(object):
 		if os.path.isdir(rna_directory):
 			# create the MD, AM and WGS data files, put them back into the directory 
 			rna_metrics_job_name = run + "___RNA_METRICS___*"
-			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt_LUC.py  " + rna_directory + " " + work_directory
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt_LUC.py  " + rna_directory + "/ " + work_directory + "/"
 			bsub_csv_2_txt = "bsub -J RNA_CSV_TO_TXT___" + run + " -o RNA_CSV_TO_TXT___" + run + ".out -w \"ended(" + rna_metrics_job_name + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
@@ -393,7 +393,7 @@ class LaunchMetrics(object):
 		if os.path.isdir(dragen_directory):
 			# create the MD, AM and WGS data files, put them back into the directory
 			dragen_job_name = run + "___DRAGEN___*"
-			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt_LUC.py " + dragen_directory + " " + work_directory
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt_LUC.py " + dragen_directory + "/ " + work_directory + "/"
 			bsub_csv_2_txt = "bsub -J DRAGEN_CSV_TO_TXT___" + run + " -o DRAGEN_CSV_TO_TXT___" + run + ".out -w \"ended(" + dragen_job_name + ")\" -n 2 -M 8 " + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
@@ -408,8 +408,8 @@ class LaunchMetrics(object):
 		# move all data file to the work directory
 		push_data_to_ngs_and_lims = "/igo/work/nabors/tools/venvpy3/bin/python3 /igo/work/igo/igo-demux/scripts/push_data_to_ngs_and_lims.py " + sequencer + " " + run
 		bsub_move_all_data_files = "bsub -K -J push_data_to_ngs_and_lims___" + run + " -o push_data_to_ngs_and_lims___" + run + ".out -w \"ended(move_all_data_files___" + run + ")\" -cwd \"" + work_directory + "\" -n 2 -M 8 " + push_data_to_ngs_and_lims
-		# print(bsub_push_data_to_ngs_and_lims)
-		# call(bsub_push_data_to_ngs_and_lims, shell = True)
+		print(bsub_push_data_to_ngs_and_lims)
+		call(bsub_push_data_to_ngs_and_lims, shell = True)
 
 
 	
