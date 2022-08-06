@@ -407,7 +407,7 @@ class LaunchMetrics(object):
 
 		# move all data file to the work directory
 		push_data_to_ngs_and_lims = "/igo/work/nabors/tools/venvpy3/bin/python3 /igo/work/igo/igo-demux/scripts/push_data_to_ngs_and_lims.py " + sequencer + " " + run
-		bsub_move_all_data_files = "bsub -K -J push_data_to_ngs_and_lims___" + run + " -o push_data_to_ngs_and_lims___" + run + ".out -w \"ended(move_all_data_files___" + run + ")\" -cwd \"" + work_directory + "\" -n 2 -M 8 " + push_data_to_ngs_and_lims
+		bsub_push_data_to_ngs_and_lims = "bsub -K -J push_data_to_ngs_and_lims___" + run + " -o push_data_to_ngs_and_lims___" + run + ".out -w \"ended(move_all_data_files___" + run + ")\" -cwd \"" + work_directory + "\" -n 2 -M 8 " + push_data_to_ngs_and_lims
 		print(bsub_push_data_to_ngs_and_lims)
 		call(bsub_push_data_to_ngs_and_lims, shell = True)
 
