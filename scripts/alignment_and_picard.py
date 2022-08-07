@@ -7,7 +7,6 @@ from dataclasses import dataclass
 from collections import OrderedDict
 import glob
 import shutil
-
 import scripts.generate_run_params
 
 # setting up the data classes for the sample sheet structure for launching the metrics
@@ -412,7 +411,6 @@ class LaunchMetrics(object):
 		call(bsub_push_data_to_ngs_and_lims, shell = True)
 
 
-	
 	
 def main(sample_sheet):
 	# Initaite objects
