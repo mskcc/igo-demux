@@ -216,10 +216,14 @@ with DAG(
             html_content=content
         )
 
+    # add retry number to fix sample_well issue when two task launch at the same time?
     demux_run = PythonOperator(
         task_id='start_the_demux',
         python_callable=demux,
         provide_context=True,
+        retries=2, 
+        retry_delay=timedelta(seconds=60),
+        email_on_retry=True, 
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag
