@@ -149,7 +149,7 @@ with DAG(
             # add DONE file when all the 10X pipeline finished, -K to wait until finish
             cmd = 'bsub -K -J wait_stats_done_for_{} -w \"done(*{}*)\" touch /igo/stats/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
             print(cmd)
-            subprocess.run(cmd. shell=True)
+            subprocess.run(cmd, shell=True)
 
             return "10X Pipeline stats done"
         
@@ -162,7 +162,7 @@ with DAG(
         # add DONE file when all the stats finished, -K to wait until finish
         cmd = 'bsub -K -J wait_stats_done_for_{} -w \"done(*{}*)\" touch /igo/staging/stats/{}/DONE'.format(sequencer_and_run, sequencer_and_run, sequencer_and_run)
         print(cmd)
-        subprocess.run(cmd. shell=True)
+        subprocess.run(cmd, shell=True)
 
         return "Completed"
 
