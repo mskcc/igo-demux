@@ -34,6 +34,7 @@ RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "CustomCapture", "MouseWholeGeno
 # this list contains the headers of the columns.  we will access the data using these listings
 data_headers = list()
 PICARD_VERSION = "2_23_2"
+PICARD_JAR = "/igo/home/igo/resources/picard2.23.2/picard.jar"
 
 # this class handles obtaining the data from the sample sheet and storing it in a data class to use later
 class GetSampleData:
@@ -210,24 +211,6 @@ class LaunchMetrics(object):
 		# call outside scripts and return the parameter data
 		sample_parameters = scripts.generate_run_params.main(["--recipe", recipe, "--species", genome])
 		return(sample_parameters)
-	
-	
-	# this routine does add or replace read groupls by lane
-	# @staticmethod
-	# def add_or_replace_read_groups(bam_by_lane, sample, bwa_mem_job_name, run):
-		#
-	# 	picard_aorrg = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar AddOrReplaceReadGroups "
-	# 	print(bam_by_lane)
-		
-		#
-		# add or replace read groups
-	# 	aorrg_job_name_header = run + "___AddOrReplaceReadGroups___"
-	# 	aorrg_bam_by_lane = bam_by_lane[:-4] + ".aorrg.bam"
-	# 	add_or_replace = picard_aorrg + "--SORT_ORDER coordinate --CREATE_INDEX true --INPUT " + bam_by_lane + " --OUTPUT " + aorrg_bam_by_lane + " --RGID " + sample.sample_id + "  --RGLB " + sample.sample_id + " --RGPL illumina  --RGPU IGO-BAM  --RGSM " + sample.sample_id + " --RGCN IGO@MSKCC"
-	# 	bsub_add_or_replace = "bsub -J " + aorrg_job_name_header + bam_by_lane[:-4] + " -o " + aorrg_job_name_header + bam_by_lane[:-4] + ".out -w \"ended(" + bwa_mem_job_name +  ")\" -n 40 -M 8 " + add_or_replace
-	# 	print(bsub_add_or_replace)
-	# 	# call(bsub_add_or_replace, shell = True)
-	# 	return(aorrg_bam_by_lane)
 		
 
 	# let's align the fastqs to the genome!	
@@ -282,7 +265,7 @@ class LaunchMetrics(object):
 		
 		# run Picard RNA metrics tools
 		rna_metrics_job_name_header = run + "___RNA_METRICS___"
-		PICARD_RNA = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar CollectRnaSeqMetrics "
+		PICARD_RNA = "java -Dpicard.useLegacyParser=false -jar " + PICARD_JAR + " CollectRnaSeqMetrics "
 		rnaseq = PICARD_RNA + "--RIBOSOMAL_INTERVALS " + sample_parameters["RIBOSOMAL_INTERVALS"] + " --STRAND_SPECIFICITY NONE --REF_FLAT " + sample_parameters["REF_FLAT"] + "  --INPUT " + metric_file + ".bam  " + "--OUTPUT " + metric_file + "___" + PICARD_VERSION + "___RNA.txt"
 		bsub_rnaseq = "bsub -J " + rna_metrics_job_name_header + sample.sample_id + " -o " + rna_metrics_job_name_header + sample.sample_id + ".out -w \"done(" + rna_dragen_job_name_header + sample.sample_id + ")\" -cwd \"" + rna_directory + "\" -n 8 -M 8 " + rnaseq
 		print(bsub_rnaseq)
@@ -328,7 +311,7 @@ class LaunchMetrics(object):
 		# aorrg_job_name_header = run + "___AddOrReplaceReadGroups___"
 		bwa_mem_job_header = run + "___BWA_MEM___"
 		merge_bams_job_name_header = run + "___MERGE_BAMS___"
-		PICARD = "java -Dpicard.useLegacyParser=false -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
+		PICARD = "java -Dpicard.useLegacyParser=false -jar " + PICARD_JAR + " "
 		merge_bams = PICARD + "MergeSamFiles --SORT_ORDER coordinate --CREATE_INDEX true --OUTPUT " + sample.sample_id + ".merged.bam " + " ".join("--INPUT " + i for i in bams_by_lane)
 		bsub_merge =  "bsub -w \"ended(" + bwa_mem_job_header + sample.sample_id + "*)\" -J " + merge_bams_job_name_header + sample.sample_id + " -o " +  merge_bams_job_name_header + sample.sample_id + ".out -cwd \"" + work_directory + "\" -n 40 -M 8 "
 		bsub_merge_bams = bsub_merge + merge_bams
