@@ -146,13 +146,23 @@ with DAG(
             sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
             scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
 
-            return "launching 10X Pipeline"
+            # add DONE file when all the 10X pipeline finished, -K to wait until finish
+            cmd = 'bsub -K -J wait_stats_done_for_{} -w \"done(*{}*)\" touch /igo/stats/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
+            print(cmd)
+            subprocess.run(cmd. shell=True)
+
+            return "10X Pipeline stats done"
         
         if "HumanWholeGenome" in sample_sheet.recipe_set:
             launch_wgs_stats(sample_sheet, sequencer_and_run)
             print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
         scripts.alignment_and_picard.main(samplesheet_path)
+
+        # add DONE file when all the stats finished, -K to wait until finish
+        cmd = 'bsub -K -J wait_stats_done_for_{} -w \"done(*{}*)\" touch /igo/staging/stats/{}/DONE'.format(sequencer_and_run, sequencer_and_run, sequencer_and_run)
+        print(cmd)
+        subprocess.run(cmd. shell=True)
 
         return "Completed"
 
@@ -268,7 +278,7 @@ with DAG(
         stats_path_for_conversion = stats_path + "/"
         stats_done_dir = "/igo/stats/DONE/" + sequencer + "/"
         cmd_conversion = "python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt.py {} {}".format(stats_path_for_conversion, stats_done_dir)
-        bsub_command_conversion = "bsub -K -J create_txt_{} -o {}create_txt.out -w \"done({}*)\" {}".format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, cmd_conversion)
+        bsub_command_conversion = "bsub -J create_txt_{} -o {}create_txt.out -w \"done({}*)\" {}".format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, cmd_conversion)
         print(bsub_command_conversion)
         subprocess.run(bsub_command_conversion, shell=True)
 
