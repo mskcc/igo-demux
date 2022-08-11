@@ -133,7 +133,7 @@ class SampleSheet:
             # if ATAC because read length is 51,50 () for example DIANA_427 must use cellranger-ATAC mkfastq 
             tenx_ss = SampleSheet(self.df_ss_header, tenx_data, tenx_path)
             # convert SI barcodes to their real barcodes
-            tenx_ss_real_barcodes = convert_SI_barcodes(tenx_ss)
+            tenx_ss_real_barcodes = convert_SI_barcodes(deepcopy(tenx_ss))
             split_ss_list.append(tenx_ss_real_barcodes)
             was_split = True
 

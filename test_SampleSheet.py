@@ -1,6 +1,14 @@
 from SampleSheet import SampleSheet
 import pytest
 
+def test_sample_sheet_mixed_10X_barcodes():
+    x = SampleSheet("test/MICHELLE_0543_10X_MIXED.csv")
+    ss_list = x.split_sample_sheet()
+
+    if "OverrideCycles" in ss_list[1].df_ss_header.astype(str):
+        assert(False)
+    print(ss_list[2].df_ss_header)
+
 def test_read_empty_sample_sheet():
     x = SampleSheet("test/empty_sample_sheet.csv")
     print("Success")
