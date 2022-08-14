@@ -95,7 +95,8 @@ recipe_overrides = {
 				"MissionBio-Heme": "hg19",
 				"WholeExome_v4": "hg19",
 				"AmpliSeq": "hg19",
-				"HemeBrainPACT_v1": "hg19"
+				"HemeBrainPACT_v1": "hg19",
+				"CD274_WJ_v1": "hg19"
 		},
 		"Mouse": {
 				"M-IMPACT_v1": "mm10",
@@ -560,6 +561,12 @@ recipe_options_mapping_UNORDERED = {
 		"CDH1_RNA": {
 				BAITS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1_RNA.baits",
 				TARGETS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1_RNA.targets",
+				MSKQ: "no",
+				MD: "yes"
+		},
+		"CD274_WJ_v1": {
+				BAITS: "/igo/work/nabors/bed_files/CD274_WJ_v1/CD274_WJ_v1_hg19.baits",
+				TARGETS: "/igo/work/nabors/bed_files/CD274_WJ_v1/CD274_WJ_v1_hg19.targets",
 				MSKQ: "no",
 				MD: "yes"
 		},
