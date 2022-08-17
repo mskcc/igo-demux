@@ -55,6 +55,12 @@ with DAG(
         sample_sheet = SampleSheet(samplesheet_path)
         output_directory = "/igo/staging/FASTQ/" + sequencer_and_run
 
+        # if output directory alrady exists, delete it before start demux
+        if os.path.exists(output_directory):
+            remove_cmd = "rm -rf {}".format(output_directory) 
+            print(remove_cmd)
+            subprocess.run(remove_cmd, shell=True)
+
         # Let's check to see if this run is an Cellranger ATAC run
         atac = scripts.getSequencingReadData.main(sequencer_path)
         
@@ -216,7 +222,7 @@ with DAG(
             html_content=content
         )
 
-    # add retry number to fix sample_well issue when two task launch at the same time?
+    # add retry number to fix sample_well issue when two task launch at the same time
     demux_run = PythonOperator(
         task_id='start_the_demux',
         python_callable=demux,
@@ -287,7 +293,9 @@ with DAG(
         subprocess.run(bsub_command_conversion, shell=True)
 
         # call endpoint to push data to ngs database and LIMS
-        upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+        upload_stats = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+        upload_stats_cmd = 'bsub -J uplaodWGSstats{} -o {}uplaodWGSstats.out -w \"done(create_txt_{}*)\" \"{}\"'.format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, upload_stats)
+        print(upload_stats_cmd)
         subprocess.run(upload_stats_cmd, shell=True)
 
 
