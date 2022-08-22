@@ -97,6 +97,8 @@ class GetSampleData:
 		# get run from the sample sheet
 		fastq_directory = "/igo/staging/FASTQ/" + run + "/" + row[data_headers.index("Sample_Project")] + "/Sample_" + row[data_headers.index("Sample_ID")] + "/"
 		fastqs  = os.listdir(fastq_directory)
+		# right here, let's eliminate all fastqs from the list that isn't R1 or R2
+		fastqs = [x for x in fastqs if ("_R1_001.fastq" in x) or ("_R2_001.fastq" in x)]
 		# check the run type: PE or SE
 		run_type = self.determine_run_type(fastqs)
 		# put the fastqs in order by lane
