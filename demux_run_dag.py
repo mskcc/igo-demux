@@ -153,7 +153,7 @@ with DAG(
             scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
 
             # add DONE file when all the 10X pipeline finished, -K to wait until finish
-            cmd = 'bsub -K -J wait_stats_done_for_{} -w \"done(*{}*)\" touch /igo/stats/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
+            cmd = 'bsub -K -J wait_stats_done_for_{} -w \"ended(create_json___{}*)\" touch /igo/stats/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
             print(cmd)
             subprocess.run(cmd, shell=True)
 
