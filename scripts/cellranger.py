@@ -41,7 +41,7 @@ config_dict = {
         }
     },
     "atac_count" : {
-        "tool" : ' /igo/work/nabors/tools/cellranger-atac-1.2.0/cellranger-atac count ',
+        "tool" : ' /igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac count ',
         "genome" : {
             "Human" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/ATAC/refdata-cellranger-atac-GRCh38-1.0.1 ',
             "Mouse" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/ATAC/refdata-cellranger-atac-mm10-1.1.0 '
@@ -50,8 +50,8 @@ config_dict = {
     "cnv" : {
         "tool" : ' /igo/work/nabors/tools/cellranger-dna-1.1.0/cellranger-dna cnv ',
         "genome" : {
-            "Human" : ' --reference=/igo/work/nabors/10X_Genomics_references/CNV/refdata-GRCh38-1.0.0 ',
-            "Mouse" : ' --reference=/igo/work/nabors/10X_Genomics_references/CNV/refdata-GRCm38-1.0.0 '
+            "Human" : ' --reference=/igo/work/nabors/10X_Genomics/CNV/refdata-GRCh38-1.0.0 ',
+            "Mouse" : ' --reference=/igo/work/nabors/10X_Genomics/CNV/refdata-GRCm38-1.0.0 '
         }
     },
     "multi" : {
