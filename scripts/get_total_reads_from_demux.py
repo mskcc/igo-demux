@@ -1,6 +1,7 @@
 import pandas as pd
 import sys
 import numpy
+import json
 
 # get total reads number from Dragen Demultiplex_Stats.csv file and generate txt files for all the samples on samplesheet
 
@@ -89,6 +90,59 @@ def by_project(sample_sheet, project_id, sequencer_and_run):
         write_to_am_txt(sequencer_and_run_prefix, sample, total_reads_dict[sample], stats_done_dir)
 
     print("generate AM txt files to folder: {}".format(stats_done_dir))
+
+def by_json(sequencer_and_run):
+    # remove postfix if existing, eg: DIANA_0502_BHM3VKDSX3_10X will convert to DIANA_0502_BHM3VKDSX3
+    sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+    sequencer = sequencer_and_run.split("_")[0]
+    stats_done_dir = "/igo/stats/DONE/" + sequencer + "/"
+    demux_json_file = "/igo/staging/FASTQ/" + sequencer_and_run + "/Stats/Stats.json"
+    # Opening JSON file
+    f = open(demux_json_file)
+    data = json.load(f)
+    f.close()
+    sample_reads_dict = {}
+
+    for item in data["ConversionResults"]:
+        for sample in item["DemuxResults"]:
+            if sample["SampleName"] not in sample_reads_dict.keys():
+                sample_reads_dict[sample["SampleName"]] = sample["NumberReads"]
+            else:
+                sample_reads_dict[sample["SampleName"]] += sample["NumberReads"]
+
+    # generate AM txt files
+    for sample in sample_reads_dict.keys():
+        if "Sample_" in sample:
+            write_to_am_txt(sequencer_and_run_prefix, sample[7:], sample_reads_dict[sample], stats_done_dir)
+        else:
+            write_to_am_txt(sequencer_and_run_prefix, sample, sample_reads_dict[sample], stats_done_dir)
+           
+
+def test_by_json(sequencer_and_run):
+    # remove postfix if existing, eg: DIANA_0502_BHM3VKDSX3_10X will convert to DIANA_0502_BHM3VKDSX3
+    sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+    sequencer = sequencer_and_run.split("_")[0]
+    stats_done_dir = "/Users/luc/Documents/GitHub/igo-demux/test/result_test/"
+    demux_json_file = "/Users/luc/Documents/GitHub/igo-demux/test/Stats.json"
+    # Opening JSON file
+    f = open(demux_json_file)
+    data = json.load(f)
+    f.close()
+    sample_reads_dict = {}
+
+    for item in data["ConversionResults"]:
+        for sample in item["DemuxResults"]:
+            if sample["SampleName"] not in sample_reads_dict.keys():
+                sample_reads_dict[sample["SampleName"]] = sample["NumberReads"]
+            else:
+                sample_reads_dict[sample["SampleName"]] += sample["NumberReads"]
+
+    # generate AM txt files
+    for sample in sample_reads_dict.keys():
+        if "Sample_" in sample:
+            write_to_am_txt(sequencer_and_run_prefix, sample[7:], sample_reads_dict[sample], stats_done_dir)
+        else:
+            write_to_am_txt(sequencer_and_run_prefix, sample, sample_reads_dict[sample], stats_done_dir)
 
 if __name__ == '__main__':
     # generate txt files with total reads info from dragen demux
