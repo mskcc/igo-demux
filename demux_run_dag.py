@@ -76,9 +76,13 @@ with DAG(
             # same as bcl-convert arguments except:  "--bcl-conversion-only true --bcl-only-matched-reads true"
             demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
         elif (atac):
-          # use cellranger atac mkfastq to demux if run is ATAC
-          bsub_command = " bsub -K -n 2 -M 8 -eo " +  output_directory + "/cellranger-atac-mkfastq--demux.log "
-          demux_command =  bsub_command + "/igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac mkfastq --input-dir \'{}\' --sample-sheet \'{}\' --output-dir \'{}\' --barcode-mismatches 1 --nopreflight --disable-ui --jobmode=lsf --mempercore=64 --maxjobs=200".format(sequencer_path, samplesheet_path, output_directory)
+            # use cellranger atac mkfastq to demux if run is ATAC
+            bsub_command = " bsub -K -n 2 -M 8 -eo " +  output_directory + "/cellranger-atac-mkfastq--demux.log "
+            demux_command =  bsub_command + "/igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac mkfastq --input-dir \'{}\' --sample-sheet \'{}\' --output-dir \'{}\' --barcode-mismatches 1 --nopreflight --disable-ui --jobmode=lsf --mempercore=64 --maxjobs=200".format(sequencer_path, samplesheet_path, output_directory)
+            subprocess.run(demux_command, shell=True, check=True)
+            # cellranger mkfastq/bcl2fastq doesn't need make demux report or fix fastq list csv file
+            scripts.organise_fastq_split_by_lane.create_fastq_folders(output_directory)
+            return demux_command
         else: # default to bcl-convert
             bsub_command = "bsub -K -n72 -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -eo " + output_directory + "/bcl-convert.log "
             demux_command = bsub_command + "/usr/bin/bcl-convert --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
@@ -140,22 +144,27 @@ with DAG(
            return "No DLP stats"
 
         if any("10X_" in s for s in sample_sheet.recipe_set):
-            # consider the situation that all the demux is done on dragen
+            # if is atac run, demux is using cellranger mkfastq
+            if scripts.getSequencingReadData.main(sequencer_path):
+                scripts.get_total_reads_from_demux.by_json(sequencer_and_run)
+                upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+                subprocess.run(upload_stats_cmd, shell=True)
 
-            # step 1, generate txt files containing total reads and upload to qc website
-            scripts.get_total_reads_from_demux.run(sample_sheet, sequencer_and_run)
-            upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
-            subprocess.run(upload_stats_cmd, shell=True)
+            else:
+                # step 1, generate txt files containing total reads and upload to qc website
+                scripts.get_total_reads_from_demux.run(sample_sheet, sequencer_and_run)
+                upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+                subprocess.run(upload_stats_cmd, shell=True)
 
-            # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
-            # trim sequencer_and_run if postfix like _10X exsiting
-            sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
-            scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
+                # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
+                # trim sequencer_and_run if postfix like _10X exsiting
+                sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+                scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
 
-            # add DONE file when all the 10X pipeline finished, -K to wait until finish
-            cmd = 'bsub -K -J wait_stats_done_for_{} -w \"ended(create_json___{}*)\" touch /igo/stats/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
-            print(cmd)
-            subprocess.run(cmd, shell=True)
+                # add DONE file when all the 10X pipeline finished, -K to wait until finish
+                cmd = 'bsub -K -J wait_stats_done_for_{} -w \"ended(create_json___{}*)\" touch /igo/stats/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
+                print(cmd)
+                subprocess.run(cmd, shell=True)
 
             return "10X Pipeline stats done"
         
