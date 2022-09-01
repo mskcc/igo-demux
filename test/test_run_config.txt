@@ -1,0 +1,9 @@
+PE150_test:
+{"dragen_demux": "False", 
+"samplesheet": "/igo/work/igo/igo-demux/test/SampleSheet_220427_MICHELLE_0505_AHJFT2DSX3-PE150TEST.csv", 
+"sequencer_path": "/igo/sequencers/michelle/220427_MICHELLE_0505_AHJFT2DSX3"}	
+
+PE100_test:
+{"dragen_demux": "False", 
+"samplesheet": "/igo/work/igo/igo-demux/test/SampleSheet_220623_MICHELLE_0522_AHM3F5DSX3-PE100TEST.csv", 
+"sequencer_path": "/igo/sequencers/michelle/220623_MICHELLE_0522_AHM3F5DSX3"}	
