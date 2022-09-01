@@ -106,9 +106,9 @@ def by_json(sequencer_and_run):
     for item in data["ConversionResults"]:
         for sample in item["DemuxResults"]:
             if sample["SampleName"] not in sample_reads_dict.keys():
-                sample_reads_dict[sample["SampleName"]] = sample["NumberReads"]
+                sample_reads_dict[sample["SampleName"]] = sample["NumberReads"] * 2
             else:
-                sample_reads_dict[sample["SampleName"]] += sample["NumberReads"]
+                sample_reads_dict[sample["SampleName"]] += sample["NumberReads"] * 2
 
     # generate AM txt files
     for sample in sample_reads_dict.keys():
@@ -133,9 +133,9 @@ def test_by_json(sequencer_and_run):
     for item in data["ConversionResults"]:
         for sample in item["DemuxResults"]:
             if sample["SampleName"] not in sample_reads_dict.keys():
-                sample_reads_dict[sample["SampleName"]] = sample["NumberReads"]
+                sample_reads_dict[sample["SampleName"]] = sample["NumberReads"] * 2
             else:
-                sample_reads_dict[sample["SampleName"]] += sample["NumberReads"]
+                sample_reads_dict[sample["SampleName"]] += sample["NumberReads"] * 2
 
     # generate AM txt files
     for sample in sample_reads_dict.keys():
