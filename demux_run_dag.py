@@ -77,11 +77,13 @@ with DAG(
             demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
         elif (atac):
             # use cellranger atac mkfastq to demux if run is ATAC
-            bsub_command = " bsub -K -n 2 -M 8 -eo " +  output_directory + "/cellranger-atac-mkfastq--demux.log "
+            bsub_command = "bsub -K -n2 -M 8 -eo " +  output_directory + "/cellranger-atac-mkfastq--demux.log "
             demux_command =  bsub_command + "/igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac mkfastq --input-dir \'{}\' --sample-sheet \'{}\' --output-dir \'{}\' --barcode-mismatches 1 --nopreflight --disable-ui --jobmode=lsf --mempercore=64 --maxjobs=200".format(sequencer_path, samplesheet_path, output_directory)
             print("Running demux command: " + demux_command)
-            subprocess.run(demux_command, shell=True, check=True)
+            result = subprocess.run(demux_command, shell=True, check=True, capture_output=True)
             # cellranger mkfastq/bcl2fastq doesn't need make demux report or fix fastq list csv file
+            print(result.stdout)
+            print(result.stderr)
             scripts.organise_fastq_split_by_lane.correct_sample_folder_name(output_directory)
             return demux_command
         else: # default to bcl-convert
