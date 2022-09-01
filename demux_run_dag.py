@@ -81,7 +81,7 @@ with DAG(
             demux_command =  bsub_command + "/igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac mkfastq --input-dir \'{}\' --sample-sheet \'{}\' --output-dir \'{}\' --barcode-mismatches 1 --nopreflight --disable-ui --jobmode=lsf --mempercore=64 --maxjobs=200".format(sequencer_path, samplesheet_path, output_directory)
             subprocess.run(demux_command, shell=True, check=True)
             # cellranger mkfastq/bcl2fastq doesn't need make demux report or fix fastq list csv file
-            scripts.organise_fastq_split_by_lane.create_fastq_folders(output_directory)
+            scripts.organise_fastq_split_by_lane.correct_sample_folder_name(output_directory)
             return demux_command
         else: # default to bcl-convert
             bsub_command = "bsub -K -n72 -m \"is01 is02 is03 is04 is05 is06 is07 is08\" -eo " + output_directory + "/bcl-convert.log "

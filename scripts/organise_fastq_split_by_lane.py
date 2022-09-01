@@ -49,6 +49,27 @@ def create_fastq_folders(run_demux_dir):
 # look below
 # SAMPLE = re.findall(r'^(.+?)___',FILE)[0]
 
+
+# add Sample_ prefix for sample folder for 10X atac demux
+def correct_sample_folder_name(run_demux_dir):
+    
+    if run_demux_dir.endswith("/"):
+        run_demux_dir = run_demux_dir[:len(run_demux_dir) - 1]
+    os.chdir(run_demux_dir)
+    
+    # loop through each project folder
+    for project in glob.iglob("Project_*"):
+        # print(project)
+        project_dir = run_demux_dir + "/" +  project
+        os.chdir(project_dir)
+        sample_list = os.listdir(project_dir)
+        for sample in sample_list:
+            sample_updated = "Sample_" + sample
+            cmd = "mv {} {}".format(sample, sample_updated)
+            print(cmd)
+            call(cmd, shell = True)
+
+
 """
 Creating the "Sample_" directories for each fastq made the DRAGEN generated Reports/fastq_list.csv paths incomplete, fix those paths.
 """
@@ -63,4 +84,5 @@ def correct_fastq_list_csv(demux_reports_dir):
         f.write(updated)
 
 if __name__ == '__main__':
-    create_fastq_folders(sys.argv[1])
+    #create_fastq_folders(sys.argv[1])
+    correct_sample_folder_name(sys.argv[1])
