@@ -31,6 +31,7 @@ jobs:
         pip install "apache-airflow==${AIRFLOW_VERSION}" --constraint "${CONSTRAINT_URL}"
         pip install apache-airflow[cncf.kubernetes]
         pip install virtualenv
+        pip install pytest-cov
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
     - name: Lint with flake8
       run: |
