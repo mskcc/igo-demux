@@ -84,5 +84,5 @@ def correct_fastq_list_csv(demux_reports_dir):
         f.write(updated)
 
 if __name__ == '__main__':
-    #create_fastq_folders(sys.argv[1])
-    correct_sample_folder_name(sys.argv[1])
+    create_fastq_folders(sys.argv[1])
+    #correct_sample_folder_name(sys.argv[1])
