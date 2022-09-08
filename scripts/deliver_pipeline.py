@@ -39,7 +39,7 @@ def deliver_pipeline_output(project, pi, recipe):
         bamdict = find_bams(project, STATS_DIR)
         bsub_commands =  write_bams_to_share(bamdict, delivery_folder)
         reconcile_bam_fastq_list(project, bamdict)
-        return bsub_commands
+        return "Completed RNA bams delivery"
     
     # if 10X recipe or SCRI project starting with 12437, copy cell ranger result to project folder
     elif recipe.startswith("10XGenomics") or project.startswith("12437_"):
@@ -59,6 +59,44 @@ def deliver_pipeline_output(project, pi, recipe):
                 sample_delivery_name = cellranger_delivery_folder + "/" + sample_name
                 print("copy {}".format(folder))
                 shutil.copytree(folder, sample_delivery_name)
+    # if is missionbio recipe, find tapestri pipelie output and copy all sample folders
+    elif recipe == "MissionBio":
+        tapestri_path = "/igo/staging/stats/MissionBio/Project_" + project
+        if not os.path.exists(tapestri_path):
+            print("No tapestri result available")
+        else:
+            tapestri_delivery_folder = delivery_folder + "/Tapestri"
+            if not os.path.exists(tapestri_delivery_folder):
+                print("Creating pipeline delivery folder {}".format(tapestri_delivery_folder))
+                os.makedirs(tapestri_delivery_folder)
+            
+            # copy each sample folder to the delivery folder
+            tapestri_path = tapestri_path + "/"
+            sample_list = os.listdir(tapestri_path)
+            for sample in sample_list:
+                sample_folder = tapestri_path + sample
+                destination = tapestri_delivery_folder + "/" + sample
+                print("copy {}".format(sample_folder))
+                shutil.copytree(sample_folder, destination)
+
+    # if recipe is CRISPRSeq or GeoMx, go to pipeline folder and find output, if exists the copy
+    elif recipe == "CRISPRSeq" or recipe == "GeoMx":
+        pipeline_path = "/igo/stats/PIPELINE/Project_" + project
+        if not os.path.exists(pipeline_path):
+            print("No pipeline result available")
+        else:
+            if not os.path.exists(delivery_folder):
+                print("Creating pipeline delivery folder {}".format(delivery_folder))
+                os.makedirs(delivery_folder)
+            
+            # copy each sample folder to the delivery folder
+            pipeline_path = pipeline_path + "/"
+            sample_list = os.listdir(pipeline_path)
+            for sample in sample_list:
+                sample_folder = pipeline_path + sample
+                destination = delivery_folder + "/" + sample
+                print("copy {}".format(sample_folder))
+                shutil.copytree(sample_folder, destination)
 
     else:
         # TODO automate delivery of pipelines that are copied to the delivery share manually
