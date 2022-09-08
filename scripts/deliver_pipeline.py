@@ -60,7 +60,7 @@ def deliver_pipeline_output(project, pi, recipe):
                 print("copy {}".format(folder))
                 shutil.copytree(folder, sample_delivery_name)
     # if is missionbio recipe, find tapestri pipelie output and copy all sample folders
-    elif recipe = "MissionBio":
+    elif recipe == "MissionBio":
         tapestri_path = "/igo/staging/stats/MissionBio/Project_" + project
         if not os.path.exists(tapestri_path):
             print("No tapestri result available")
@@ -76,6 +76,25 @@ def deliver_pipeline_output(project, pi, recipe):
             for sample in sample_list:
                 sample_folder = tapestri_path + sample
                 destination = tapestri_delivery_folder + "/" + sample
+                print("copy {}".format(sample_folder))
+                shutil.copytree(sample_folder, destination)
+
+    # if recipe is CRISPRSeq or GeoMx, go to pipeline folder and find output, if exists the copy
+    elif recipe == "CRISPRSeq" or recipe == "GeoMx":
+        pipeline_path = "/igo/stats/PIPELINE/Project_" + project
+        if not os.path.exists(pipeline_path):
+            print("No pipeline result available")
+        else:
+            if not os.path.exists(delivery_folder):
+                print("Creating pipeline delivery folder {}".format(delivery_folder))
+                os.makedirs(delivery_folder)
+            
+            # copy each sample folder to the delivery folder
+            pipeline_path = pipeline_path + "/"
+            sample_list = os.listdir(pipeline_path)
+            for sample in sample_list:
+                sample_folder = pipeline_path + sample
+                destination = delivery_folder + "/" + sample
                 print("copy {}".format(sample_folder))
                 shutil.copytree(sample_folder, destination)
 
