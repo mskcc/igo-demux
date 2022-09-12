@@ -49,8 +49,9 @@ def create_fastq_folders(run_demux_dir):
 # look below
 # SAMPLE = re.findall(r'^(.+?)___',FILE)[0]
 
-
-# add Sample_ prefix for sample folder for 10X atac demux
+"""
+Add Sample_ prefix for sample folder for 10X atac demux(bcl2fastq)
+"""
 def correct_sample_folder_name(run_demux_dir):
     
     if run_demux_dir.endswith("/"):
@@ -83,6 +84,16 @@ def correct_fastq_list_csv(demux_reports_dir):
         updated = re.sub('/([a-zA-Z0-9_-]+)_IGO_([0-9]{5}(_[A-Z]+)?(_[0-9]+))',r'/Sample_\1_IGO_\2/\1_IGO_\2', text)
         f.write(updated)
 
+# optional invoke directly to move fastq file to sample folder or change sample folder for bcl2fastq
+# usage: python organise_fastq_split_by_lane.py [create/correct] [demux_dir_full_path]
+# example: python organise_fastq_split_by_lane.py create /igo/staging/FASTQ/MICHELLE_0552_AHYF7NDSX3_v2
 if __name__ == '__main__':
-    create_fastq_folders(sys.argv[1])
-    #correct_sample_folder_name(sys.argv[1])
+    demux_type = sys.argv[1]
+    demux_dir = sys.argv[2]
+    if demux_type == "create":
+        create_fastq_folders(demux_dir)
+        # add correct fastq list step?
+    elif demux_type == "correct":
+        correct_sample_folder_name(demux_dir)
+    else:
+        print("Demux type has to be either create(for bclconvert) or correct(for bcl2fastq)")
