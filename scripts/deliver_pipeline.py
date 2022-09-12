@@ -97,10 +97,22 @@ def deliver_pipeline_output(project, pi, recipe):
                 destination = delivery_folder + "/" + sample
                 print("copy {}".format(sample_folder))
                 shutil.copytree(sample_folder, destination)
+    
+    # TCR seq only need deliver manifest, those files located under viale lab drive
+    # example file: /pskis34/LIMS/TCRseqManifest/Project_13545_TCRseq_Manifest_Beta.csv
+    elif recipe == "TCRSeq-IGO":
+        pipeline_path_prefix = "/pskis34/LIMS/TCRseqManifest/Project_" + project + "_TCRseq"
+        TCR_delivery_folder = delivery_folder + "/Manifest"
+        if not os.path.exists(TCR_delivery_folder):
+                print("Creating pipeline delivery folder {}".format(TCR_delivery_folder))
+                os.makedirs(TCR_delivery_folder)
+        
+        cmd = "cp {}* {}/".format(pipeline_path_prefix, TCR_delivery_folder)
+        print(cmd)
+        call(cmd, shell=True)
 
     else:
-        # TODO automate delivery of pipelines that are copied to the delivery share manually
-        print("Pipeline delivery is not yet automated for recipe {} and project {}".format(recipe, project))
+        print("Pipeline delivery is not needed for recipe {} and project {}".format(recipe, project))
     return "Completed pipeline delivery"
 
 def find_bams(project, stats_base_dir):
