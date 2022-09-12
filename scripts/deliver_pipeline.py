@@ -95,7 +95,7 @@ def deliver_pipeline_output(project, pi, recipe):
             for sample in sample_list:
                 sample_path = pipeline_path + sample
                 destination = delivery_folder + "/" + sample
-                print("copy {}".format(sample_folder))
+                print("copy {}".format(sample_path))
                 if os.path.isdir(sample_path):
                     shutil.copytree(sample_path, destination)
                 else:
