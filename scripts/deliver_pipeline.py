@@ -93,10 +93,15 @@ def deliver_pipeline_output(project, pi, recipe):
             pipeline_path = pipeline_path + "/"
             sample_list = os.listdir(pipeline_path)
             for sample in sample_list:
-                sample_folder = pipeline_path + sample
+                sample_path = pipeline_path + sample
                 destination = delivery_folder + "/" + sample
                 print("copy {}".format(sample_folder))
-                shutil.copytree(sample_folder, destination)
+                if os.path.isdir(sample_path):
+                    shutil.copytree(sample_path, destination)
+                else:
+                    cmd = "cp {} {}".format(sample_path, destination)
+                    print(cmd)
+                    call(cmd, shell=True)
     
     # TCR seq only need deliver manifest, those files located under viale lab drive
     # example file: /pskis34/LIMS/TCRseqManifest/Project_13545_TCRseq_Manifest_Beta.csv
