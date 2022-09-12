@@ -1,6 +1,6 @@
 from datetime import datetime
 
-import scripts.deliver_pipeline
+import scripts.move_failed_fastqs
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -27,7 +27,7 @@ with DAG(
         run = kwargs["params"]["run"]
         print("Moving failed fastqs for sample {} and run {}".format(igo_id, run))
 
-        result = scripts.deliver_pipeline.deliver_pipeline_output(igo_id, run)
+        result = scripts.move_failed_fastqs.move_failed_fastqs(igo_id, run)
         return result      
 
     move_failed_fastqs = PythonOperator(
