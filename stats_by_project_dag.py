@@ -26,7 +26,7 @@ with DAG(
 
         # main process of calling stats here
         # let's go ahead and run stats by project
-        script.stats_by_project.main(project_directory, recipe, species)
+        scripts.stats_by_project.main(project_directory, recipe, species)
 
         return "Stats done for project in this directory {}".format(project_directory)      
 
