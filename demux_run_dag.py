@@ -10,7 +10,7 @@ import scripts.organise_fastq_split_by_lane
 import scripts.get_total_reads_from_demux
 import scripts.cellranger
 import scripts.alignment_and_picard
-import scripts.getSequencingReadData
+import scripts.get_sequencing_read_data
 import Fingerprinting.fingerprinting_dag
 
 from airflow import DAG
@@ -62,7 +62,7 @@ with DAG(
             subprocess.run(remove_cmd, shell=True)
 
         # Let's check to see if this run is an Cellranger ATAC run
-        atac = scripts.getSequencingReadData.main(sequencer_path)
+        atac, use_bases_mask = scripts.get_sequencing_read_data.main(sequencer_path)
         
         # check if the sample sheet contains DLP project
         is_DLP = False
@@ -77,8 +77,8 @@ with DAG(
             demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
         elif (atac):
             # use cellranger atac mkfastq to demux if run is ATAC
-            bsub_command = "bsub -K -n2 -M 8 -eo " +  output_directory + "/cellranger-atac-mkfastq--demux.log "
-            demux_command =  bsub_command + "/igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac mkfastq --input-dir \'{}\' --sample-sheet \'{}\' --output-dir \'{}\' --barcode-mismatches 1 --nopreflight --disable-ui --jobmode=lsf --mempercore=64 --maxjobs=200".format(sequencer_path, samplesheet_path, output_directory)
+            bsub_command = "bsub -K -n72 -M 6 -eo " +  output_directory + "/bcl2fastq--demux.log "
+            demux_command =  bsub_command + "/opt/common/CentOS_6/bcl2fastq/bcl2fastq2-v2.20.0.422/bin/bcl2fastq --minimum-trimmed-read-length 0 --mask-short-adapter-reads 0 --ignore-missing-bcl --runfolder-dir \'{}\' --sample-sheet \'{}\' --output-dir \'{}\' --use-bases-mask \'{}\' --create-fastq-for-index-reads --ignore-missing-filter --ignore-missing-positions --ignore-missing-control --barcode-mismatches 1 --processing-threads 72".format(sequencer_path, samplesheet_path, output_directory, use_bases_mask)
             print("Running demux command: " + demux_command)
             result = subprocess.run(demux_command, shell=True, check=True, capture_output=True)
             print(result.stdout)

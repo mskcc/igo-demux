@@ -33,17 +33,18 @@ def get_sequencing_read_data(sequencer_path):
 	# check the read lengths.  if they equal the atacReads list, then set atac variable to True
 	if ((detected_reads == atac_reads[0]) or (detected_reads == atac_reads[1])):
 		atac = True
+		use_bases_mask = "Y" + str(reads_tag[0][1]) + ",I" + str(reads_tag[1][1]) + ",Y" + str(reads_tag[2][1]) + ",Y" + str(reads_tag[3][1])
 	else:
 		atac = False
 		
-	return(atac)
+	return(atac, use_bases_mask)
 		
 		
 def main(sequencer_path):
 	
-	atac = get_sequencing_read_data(sequencer_path)
+	atac, use_bases_mask = get_sequencing_read_data(sequencer_path)
 	
-	return(atac)
+	return(atac, use_bases_mask)
 	
 	
 		
