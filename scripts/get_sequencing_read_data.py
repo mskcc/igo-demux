@@ -36,6 +36,7 @@ def get_sequencing_read_data(sequencer_path):
 		use_bases_mask = "Y" + str(reads_tag[0][1]) + ",I" + str(reads_tag[1][1]) + ",Y" + str(reads_tag[2][1]) + ",Y" + str(reads_tag[3][1])
 	else:
 		atac = False
+		use_bases_mask = ""
 		
 	return(atac, use_bases_mask)
 		
