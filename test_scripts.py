@@ -35,6 +35,10 @@ def testCellranger_get_tag():
     assert(cellranger.get_tag("10X_genomic") == "Skip")
     assert(cellranger.get_tag("10X_Genomics_GeneExpression-3") == "count")
 
+def testCellranger_get_sequencer_runID():
+    fastq_path = "/igo/staging/FASTQ/DIANA_0453_AHFKJ5DRXY/Project_06265_AG/Sample_06265_8869_1_IGO_06265_AG_3"
+    assert(cellranger.get_sequencer_runID(fastq_path) == ("diana", "DIANA_0453_AHFKJ5DRXY"))
+
 def testGettotalreads():
     sample_list = ["PDX_WD0010_P1_1845_IGO_12754_E_1", "PDX_WD0010_P1_1850_IGO_12754_E_2"]
     total_reads_dict = scripts.get_total_reads_from_demux.get_total_reads(sample_list, "test/Demultiplex_Stats.csv")

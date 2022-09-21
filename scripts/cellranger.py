@@ -14,6 +14,7 @@ from os.path import basename
 from os.path import abspath
 from os.path import isdir
 from subprocess import call
+import scripts.get_sequencing_read_data
 
 """
 input: sample_sheet object(for sample list and essential info), sequencer_and_run(for stats folder and fastq file location)
@@ -56,6 +57,14 @@ config_dict = {
     },
     "multi" : {
         "tool" : ' /igo/work/nabors/tools/cellranger-6.1.2/cellranger multi '
+    },
+    "arc" : {
+        "tool" : ' /igo/work/bin/cellranger-arc-2.0.0/cellranger-arc count ',
+        "genome" :{
+            "Human" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-GRCh38-2020-A-2.0.0 ',
+            "Mouse" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-mm10-2020-A-2.0.0 '
+
+        }
     }
 }
 
@@ -67,6 +76,7 @@ COUNT_FLAVORS = ['10X_Genomics_GeneExpression-3', '10X_Genomics_GeneExpression-5
 VDJ_FLAVORS = ['10X_Genomics_VDJ']
 ATAC_FLAVORS = ['10X_Genomics_ATAC']
 CNV_FLAVORS = ['10X_Genomics_CNV']
+ARC_FLAVORS = ['10X_Genomics_Multiome']
 
 """
 steps:
@@ -116,11 +126,13 @@ def get_tag(recipe):
         tag = "vdj"
     if recipe in ATAC_FLAVORS:
         tag = "atac_count"
+    if recipe in ARC_FLAVORS:
+        tag = "arc"
     return tag
 
 # return tag and genome according to sample_ID for SCRI samples, all SCRI samples are starting with Project_12437
 # eg: SD-1680_Patient_D_nucseq_H_VDJ_IGO_12437_AN_5 will given tag as vdj, genome as Human
-# eg: SDtest_IGO_12437_AN_4 will given tag as skip, genome as na
+# eg: SDtest_IGO_12437_AN_4 will given tag as Skip, genome as na
 # _H: Human, _M: Mouse
 # _VDJ: vdj, _GE: count, _ATAC: "atac_count"
 def get_SCRI_tag(sample_ID):
@@ -165,6 +177,57 @@ def create_json(send_json, sequencer_and_run, project, tag, work_area):
     print(bsub_json)
     subprocess.run(bsub_json, shell = True)
 
+def create_library_csv_file(ge_sample_path, atac_sample_path, sample_ID):
+    """
+    ge_sample_path and atac_sample_path will be list just in case if top up is performed
+    """
+    with open('Sample_{}.csv'.format(sample_ID),'a') as file:
+        file.write("fastqs,sample,library_type\n")
+        for ge in ge_sample_path:
+            file.write("{},{},Gene Expression\n".format(ge, sample_ID))
+        for atac in atac_sample_path:
+            file.write("{},{},Chromatin Accessibility\n".format(atac, sample_ID))
+
+def get_sequencer_runID(fastq_path):
+    runID = fastq_path.split("/")[4]
+    sequencer = runID.split("_")[0].lower()
+    return sequencer, runID
+
+def multiome_valid(fastq_list):
+    """
+    check whether the list of fastq files contain both GE and ATAC
+    return a list which first item will be YES or NO for validation result
+    if yes, second item will be GE fastq list and third item will be ATAC fastq list
+    """
+    sequencer_prefix = "/igo/sequencers/"
+    is_valid = "NO"
+    ge_list = []
+    atac_list = []
+    if len(fastq_list) == 1:
+        return [is_valid, ge_list, atac_list]
+    else:
+        for fastq in fastq_list:
+            # find corresponding run folder and check if is atac run
+            # append the fastq file to corresponding list
+            sequencer, runID = get_sequencer_runID(fastq)
+            # find sequenceing path
+            sequencer_path_pre = sequencer_prefix + sequencer
+            run_list = os.listdir(sequencer_path_pre)
+            for run in run_list:
+                if re.match(".*" + runID, run):
+                    sequencer_path = sequencer_path_pre + "/" + run
+                    atac = scripts.get_sequencing_read_data.get_sequencing_read_data(sequencer_path)[0]
+                    if atac:
+                        atac_list.append(fastq)
+                    else:
+                        ge_list.append(fastq)
+                    break
+
+    if len(ge_list) > 0 and len(atac_list) > 0:
+        is_valid = "YES"
+    
+    return [is_valid, ge_list, atac_list]
+
 # Main function: launch cellranger cmd by given samplesheet object and sequencer_and_run
 def launch_cellranger(sample_sheet, sequencer_and_run):
     # get parameters from sample_sheet
@@ -208,11 +271,21 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
             sample_list = project_sample_dict[project]
             # call cellranger for each sample and append info to json dict
             for sample in sample_list:
+                if sample_genome_dict[sample] != "Human" and sample_genome_dict[sample] != "Mouse":
+                    sample_genome_dict[sample] = "Mouse"
                 tag = get_tag(sample_recipe_dict[sample])
                 # if recipe within the tool being set up, lanuch cellranger
-                if tag != "Skip":
-                    if sample_genome_dict[sample] != "Human" and sample_genome_dict[sample] != "Mouse":
-                        sample_genome_dict[sample] = "Mouse"
+                if tag == "arc":
+                    validation = multiome_valid(sample_fastqfile_dict[sample])
+                    if validation[0] == "YES":
+                        create_library_csv_file(validation[1], validation[2], sample)
+                        tool = config_dict[tag]["tool"]
+                        transcriptome = config_dict[tag]["genome"][sample_genome_dict[sample]]
+                        cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--libraries={}/Sample_{}.csv".format(work_area, sample) + OPTIONS
+                        bsub_cmd = "bsub -J {}_{}_{}_ARC -o {}_ARC.out{}".format(sequencer_and_run, project, sample, sample, cmd)
+                        print(bsub_cmd)
+                        subprocess.run(cmd, shell=True)
+                elif tag != "Skip":
                     cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
                     print(cmd)
                     subprocess.run(cmd, shell=True)
@@ -223,28 +296,10 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
             sample_list = project_sample_dict[project]
             # call cellranger for each sample
             for sample in sample_list:
-                tag_genome = get_SCRI_tag(sample)
-                tag = tag_genome[0]
-                genome = tag_genome[1]
+                tag, genome = get_SCRI_tag(sample)
                 # if recipe within the tool being set up, lanuch cellranger
                 if tag != "Skip" and genome != "na":
                     cmd = generate_cellranger_cmd(sample, tag, genome, sample_fastqfile_dict[sample], sequencer_and_run)
                     cmd = cmd + " --include-introns=true"  # SCRI samples always have include-introns true
                     print(cmd)
                     subprocess.run(cmd, shell=True)
-
-# sample_ID_list = ["06265_8869_1_IGO_06265_AG_3","Third-Transcriptome_IGO_11969_E_3", "Second_IGO_11969_E_2"]
-# fastq_file_list_dict = {'06265_8869_1_IGO_06265_AG_3': ['/igo/staging/FASTQ/DIANA_0453_AHFKJ5DRXY/Project_06265_AG/Sample_06265_8869_1_IGO_06265_AG_3'], 'Third-Transcriptome_IGO_11969_E_3': ['/igo/staging/FASTQ/DIANA_0450_AH3JL3DSX3/Project_11969_E/Sample_Third-Transcriptome_IGO_11969_E_3', '/igo/staging/FASTQ/DIANA_0454_BH555MDMXY/Project_11969_E/Sample_Third-Transcriptome_IGO_11969_E_3'], 'Second_IGO_11969_E_2': ['/igo/staging/FASTQ/DIANA_0453_AHFKJ5DRXY/Project_11969_E/Sample_Second_IGO_11969_E_2', '/igo/staging/FASTQ/DIANA_0450_AH3JL3DSX3/Project_11969_E/Sample_Second_IGO_11969_E_2']}
-# genome_dict = {"06265_8869_1_IGO_06265_AG_3":"Human_GeneticallyModified","Third-Transcriptome_IGO_11969_E_3":"Human", "Second_IGO_11969_E_2":"Mouse"}
-# cmd = []
-# for sample in sample_ID_list:
-#     if genome_dict[sample] != "Human" and genome_dict[sample] != "Mouse":
-#         genome_dict[sample] = "Mouse"
-#     cmd.append(generate_cellranger_cmd(sample, "count", genome_dict[sample], fastq_file_list_dict[sample], "DIANA_0453_AHFKJ5DRXY"))
-# print(cmd)
-# test_result = ["bsub -J DIANA_0453_AHFKJ5DRXY_06265_8869_1_IGO_06265_AG_3_count_cellranger -o DIANA_0453_AHFKJ5DRXY_06265_8869_1_IGO_06265_AG_3_count_cellranger.out /igo/work/nabors/tools/cellranger-6.1.2/cellranger count --id=Sample_06265_8869_1_IGO_06265_AG_3__count --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A --fastqs=/igo/staging/FASTQ/DIANA_0453_AHFKJ5DRXY/Project_06265_AG/Sample_06265_8869_1_IGO_06265_AG_3 --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200",
-# "bsub -J DIANA_0453_AHFKJ5DRXY_Third-Transcriptome_IGO_11969_E_3_count_cellranger -o DIANA_0453_AHFKJ5DRXY_Third-Transcriptome_IGO_11969_E_3_count_cellranger.out /igo/work/nabors/tools/cellranger-6.1.2/cellranger count --id=Sample_Third-Transcriptome_IGO_11969_E_3__count --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A --fastqs=/igo/staging/FASTQ/DIANA_0450_AH3JL3DSX3/Project_11969_E/Sample_Third-Transcriptome_IGO_11969_E_3,/igo/staging/FASTQ/DIANA_0454_BH555MDMXY/Project_11969_E/Sample_Third-Transcriptome_IGO_11969_E_3 --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200",
-# "bsub -J DIANA_0453_AHFKJ5DRXY_Second_IGO_11969_E_2_count_cellranger -o DIANA_0453_AHFKJ5DRXY_Second_IGO_11969_E_2_count_cellranger.out /igo/work/nabors/tools/cellranger-6.1.2/cellranger count --id=Sample_Second_IGO_11969_E_2__count --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A --fastqs=/igo/staging/FASTQ/DIANA_0453_AHFKJ5DRXY/Project_11969_E/Sample_Second_IGO_11969_E_2,/igo/staging/FASTQ/DIANA_0450_AH3JL3DSX3/Project_11969_E/Sample_Second_IGO_11969_E_2 --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"]
-
-# for i in range (3): 
-#     assert(cmd[i] == test_result[i])
