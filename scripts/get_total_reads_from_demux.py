@@ -104,44 +104,6 @@ def by_json(sequencer_and_run):
             write_to_am_txt(sequencer_and_run_prefix, sample[7:], sample_reads_dict[sample], stats_done_dir)
         else:
             write_to_am_txt(sequencer_and_run_prefix, sample, sample_reads_dict[sample], stats_done_dir)
-           
-def test_run(sample_sheet, sequencer_and_run):
-    sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
-    sequencer = sequencer_and_run.split("_")[0]
-    stats_done_dir = "/Users/luc/Documents/GitHub/igo-demux/test/result_test/"
-    demux_report_file = "/Users/luc/Documents/GitHub/igo-demux/test/result_test/Demultiplex_Stats.csv"
-    # dictionary of Sample_ID->Project
-    sample_project_dict = pd.Series(sample_sheet.df_ss_data['Sample_Project'].values,index=sample_sheet.df_ss_data['Sample_ID']).to_dict()
-    sample_ID_list = list(sample_project_dict.keys())
-    total_reads_dict = get_total_reads(sample_ID_list, demux_report_file)
-    for sample in sample_ID_list:
-        write_to_am_txt(sequencer_and_run_prefix, sample, total_reads_dict[sample], stats_done_dir)
-
-def test_by_json(sequencer_and_run):
-    # remove postfix if existing, eg: DIANA_0502_BHM3VKDSX3_10X will convert to DIANA_0502_BHM3VKDSX3
-    sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
-    sequencer = sequencer_and_run.split("_")[0]
-    stats_done_dir = "/Users/luc/Documents/GitHub/igo-demux/test/result_test/"
-    demux_json_file = "/Users/luc/Documents/GitHub/igo-demux/test/Stats.json"
-    # Opening JSON file
-    f = open(demux_json_file)
-    data = json.load(f)
-    f.close()
-    sample_reads_dict = {}
-
-    for item in data["ConversionResults"]:
-        for sample in item["DemuxResults"]:
-            if sample["SampleName"] not in sample_reads_dict.keys():
-                sample_reads_dict[sample["SampleName"]] = sample["NumberReads"] * 2
-            else:
-                sample_reads_dict[sample["SampleName"]] += sample["NumberReads"] * 2
-
-    # generate AM txt files
-    for sample in sample_reads_dict.keys():
-        if "Sample_" in sample:
-            write_to_am_txt(sequencer_and_run_prefix, sample[7:], sample_reads_dict[sample], stats_done_dir)
-        else:
-            write_to_am_txt(sequencer_and_run_prefix, sample, sample_reads_dict[sample], stats_done_dir)
 
 if __name__ == '__main__':
     # generate txt files with total reads info from bclconvert(CSV)/bcl2fastq(JSON) demux
