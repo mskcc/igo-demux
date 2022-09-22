@@ -176,7 +176,7 @@ with DAG(
         scripts.alignment_and_picard.main(samplesheet_path)
 
         # add DONE file when all the stats finished, -K to wait until finish
-        cmd = 'bsub -K -J wait_stats_done_for_{} -w \"done(*{}*)\" touch /igo/staging/stats/{}/DONE'.format(sequencer_and_run, sequencer_and_run, sequencer_and_run)
+        cmd = 'bsub -K -J wait_stats_done_for_{} -w \"done(uplaodWGSstats{}*)\" touch /igo/staging/stats/{}/DONE'.format(sequencer_and_run, sequencer_and_run, sequencer_and_run)
         print(cmd)
         subprocess.run(cmd, shell=True)
 
