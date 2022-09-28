@@ -1,13 +1,24 @@
-from SampleSheet import SampleSheet
+from SampleSheet import SampleSheet, convert_SI_barcodes
 import pytest
 
-def test_sample_sheet_mixed_10X_barcodes():
+def test_mixed_10X_barcodes():
     x = SampleSheet("test/MICHELLE_0543_10X_MIXED.csv")
     ss_list = x.split_sample_sheet()
 
     if "OverrideCycles" in ss_list[1].df_ss_header.astype(str):
         assert(False)
     print(ss_list[2].df_ss_header)
+
+def test_only_10XSI_barcodes():
+    x = SampleSheet("test/SampleSheet_10X_SI.csv")
+    ss_list = x.split_sample_sheet()
+    assert(len(ss_list) == 1)
+
+def test_read_10X_sample_sheet():
+    samplesheet = SampleSheet("test/SampleSheet_10X_SI.csv")
+    corrected = convert_SI_barcodes(samplesheet)
+    print(corrected.df_ss_data.to_string())
+    assert(len(corrected.df_ss_data) == 16)
 
 def test_read_empty_sample_sheet():
     x = SampleSheet("test/empty_sample_sheet.csv")
@@ -16,10 +27,6 @@ def test_read_empty_sample_sheet():
 def test_read_blank_sample_sheet():
     with pytest.raises(Exception):
         x = SampleSheet("test/blank_sample_sheet.csv")
-
-def test_read_10X_sample_sheet():
-    x = SampleSheet("test/SampleSheet_10X.csv")
-    print("Success")
 
 def test_read_SE_sample_sheet():
     x = SampleSheet("test/SampleSheet_PEPE.csv")

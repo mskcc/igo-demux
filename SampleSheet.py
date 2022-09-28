@@ -12,7 +12,7 @@ class SampleSheet:
 
     """
     Overloaded constructor either should have 1 argument with the path to a sample sheet
-    or three arguments, the [Header] data frame, the [Data] data frame and the path
+    or three arguments: the [Header] data frame, the [Data] data frame and the path
     """
     def __init__(self, *args):
         if len(args) == 1: # this is the path to the sample sheet
@@ -100,9 +100,9 @@ class SampleSheet:
         """
         # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,,
         if any("10X_" in s for s in self.recipe_set):
+            print("Adding CreateFastqForIndexReads,1 to sample sheet header since 10X samples are present")
             self.df_ss_header.loc[len(self.df_ss_header.index)-1] = ["CreateFastqForIndexReads",1,"","","","","","",""]
             self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","",""]
-            print("Added CreateFastqForIndexReads,1 to sample sheet header since 10X samples are present")
 
         ss_copy = deepcopy(self)
 
@@ -137,13 +137,19 @@ class SampleSheet:
             split_ss_list.append(tenx_ss_real_barcodes)
             was_split = True
 
+        # if the sample sheet is all 'SI-*' 10x barcodes convert them to real barcodes
+        if len(self.barcode_list) == len(self.barcode_list_10X):
+            print("Converting all 10X SI- barcodes to real barcodes")
+            tenx_real_barcodes = convert_SI_barcodes(self)
+            split_ss_list[0] = tenx_real_barcodes
+
         if was_split:
             # Rename the original sample sheet
             split_ss_list[0].path = os.path.splitext(self.path)[0]+'_REFERENCE.csv'
             split_ss_list[1].path = os.path.splitext(self.path)[0]+'.csv'
         else:
             split_ss_list = [ss_copy]
-
+        
         return split_ss_list
 
 def convert_SI_barcodes(samplesheet):
