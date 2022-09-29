@@ -11,7 +11,10 @@ def test_mixed_10X_barcodes():
 
 def test_only_10XSI_barcodes():
     x = SampleSheet("test/SampleSheet_10X_SI.csv")
+    print("Calling split sample sheet.")
     ss_list = x.split_sample_sheet()
+    print("After split sample sheet.")
+    print(ss_list[0].df_ss_data.to_string())
     assert(len(ss_list) == 1)
 
 def test_read_10X_sample_sheet():

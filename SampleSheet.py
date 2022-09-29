@@ -106,7 +106,9 @@ class SampleSheet:
 
         ss_copy = deepcopy(self)
 
-        split_ss_list = [ss_copy, self]  # result list starts with the original sample sheet
+        # result list starts with the original sample sheet, this assumes we will split
+        # and the first entry will be the reference demux sample sheet
+        split_ss_list = [ss_copy, self]  
 
         was_split = False
         if "DLP" in self.recipe_set and len(self.recipe_set) > 1:
@@ -137,18 +139,18 @@ class SampleSheet:
             split_ss_list.append(tenx_ss_real_barcodes)
             was_split = True
 
-        # if the sample sheet is all 'SI-*' 10x barcodes convert them to real barcodes
-        if len(self.barcode_list) == len(self.barcode_list_10X):
-            print("Converting all 10X SI- barcodes to real barcodes")
-            tenx_real_barcodes = convert_SI_barcodes(self)
-            split_ss_list[0] = tenx_real_barcodes
-
         if was_split:
             # Rename the original sample sheet
             split_ss_list[0].path = os.path.splitext(self.path)[0]+'_REFERENCE.csv'
             split_ss_list[1].path = os.path.splitext(self.path)[0]+'.csv'
-        else:
+        else:  # if we did not need to split the sample sheet just return it
             split_ss_list = [ss_copy]
+
+        # if the sample sheet is all 'SI-*' 10x barcodes convert them to real barcodes
+        if len(self.barcode_list) == len(self.barcode_list_10X):
+            print("Converting all 10X SI- barcodes to real barcodes")
+            tenx_real_barcodes = convert_SI_barcodes(self)
+            split_ss_list = [tenx_real_barcodes] 
         
         return split_ss_list
 
