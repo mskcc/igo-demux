@@ -331,7 +331,7 @@ class LaunchMetrics(object):
 		# alignment summary
 		alignment_job_name_header = run + "___ALIGNMENT_SUMMARY___"
 		alignment = PICARD_AND_JAR + "CollectAlignmentSummaryMetrics --REFERENCE_SEQUENCE {} --INPUT {}___MD.bam --OUTPUT {}___{}___AM.txt".format(sample_parameters["REFERENCE"], sample.sample_id, metric_file, PICARD_VERSION) 
-		bsub_alignment = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"3\" -n 8 -M 8 ".format(alignment_job_name_header, sample.sample_id, mark_duplicates_job_name_header, work_directory) + alignment
+		bsub_alignment = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 ".format(alignment_job_name_header, sample.sample_id, mark_duplicates_job_name_header, work_directory) + alignment
 		print(bsub_alignment)
 		call(bsub_alignment, shell = True)
 		
