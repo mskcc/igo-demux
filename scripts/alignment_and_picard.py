@@ -323,7 +323,7 @@ class LaunchMetrics(object):
 		
 		# mark duplicates
 		mark_duplicates_job_name_header = run + "___MARK_DUPLICATES___"
-		mark_dup = PICARD_AND_JAR + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE {0}___{1}___MD.txt  " + "--OUTPUT {2}___MD.bam  --INPUT {2}.merged.bam".format(metric_file, PICARD_VERSION, sample.sample_id)
+		mark_dup = PICARD_AND_JAR + "MarkDuplicates --CREATE_INDEX true --METRICS_FILE {0}___{1}___MD.txt --OUTPUT {2}___MD.bam  --INPUT {2}.merged.bam".format(metric_file, PICARD_VERSION, sample.sample_id)
 		bsub_mark_dup = "bsub -J {0}{2} -o {0}{2}.out -w \"done({1}{2})\" -cwd \"{3}\" -n 40 -M 8 ".format(mark_duplicates_job_name_header, merge_bams_job_name_header, sample.sample_id, work_directory) + mark_dup
 		print(bsub_mark_dup)
 		call(bsub_mark_dup, shell = True)
