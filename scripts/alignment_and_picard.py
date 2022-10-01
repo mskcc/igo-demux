@@ -270,7 +270,7 @@ class LaunchMetrics(object):
 		
 		# run Picard RNA metrics tools
 		rna_metrics_job_name_header = run + "___RNA_METRICS___"
-		rnaseq = " CollectRnaSeqMetrics --RIBOSOMAL_INTERVALS {0} --STRAND_SPECIFICITY NONE --REF_FLAT {1} --INPUT {2}.bam --OUTPUT {2}___{3}___RNA.txt".format(sample_parameters["RIBOSOMAL_INTERVALS"], sample_parameters["REF_FLAT"], metric_file, PICARD_VERSION)
+		rnaseq = PICARD_AND_JAR + " CollectRnaSeqMetrics --RIBOSOMAL_INTERVALS {0} --STRAND_SPECIFICITY NONE --REF_FLAT {1} --INPUT {2}.bam --OUTPUT {2}___{3}___RNA.txt".format(sample_parameters["RIBOSOMAL_INTERVALS"], sample_parameters["REF_FLAT"], metric_file, PICARD_VERSION)
 		bsub_rnaseq = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 ".format(rna_metrics_job_name_header, sample.sample_id, rna_dragen_job_name_header, rna_directory) + rnaseq
 		print(bsub_rnaseq)
 		call(bsub_rnaseq, shell = True)
@@ -367,7 +367,7 @@ class LaunchMetrics(object):
 			# create the MD, AM and WGS data files, put them back into the directory 
 			rna_metrics_job_name = run + "___RNA_METRICS___*"
 			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_parse_for_am_and_md.py {} {}".format(rna_directory, work_directory)
-			bsub_csv_2_txt = "bsub -J RNA_CSV_TO_TXT___{1} -o RNA_CSV_TO_TXT___{0}.out -w \"ended({1})\" -n 2 -M 8 ".format(run, rna_metrics_job_name) + csv_2_txt
+			bsub_csv_2_txt = "bsub -J RNA_CSV_TO_TXT___{0} -o RNA_CSV_TO_TXT___{0}.out -w \"ended({1})\" -n 2 -M 8 ".format(run, rna_metrics_job_name) + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
 			rename_bam_files = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/rename_rna_bam_files.py {}".format(rna_directory)
