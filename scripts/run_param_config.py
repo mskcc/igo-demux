@@ -72,9 +72,9 @@ recipe_type_mapping_UNORDERED = {
 		".*SMARTer.*": { TYPE: "RNA" },
 		"FusionDiscoverySeq": { TYPE: "RNA" },
 		".*Ribo.*": { TYPE: "RNA" },
+		".*CDH1_RNA.*": { TYPE: "CAPTURE" },
 		# FOR NEW ENTRIES
 		# "{regex}": { TYPE: type }
-	
 		".*": { TYPE: "DNA" }      # DEFAULT
 }
 recipe_type_mapping = get_ordered_dic(recipe_type_mapping_UNORDERED)
@@ -558,8 +558,8 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"CDH1_RNA": {
-				BAITS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1_RNA.baits",
-				TARGETS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1_RNA.targets",
+				BAITS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1/CDH1.hg38.baits",
+				TARGETS: "/igo/work/nabors/bed_files/CDH1_RNA/CDH1/CDH1.hg38.targets",
 				MSKQ: "no",
 				MD: "yes"
 		},
