@@ -366,7 +366,7 @@ class LaunchMetrics(object):
 		if os.path.isdir(dragen_directory):
 			# create the MD, AM and WGS data files, put them back into the directory
 			dragen_job_name = "{}___DRAGEN___*".format(run)
-			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_parse_for_am_and_md.py {} {}".format(dragen_directory, work_directory)
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt.py {} {}".format(dragen_directory, work_directory)
 			bsub_csv_2_txt = "bsub -J DRAGEN_CSV_TO_TXT___{0} -o DRAGEN_CSV_TO_TXT___{0}.out -w \"ended({1})\" -n 2 -M 8 ".format(run, dragen_job_name) + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)
