@@ -2,6 +2,7 @@ from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 import scripts.stats_by_project
+import scripts.cellranger
 
 """
 Airflow DAG to run stats by project giving projectID, recipe parameters
@@ -26,7 +27,10 @@ with DAG(
 
         # main process of calling stats here
         # let's go ahead and run stats by project
-        scripts.stats_by_project.main(project_directory, recipe, species)
+        if "10X_" in recipe:
+            scripts.cellranger.lanuch_by_project(project_directory, recipe, species)
+        else:
+            scripts.stats_by_project.main(project_directory, recipe, species)
 
         return "Stats done for project in this directory {}".format(project_directory)      
 

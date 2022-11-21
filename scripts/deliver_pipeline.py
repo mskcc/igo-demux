@@ -80,7 +80,7 @@ def deliver_pipeline_output(project, pi, recipe):
                 shutil.copytree(sample_folder, destination)
 
     # if recipe is CRISPRSeq or GeoMx, go to pipeline folder and find output, if exists the copy
-    elif recipe == "CRISPRSeq" or recipe == "GeoMx":
+    elif recipe == "CRISPRSeq" or recipe == "GeoMx" or recipe == "GeoMX":
         pipeline_path = "/igo/stats/PIPELINE/Project_" + project
         if not os.path.exists(pipeline_path):
             print("No pipeline result available")

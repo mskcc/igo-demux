@@ -1,6 +1,5 @@
 # launch cell ranger pipeline (GE, VDJ, ATAC....) for 10X samples by recipe
 # put result in /igo/stats/CELLRANGER/<run_ID>
-# TODO make this function callable by run ID/project?
 
 import pandas as pd
 import re
@@ -71,7 +70,7 @@ config_dict = {
 # cellranger command line options
 OPTIONS = ' --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200'
 
-# 10X recipe list for different pipelines TODO 10X_Genomics_Visium, 10X_Genomics_Multiome
+# 10X recipe list for different pipelines
 COUNT_FLAVORS = ['10X_Genomics_GeneExpression-3', '10X_Genomics_GeneExpression-5']
 VDJ_FLAVORS = ['10X_Genomics_VDJ']
 ATAC_FLAVORS = ['10X_Genomics_ATAC']
@@ -303,3 +302,64 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                     cmd = cmd + " --include-introns=true"  # SCRI samples always have include-introns true
                     print(cmd)
                     subprocess.run(cmd, shell=True)
+
+# lanuch cellranger by given project_directory eg: /igo/staging/FASTQ/RUTH_0141_AH27NGDSX5/Project_13586_B
+def lanuch_by_project(project_directory, recipe, species):
+    # get sample_ID list
+    sample_list_ori = os.listdir(project_directory)
+    sample_list = []
+    for sample in sample_list_ori:
+        # remove Sample_ prefix
+        sample_list.append(sample[7:])
+    # get project and run info from project_directory
+    project = project_directory.split("/")[5]
+    sequencer_and_run = project_directory.split("/")[4]
+    sample_fastqfile_dict = find_fastq_file(sample_list)
+    tag = get_tag(recipe)
+    send_json = {}
+    send_json['samples'] = []
+    # CREATE RUN FOLDER AND PROJECT FOLDER IF NOT ALREADY THERE
+    os.chdir(STATS_AREA)
+    runs = next(os.walk('.'))[1]
+    if sequencer_and_run not in runs:
+        os.mkdir(sequencer_and_run, ACCESS)
+                    
+    stats_and_run = STATS_AREA + sequencer_and_run
+    os.chdir(stats_and_run)
+    projects = next(os.walk('.'))[1]
+    if project not in projects:
+        os.mkdir(project, ACCESS)
+    work_area = stats_and_run + "/" + project + '/' 
+    # GO TO project ID LOCATION to start cellranger command
+    os.chdir(work_area)
+
+    # call cellranger for each sample and append info to json dict
+    for sample in sample_list:
+        # if recipe within the tool being set up, lanuch cellranger
+        if tag == "arc":
+            validation = multiome_valid(sample_fastqfile_dict[sample])
+            if validation[0] == "YES":
+                create_library_csv_file(validation[1], validation[2], sample)
+                tool = config_dict[tag]["tool"]
+                transcriptome = config_dict[tag]["genome"][species]
+                cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--libraries={}/Sample_{}.csv".format(work_area, sample) + OPTIONS
+                bsub_cmd = "bsub -J {}_{}_{}_ARC -o {}_ARC.out{}".format(sequencer_and_run, project, sample, sample, cmd)
+                print(bsub_cmd)
+                subprocess.run(cmd, shell=True)
+        elif tag != "Skip":
+            cmd = generate_cellranger_cmd(sample, tag, species, sample_fastqfile_dict[sample], sequencer_and_run)
+            print(cmd)
+            subprocess.run(cmd, shell=True)
+            send_json['samples'].append({'sample':'Sample_' + sample, 'type':tag, 'project':project, 'run':sequencer_and_run})
+    if send_json['samples']:
+        create_json(send_json, sequencer_and_run, project, tag, work_area)
+
+
+if __name__ == '__main__':
+    # launch cellranger commands by project
+    # Usage: python cellranger.py [project_directory] [recipe] [species]
+    # example: python cellranger.py /igo/staging/FASTQ/RUTH_0141_AH27NGDSX5/Project_13586_B 10X_Genomics_GeneExpression-3 Human
+    project_directory = sys.argv[1]
+    recipe = sys.argv[2]
+    species = sys.argv[3]
+    lanuch_by_project(project_directory, recipe, species)
