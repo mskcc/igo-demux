@@ -18,7 +18,9 @@ def move_failed_fastqs(igo_id, run):
     if not igo_id or not run:
         return "igo_id and run are required arguments."
 
+    print("Removing failed fastqs and .bams for " + igo_id + " on run " + run)
     project_id = get_project_id(igo_id)
+    igo_id = get_base_igo_id(igo_id)
 
     error_msg = "" # store error messages at any step
 
@@ -56,6 +58,11 @@ def move_failed_fastqs(igo_id, run):
 def get_project_id(igo_id):
     # 13220_B_31 to project ID only
     return re.split(r"_(\d)+", igo_id)[0]
+
+# defined for valid IGO IDs as input
+def get_base_igo_id(igo_id):
+    parts = re.split(r"_(\d)+", igo_id)
+    return parts[0] +"_" + parts[1]
 
 #optionally invoke directly, for example:
 #python move_failed_fastqs.py igo_id run

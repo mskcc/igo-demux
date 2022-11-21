@@ -1,6 +1,15 @@
 import scripts.cellranger as cellranger
 import scripts.get_total_reads_from_demux
+import scripts.move_failed_fastqs
 import pytest
+
+def test_get_project_id():
+    project_id = scripts.move_failed_fastqs.get_project_id("13820_B_1_1_1_1_1")
+    assert(project_id == "13820_B")
+
+def test_get_base_igo_id():
+    igo_id = scripts.move_failed_fastqs.get_base_igo_id("13820_B_1_1_1_1_1")
+    assert(igo_id == "13820_B_1")
 
 def testCellranger_generate_cellranger_cmd():
     sample_ID_list = ["06265_8869_1_IGO_06265_AG_3","Third-Transcriptome_IGO_11969_E_3", "Second_IGO_11969_E_2"]

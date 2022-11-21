@@ -7,7 +7,7 @@ from airflow.operators.python import PythonOperator
 
 
 """
-
+DAG to wraps the Python script which removes failed fastqs and .bams
 """
 with DAG(
     dag_id="move_failed_fastqs",
