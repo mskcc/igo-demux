@@ -210,7 +210,10 @@ def multiome_valid(fastq_list):
             # append the fastq file to corresponding list
             sequencer, runID = get_sequencer_runID(fastq)
             # find sequenceing path
-            sequencer_path_pre = sequencer_prefix + sequencer
+            if sequencer == "pepe":
+                sequencer_path_pre = sequencer_prefix + sequencer + "/output"
+            else:
+                sequencer_path_pre = sequencer_prefix + sequencer
             run_list = os.listdir(sequencer_path_pre)
             for run in run_list:
                 if re.match(".*" + runID, run):
