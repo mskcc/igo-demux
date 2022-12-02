@@ -151,6 +151,10 @@ with DAG(
                 upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
                 subprocess.run(upload_stats_cmd, shell=True)
 
+                # launch cell ranger based on recipe
+                sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+                scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
+
             else:
                 # step 1, generate txt files containing total reads and upload to qc website
                 scripts.get_total_reads_from_demux.run(sample_sheet, sequencer_and_run)

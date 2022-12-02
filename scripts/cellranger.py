@@ -350,6 +350,7 @@ def lanuch_by_project(project_directory, recipe, species):
                 subprocess.run(cmd, shell=True)
             else:
                 print("Multiome sample not finished yet")
+                print(validation)
         elif tag != "Skip":
             cmd = generate_cellranger_cmd(sample, tag, species, sample_fastqfile_dict[sample], sequencer_and_run)
             print(cmd)
