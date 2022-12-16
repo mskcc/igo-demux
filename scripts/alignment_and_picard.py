@@ -247,7 +247,7 @@ class LaunchMetrics(object):
 		if (sample_parameters["GTAG"] == "GRCh38"):
 			rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
-			rna_path = "/staging/ref/grcm39_rna"
+			rna_path = "/staging/ref/grcm39"
 			
 		rna_dragen_job_name_header = "{}___RNA_DRAGEN___".format(run)
 		metric_file = "{}___P{}___{}___{}".format(run, prjct, sample.sample_id, sample_parameters["GTAG"])
@@ -279,9 +279,9 @@ class LaunchMetrics(object):
 		if (sample_parameters["GTAG"] == "GRCh38"):
 			dragen_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		elif (sample_parameters["GTAG"] == "grcm39"):
-			dragen_path = "/staging/ref/grcm39_dna"
+			dragen_path = "/staging/ref/grcm39"
 		else:
-			dragen_path = "/staging/ref/sccer_dna"
+			dragen_path = "/staging/ref/sccer"
 			
 		metric_file = "{}___P{}___{}___{}".format(run, prjct, sample.sample_id, sample_parameters["GTAG"])
 		fastq_list = "/igo/staging/FASTQ/{}/Reports/fastq_list.csv ".format(run)
