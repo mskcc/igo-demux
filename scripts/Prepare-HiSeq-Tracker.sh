@@ -2,7 +2,7 @@
 #Example: sh ./Prepare-HiSeq-Tracker.sh MOMO_0125
 
 RUN=$1
-SAMPLESHEET="/pskis34/LIMS/LIMS_SampleSheets/SampleShee*"$RUN"*.csv"
+SAMPLESHEET="/skimcs/mohibullahlab/LIMS/LIMS_SampleSheets/SampleShee*"$RUN"*.csv"
 
 #parse sample sheet to parameters
 
