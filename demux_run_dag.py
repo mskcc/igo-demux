@@ -151,6 +151,10 @@ with DAG(
                 upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
                 subprocess.run(upload_stats_cmd, shell=True)
 
+                # launch cell ranger based on recipe
+                sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+                scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
+
             else:
                 # step 1, generate txt files containing total reads and upload to qc website
                 scripts.get_total_reads_from_demux.run(sample_sheet, sequencer_and_run)
@@ -343,7 +347,7 @@ with DAG(
                 #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
                 output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
                 job_name = sequencer_and_run + "_" + sample
-                bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m \"id02 id03\" -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
+                bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m \"id01\" -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
                 dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559 --intermediate-results-dir /staging/temp --enable-duplicate-marking true --enable-map-align-output true "
                 dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
                 dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)

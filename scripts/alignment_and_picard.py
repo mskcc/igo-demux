@@ -242,19 +242,19 @@ class LaunchMetrics(object):
 		# 
 		os.chdir(rna_directory)
 		prjct = sample.project[8:]
+		
 		# get the correct path for the reference
-		gtag = sample_parameters["GTAG"]
-		if (gtag == "GRCh38"):
+		if (sample_parameters["GTAG"] == "GRCh38"):
 			rna_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
-			rna_path = "/staging/ref/RNA/grcm39"
+			rna_path = "/staging/ref/grcm39"
 			
 		rna_dragen_job_name_header = "{}___RNA_DRAGEN___".format(run)
 		metric_file = "{}___P{}___{}___{}".format(run, prjct, sample.sample_id, sample_parameters["GTAG"])
 		fastq_list = "/igo/staging/FASTQ/{}/Reports/fastq_list.csv ".format(run)
 		
 		launch_dragen_rna = "/opt/edico/bin/dragen -f -r {} --fastq-list {} --fastq-list-sample-id {} -a {} --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort=true --enable-bam-indexing true --enable-map-align-output true --output-format=BAM --enable-rna=true --enable-duplicate-marking true --enable-rna-quantification true --output-file-prefix {} --output-directory {}".format(rna_path, fastq_list, sample.sample_id, sample_parameters["GTF"], metric_file, rna_directory)
-		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 ".format(rna_dragen_job_name_header, sample.sample_id, rna_directory) + launch_dragen_rna
+		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01\" -q dragen -n 48 -M 4 ".format(rna_dragen_job_name_header, sample.sample_id, rna_directory) + launch_dragen_rna
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
 		
@@ -276,16 +276,17 @@ class LaunchMetrics(object):
 		prjct = sample.project[8:]
 		
 		# get the correct path for the reference
-		gtag = sample_parameters["GTAG"]
-		if (gtag == "GRCh38"):
+		if (sample_parameters["GTAG"] == "GRCh38"):
 			dragen_path = "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
-		else:
+		elif (sample_parameters["GTAG"] == "grcm39"):
 			dragen_path = "/staging/ref/grcm39"
+		else:
+			dragen_path = "/staging/ref/sccer"
 			
 		metric_file = "{}___P{}___{}___{}".format(run, prjct, sample.sample_id, sample_parameters["GTAG"])
 		fastq_list = "/igo/staging/FASTQ/{}/Reports/fastq_list.csv ".format(run)
 		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-duplicate-marking true".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, metric_file)
-		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 ".format(dragen_job_name_header, sample.sample_id, dragen_directory) + launch_dragen
+		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01\" -q dragen -n 48 -M 4 ".format(dragen_job_name_header, sample.sample_id, dragen_directory) + launch_dragen
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		
@@ -366,7 +367,7 @@ class LaunchMetrics(object):
 		if os.path.isdir(dragen_directory):
 			# create the MD, AM and WGS data files, put them back into the directory
 			dragen_job_name = "{}___DRAGEN___*".format(run)
-			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt.py {} {}".format(dragen_directory, work_directory)
+			csv_2_txt = "/igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/dragen_parse_for_wgs_am_md.py {} {}".format(dragen_directory, work_directory)
 			bsub_csv_2_txt = "bsub -J DRAGEN_CSV_TO_TXT___{0} -o DRAGEN_CSV_TO_TXT___{0}.out -w \"ended({1})\" -n 2 -M 8 ".format(run, dragen_job_name) + csv_2_txt
 			print(bsub_csv_2_txt)
 			call(bsub_csv_2_txt, shell = True)

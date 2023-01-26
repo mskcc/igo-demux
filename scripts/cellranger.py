@@ -75,7 +75,7 @@ COUNT_FLAVORS = ['10X_Genomics_GeneExpression-3', '10X_Genomics_GeneExpression-5
 VDJ_FLAVORS = ['10X_Genomics_VDJ']
 ATAC_FLAVORS = ['10X_Genomics_ATAC']
 CNV_FLAVORS = ['10X_Genomics_CNV']
-ARC_FLAVORS = ['10X_Genomics_Multiome']
+ARC_FLAVORS = ['10X_Genomics_Multiome', '10X_Genomics_Multiome_ATAC', '10X_Genomics_Multiome_GeneExpression']
 
 """
 steps:
@@ -210,7 +210,10 @@ def multiome_valid(fastq_list):
             # append the fastq file to corresponding list
             sequencer, runID = get_sequencer_runID(fastq)
             # find sequenceing path
-            sequencer_path_pre = sequencer_prefix + sequencer
+            if sequencer == "pepe":
+                sequencer_path_pre = sequencer_prefix + sequencer + "/output"
+            else:
+                sequencer_path_pre = sequencer_prefix + sequencer
             run_list = os.listdir(sequencer_path_pre)
             for run in run_list:
                 if re.match(".*" + runID, run):
@@ -284,6 +287,8 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                         bsub_cmd = "bsub -J {}_{}_{}_ARC -o {}_ARC.out{}".format(sequencer_and_run, project, sample, sample, cmd)
                         print(bsub_cmd)
                         subprocess.run(cmd, shell=True)
+                    else:
+                        print("Multiome sample set not complete yet")
                 elif tag != "Skip":
                     cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
                     print(cmd)
@@ -346,6 +351,9 @@ def lanuch_by_project(project_directory, recipe, species):
                 bsub_cmd = "bsub -J {}_{}_{}_ARC -o {}_ARC.out{}".format(sequencer_and_run, project, sample, sample, cmd)
                 print(bsub_cmd)
                 subprocess.run(cmd, shell=True)
+            else:
+                print("Multiome sample not finished yet")
+                print(validation)
         elif tag != "Skip":
             cmd = generate_cellranger_cmd(sample, tag, species, sample_fastqfile_dict[sample], sequencer_and_run)
             print(cmd)
