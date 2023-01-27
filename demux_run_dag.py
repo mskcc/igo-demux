@@ -301,7 +301,7 @@ with DAG(
         sequencer = sequencer_and_run.split("_")[0]
         stats_path_for_conversion = stats_path + "/"
         stats_done_dir = "/igo/stats/DONE/" + sequencer + "/"
-        cmd_conversion = "python /igo/work/igo/igo-demux/scripts/dragenstats_csv_to_txt.py {} {}".format(stats_path_for_conversion, stats_done_dir)
+        cmd_conversion = "python /igo/work/igo/igo-demux/scripts/dragen_parse_csv_stats_hWGS.py {} {}".format(stats_path_for_conversion, stats_done_dir)
         bsub_command_conversion = "bsub -J create_txt_{} -o {}create_txt.out -w \"done({}*)\" {}".format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, cmd_conversion)
         print(bsub_command_conversion)
         subprocess.run(bsub_command_conversion, shell=True)
