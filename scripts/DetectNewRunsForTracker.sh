@@ -1,9 +1,9 @@
 #!/bin/bash
 # Sends summary email for every samplesheet written to the LIMS samplesheet directory
 
-cd /pskis34/LIMS/LIMS_SampleSheets
+cd /skimcs/mohibullahlab/LIMS/LIMS_SampleSheets
 
-find /pskis34/LIMS/LIMS_SampleSheets/*.csv -mmin -60 > ~/RunTracker/Run_For_Tracker.txt
+find /skimcs/mohibullahlab/LIMS/LIMS_SampleSheets/*.csv -mmin -60 > ~/RunTracker/Run_For_Tracker.txt
 
 # try to make sure the csv file is not still being written by the LIMS
 sleep 120 

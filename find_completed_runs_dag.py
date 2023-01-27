@@ -95,7 +95,7 @@ with DAG(
       run_name_only = completed_run[7:]  # ex: MICHELLE_0461_AHMJFJDSX2
       samplesheet = "SampleSheet_" + completed_run + ".csv"
 
-      orig_samplesheet_dir = Variable.get("original_samplesheet_dir", default_var="/pskis34/LIMS/LIMS_SampleSheets/")
+      orig_samplesheet_dir = Variable.get("original_samplesheet_dir", default_var="/skimcs/mohibullahlab/LIMS/LIMS_SampleSheets/")
       orig_samplesheet = orig_samplesheet_dir + samplesheet
       dest_samplesheet_dir = Variable.get("destination_samplesheet_dir", default_var="/igo/work/igo/SampleSheetCopies/")
       dest_samplesheet = dest_samplesheet_dir + samplesheet
