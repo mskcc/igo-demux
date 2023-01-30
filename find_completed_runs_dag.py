@@ -47,6 +47,11 @@ sequencers = {
          "last_file": "CopyComplete.txt"
       },
       {
+         "name": "amelie",
+         "path": "/igo/sequencers/amelie/output",
+         "last_file": "CopyComplete.txt"
+      },
+      {
          "name": "scott",
          "path": "/igo/sequencers/scott",
          "last_file": "CopyComplete.txt"
