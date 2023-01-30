@@ -397,7 +397,7 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "yes",
 				MD: "yes"
 		},
-		"IMPACT-Heme_v2": {
+		"IMPACT_Heme_v2": {
 				BAITS: "/igo/home/igo/resources/ilist/hg38/IMPACT-Heme_v2/IMPACT-Heme_v2_BAITS.iList",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/IMPACT-Heme_v2/IMPACT-Heme_v2_TARGETS.iList",
 				MSKQ: "yes",
