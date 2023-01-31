@@ -53,7 +53,7 @@ class DragenStats:
         data_list_to_write[5] = self.PF_READS_ALIGNED
         data_list_to_write[16] = self.READS_ALIGNED_IN_PAIRS
 
-        write_to_file = output_path + self.sample_name + "___GRCh38___AM.txt"
+        write_to_file = output_path + self.sample_name + "___GRCh38___DRAGEN3_10_8___AM.txt"
         data_line = ""
         for i in data_list_to_write:
             data_line = data_line + str(i) + "\t"
@@ -75,7 +75,7 @@ class DragenStats:
         data_list_to_write[8] = self.PERCENT_DUPLICATION
         
         header = "LIBRARY	UNPAIRED_READS_EXAMINED	READ_PAIRS_EXAMINED	SECONDARY_OR_SUPPLEMENTARY_RDS	UNMAPPED_READS	UNPAIRED_READ_DUPLICATES	READ_PAIR_DUPLICATES	READ_PAIR_OPTICAL_DUPLICATES	PERCENT_DUPLICATION	ESTIMATED_LIBRARY_SIZE"
-        write_to_file = output_path + self.sample_name + "___GRCh38___MD.txt"
+        write_to_file = output_path + self.sample_name + "___GRCh38___DRAGEN3_10_8___MD.txt"
         data_line = ""
         for i in data_list_to_write:
             data_line = data_line + str(i) + "\t"
@@ -91,7 +91,7 @@ class DragenStats:
         data_list_to_write[1] = self.MEAN_TARGET_COVERAGE
         
         header = "GENOME_TERRITORY	MEAN_COVERAGE	SD_COVERAGE	MEDIAN_COVERAGE	MAD_COVERAGE	PCT_EXC_ADAPTER	PCT_EXC_MAPQ	PCT_EXC_DUPE	PCT_EXC_UNPAIRED	PCT_EXC_BASEQ	PCT_EXC_OVERLAP	PCT_EXC_CAPPED	PCT_EXC_TOTAL	PCT_1X	PCT_5X	PCT_10X	PCT_15X	PCT_20X	PCT_25X	PCT_30X	PCT_40X	PCT_50X	PCT_60X	PCT_70X	PCT_80X	PCT_90X	PCT_100X	FOLD_80_BASE_PENALTY	FOLD_90_BASE_PENALTY	FOLD_95_BASE_PENALTY	HET_SNP_SENSITIVITY	HET_SNP_Q"
-        write_to_file = output_path + self.sample_name + "___GRCh38___WGS.txt"
+        write_to_file = output_path + self.sample_name + "___GRCh38___DRAGEN3_10_8___WGS.txt"
         data_line = ""
         for i in data_list_to_write:
             data_line = data_line + str(i) + "\t"

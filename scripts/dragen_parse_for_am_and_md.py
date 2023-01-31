@@ -55,7 +55,7 @@ class DragenStats:
         # data_list_to_write[5] = self.PF_READS_ALIGNED
         data_list_to_write[16] = self.READS_ALIGNED_IN_PAIRS
 
-        write_to_file = output_path + self.sample_name + "___AM.txt"
+        write_to_file = output_path + self.sample_name + "___DRAGEN3_10_8___AM.txt"
         data_line = ""
         for i in data_list_to_write:
             data_line = data_line + str(i) + "\t"
@@ -77,7 +77,7 @@ class DragenStats:
         data_list_to_write[8] = self.PERCENT_DUPLICATION
         
         header = "LIBRARY	UNPAIRED_READS_EXAMINED	READ_PAIRS_EXAMINED	SECONDARY_OR_SUPPLEMENTARY_RDS	UNMAPPED_READS	UNPAIRED_READ_DUPLICATES	READ_PAIR_DUPLICATES	READ_PAIR_OPTICAL_DUPLICATES	PERCENT_DUPLICATION	ESTIMATED_LIBRARY_SIZE"
-        write_to_file = output_path + self.sample_name + "___MD.txt"
+        write_to_file = output_path + self.sample_name + "___DRAGEN3_10_8___MD.txt"
         data_line = ""
         for i in data_list_to_write:
             data_line = data_line + str(i) + "\t"
