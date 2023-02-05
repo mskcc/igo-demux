@@ -570,8 +570,8 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"08390_Hg19": {
-				BAITS: "/igo/work/nabors/bed_files/IMPACT505_PLUS_for_08390/impact505_and_MC1R/08390-IMPACT505-MC1R.baits",
-				TARGETS: "/igo/work/nabors/bed_files/IMPACT505_PLUS_for_08390/impact505_and_MC1R/08390-IMPACT505-MC1R.targets",
+				BAITS: "/igo/work/nabors/bed_files/IMPACT505_PLUS_for_08390/impact505_and_MC1R/hg38/08390-IMPACT505-MC1R-BAITS.hg38.iList",
+				TARGETS: "/igo/work/nabors/bed_files/IMPACT505_PLUS_for_08390/impact505_and_MC1R/hg38/08390-IMPACT505-MC1R-TARGETS.hg38.iList",
 				MSKQ: "no",
 				MD: "yes"
 		},
