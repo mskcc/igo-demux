@@ -33,7 +33,7 @@ class Sample:
 # DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP"]
 DO_NOT_PROCESS = ["HumanWholeGenome", "DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "CustomCapture", "MouseWholeGenome"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome"]
 # this list contains the headers of the columns.  we will access the data using these listings
 data_headers = list()
 # let's go ahead and set the picard version and point to the jar file

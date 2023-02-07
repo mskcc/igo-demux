@@ -31,7 +31,7 @@ class Sample:
 # Global Variable : we do not want to process these experiments in this script
 DO_NOT_PROCESS = ["HumanWholeGenome", "10X_Genomics", "DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "CustomCapture", "MouseWholeGenome"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome"]
 # this list contains the headers of the columns.  we will access the data using these listings
 data_headers = list()
 PICARD_VERSION = "2_23_2"
