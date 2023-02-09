@@ -65,8 +65,8 @@ class GetSampleData:
 					data_headers = row
 					print(data_headers)
 				elif (row[0] != "Lane") and got_data:
-					# do not process hWGS, DLP, 10X samples or MissionBio - they have their own processes
-					if any(s in row[data_headers.index("Sample_Well")] for s in DO_NOT_PROCESS):
+					# do not process hWGS, DLP, 10X samples or MissionBio - they have their own processes - Do not PROCESS any POOLEDNORMAL Samples
+					if any(s in row[data_headers.index("Sample_Well")] for s in DO_NOT_PROCESS) or ("POOLEDNORMAL" in row[data_headers.index("Sample_Project")]):
 						continue
 					self.all_sample_ids.append(row[data_headers.index("Sample_ID")])
 					# check for duplicate samples in the sample sheet
