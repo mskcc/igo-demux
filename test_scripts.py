@@ -1,6 +1,7 @@
 import scripts.cellranger as cellranger
 import scripts.get_total_reads_from_demux
 import scripts.move_failed_fastqs
+from SampleSheet import SampleSheet
 import pytest
 
 def test_get_project_id():
@@ -54,3 +55,12 @@ def testGettotalreads():
     print(total_reads_dict)
     assert(total_reads_dict["PDX_WD0010_P1_1845_IGO_12754_E_1"] == 770373032)
     assert(total_reads_dict["PDX_WD0010_P1_1850_IGO_12754_E_2"] == 602357556)
+
+def testGettotalreadsDLP():
+    sample_sheet = SampleSheet("test/SampleSheet_DLP_multiprojects.csv")
+    total_reads_dict = scripts.get_total_reads_from_demux.get_total_reads_DLP(sample_sheet, "test/Demultiplex_Stats_DLP.csv" )
+    print(total_reads_dict)
+    assert(total_reads_dict["Project_11113_L"]["samples"] == 3802998466)
+    assert(total_reads_dict["Project_11113_L"]["pos_control"] == 654555718)
+    assert(total_reads_dict["Project_11113_L"]["neg_control"] == 247002)
+    assert(total_reads_dict["Project_11113_M"]["pos_control"] == 599399798)
