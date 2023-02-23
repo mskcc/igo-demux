@@ -142,7 +142,10 @@ with DAG(
             return "No stats for reference "  + samplesheet_path
 
         if "DLP" in sample_sheet.recipe_set:
-           return "No DLP stats"
+            scripts.get_total_reads_from_demux.run_DLP(samplesheet, sequencer_and_run)
+            upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+            subprocess.run(upload_stats_cmd, shell=True)
+            return "DLP stats posted"
 
         if any("10X_" in s for s in sample_sheet.recipe_set):
             # if is atac run, demux is using cellranger mkfastq
