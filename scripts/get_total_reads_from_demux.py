@@ -151,7 +151,7 @@ def run_DLP(sample_sheet, sequencer_and_run):
     stats_done_dir = STATS_DONE_DIR_PREFIX + sequencer + "/"
     demux_report_file = "/igo/staging/FASTQ/" + sequencer_and_run + "/Reports/Demultiplex_Stats.csv"
 
-    total_reads_dict = get_total_reads(sample_sheet, demux_report_file)
+    total_reads_dict = get_total_reads_DLP(sample_sheet, demux_report_file)
     
     for project in total_reads_dict.keys():
         for category in total_reads_dict[project].keys():
