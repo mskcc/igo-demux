@@ -160,7 +160,7 @@ def run_DLP(sample_sheet, sequencer_and_run):
             data_list_to_write[1] = total_reads_dict[project][category][1]
             data_list_to_write[5] = total_reads_dict[project][category][1]
                 
-            write_to_file = stats_done_dir + run_ID + "___P" + project[8:] + "___" + total_reads_dict[project][category][0] + "___grch38___AM.txt"
+            write_to_file = stats_done_dir + sequencer_and_run_prefix + "___P" + project[8:] + "___" + total_reads_dict[project][category][0] + "___grch38___AM.txt"
             data_line = ""
             for i in data_list_to_write:
                 data_line = data_line + str(i) + "\t"
