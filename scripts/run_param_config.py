@@ -581,6 +581,12 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
+		"MethylCaptureSeq": {
+				BAITS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.baits.ilist",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.targets.ilist",
+				MSKQ: "no",
+				MD: "yes"
+		},
 		"HumanWholeGenome": {
 				MSKQ: "no",
 				MD: "yes",
