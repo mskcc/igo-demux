@@ -142,7 +142,7 @@ with DAG(
             return "No stats for reference "  + samplesheet_path
 
         if "DLP" in sample_sheet.recipe_set:
-            scripts.get_total_reads_from_demux.run_DLP(samplesheet, sequencer_and_run)
+            scripts.get_total_reads_from_demux.run_DLP(sample_sheet, sequencer_and_run)
             upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
             subprocess.run(upload_stats_cmd, shell=True)
             return "DLP stats posted"
