@@ -156,7 +156,7 @@ def run_DLP(sample_sheet, sequencer_and_run):
     
     for project in total_reads_dict.keys():
         for category in total_reads_dict[project].keys():
-            if total_reads_dict[project][category][0] != "empty"
+            if total_reads_dict[project][category][0] != "empty":
                 data_list_to_write = [0] * 24
                 data_list_to_write[0] = "PAIR"
                 data_list_to_write[1] = total_reads_dict[project][category][1]
