@@ -53,7 +53,7 @@ def get_total_reads_DLP(sample_sheet, demux_report_file):
         total_reads_dict[project] = {"samples":["empty",0], "pos_control":["empty",0], "neg_control":["empty",0]}
         
         for category in project_sample_dict[project].keys():
-            if len(project_sample_dict[project][category] != 0):
+            if len(project_sample_dict[project][category]) != 0:
                 total_reads_dict[project][category][0] = project_sample_dict[project][category][0]
                 for sample_ID in project_sample_dict[project][category]:
                     if isinstance(demux_df.loc[sample_ID]["# Reads"], numpy.int64):
