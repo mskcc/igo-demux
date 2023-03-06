@@ -59,7 +59,7 @@ def get_total_reads_DLP(sample_sheet, demux_report_file):
                     if isinstance(demux_df.loc[sample_ID]["# Reads"], numpy.int64):
                         total_reads_dict[project][category][1] += demux_df.loc[sample_ID]["# Reads"] * 2
                     else:
-                        total_reads_dict[project][category][1] = sum(demux_df.loc[sample_ID]["# Reads"]) * 2
+                        total_reads_dict[project][category][1] += sum(demux_df.loc[sample_ID]["# Reads"]) * 2
             
     return total_reads_dict
 
