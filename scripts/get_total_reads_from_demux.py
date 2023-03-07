@@ -53,12 +53,13 @@ def get_total_reads_DLP(sample_sheet, demux_report_file):
         total_reads_dict[project] = {"samples":["empty",0], "pos_control":["empty",0], "neg_control":["empty",0]}
         
         for category in project_sample_dict[project].keys():
-            total_reads_dict[project][category][0] = project_sample_dict[project][category][0]
-            for sample_ID in project_sample_dict[project][category]:
-                if isinstance(demux_df.loc[sample_ID]["# Reads"], numpy.int64):
-                    total_reads_dict[project][category][1] += demux_df.loc[sample_ID]["# Reads"] * 2
-                else:
-                    total_reads_dict[project][category][1] = sum(demux_df.loc[sample_ID]["# Reads"]) * 2
+            if len(project_sample_dict[project][category]) != 0:
+                total_reads_dict[project][category][0] = project_sample_dict[project][category][0]
+                for sample_ID in project_sample_dict[project][category]:
+                    if isinstance(demux_df.loc[sample_ID]["# Reads"], numpy.int64):
+                        total_reads_dict[project][category][1] += demux_df.loc[sample_ID]["# Reads"] * 2
+                    else:
+                        total_reads_dict[project][category][1] += sum(demux_df.loc[sample_ID]["# Reads"]) * 2
             
     return total_reads_dict
 
@@ -155,21 +156,22 @@ def run_DLP(sample_sheet, sequencer_and_run):
     
     for project in total_reads_dict.keys():
         for category in total_reads_dict[project].keys():
-            data_list_to_write = [0] * 24
-            data_list_to_write[0] = "PAIR"
-            data_list_to_write[1] = total_reads_dict[project][category][1]
-            data_list_to_write[5] = total_reads_dict[project][category][1]
-                
-            write_to_file = stats_done_dir + sequencer_and_run_prefix + "___P" + project[8:] + "___" + total_reads_dict[project][category][0] + "___grch38___AM.txt"
-            data_line = ""
-            for i in data_list_to_write:
-                data_line = data_line + str(i) + "\t"
-                
-            with open(write_to_file, 'w') as _file:
-                _file.write("#" + total_reads_dict[project][category][0] + "\n")
-                for i in range(6):
-                    _file.write("#\n")
-                _file.write(data_line)
+            if total_reads_dict[project][category][0] != "empty":
+                data_list_to_write = [0] * 24
+                data_list_to_write[0] = "PAIR"
+                data_list_to_write[1] = total_reads_dict[project][category][1]
+                data_list_to_write[5] = total_reads_dict[project][category][1]
+                    
+                write_to_file = stats_done_dir + sequencer_and_run_prefix + "___P" + project[8:] + "___" + total_reads_dict[project][category][0] + "___grch38___AM.txt"
+                data_line = ""
+                for i in data_list_to_write:
+                    data_line = data_line + str(i) + "\t"
+                    
+                with open(write_to_file, 'w') as _file:
+                    _file.write("#" + total_reads_dict[project][category][0] + "\n")
+                    for i in range(6):
+                        _file.write("#\n")
+                    _file.write(data_line)
   
     print("generate AM txt files to folder: {}".format(stats_done_dir))
 

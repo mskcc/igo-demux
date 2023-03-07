@@ -10,9 +10,9 @@ FLOWCELL=$(echo ${RUNNAME} | cut -d'_' -f3) # MICHELLE_0347_BHWN55DMXX -> BHWN55
 STAT_PREFIX="${MACHINE}_${RUN_NUM}_${FLOWCELL}"
 
 echo "START: $(date +"%D %T")"
-DELPHI_ENDPOINT="http://delphi.mskcc.org:8080/ngs-stats/picardstats/updaterun/${MACHINE}/${STAT_PREFIX}"
-echo "Updating Picard stats DB: ${DELPHI_ENDPOINT}"
-curl "${DELPHI_ENDPOINT}"
+DB_ENDPOINT="http://igodb.mskcc.org:8080/ngs-stats/picardstats/updaterun/${MACHINE}/${STAT_PREFIX}"
+echo "Updating Picard stats DB: ${DB_ENDPOINT}"
+curl "${DB_ENDPOINT}"
 sleep 10
 LIMS_ENDPOINT="https://igo-lims02.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQc?runId=${STAT_PREFIX}"
 printf "\nUpdating LIMS QC Metrics: ${LIMS_ENDPOINT}\n"
