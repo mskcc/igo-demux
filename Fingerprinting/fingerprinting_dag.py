@@ -142,13 +142,13 @@ def fingerprint(project_id):
     shutil.copy(source_filename, destination_filename)
     print("VCF file of {} is copied and renamed".format(project_id))
 
-    # call http://delphi.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project=12345 to update the result
-    DELPHI_ENDPOINT = "http://delphi.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project={}".format(project_id)
+    # call http://igodb.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project=12345 to update the result
+    DB_ENDPOINT = "http://igodb.mskcc.org:8080/ngs-stats/writeCrosscheckMetrics?project={}".format(project_id)
     try:
-        resp = requests.get(DELPHI_ENDPOINT, verify=False)
+        resp = requests.get(DB_ENDPOINT, verify=False)
         print(resp.json())
     except:
-        print("Request Failed: {}".format(DELPHI_ENDPOINT))
+        print("Request Failed: {}".format(DB_ENDPOINT))
         print(resp.raise_for_status())
 
     print("Fingerprinting finished for project {}".format(project_id))
