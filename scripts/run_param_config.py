@@ -123,6 +123,7 @@ species_genome_mapping_UNORDERED = {
 		"R.norvegicus": "rn6",
 		"E.Lambda": "elambda",
 		"Plasmid": "ecolik12",
+		"Pig": "Sscrofa11.1",
 		# FOR NEW ENTRIES
 		# "{regex}": "{GENOME}"
 	
@@ -245,6 +246,20 @@ genome_reference_mapping_UNORDERED = {
 						REF_FLAT: "/home/igo/resources/BED-Targets/mm10-Ref_Flat.txt",
 						GENOME: "/home/igo/resources/BED-Targets/mouse_Counting_miRNA_Genome.fasta",
 						GTAG: "mouse_miRNA"
+				}
+		},
+		"Sscrofa11.1": {
+				DEFAULT: {
+						GENOME: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.dna_sm.toplevel.fa",
+						REFERENCE: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.dna_sm.toplevel.fa",
+				},
+				"RNA": {
+						GENOME: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.dna_sm.toplevel.fa",
+						REFERENCE: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.dna_sm.toplevel.fa",
+						REF_FLAT: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.109.ref.flat",
+						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.109.sorted.rRNA.intervals",
+						GTF: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.109.gtf",
+						GTAG: " Sscrofa11.1"
 				}
 		},
 		"rn6": {
