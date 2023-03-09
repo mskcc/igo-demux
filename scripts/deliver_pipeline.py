@@ -25,7 +25,7 @@ import scripts.deliver_cellranger
 LAB_SHARE_DIR = "/igo/delivery/share"
 STATS_DIR = "/igo/staging/stats"
 PICARD = "java -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
-NGS_STATS_FASTQ_ENDPOINT = "http://delphi.mskcc.org:8080/ngs-stats/permissions/getRequestPermissions/"
+NGS_STATS_FASTQ_ENDPOINT = "http://igodb.mskcc.org:8080/ngs-stats/permissions/getRequestPermissions/"
 
 def deliver_pipeline_output(project, pi, recipe):
     if not project or not pi or not recipe:
