@@ -152,7 +152,7 @@ with DAG(
             if scripts.get_sequencing_read_data.main(sequencer_path)[0]:
                 scripts.get_total_reads_from_demux.by_json(sequencer_and_run)
                 upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
-                subprocess.run(upload_stats_cmd, shell=True)
+                subprocess.run(upload_stats_cmd, shell=True, check=True
 
                 # launch cell ranger based on recipe
                 sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
@@ -162,7 +162,7 @@ with DAG(
                 # step 1, generate txt files containing total reads and upload to qc website
                 scripts.get_total_reads_from_demux.run(sample_sheet, sequencer_and_run)
                 upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
-                subprocess.run(upload_stats_cmd, shell=True)
+                subprocess.run(upload_stats_cmd, shell=True, check=True)
 
                 # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
                 # trim sequencer_and_run if postfix like _10X exsiting
