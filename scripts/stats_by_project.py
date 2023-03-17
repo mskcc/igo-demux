@@ -151,7 +151,7 @@ class LaunchMetrics(object):
 		self.bam = ""
 		self.rna_samples = list()
 		
-	def launch_metrics(self, all_samples, run):
+	def launch_metrics(self, all_samples, run, project_directory):
 		#
 		global RUN_ON_DRAGEN
 		# create output directories
@@ -159,9 +159,12 @@ class LaunchMetrics(object):
 		work_directory = "{}/{}/".format(parent_directory, run)
 		rna_directory = "{}RNA/".format(work_directory)
 		dragen_directory = "{}DRAGEN/".format(work_directory)
-			
+		
 		# create work directory	
 		pathlib.Path(work_directory).mkdir(parents = True, exist_ok = True)
+		
+		# get the section of igo storage where the fastqs are located
+		igo_storage_location = project_directory.split("/")[2]
 			
 		for sample in all_samples:
 			# grab the sample parameters (bait set, type, gtag, etc)
@@ -170,20 +173,20 @@ class LaunchMetrics(object):
 			if (sample_parameters["TYPE"] == "RNA"):
 				# MAKE RNA DIRECTORY
 				pathlib.Path(rna_directory).mkdir(parents = True, exist_ok = True)
-				self.rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory)
+				self.rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory, igo_storage_location)
 				continue
 			# check to see if we need to run the samples on dragen
 			if any(s in sample.recipe for s in RUN_ON_DRAGEN):
 				pathlib.Path(dragen_directory).mkdir(parents = True, exist_ok = True)
-				self.dragen(sample, run, sample_parameters, work_directory, dragen_directory)
+				self.dragen(sample, run, sample_parameters, work_directory, dragen_directory, igo_storage_location)
 				continue
 			# check for methylated samples
 			if ((sample.recipe == "MethylCaptureSeq") or (sample.recipe == "WholeGenomeBisulfiteSequencing")):
 				pathlib.Path(dragen_directory).mkdir(parents = True, exist_ok = True)
-				self.dragen_methylation(sample, run, sample_parameters, work_directory, dragen_directory)
+				self.dragen_methylation(sample, run, sample_parameters, work_directory, dragen_directory, igo_storage_location)
 				continue
 			# do the bam alignment
-			bams_by_lane = self.alignment_to_genome(self, sample, run, sample_parameters, work_directory)
+			bams_by_lane = self.alignment_to_genome(self, sample, run, sample_parameters, work_directory, igo_storage_location)
 			# launch the Picard tools
 			self.launch_picard(bams_by_lane, run, sample, sample_parameters, work_directory)
 			# launch rename of RNA metric files
@@ -201,7 +204,7 @@ class LaunchMetrics(object):
 
 	# let's align the fastqs to the genome!	
 	@staticmethod
-	def alignment_to_genome(self, sample, run, sample_parameters, work_directory):
+	def alignment_to_genome(self, sample, run, sample_parameters, work_directory, igo_storage_location):
 		#
 		# BIG_NODES = "-m \"is01 is02 is03 is04 is05 is06 is07 is08\" -n 60 -M 8 "
 		# aorrg_bams_by_lane = list()
@@ -209,7 +212,7 @@ class LaunchMetrics(object):
 		os.chdir(work_directory)
 		bams_by_lane = list()
 		for fq_pair in sample.all_fastqs.lanes:
-			fastq_directory = "/igo/staging/FASTQ/{}/{}/Sample_{}/".format(run, sample.project, sample.sample_id)
+			fastq_directory = "/igo/{}/FASTQ/{}/{}/Sample_{}/".format(igo_storage_location, run, sample.project, sample.sample_id)
 			fastq_by_lane = fq_pair.r1[:-16]
 			bam_by_lane = "{}.bam".format(fastq_by_lane)
 			bwa_mem_job_name = "{}{}".format(bwa_job_name_header, fastq_by_lane)
@@ -227,7 +230,7 @@ class LaunchMetrics(object):
 	
 	# processing the RNA data: Using DRAGEN for the alignment and CollectRNASeqMetrics Picard tool
 	@staticmethod
-	def rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory):
+	def rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory, igo_storage_location):
 		# 
 		os.chdir(rna_directory)
 		prjct = sample.project[8:]
@@ -240,7 +243,7 @@ class LaunchMetrics(object):
 			
 		rna_dragen_job_name_header = "{}___RNA_DRAGEN___".format(run)
 		metric_file = "{}___P{}___{}___{}".format(run, prjct, sample.sample_id, sample_parameters["GTAG"])
-		fastq_list = "/igo/staging/FASTQ/{}/Reports/fastq_list.csv ".format(run)
+		fastq_list = "/igo/{}/FASTQ/{}/Reports/fastq_list.csv ".format(igo_storage_location, run)
 		
 		launch_dragen_rna = "/opt/edico/bin/dragen -f -r {} --fastq-list {} --fastq-list-sample-id {} -a {} --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort true --enable-bam-indexing true --enable-map-align-output true --output-format BAM --enable-rna true --enable-duplicate-marking true --enable-rna-quantification true --output-file-prefix {} --output-directory {}".format(rna_path, fastq_list, sample.sample_id, sample_parameters["GTF"], metric_file, rna_directory)
 		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(rna_dragen_job_name_header, sample.sample_id, rna_directory, launch_dragen_rna)
@@ -256,7 +259,7 @@ class LaunchMetrics(object):
 		
 		
 	@staticmethod
-	def dragen(sample, run, sample_parameters, work_directory, dragen_directory):
+	def dragen(sample, run, sample_parameters, work_directory, dragen_directory, igo_storage_location):
 		#
 		os.chdir(dragen_directory)
 		dragen_job_name_header = "{}___DRAGEN___".format(run)
@@ -273,7 +276,7 @@ class LaunchMetrics(object):
 			dragen_path = "/staging/ref/sccer"
 			
 		metric_file = "{}___P{}___{}___{}".format(run, prjct, sample.sample_id, sample_parameters["GTAG"])
-		fastq_list = "/igo/staging/FASTQ/{}/Reports/fastq_list.csv ".format(run)
+		fastq_list = "/igo/{}/FASTQ/{}/Reports/fastq_list.csv ".format(igo_storage_location, run)
 		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, metric_file)
 		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
 		print(bsub_launch_dragen)
@@ -281,7 +284,7 @@ class LaunchMetrics(object):
 		
 		
 	@staticmethod
-	def dragen_methylation(sample, run, sample_parameters, work_directory, dragen_directory):
+	def dragen_methylation(sample, run, sample_parameters, work_directory, dragen_directory, igo_storage_location):
 		#
 		os.chdir(dragen_directory)
 		dragen_job_name_header = "{}___DRAGEN___".format(run)
@@ -296,7 +299,7 @@ class LaunchMetrics(object):
 			dragen_path = "/staging/ref/grcm39_methylated"
 			
 		metric_file = "{}___P{}___{}___{}".format(run, prjct, sample.sample_id, sample_parameters["GTAG"])
-		fastq_list = "/igo/staging/FASTQ/{}/Reports/fastq_list.csv ".format(run)
+		fastq_list = "/igo/{}/FASTQ/{}/Reports/fastq_list.csv ".format(igo_storage_location, run)
 		
 		launch_dragen_methylation = "/opt/edico/bin/dragen --enable-methylation-calling true --methylation-protocol directional --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, metric_file)
 		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
@@ -416,7 +419,7 @@ def main(project_directory, recipe, genome):
 	run = get_run.get_run(project_directory)
 	all_samples = get_data.get_samples(project_directory, run, recipe, genome)
 	# print(all_samples)
-	launch_metrics.launch_metrics(all_samples, run)
+	launch_metrics.launch_metrics(all_samples, run, project_directory)
 			
 			
 ############# MAIN ROUTINE
