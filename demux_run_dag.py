@@ -11,6 +11,7 @@ import scripts.get_total_reads_from_demux
 import scripts.cellranger
 import scripts.alignment_and_picard
 import scripts.get_sequencing_read_data
+import scripts.upload_stats
 import Fingerprinting.fingerprinting_dag
 
 from airflow import DAG
@@ -143,16 +144,14 @@ with DAG(
 
         if "DLP" in sample_sheet.recipe_set:
             scripts.get_total_reads_from_demux.run_DLP(sample_sheet, sequencer_and_run)
-            upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
-            subprocess.run(upload_stats_cmd, shell=True, check=True)
+            scripts.upload_stats.upload_stats(sequencer_and_run)
             return "DLP stats posted"
 
         if any("10X_" in s for s in sample_sheet.recipe_set):
             # if is atac run, demux is using cellranger mkfastq
             if scripts.get_sequencing_read_data.main(sequencer_path)[0]:
                 scripts.get_total_reads_from_demux.by_json(sequencer_and_run)
-                upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
-                subprocess.run(upload_stats_cmd, shell=True, check=True)
+                scripts.upload_stats.upload_stats(sequencer_and_run)
 
                 # launch cell ranger based on recipe
                 sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
@@ -161,8 +160,7 @@ with DAG(
             else:
                 # step 1, generate txt files containing total reads and upload to qc website
                 scripts.get_total_reads_from_demux.run(sample_sheet, sequencer_and_run)
-                upload_stats_cmd = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
-                subprocess.run(upload_stats_cmd, shell=True, check=True)
+                scripts.upload_stats.upload_stats(sequencer_and_run)
 
                 # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
                 # trim sequencer_and_run if postfix like _10X exsiting
