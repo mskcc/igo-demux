@@ -36,8 +36,8 @@ config_dict = {
     "vdj" : {
         "tool" : ' /igo/work/nabors/tools/cellranger-6.1.2/cellranger vdj ',
         "genome" : {
-            "Human" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-2.0.0 ',
-            "Mouse" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-2.2.0 '
+            "Human" : ' --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0 ',
+            "Mouse" : ' --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-7.0.0 '
         }
     },
     "atac_count" : {
