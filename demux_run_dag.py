@@ -308,7 +308,7 @@ with DAG(
         subprocess.run(bsub_command_conversion, shell=True)
 
         # call endpoint to push data to ngs database and LIMS
-        upload_stats = "RUNNAME={} /igo/work/igo/igo-demux/scripts/upload_stats.sh".format(sequencer_and_run)
+        upload_stats = "python /igo/work/igo/igo-demux/scripts/upload_stats.py {}".format(sequencer_and_run)
         upload_stats_cmd = 'bsub -J uplaodWGSstats{} -o {}uplaodWGSstats.out -w \"done(create_txt_{}*)\" \"{}\"'.format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, upload_stats)
         print(upload_stats_cmd)
         subprocess.run(upload_stats_cmd, shell=True)
