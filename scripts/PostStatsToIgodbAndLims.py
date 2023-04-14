@@ -3,14 +3,7 @@
 import os
 from subprocess import call
 import sys
-import csv
-import pickle
-from dataclasses import dataclass
-from collections import OrderedDict
 import glob
-import shutil
-import pathlib
-import scripts.generate_run_params
 
 class PostStatsToIgodbAndLims:
 	# let's gather the txt data files and move them

@@ -1,7 +1,7 @@
-from GetSampleData import GetSampleData
-from GetRun import GetRun
-from LaunchMetrics import LaunchMetrics
-from PostStatsToIgodbAndLims import PostStatsToIgodbAndLims
+from scripts.GetSampleData import GetSampleData
+from scripts.GetRun import GetRun
+from scripts.LaunchMetrics import LaunchMetrics
+from scripts.PostStatsToIgodbAndLims import PostStatsToIgodbAndLims
 import sys
 import os
 

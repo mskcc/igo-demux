@@ -10,7 +10,6 @@ from collections import OrderedDict
 import glob
 import shutil
 import pathlib
-import scripts.generate_run_params
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
