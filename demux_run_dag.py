@@ -9,7 +9,7 @@ from SampleSheet import SampleSheet
 import scripts.organise_fastq_split_by_lane
 import scripts.get_total_reads_from_demux
 import scripts.cellranger
-import scripts.alignment_and_picard
+import scripts.stats_by_sample_sheet
 import scripts.get_sequencing_read_data
 import scripts.upload_stats
 import Fingerprinting.fingerprinting_dag
