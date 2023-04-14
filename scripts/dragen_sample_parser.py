@@ -3,6 +3,7 @@
 import pandas as pd
 import sys
 import os
+import glob
 
 # input will be the path to all the csv files and output path for txt files
 
@@ -26,13 +27,14 @@ class DragenStats:
     # recipe = "WGS"
     # sep = "___"
 
-    def __init__(self, sample_name):
-        self.sample_name = sample_name
+    def __init__(self):
+        self.sample_name = ""
 
-    def read_info_from_csv(self, folder_path):
+    def read_info_from_csv(self, metrics_file_prefix, dragen_metrics_directory):
         # open mapping_metrics csv and store info in dataframe
-        mapping_file_name = folder_path + self.sample_name + ".mapping_metrics.csv"
-        df_mapping_metrics = pd.read_csv(mapping_file_name, index_col=2, nrows=53, names=[0,1,2,3,4])
+        sample_id = metrics_file_prefix.split("___")[2]
+        mapping_metrics_file = "{}/{}.mapping_metrics.csv".format(dragen_metrics_directory, sample_id)
+        df_mapping_metrics = pd.read_csv(mapping_metrics_file, index_col = 2, nrows = 53, names = [0,1,2,3,4])
         self.READ_PAIRS_EXAMINED = int (df_mapping_metrics.loc["Properly paired reads"][3] / 2)
         self.UNMAPPED_READS = int (df_mapping_metrics.loc["Unmapped reads"][3])
         self.TOTAL_READS = int (df_mapping_metrics.loc["Total input reads"][3])
@@ -40,35 +42,34 @@ class DragenStats:
         self.PERCENT_DUPLICATION = df_mapping_metrics.loc["Number of duplicate marked reads"][4] / 100
         self.READS_ALIGNED_IN_PAIRS = int (df_mapping_metrics.loc["Properly paired reads"][3])
         # open coverage_metrics*.csv and store info in dataframe
-        # coverage_file_name = folder_path + self.sample_name + ".wgs_coverage_metrics.csv"
-        # df_coverage_metrics = pd.read_csv(coverage_file_name, index_col=2, names=[0,1,2,3,4])
-        # self.MEAN_TARGET_COVERAGE = df_coverage_metrics.loc["Average alignment coverage over genome"][3]
-        # self.PF_READS_ALIGNED = int(df_coverage_metrics.loc["Aligned reads"][3])
+        wgs_coverage_metrics_file = "{}/{}.wgs_coverage_metrics.csv".format(dragen_metrics_directory, sample_id)
+        df_coverage_metrics = pd.read_csv(wgs_coverage_metrics_file, index_col = 2, names = [0,1,2,3,4])
+        self.MEAN_TARGET_COVERAGE = df_coverage_metrics.loc["Average alignment coverage over genome"][3]
+        self.PF_READS_ALIGNED = int(df_coverage_metrics.loc["Aligned reads"][3])
 
 
     # creat ___AM.txt picard stats format file
     # requirments: 7 lines minimun, line with data need to start with Category PAIR, file name ends with ___AM.txt
-    def write_to_am_txt(self, output_path):
+    def write_to_am_txt(self):
         data_list_to_write = [0] * 24
         data_list_to_write[0] = "PAIR"
         data_list_to_write[1] = self.TOTAL_READS
         # data_list_to_write[5] = self.PF_READS_ALIGNED
         data_list_to_write[16] = self.READS_ALIGNED_IN_PAIRS
 
-        write_to_file = output_path + self.sample_name + "___DRAGEN3_10_8___AM.txt"
+        write_to_file ="{}/{}___DRAGEN3_10_8___AM.txt".format(work_directory, metrics_file_prefix)
         data_line = ""
         for i in data_list_to_write:
             data_line = data_line + str(i) + "\t"
         
         with open(write_to_file, 'w') as _file:
-            _file.write("#" + self.sample_name + "\n")
+            _file.write("#" + metrics_file_prefix + "\n")
             for i in range(6):
                 _file.write("#\n")
             _file.write(data_line)
 
     # creat ___MD.txt picard stats format file
-
-    def write_to_md_txt(self, output_path):
+    def write_to_md_txt(self):
         data_list_to_write = [0] * 10
         data_list_to_write[0] = self.sample_name
         data_list_to_write[2] = self.READ_PAIRS_EXAMINED
@@ -77,46 +78,52 @@ class DragenStats:
         data_list_to_write[8] = self.PERCENT_DUPLICATION
         
         header = "LIBRARY	UNPAIRED_READS_EXAMINED	READ_PAIRS_EXAMINED	SECONDARY_OR_SUPPLEMENTARY_RDS	UNMAPPED_READS	UNPAIRED_READ_DUPLICATES	READ_PAIR_DUPLICATES	READ_PAIR_OPTICAL_DUPLICATES	PERCENT_DUPLICATION	ESTIMATED_LIBRARY_SIZE"
-        write_to_file = output_path + self.sample_name + "___DRAGEN3_10_8___MD.txt"
+        write_to_file = "{}/{}___DRAGEN3_10_8___MD.txt".format(work_directory, metrics_file_prefix)
         data_line = ""
         for i in data_list_to_write:
             data_line = data_line + str(i) + "\t"
         
         with open(write_to_file, 'w') as _file:
-            _file.write("#" + self.sample_name + "\n" + "#\n" + "\n")
+            _file.write("#" +metrics_file_prefix + "\n" + "#\n" + "\n")
             _file.write(header + "\n")
             _file.write(data_line)
+            
+            
+    def write_to_wgs_txt(self):
+        data_list_to_write = [0] * 28
+        data_list_to_write[1] = self.MEAN_TARGET_COVERAGE
+        
+        header = "GENOME_TERRITORY	MEAN_COVERAGE	SD_COVERAGE	MEDIAN_COVERAGE	MAD_COVERAGE	PCT_EXC_ADAPTER	PCT_EXC_MAPQ	PCT_EXC_DUPE	PCT_EXC_UNPAIRED	PCT_EXC_BASEQ	PCT_EXC_OVERLAP	PCT_EXC_CAPPED	PCT_EXC_TOTAL	PCT_1X	PCT_5X	PCT_10X	PCT_15X	PCT_20X	PCT_25X	PCT_30X	PCT_40X	PCT_50X	PCT_60X	PCT_70X	PCT_80X	PCT_90X	PCT_100X	FOLD_80_BASE_PENALTY	FOLD_90_BASE_PENALTY	FOLD_95_BASE_PENALTY	HET_SNP_SENSITIVITY	HET_SNP_Q"
+        write_to_file = "{}/{}___DRAGEN3_10_8___WGS.txt".format(work_directory, metrics_file_prefix)
+        data_line = ""
+        for i in data_list_to_write:
+            data_line = data_line + str(i) + "\t"
+                
+        with open(write_to_file, 'w') as _file:
+            _file.write("#" + self.sample_name + "\n")
+            for i in range(4):
+                _file.write("#\n")
+            _file.write("\n" + header + "\n")
+            _file.write(data_line)
            
-    # creat ___WGS.txt picard stats format file
-            # def write_to_wgs_txt(self, output_path):
-            #    data_list_to_write = [0] * 28
-            # data_list_to_write[1] = self.MEAN_TARGET_COVERAGE
-        
-            # header = "GENOME_TERRITORY	MEAN_COVERAGE	SD_COVERAGE	MEDIAN_COVERAGE	MAD_COVERAGE	PCT_EXC_ADAPTER	PCT_EXC_MAPQ	PCT_EXC_DUPE	PCT_EXC_UNPAIRED	PCT_EXC_BASEQ	PCT_EXC_OVERLAP	PCT_EXC_CAPPED	PCT_EXC_TOTAL	PCT_1X	PCT_5X	PCT_10X	PCT_15X	PCT_20X	PCT_25X	PCT_30X	PCT_40X	PCT_50X	PCT_60X	PCT_70X	PCT_80X	PCT_90X	PCT_100X	FOLD_80_BASE_PENALTY	FOLD_90_BASE_PENALTY	FOLD_95_BASE_PENALTY	HET_SNP_SENSITIVITY	HET_SNP_Q"
-            # write_to_file = output_path + self.sample_name + "___WGS.txt"
-            # ata_line = ""
-            # for i in data_list_to_write:
-            # data_line = data_line + str(i) + "\t"
-        
-            # with open(write_to_file, 'w') as _file:
-            # _file.write("#" + self.sample_name + "\n")
-            # for i in range(4):
-            #    _file.write("#\n")
-            # _file.write("\n" + header + "\n")
-            # _file.write(data_line)
+def main(dragen_metrics_directory, work_directory, metrics_file_prefix, sample_type):
+    
+    dragen_stats = DragenStats()
+    dragen_stats.read_info_from_csv(metrics_file_prefix, dragen_metrics_directory)
+    dragen_stats.write_to_am_txt()
+    dragen_stats.write_to_md_txt()
+    if sample_type == "WGS":
+        dragen_stats.write_to_wgs_txt()
+    
 
 if __name__ == "__main__":
     # Usage: python dragenstats_csv_to_txt.py [dragen_stats_dir] [output_file_dir]
     # example: python3 /Users/luc/Documents/GitHub/igo-demux/scripts/dragenstats_csv_to_txt.py /Users/luc/Documents/GitHub/igo-demux/test/ /Users/luc/Documents/GitHub/igo-demux/test/result_test/
-    dragen_stats_folder = sys.argv[1]
-    output_folder_path = sys.argv[2]
-    sample_list = get_sample_list(dragen_stats_folder)
-    for i in sample_list:
-        dragen_stats = DragenStats(i)
-        dragen_stats.read_info_from_csv(dragen_stats_folder)
-        dragen_stats.write_to_am_txt(output_folder_path)
-        dragen_stats.write_to_md_txt(output_folder_path)
-        # dragen_stats.write_to_wgs_txt(output_folder_path)
+    dragen_metrics_directory = sys.argv[1]
+    work_directory = sys.argv[2]
+    metrics_file_prefix = sys.argv[3]
+    sample_type = sys.argv[4]
+    main(dragen_metrics_directory, work_directory, metrics_file_prefix, sample_type)
     
     
     
@@ -130,5 +137,4 @@ if __name__ == "__main__":
     
     
     
-    
-    
+        
