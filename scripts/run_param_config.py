@@ -110,7 +110,7 @@ species_genome_mapping_UNORDERED = {
 		"Mouse": "grcm39",
 		"Mouse_GeneticallyModified": "grcm39",
 		"Drosophilia": "dm3",
-		"Zebrafish": "danrer7",
+		"Zebrafish": "grcz11",
 		"Chicken": "galGal4",
 		".*uberculosis": "mtubf11",
 		"S.Cerevisae": "sccer",
@@ -259,7 +259,7 @@ genome_reference_mapping_UNORDERED = {
 						REF_FLAT: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.109.ref.flat",
 						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.109.sorted.rRNA.intervals",
 						GTF: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.109.gtf",
-						GTAG: " Sscrofa11.1"
+						GTAG: "Sscrofa11.1"
 				}
 		},
 		"rn6": {
@@ -296,13 +296,18 @@ genome_reference_mapping_UNORDERED = {
 						REFERENCE: "/igo/work/genomes/S.cerevisiae/sacCer2/UCSC/BWA_0.7.5a/UCSC_sacCer2.fasta"
 				}
 		},
-		"danrer7": {
+		"grcz11": {
 				DEFAULT: {
-						GENOME: "/igo/work/genomes/D.rerio/danRer7/BWA_0.7.5a/danRer7.fa",
-						REFERENCE: "/igo/work/genomes/D.rerio/danRer7/BWA_0.7.5a/danRer7.fa"
+						GENOME: "/igo/work/nabors/genomes/zebrafish/Danio_rerio.GRCz11.dna.primary_assembly.fa",
+						REFERENCE: "/igo/work/nabors/genomes/zebrafish/Danio_rerio.GRCz11.dna.primary_assembly.fa"
 				},
 				"RNA": {
-						REF_FLAT: "/home/igo/resources/BED-Targets/danRer7-Ref_Flat.txt"
+						GENOME: "/igo/work/nabors/genomes/zebrafish/Danio_rerio.GRCz11.dna.primary_assembly.fa",
+						REFERENCE: "/igo/work/nabors/genomes/zebrafish/Danio_rerio.GRCz11.dna.primary_assembly.fa",
+						REF_FLAT: "/igo/work/nabors/genomes/zebrafish/Danio_rerio.GRCz11.109.refFlat",
+						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/zebrafish/Danio_rerio.GRCz11.109.rRNA.intervals",
+						GTF: "/igo/work/nabors/genomes/zebrafish/Danio_rerio.GRCz11.109.gtf",
+						GTAG: "grcz11"
 				}
 		},
 		"ce10": {
