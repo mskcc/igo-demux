@@ -6,7 +6,10 @@ class GetRun(object):
 	def __init__(self):
 		self.run = ""
 		
-	def get_run(self, sample_sheet):
-		self.run = sample_sheet.split("/")[5][19:-4]
+	def get_run(self, ss_or_project_dir):
+		if ss_or_project_dir[-3:] == "csv":
+			self.run = ss_or_project_dir.split("/")[5][19:-4]
+		else:
+			self.run = ss_or_project_dir.split("/")[4]
 		return(self.run)
 	

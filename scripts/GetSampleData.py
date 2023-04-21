@@ -10,6 +10,7 @@ from collections import OrderedDict
 import glob
 import shutil
 import pathlib
+import scripts.generate_run_params
 
 # setting up the data classes for the sample sheet structure for launching the metrics
 @dataclass
@@ -40,11 +41,30 @@ class GetSampleData:
 		self.duplicate_sample = ""
 		self.all_fastqs = list()
 		
+		
+	# grab the project from either the staging or delivery FASTQ location
+	def get_samples_project_dir(self, project_directory, run, recipe, genome):
+	
+		global data_headers
+			
+		sample_ids = os.listdir(project_directory)
+			
+		for sample_id in sample_ids:
+			#
+			# go to a routine to pair the reads.  and return them
+			self.all_lanes = self.get_fastqs(self, sample_id, project_directory)
+			# get project
+			project = project_directory.split("/")[-1]
+			sr = Sample(sample_id[7:], genome, recipe, project, self.all_lanes)
+			self.all_samples.append(sr)
+		return(self.all_samples)
+		
+		
 	# let's grab the sample sheet and run info to store into the data classes
 	# the sample sheet is in csv file format
-	def get_samples(self, sample_sheet, run):
-		#
-		global DO_NOT_PROCESS, data_headers
+	def get_samples_ss(self, sample_sheet, run):
+		
+		global data_headers
 		
 		csv_sample_data = list()
 		testing = list()
@@ -66,13 +86,15 @@ class GetSampleData:
 					self.duplicate_sample = self.check_this_sample(row[data_headers.index("Sample_ID")], self.all_sample_ids)
 					if not self.duplicate_sample:
 						# go to a routine to pair the reads.  and return them
-						self.all_lanes = self.get_fastqs(self, row, sample_sheet, run)
+						project_directory = "/igo/staging/FASTQ/{}/{}".format(run, row[data_headers.index("Sample_Project")])
+						sample_id = "Sample_{}".format(row[data_headers.index("Sample_ID")])
+						self.all_lanes = self.get_fastqs(self, sample_id, project_directory)
 						sr = Sample(row[data_headers.index("Sample_ID")], row[data_headers.index("Sample_Plate")], row[data_headers.index("Sample_Well")], row[data_headers.index("Sample_Project")], self.all_lanes)
 						self.all_samples.append(sr)
 				else:
 					continue
-		#
 		return(self.all_samples)
+	
 	
 	# checking for duplicate reads in the sample sheet
 	@staticmethod
@@ -87,10 +109,10 @@ class GetSampleData:
 	
 	# let's start the process of obtaining the fastqs	
 	@staticmethod
-	def get_fastqs(self, row, sample_sheet, run):
+	def get_fastqs(self, sample_id, project_directory):
 		#
 		# get run from the sample sheet
-		fastq_directory = "/igo/staging/FASTQ/{}/{}/Sample_{}/".format(run, row[data_headers.index("Sample_Project")], row[data_headers.index("Sample_ID")])
+		fastq_directory = "{}/{}/".format(project_directory, sample_id)
 		fastqs  = os.listdir(fastq_directory)
 		# right here, let's eliminate all fastqs from the list that isn't R1 or R2
 		fastqs = [x for x in fastqs if ("_R1_001.fastq" in x) or ("_R2_001.fastq" in x)]
