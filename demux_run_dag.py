@@ -178,7 +178,7 @@ with DAG(
             launch_wgs_stats(sample_sheet, sequencer_and_run)
             print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
-        scripts.calculate_stats.main([samplesheet_path])
+        scripts.calculate_stats.main(samplesheet_path)
 
         # add DONE file when all the stats finished, -K to wait until finish
         cmd = 'bsub -K -J wait_stats_done_for_{} -w \"done(uplaodWGSstats{}*)\" touch /igo/staging/stats/{}/DONE'.format(sequencer_and_run, sequencer_and_run, sequencer_and_run)
