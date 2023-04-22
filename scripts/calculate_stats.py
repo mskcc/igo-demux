@@ -6,7 +6,7 @@ import sys
 import os
 
 	
-def main(args_entered):
+def main(argv):
 	
 	# Initiate objects
 	get_run = GetRun()
@@ -14,19 +14,16 @@ def main(args_entered):
 	launch_metrics = LaunchMetrics()
 	post_data = PostStatsToIgodbAndLims()
 	
-	ss_or_project_dir = args_entered[0]
-	print(ss_or_project_dir)
-	
-	# let's get the sequencing run
-	run = get_run.get_run(ss_or_project_dir)
-	print(run)
-	
-	if len(args_entered) == 3:
-		recipe = args_entered[1]
-		genome = args_entered[2]
-		all_samples = get_data.get_samples_project_dir(ss_or_project_dir, run, recipe, genome)
+	# check the type for input, then proceed accordingly
+	if type(argv) is list:
+		project_directory = argv[0]
+		recipe = argv[1]
+		genome = argv[2]
+		run = get_run.get_run(project_directory)
+		all_samples = get_data.get_samples_project_dir(project_directory, run, recipe, genome)
 	else:
-		all_samples = get_data.get_samples_ss(ss_or_project_dir, run)
+		run = get_run.get_run(argv)
+		all_samples = get_data.get_samples_ss(argv, run)
 
 	# lets start the alignment and other metrics
 	launch_metrics.launch_metrics(all_samples, run)
@@ -38,13 +35,8 @@ def main(args_entered):
 ############# MAIN ROUTINE
 if __name__ == "__main__":
 	
-	# grab the sample sheet as an argument
-	args_entered = sys.argv
-	
-	# take off first element of this list
-	args_entered.pop(0)
-	
-	main(args_entered)
+	# grab the sample sheet or project directory, recipe and genome
+	main(sys.argv)
 	
 	
 	
