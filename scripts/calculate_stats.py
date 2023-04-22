@@ -42,7 +42,7 @@ if __name__ == "__main__":
 	args_entered = sys.argv
 	
 	# take off first element of this list
-	# args_entered.pop(0)
+	args_entered.pop(0)
 	
 	main(args_entered)
 	
