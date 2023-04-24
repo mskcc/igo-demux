@@ -1,7 +1,7 @@
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-import scripts.stats_by_project
+import scripts.calculate_stats
 import scripts.cellranger
 
 """
@@ -30,7 +30,7 @@ with DAG(
         if "10X_" in recipe:
             scripts.cellranger.lanuch_by_project(project_directory, recipe, species)
         else:
-            scripts.stats_by_project.main(project_directory, recipe, species)
+            scripts.calculate_stats.main([project_directory, recipe, species])
 
         return "Stats done for project in this directory {}".format(project_directory)      
 

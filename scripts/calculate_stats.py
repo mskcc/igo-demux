@@ -39,24 +39,5 @@ if __name__ == "__main__":
 	main(sys.argv)
 	
 	
-	
-	
-	
-	
-	
-	
-# if rna_or_dragen_directory_present:   # this would be set to true
-# rna_or_dragen_data_files.append(list(glob.iglob("*WGS.txt")))
-# rna_or_dragen_data_files.append(list(glob.iglob("*MD.txt")))
-# rna_or_dragen_data_files.append(list(glob.iglob("*AM.txt")))
-# rna_or_dragen_data_files = rna_or_dragen_data_files[0] + rna_or_dragen_data_files[1] + rna_or_dragen_data_files[2]
-# for data_file in rna_or_dragen_data_files:
-# shutil.move(data_file, done_directory)
-	
-# push_txt_files = "python3 /igo/work/igo/igo-demux/scripts/push_to_ngs_and_lims.py " 
-# bsub_mv_all_txt = "bsub -K -J PUSH_DATA___" + run + " -o " + "PUSH_DATA___" + run + ".out -w \"ended(" + run + "___*)\" -n 2 -M 8 " + push_txt_files
-# print(bsub_mv_all_txt)
-# call(bsub_mv_all_txt, shell = True)
-	
-	
+
 	
