@@ -8,7 +8,7 @@ import sys
 def main(done_directory):
 	
 	for data_file in glob.iglob("*.txt"):
-		shutil.move(data_file, done_directory)
+		shutil.copy(data_file, done_directory)
 	
 	
 
