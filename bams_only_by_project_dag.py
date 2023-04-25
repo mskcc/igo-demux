@@ -1,7 +1,7 @@
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-import scripts.bams_only_by_project
+import scripts.launch_alignment
 import scripts.cellranger
 
 """
@@ -30,7 +30,7 @@ with DAG(
         if "10X_" in recipe:
             scripts.cellranger.lanuch_by_project(project_directory, recipe, species)
         else:
-            scripts.bams_only_by_project.main(project_directory, recipe, species)
+            scripts.alignment_only.main(project_directory, recipe, species)
 
         return "Bams generated for project in this directory {}".format(project_directory)      
 
