@@ -436,8 +436,8 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"WholeExomeSequencing": {
-				BAITS: "/home/igo/resources/ilist/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_baits.interval_list",
-				TARGETS: "/home/igo/resources/ilist/IDT_Exome_v1_FP/b37/IDT_Exome_v1_FP_b37_targets.interval_list",
+				BAITS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_BAITS.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_TARGETS.targets",
 				MSKQ: "no",
 				MD: "yes"
 		},
