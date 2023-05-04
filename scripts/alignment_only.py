@@ -20,11 +20,12 @@ def main(argv):
 		run = get_run.get_run(project_directory)
 		all_samples = get_data.get_samples_project_dir(project_directory, run, recipe, genome)
 	else:
+		project_directory = argv
 		run = get_run.get_run(argv)
 		all_samples = get_data.get_samples_ss(argv, run)
-
+		
 	# lets start the alignment and other metrics
-	launch_alignment.launch_alignment(all_samples, run)
+	launch_alignment.launch_alignment(all_samples, run, project_directory)
 	
 	
 ############# MAIN ROUTINE
