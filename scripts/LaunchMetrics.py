@@ -31,7 +31,7 @@ class LaunchMetrics(object):
 		self.bam = ""
 		self.rna_samples = list()
 		
-	def launch_metrics(self, all_samples, run):
+	def launch_metrics(self, all_samples, run, project_directory):
 		#
 		global RUN_ON_DRAGEN
 		# create output directories
