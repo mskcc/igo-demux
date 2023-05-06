@@ -52,6 +52,7 @@ class LaunchMetrics(object):
 			call(create_delivery_fastq_list, shell = True)
 		else: 
 			fastq_list = "/igo/staging/FASTQ/{}/Reports/fastq_list.csv ".format(run)
+			igo_storage_location = "staging"
 		
 		for sample in all_samples:
 			# test to see if there are some samples that this script will not process
