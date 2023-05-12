@@ -601,6 +601,12 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
+		"Ganesh_ZFP36_Expanded": {
+				BAITS: "/igo/home/igo/resources/ilist/hg38/Ganesh_ZFP36_Expanded/Ganesh_ZFP36_Expanded_BAITS.iList",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/Ganesh_ZFP36_Expanded/Ganesh_ZFP36_Expanded_TARGETS.iList",
+				MSKQ: "no",
+				MD: "yes"
+		},
 		"MethylCaptureSeq": {
 				BAITS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.baits.ilist",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.targets.ilist",
@@ -708,3 +714,4 @@ recipe_options_mapping_UNORDERED = {
 		}     # DEFAULT
 }
 recipe_options_mapping = get_ordered_dic(recipe_options_mapping_UNORDERED)
+	
