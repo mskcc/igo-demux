@@ -126,10 +126,20 @@ with DAG(
     def get_dlp_chip(samplesheet, project):
         samplesheet.df_ss_data.reset_index()
         for index, row in samplesheet.df_ss_data.iterrows():
-            if row['Sample_Well'] == 'DLP' and 'CONTROL' in row['Sample_ID'] and project == row['Sample_Project']:
+            if row['Sample_Well'] == 'DLP' and project == row['Sample_Project']:
                 # return chip from 071PP_DLP_UNSORTED_128624A_13_12_IGO_09443_CU_1_1_121
                 sample = row['Sample_ID']
-                return re.split('_', sample)[1]
+                return get_dlp_chip_from_sample_name(sample)
+    
+    def get_dlp_chip_from_sample_name(sample):
+        # given a sample name such as "1_cellcover_4C_128749A_37_42" return the DLP chip ie 128749A
+        pattern = r"_[0-9]{6}[A-Z]_"
+        match = re.search(pattern, sample)
+    
+        if match:
+            return match.group()[1:-1]
+        else:
+            return None
 
     def stats(ds, **kwargs):
         sequencer_path = kwargs["params"]["sequencer_path"]

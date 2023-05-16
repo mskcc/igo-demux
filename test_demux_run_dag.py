@@ -16,3 +16,7 @@ def test_get_dlp_chip():
             assert(chip_id == "128676A")
         if project == "13098_C":
             assert(chip_id == "128680A")
+
+
+def test_get_dlp_chip_from_sample_name():
+    assert(demux_run_dag.get_dlp_chip_from_sample_name("1_cellcover_4C_128749A_37_42") == "128749A")
