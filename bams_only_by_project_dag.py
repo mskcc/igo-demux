@@ -30,7 +30,7 @@ with DAG(
         if "10X_" in recipe:
             scripts.cellranger.lanuch_by_project(project_directory, recipe, species)
         else:
-            scripts.alignment_only.main(project_directory, recipe, species)
+            scripts.alignment_only.main([project_directory, recipe, species])
 
         return "Bams generated for project in this directory {}".format(project_directory)      
 
