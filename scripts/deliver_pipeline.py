@@ -41,24 +41,6 @@ def deliver_pipeline_output(project, pi, recipe):
         reconcile_bam_fastq_list(project, bamdict)
         return "Completed RNA bams delivery"
     
-    # if 10X recipe or SCRI project starting with 12437, copy cell ranger result to project folder
-    elif recipe.startswith("10XGenomics") or project.startswith("12437_"):
-        folder_list = scripts.deliver_cellranger.find_cellranger(project)
-        if len(folder_list) == 0:
-            print("No cellragner result available")
-        else:
-            # create pipeline folder if not exists
-            cellranger_delivery_folder = delivery_folder + "/cellranger"
-            if not os.path.exists(cellranger_delivery_folder):
-                print("Creating pipeline delivery folder {}".format(cellranger_delivery_folder))
-                os.makedirs(cellranger_delivery_folder)
-
-            # copy each sample folder to the delivery folder
-            for folder in folder_list:
-                sample_name = folder.split("/")[-1]
-                sample_delivery_name = cellranger_delivery_folder + "/" + sample_name
-                print("copy {}".format(folder))
-                shutil.copytree(folder, sample_delivery_name)
     # if is missionbio recipe, find tapestri pipelie output and copy all sample folders
     elif recipe == "MissionBio":
         tapestri_path = "/igo/staging/stats/MissionBio/Project_" + project
@@ -80,7 +62,8 @@ def deliver_pipeline_output(project, pi, recipe):
                 shutil.copytree(sample_folder, destination)
 
     # if recipe is CRISPRSeq or GeoMx, go to pipeline folder and find output, if exists the copy
-    elif recipe == "CRISPRSeq" or recipe == "GeoMx" or recipe == "GeoMX":
+    # add cellranger multi output for featurebarcoding project here for now
+    elif recipe == "CRISPRSeq" or recipe == "GeoMx" or recipe == "GeoMX" or recipe == "10XGenomics_FeatureBarcoding":
         pipeline_path = "/igo/stats/PIPELINE/Project_" + project
         if not os.path.exists(pipeline_path):
             print("No pipeline result available")
@@ -103,6 +86,25 @@ def deliver_pipeline_output(project, pi, recipe):
                     print(cmd)
                     call(cmd, shell=True)
     
+    # if 10X recipe or SCRI project starting with 12437, copy cell ranger result to project folder
+    elif recipe.startswith("10XGenomics") or project.startswith("12437_"):
+        folder_list = scripts.deliver_cellranger.find_cellranger(project)
+        if len(folder_list) == 0:
+            print("No cellragner result available")
+        else:
+            # create pipeline folder if not exists
+            cellranger_delivery_folder = delivery_folder + "/cellranger"
+            if not os.path.exists(cellranger_delivery_folder):
+                print("Creating pipeline delivery folder {}".format(cellranger_delivery_folder))
+                os.makedirs(cellranger_delivery_folder)
+
+            # copy each sample folder to the delivery folder
+            for folder in folder_list:
+                sample_name = folder.split("/")[-1]
+                sample_delivery_name = cellranger_delivery_folder + "/" + sample_name
+                print("copy {}".format(folder))
+                shutil.copytree(folder, sample_delivery_name)
+
     # TCR seq only need deliver manifest, those files located under viale lab drive
     # example file: /pskis34/LIMS/TCRseqManifest/Project_13545_TCRseq_Manifest_Beta.csv
     elif recipe == "TCRSeq-IGO":
