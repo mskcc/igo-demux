@@ -10,6 +10,7 @@ from subprocess import call
 from cellranger import config_dict, OPTIONS
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
+DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
 
 # config file class. It contains all the information needed for config file and can create csv file base on those info
 class Multi_Config:
@@ -43,18 +44,40 @@ class Multi_Config:
                 for key, value in self.samples.items():
                     file.write("{},{}\n".format(key, value))
 
+# read ch file from shared drive and generate config file per sample and return sample to sample info also
+# default all hash tag are totalseq B from biolegend
+def ch_file_generation(project_id):
+    in_file_location = DRIVE_LOCATION + project_id + "/" + os.listdir("DRIVE_LOCATION + project_id")[0]
+    df = pd.read_excel(in_file_location, engine="openpyxl")
+    line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
+    df = pd.read_excel(in_file_location, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
+    sample_tag_dict = pd.Series(df['Hashtag Name'].values,index=df['Sample Name']).to_dict()
+    tag_seq_dict = pd.Series(df['Hashtag sequence'].values,index=df['Hashtag Name']).to_dict()
+    sample_lst = set(df["Sample Name in IGO"].tolist())
+    sample_dict = {}
+    for sample in sample_lst:
+        sample_dict[sample] = df[df["Sample Name in IGO"] == sample]["Sample Name"].tolist()
+        for i in range(len(sample_dict[sample])):
+            sample_dict[sample][i] = [sample_dict[sample][i], sample_tag_dict[sample_dict[sample][i]]]
 
+    # write ch config file for this project
+    file_name = "/igo/stats/Multi_config/Project_{}/Project_{}_ch.csv".format(project_id, project_id)
+    with open(file_name,'w') as file:
+        file.write("id,name,read,pattern,sequence,feature_type\n")
+        for key, value in tag_seq_dict.items():
+            file.write("{},{},R2,5PNNNNNNNNNN(BC),{},Multiplexing Capture\n".format(key, key, value))
+
+    return(sample_dict)
 
 def gather_config_info(sample_dict, genome, IGO_ID):
     """
     sample_dict contains all the information about samples, sample name, project_ID and recipe name
     example: {"ge":"LJ01_IGO_14396_1", "vdj": "LJ01_VDJ_IGO_14396_C_1", "fb":"", "ch":""}
-    one file per sample named with IGO ID
+    one file per sample named with IGO ID (GEX sample ID)
     """
     # library use fastq id as key, then followed by a list which first item is list of fastq path in case top up and second is feature type
     # fb reference file should have format as following: /igo/stats/Multi_config/Project_12345/Project_12345_fb.csv
-    # ch reference per project or per sample?
-    # ch reference file should have format as following: /igo/stats/Multi_config/Project_12345/LJ01_IGO_14396_1_ch.csv
+    # ch reference file should have format as following: /igo/stats/Multi_config/Project_12345/Project_12345_ch.csv
     # how to record vdj-t and vdj-b?
     project_ID = IGO_ID.split("IGO_")[1][:-2]
     config = Multi_Config()
@@ -83,18 +106,16 @@ def gather_config_info(sample_dict, genome, IGO_ID):
             config.lirbaries[value] = [fastq_list[value], "VDJ"]
         elif key == "fb":
             config.lirbaries[value] = [fastq_list[value], "Antibody Capture"]
-         elif key == "ch":
+        elif key == "ch":
             config.lirbaries[value] = [fastq_list[value], "Multiplexing Capture"]
        
    	
 # example config Class
+# test = Multi_Config()
+# test.gene_expression["reference"] = "/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A"
+# test.lirbaries = {"WO9112_NoPeptide_IGO_14514_1":[["/igo/staging/FASTQ/MICHELLE_0643_BHKL3GDMXY/Project_14514/Sample_WO9112_NoPeptide_IGO_14514_1"], "Gene Expression"], "WO9112_NoPeptide_VDJ_IGO_14514_C_1":[["/igo/staging/FASTQ/MICHELLE_0643_BHKL3GDMXY/Project_14514_C/Sample_WO9112_NoPeptide_VDJ_IGO_14514_C_1", "fake test"],"VDJ"]}
+# test.vdj = "/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0"
+# test.features = "/igo/stats/Multi_config/Project_14514_fb.csv"
+# test.samples = {"test1":"B301", "test2":"B302"}
 
-
-test = Multi_Config()
-test.gene_expression["reference"] = "/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A"
-test.lirbaries = {"WO9112_NoPeptide_IGO_14514_1":[["/igo/staging/FASTQ/MICHELLE_0643_BHKL3GDMXY/Project_14514/Sample_WO9112_NoPeptide_IGO_14514_1"], "Gene Expression"], "WO9112_NoPeptide_VDJ_IGO_14514_C_1":[["/igo/staging/FASTQ/MICHELLE_0643_BHKL3GDMXY/Project_14514_C/Sample_WO9112_NoPeptide_VDJ_IGO_14514_C_1", "fake test"],"VDJ"]}
-test.vdj = "/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0"
-test.features = "/igo/stats/Multi_config/Project_14514_fb.csv"
-test.samples = {"test1":"B301", "test2":"B302"}
-
-test.write_to_csv("test.csv")
+# test.write_to_csv("test.csv")
