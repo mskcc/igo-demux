@@ -41,8 +41,8 @@ class Multi_Config:
 
             if self.samples != "EMPTY":
                 file.write("\n[samples]\nsample_id,cmo_ids\n")
-                for key, value in self.samples.items():
-                    file.write("{},{}\n".format(key, value))
+                for item in self.samples:
+                    file.write("{},{}\n".format(item[0], item[1]))
 
 # read ch file from shared drive and generate config file per sample and return sample to sample info also
 # default all hash tag are totalseq B from biolegend
@@ -62,6 +62,9 @@ def ch_file_generation(project_id):
 
     # write ch config file for this project
     file_name = "/igo/stats/Multi_config/Project_{}/Project_{}_ch.csv".format(project_id, project_id)
+    if not os.path.exists(os.path.dirname(file_name)):
+        os.makedirs(os.path.dirname(file_name))
+        
     with open(file_name,'w') as file:
         file.write("id,name,read,pattern,sequence,feature_type\n")
         for key, value in tag_seq_dict.items():
@@ -79,7 +82,8 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     # fb reference file should have format as following: /igo/stats/Multi_config/Project_12345/Project_12345_fb.csv
     # ch reference file should have format as following: /igo/stats/Multi_config/Project_12345/Project_12345_ch.csv
     # how to record vdj-t and vdj-b?
-    project_ID = IGO_ID.split("IGO_")[1][:-2]
+    project_ID = "_".join(IGO_ID.split("IGO_")[1].split("_")[:-1])
+    sample_name = IGO_ID.split("IGO_")[0]
     config = Multi_Config()
 
     config.gene_expression["reference"] = cellranger.config_dict["count"]["genome"][genome]
@@ -91,8 +95,8 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         config.features = CONFIG_AREA + "Project_{}/Project_{}_fb.csv".format(project_ID, project_ID)
     # if cell hashing invovled, add cmo-set file path and get sample info from file, id as sample name and name as hashtag name
     if "ch" in sample_dict.keys():
-        config.gene_expression["cmo-set"] = CONFIG_AREA + "Project_{}/{}_ch.csv".format(project_ID, IGO_ID)
-        # TODO sample info for config.samples, has to read in from other files
+        config.gene_expression["cmo-set"] = CONFIG_AREA + "Project_{}/Project_{}_ch.csv".format(project_ID, project_ID)
+        config.samples = ch_file_generation(project_ID)[sample_name]
 
     # find fastq files for each sample and append information into config["libraries"]
     sample_list = []
