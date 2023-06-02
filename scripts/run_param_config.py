@@ -337,8 +337,16 @@ genome_reference_mapping_UNORDERED = {
 		},
 		"ecolik12": {
 				DEFAULT: {
-						GENOME: "/igo/work/genomes/E.coli/K12/MG1655/BWA_0.7.x/eColi__MG1655.fa",
-						REFERENCE: "/igo/work/genomes/E.coli/K12/MG1655/BWA_0.7.x/eColi__MG1655.fa"
+						GENOME: "/igo/work/genomes/E.coli/K12/MG1655/ASM584v2/GCF_000005845.2_ASM584v2_genomic.fa",
+						REFERENCE: "/igo/work/genomes/E.coli/K12/MG1655/ASM584v2/GCF_000005845.2_ASM584v2_genomic.fa"
+				},
+				"RNA": {
+						GENOME: "/igo/work/genomes/E.coli/K12/MG1655/ASM584v2/GCF_000005845.2_ASM584v2_genomic.fa",
+						REFERENCE: "/igo/work/genomes/E.coli/K12/MG1655/ASM584v2/GCF_000005845.2_ASM584v2_genomic.fa",
+						REF_FLAT: "/igo/work/genomes/E.coli/K12/MG1655/ASM584v2/GCF_000005845.2_ASM584v2_genomic.ref.flat",
+						RIBOSOMAL_INTERVALS: "/igo/work/genomes/E.coli/K12/MG1655/ASM584v2/GCF_000005845.2_ASM584v2_genomic.rRNA.intervals",
+						GTF: "/igo/work/genomes/E.coli/K12/MG1655/ASM584v2/GCF_000005845.2_ASM584v2_genomic.gtf",
+						GTAG: "ecolik12"
 				}
 		},
 		"pseudomonas": {
