@@ -41,7 +41,7 @@ def get_total_reads_DLP(sample_sheet, demux_report_file):
         # check which category the sample belongs to and put in corresponding group
         if "DLPNegativeCONTROL" in sample_ID:
             project_sample_dict[project_ID]["neg_control"].append(sample_ID)
-        elif "DLPGmCONTROL" in sample_ID:
+        elif "DLPGmCONTROL" in sample_ID or "DLPcellCONTROL" in sample_ID:
             project_sample_dict[project_ID]["pos_control"].append(sample_ID)
         else:
             project_sample_dict[project_ID]["samples"].append(sample_ID)
