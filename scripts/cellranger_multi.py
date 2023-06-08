@@ -6,6 +6,7 @@ import glob
 import json
 import subprocess
 from subprocess import call
+import argparse
 import scripts.cellranger
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
@@ -128,9 +129,24 @@ def gather_config_info(sample_dict, genome, IGO_ID):
 if __name__ == '__main__':
     # input as sample dict, genome and IGO ID
     # Usage: python cellranger_multi.py [sample_dict] [Human/Mouse] [IGO_ID]
-    sample_dict = sys.argv[1]
-    genome = sys.argv[2]
-    IGO_ID = sys.argv[3]
+    parser = argparse.ArgumentParser(prog = 'Cellranger Multi', usage = 'Run the pipeline for cellranger multi')
+    parser.add_argument('-ge', required = True)
+    parser.add_argument('-vdj')
+    parser.add_argument('-ch')
+    parser.add_argument('-fb')
+    parser.add_argument('-genome', help = 'Human or Mouse', required = True)
+    parser.add_argument('-IGO_ID', required = True)
+    args = parser.parse_args()
+    sample_dict = {"ge":args.ge}
+    if args.vdj:
+        sample_dict["vdj"] = args.vdj
+    if args.ch:
+        sample_dict["ch"] = args.ch
+    if args.fb:
+        sample_dict["fb"] = args.fb
+    
+    genome = args.genome
+    IGO_ID = args.IGO_ID
     config = gather_config_info(sample_dict, genome, IGO_ID)
     project_ID = "_".join(IGO_ID.split("IGO_")[1].split("_")[:-1])
     file_name = "{}/Project_{}/{}.csv".format(CONFIG_AREA, project_ID, IGO_ID)
