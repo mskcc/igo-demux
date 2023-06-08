@@ -7,7 +7,7 @@ import json
 import subprocess
 from os.path import join, basename, abspath, isdir
 from subprocess import call
-from cellranger import config_dict, OPTIONS
+from scripts.cellranger import config_dict, OPTIONS
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
