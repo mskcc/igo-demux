@@ -5,9 +5,8 @@ import os
 import glob
 import json
 import subprocess
-from os.path import join, basename, abspath, isdir
 from subprocess import call
-from scripts.cellranger import config_dict, OPTIONS
+import scripts.cellranger
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
@@ -86,9 +85,9 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     sample_name = IGO_ID.split("IGO_")[0]
     config = Multi_Config()
 
-    config.gene_expression["reference"] = cellranger.config_dict["count"]["genome"][genome]
+    config.gene_expression["reference"] = scripts.cellranger.config_dict["count"]["genome"][genome]
     if "vdj" in sample_dict.keys():
-        config.vdj = cellranger.config_dict["vdj"]["genome"][genome]
+        config.vdj = scripts.cellranger.config_dict["vdj"]["genome"][genome]
     
     # if feature barcoding invovled, add feature list file path
     if "fb" in sample_dict.keys():
@@ -102,7 +101,7 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     sample_list = []
     for i in sample_dict.values():
         sample_list.append(i)
-    fastq_list = find_fastq_file(sample_list)
+    fastq_list = scripts.cellranger.find_fastq_file(sample_list)
     for key, value in sample_dict.items():
         if key == "ge":
             config.lirbaries[value] = [fastq_list[value], "Gene Expression"]
@@ -137,5 +136,5 @@ if __name__ == '__main__':
     file_name = "{}/Project_{}/{}.csv".format(CONFIG_AREA, project_ID, IGO_ID)
     config.write_to_csv(file_name)
 
-    cmd = "bsub -J {}_multi -o {}_multi.out {} --id={} --csv={} --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200".format(IGO_ID, IGO_ID, config_dict["multi"]["tool"], IGO_ID, file_name)
+    cmd = "bsub -J {}_multi -o {}_multi.out {} --id={} --csv={} {}".format(IGO_ID, IGO_ID, scripts.cellranger.config_dict["multi"]["tool"], IGO_ID, file_name, scripts.cellranger.OPTIONS)
     print(cmd)
