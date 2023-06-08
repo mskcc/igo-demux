@@ -113,7 +113,7 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         elif key == "ch":
             config.lirbaries[value] = [fastq_list[value], "Multiplexing Capture"]
        
-   	return config
+    return config
 
 # example config Class
 # test = Multi_Config()
