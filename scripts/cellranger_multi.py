@@ -47,7 +47,7 @@ class Multi_Config:
 # read ch file from shared drive and generate config file per sample and return sample to sample info also
 # default all hash tag are totalseq B from biolegend
 def ch_file_generation(project_id):
-    in_file_location = DRIVE_LOCATION + project_id + "/" + os.listdir("DRIVE_LOCATION + project_id")[0]
+    in_file_location = DRIVE_LOCATION + project_id + "/" + os.listdir(DRIVE_LOCATION + project_id)[0]
     df = pd.read_excel(in_file_location, engine="openpyxl")
     line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
     df = pd.read_excel(in_file_location, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
@@ -83,12 +83,12 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     # ch reference file should have format as following: /igo/stats/Multi_config/Project_12345/Project_12345_ch.csv
     # how to record vdj-t and vdj-b?
     project_ID = "_".join(IGO_ID.split("IGO_")[1].split("_")[:-1])
-    sample_name = IGO_ID.split("IGO_")[0]
+    sample_name = IGO_ID.split("_IGO_")[0]
     config = Multi_Config()
 
-    config.gene_expression["reference"] = scripts.cellranger.config_dict["count"]["genome"][genome]
+    config.gene_expression["reference"] = scripts.cellranger.config_dict["count"]["genome"][genome][17:]
     if "vdj" in sample_dict.keys():
-        config.vdj = scripts.cellranger.config_dict["vdj"]["genome"][genome]
+        config.vdj = scripts.cellranger.config_dict["vdj"]["genome"][genome][13:]
     
     # if feature barcoding invovled, add feature list file path
     if "fb" in sample_dict.keys():
@@ -149,8 +149,8 @@ if __name__ == '__main__':
     IGO_ID = args.IGO_ID
     config = gather_config_info(sample_dict, genome, IGO_ID)
     project_ID = "_".join(IGO_ID.split("IGO_")[1].split("_")[:-1])
-    file_name = "{}/Project_{}/{}.csv".format(CONFIG_AREA, project_ID, IGO_ID)
+    file_name = "{}Project_{}/{}.csv".format(CONFIG_AREA, project_ID, IGO_ID)
     config.write_to_csv(file_name)
 
-    cmd = "bsub -J {}_multi -o {}_multi.out {} --id={} --csv={} {}".format(IGO_ID, IGO_ID, scripts.cellranger.config_dict["multi"]["tool"], IGO_ID, file_name, scripts.cellranger.OPTIONS)
+    cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(IGO_ID, IGO_ID, scripts.cellranger.config_dict["multi"]["tool"], IGO_ID, file_name, scripts.cellranger.OPTIONS)
     print(cmd)
