@@ -135,10 +135,10 @@ species_genome_mapping = get_ordered_dic(species_genome_mapping_UNORDERED)
 genome_reference_mapping_UNORDERED = {
 		"hg19": {
 				DEFAULT: {
-						# GENOME: "/igo/work/genomes/H.sapiens/hg19/BWA_0.7.5a/human_hg19.fa",
-						# REFERENCE: "/igo/work/genomes/H.sapiens/hg19/human_hg19.fa",
-						GENOME: "/igo/work/genomes/H.sapiens/ucsc_hg19/ucsc_hg19.fa",
-						REFERENCE: "/igo/work/genomes/H.sapiens/ucsc_hg19/ucsc_hg19.fa",
+						GENOME: "/igo/work/genomes/H.sapiens/hg19/BWA_0.7.5a/human_hg19.fa",
+						REFERENCE: "/igo/work/genomes/H.sapiens/hg19/human_hg19.fa",
+						# GENOME: "/igo/work/genomes/H.sapiens/ucsc_hg19/ucsc_hg19.fa",                # for MissionBio-Heme aligned on DRAGEN
+						# REFERENCE: "/igo/work/genomes/H.sapiens/ucsc_hg19/ucsc_hg19.fa",			   # for MissionBio-Heme aligned on DRAGEN
 						HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg19_ACCESS.map"
 				},
 				"RNA": {
