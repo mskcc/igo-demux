@@ -283,10 +283,10 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                         create_library_csv_file(validation[1], validation[2], sample)
                         tool = config_dict[tag]["tool"]
                         transcriptome = config_dict[tag]["genome"][sample_genome_dict[sample]]
-                        cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--libraries={}/Sample_{}.csv".format(work_area, sample) + OPTIONS
+                        cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--libraries={}Sample_{}.csv".format(work_area, sample) + OPTIONS
                         bsub_cmd = "bsub -J {}_{}_{}_ARC -o {}_ARC.out{}".format(sequencer_and_run, project, sample, sample, cmd)
                         print(bsub_cmd)
-                        subprocess.run(cmd, shell=True)
+                        subprocess.run(bsub_cmd, shell=True)
                     else:
                         print("Multiome sample set not complete yet")
                 elif tag != "Skip":
