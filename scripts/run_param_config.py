@@ -137,6 +137,8 @@ genome_reference_mapping_UNORDERED = {
 				DEFAULT: {
 						GENOME: "/igo/work/genomes/H.sapiens/hg19/BWA_0.7.5a/human_hg19.fa",
 						REFERENCE: "/igo/work/genomes/H.sapiens/hg19/human_hg19.fa",
+						# GENOME: "/igo/work/genomes/H.sapiens/ucsc_hg19/ucsc_hg19.fa",                # for MissionBio-Heme aligned on DRAGEN
+						# REFERENCE: "/igo/work/genomes/H.sapiens/ucsc_hg19/ucsc_hg19.fa",			   # for MissionBio-Heme aligned on DRAGEN
 						HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg19_ACCESS.map"
 				},
 				"RNA": {
@@ -542,8 +544,8 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"MissionBio-Heme": {
-				BAITS: "/home/igo/resources/BED-Targets/Mission_Bio/AML_BAITS.interval_list",
-				TARGETS: "/home/igo/resources/BED-Targets/Mission_Bio/AML_TARGETS.interval_list",
+				BAITS: "/igo/home/igo/resources/ilist/MissionBio-Heme/AML_BAITS.iList",
+				TARGETS: "/igo/home/igo/resources/ilist/MissionBio-Heme/AML_BAITS.iList",
 				MSKQ: "no",
 				MD: "yes"
 		},
