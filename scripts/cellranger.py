@@ -69,7 +69,7 @@ config_dict = {
         "genome": {
             "Human": " --reference=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
             "Mouse": " --reference=/igo/work/nabors/genomes/10X_Genomics/spatial_gex/refdata-gex-mm10-2020-A"
-        }
+        },
         "probe": {
             "Human": "/igo/work/nabors/genomes/10X_Genomics/spatial_gex/Visium_Human_Transcriptome_Probe_Set_v1.0_GRCh38-2020-A.csv",
             "Mouse": "/igo/work/nabors/tools/spaceranger-2.0.0/external/tenx_feature_references/targeted_panels/Visium_Mouse_Transcriptome_Probe_Set_v1.0_mm10-2020-A.csv"
