@@ -63,9 +63,9 @@ config_dict = {
             "Human": " --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-GRCh38-2020-A-2.0.0 ",
             "Mouse": " --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-mm10-2020-A-2.0.0 "
         }
-    }
+    },
     "spaceranger": {
-        "tool": " /igo/work/nabors/tools/spaceranger-2.0.0/spaceranger count "
+        "tool": " /igo/work/nabors/tools/spaceranger-2.0.0/spaceranger count ",
         "genome": {
             "Human": " --reference=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
             "Mouse": " --reference=/igo/work/nabors/genomes/10X_Genomics/spatial_gex/refdata-gex-mm10-2020-A"
