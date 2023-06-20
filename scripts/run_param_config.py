@@ -63,6 +63,7 @@ def get_ordered_dic(unordered_dic):
 """ Mapping of recipes to their type, default should be DNA """
 recipe_type_mapping_UNORDERED = {
 		"MouseWholeGenome": { TYPE: "WGS" },
+		"PigWholeGenome": { TYPE: "WGS" },
 		"ShallowWGS": { TYPE: "WGS" },
 		"10X_Genomics_WGS": { TYPE: "WGS" },
 		"WholeGenomeSequencing": { TYPE: "WGS" },
@@ -123,7 +124,7 @@ species_genome_mapping_UNORDERED = {
 		"R.norvegicus": "rn6",
 		"E.Lambda": "elambda",
 		"Plasmid": "ecolik12",
-		"Pig": "Sscrofa11.1",
+		"Pig": "sscrofa11",
 		# FOR NEW ENTRIES
 		# "{regex}": "{GENOME}"
 	
@@ -250,7 +251,7 @@ genome_reference_mapping_UNORDERED = {
 						GTAG: "mouse_miRNA"
 				}
 		},
-		"Sscrofa11.1": {
+		"sscrofa11": {
 				DEFAULT: {
 						GENOME: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.dna_sm.toplevel.fa",
 						REFERENCE: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.dna_sm.toplevel.fa",
@@ -261,7 +262,7 @@ genome_reference_mapping_UNORDERED = {
 						REF_FLAT: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.109.ref.flat",
 						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.109.sorted.rRNA.intervals",
 						GTF: "/igo/work/nabors/genomes/pig/ensembl/Sus_scrofa.Sscrofa11.1.109.gtf",
-						GTAG: "Sscrofa11.1"
+						GTAG: "sscrofa11"
 				}
 		},
 		"rn6": {
@@ -636,6 +637,12 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 				# TODO
 				# sh $DIR/../PicardScripts/LaunchPipelines.sh $RUNTYPE --input /igo/work/FASTQ/$RUNNAME/$PROJECT/ --genome $GENOME --type WGS --md $MARKDUPLICATES --mskq $MSKQ
+		},
+		"PigWholeGenome": {
+						MSKQ: "no",
+						MD: "yes"
+						# TODO
+						# sh $DIR/../PicardScripts/LaunchPipelines.sh $RUNTYPE --input /igo/work/FASTQ/$RUNNAME/$PROJECT/ --genome $GENOME --type WGS --md $MARKDUPLICATES --mskq $MSKQ
 		},
 		"ShallowWGS": {
 				MSKQ: "no",

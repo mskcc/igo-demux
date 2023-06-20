@@ -14,9 +14,9 @@ import scripts.generate_run_params
 
 
 # Global Variable : we do not want to process these experiments in this script
-DO_NOT_PROCESS = ["10X_Genomics", "DLP"]
+DO_NOT_PROCESS = ["10X_Genomics", "DLP", "HumanWholeGenome"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "ChIPSeq", "AmpliconSeq", "HumanWholeGenome"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "ChIPSeq", "AmpliconSeq",  "PigWholeGenome"]
 # this list contains the headers of the columns.  we will access the data using these listings
 PICARD_VERSION = "2_23_2"
 PICARD_JAR = "/igo/home/igo/resources/picard2.23.2/picard.jar "
