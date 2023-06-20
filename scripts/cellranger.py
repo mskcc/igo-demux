@@ -21,61 +21,71 @@ output: running cmd for cellranger by sample
 """
 
 # work folder
-STATS_AREA = '/igo/stats/CELLRANGER/'
+STATS_AREA = "/igo/stats/CELLRANGER/"
 
 # config info 
 ACCESS = 0o775
 config_dict = {
-    "count" : {
-        "tool" : ' /igo/work/nabors/tools/cellranger-7.0.0/cellranger count ',
-        "genome" : {
-            "Human" : ' --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ',
-            "Mouse" : ' --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A '
+    "count": {
+        "tool": " /igo/work/nabors/tools/cellranger-7.0.0/cellranger count ",
+        "genome": {
+            "Human": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
+            "Mouse": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A "
         }
     },
-    "vdj" : {
-        "tool" : ' /igo/work/nabors/tools/cellranger-7.0.0/cellranger vdj ',
-        "genome" : {
-            "Human" : ' --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0 ',
-            "Mouse" : ' --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-7.0.0 '
+    "vdj": {
+        "tool": " /igo/work/nabors/tools/cellranger-7.0.0/cellranger vdj ",
+        "genome": {
+            "Human": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0 ",
+            "Mouse": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-7.0.0 "
         }
     },
-    "atac_count" : {
-        "tool" : ' /igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac count ',
-        "genome" : {
-            "Human" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/ATAC/refdata-cellranger-atac-GRCh38-1.0.1 ',
-            "Mouse" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/ATAC/refdata-cellranger-atac-mm10-1.1.0 '
+    "atac_count": {
+        "tool": " /igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac count ",
+        "genome": {
+            "Human": " --reference=/igo/work/nabors/genomes/10X_Genomics/ATAC/refdata-cellranger-atac-GRCh38-1.0.1 ",
+            "Mouse": " --reference=/igo/work/nabors/genomes/10X_Genomics/ATAC/refdata-cellranger-atac-mm10-1.1.0 "
         }
     },
-    "cnv" : {
-        "tool" : ' /igo/work/nabors/tools/cellranger-dna-1.1.0/cellranger-dna cnv ',
-        "genome" : {
-            "Human" : ' --reference=/igo/work/nabors/10X_Genomics/CNV/refdata-GRCh38-1.0.0 ',
-            "Mouse" : ' --reference=/igo/work/nabors/10X_Genomics/CNV/refdata-GRCm38-1.0.0 '
+    "cnv": {
+        "tool": " /igo/work/nabors/tools/cellranger-dna-1.1.0/cellranger-dna cnv ",
+        "genome": {
+            "Human": " --reference=/igo/work/nabors/10X_Genomics/CNV/refdata-GRCh38-1.0.0 ",
+            "Mouse": " --reference=/igo/work/nabors/10X_Genomics/CNV/refdata-GRCm38-1.0.0 "
         }
     },
-    "multi" : {
-        "tool" : ' /igo/work/nabors/tools/cellranger-7.0.0/cellranger multi '
+    "multi": {
+        "tool": " /igo/work/nabors/tools/cellranger-7.0.0/cellranger multi "
     },
-    "arc" : {
-        "tool" : ' /igo/work/bin/cellranger-arc-2.0.0/cellranger-arc count ',
-        "genome" :{
-            "Human" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-GRCh38-2020-A-2.0.0 ',
-            "Mouse" : ' --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-mm10-2020-A-2.0.0 '
-
+    "arc": {
+        "tool": " /igo/work/bin/cellranger-arc-2.0.0/cellranger-arc count ",
+        "genome": {
+            "Human": " --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-GRCh38-2020-A-2.0.0 ",
+            "Mouse": " --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-mm10-2020-A-2.0.0 "
+        }
+    }
+    "spaceranger": {
+        "tool": " /igo/work/nabors/tools/spaceranger-2.0.0/spaceranger count "
+        "genome": {
+            "Human": " --reference=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
+            "Mouse": " --reference=/igo/work/nabors/genomes/10X_Genomics/spatial_gex/refdata-gex-mm10-2020-A"
+        }
+        "probe": {
+            "Human": "/igo/work/nabors/genomes/10X_Genomics/spatial_gex/Visium_Human_Transcriptome_Probe_Set_v1.0_GRCh38-2020-A.csv",
+            "Mouse": "/igo/work/nabors/tools/spaceranger-2.0.0/external/tenx_feature_references/targeted_panels/Visium_Mouse_Transcriptome_Probe_Set_v1.0_mm10-2020-A.csv"
         }
     }
 }
 
 # cellranger command line options
-OPTIONS = ' --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200'
+OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"
 
 # 10X recipe list for different pipelines
-COUNT_FLAVORS = ['10X_Genomics_GeneExpression-3', '10X_Genomics_GeneExpression-5']
-VDJ_FLAVORS = ['10X_Genomics_VDJ']
-ATAC_FLAVORS = ['10X_Genomics_ATAC']
-CNV_FLAVORS = ['10X_Genomics_CNV']
-ARC_FLAVORS = ['10X_Genomics_Multiome', '10X_Genomics_Multiome_ATAC', '10X_Genomics_Multiome_GeneExpression']
+COUNT_FLAVORS = ["10X_Genomics_GeneExpression-3", "10X_Genomics_GeneExpression-5"]
+VDJ_FLAVORS = ["10X_Genomics_VDJ"]
+ATAC_FLAVORS = ["10X_Genomics_ATAC"]
+CNV_FLAVORS = ["10X_Genomics_CNV"]
+ARC_FLAVORS = ["10X_Genomics_Multiome", "10X_Genomics_Multiome_ATAC", "10X_Genomics_Multiome_GeneExpression"]
 
 """
 steps:
@@ -161,18 +171,18 @@ def generate_cellranger_cmd(sample_ID, tag, genome, fastq_file_path, sequencer_a
     tool = config_dict[tag]["tool"]
     transcriptome = config_dict[tag]["genome"][genome]
     project_ID = "Project_" + "_".join(sample_ID.split("_")[sample_ID.split("_").index("IGO") + 1:-1])
-    cellranger_cmd = "{}--id=Sample_{}__{}".format(tool, sample_ID, tag) + transcriptome + '--fastqs=' + ','.join(fastq_file_path) + OPTIONS
+    cellranger_cmd = "{}--id=Sample_{}__{}".format(tool, sample_ID, tag) + transcriptome + "--fastqs=" + ",".join(fastq_file_path) + OPTIONS
     job_name = "{}_{}_{}_{}_cellranger".format(sequencer_and_run, project_ID, sample_ID, tag)
     bsub_cmd = "bsub -J {} -o {}.out{}".format(job_name, job_name, cellranger_cmd) 
     return bsub_cmd
         
 def create_json(send_json, sequencer_and_run, project, tag, work_area):  
     job_id = sequencer_and_run + "_" + project            
-    json_data_file = 'cellranger_json___' + sequencer_and_run + "__" + project + '.json'
-    with open(json_data_file, 'w') as jfile:
+    json_data_file = "cellranger_json___" + sequencer_and_run + "__" + project + ".json"
+    with open(json_data_file, "w") as jfile:
         json.dump(send_json, jfile)
         
-    bsub_json = 'bsub -J create_json___{} -o create_json___{}.log -w \"done({}*)\" sh /home/igo/Scripts/PicardScripts/send_json_data.sh {} {}'.format(job_id, job_id, job_id, work_area, json_data_file)
+    bsub_json = "bsub -J create_json___{} -o create_json___{}.log -w \"done({}*)\" sh /home/igo/Scripts/PicardScripts/send_json_data.sh {} {}".format(job_id, job_id, job_id, work_area, json_data_file)
     print(bsub_json)
     subprocess.run(bsub_json, shell = True)
 
@@ -180,7 +190,7 @@ def create_library_csv_file(ge_sample_path, atac_sample_path, sample_ID):
     """
     ge_sample_path and atac_sample_path will be list just in case if top up is performed
     """
-    with open('Sample_{}.csv'.format(sample_ID),'a') as file:
+    with open("Sample_{}.csv".format(sample_ID),"a") as file:
         file.write("fastqs,sample,library_type\n")
         for ge in ge_sample_path:
             file.write("{},{},Gene Expression\n".format(ge, sample_ID))
@@ -234,7 +244,7 @@ def multiome_valid(fastq_list):
 def launch_cellranger(sample_sheet, sequencer_and_run):
     # get parameters from sample_sheet
     # dictionary of Sample_ID->Project
-    sample_project_dict = pd.Series(sample_sheet.df_ss_data['Sample_Project'].values,index=sample_sheet.df_ss_data['Sample_ID']).to_dict()
+    sample_project_dict = pd.Series(sample_sheet.df_ss_data["Sample_Project"].values,index=sample_sheet.df_ss_data["Sample_ID"]).to_dict()
     # dictionary of project->sample_ID
     project_sample_dict = {}
     for sample_ID, project_ID in sample_project_dict.items():
@@ -243,28 +253,28 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
         else:
             project_sample_dict[project_ID] = [sample_ID]
     # dictionary of sample_ID->recipe
-    sample_recipe_dict = pd.Series(sample_sheet.df_ss_data['Sample_Well'].values,index=sample_sheet.df_ss_data['Sample_ID']).to_dict()
+    sample_recipe_dict = pd.Series(sample_sheet.df_ss_data["Sample_Well"].values,index=sample_sheet.df_ss_data["Sample_ID"]).to_dict()
     # dictionary of sample_ID->genome
-    sample_genome_dict = pd.Series(sample_sheet.df_ss_data['Sample_Plate'].values,index=sample_sheet.df_ss_data['Sample_ID']).to_dict()
+    sample_genome_dict = pd.Series(sample_sheet.df_ss_data["Sample_Plate"].values,index=sample_sheet.df_ss_data["Sample_ID"]).to_dict()
     # dictionary of sample_ID->fastq_list
     sample_ID_list = list(sample_project_dict.keys())
     sample_fastqfile_dict = find_fastq_file(sample_ID_list)
 
     for project in project_sample_dict.keys():
         send_json = {}
-        send_json['samples'] = []
+        send_json["samples"] = []
         # CREATE RUN FOLDER AND PROJECT FOLDER IF NOT ALREADY THERE
         os.chdir(STATS_AREA)
-        runs = next(os.walk('.'))[1]
+        runs = next(os.walk("."))[1]
         if sequencer_and_run not in runs:
             os.mkdir(sequencer_and_run, ACCESS)
                     
         stats_and_run = STATS_AREA + sequencer_and_run
         os.chdir(stats_and_run)
-        projects = next(os.walk('.'))[1]
+        projects = next(os.walk("."))[1]
         if project not in projects:
             os.mkdir(project, ACCESS)
-        work_area = stats_and_run + "/" + project + '/' 
+        work_area = stats_and_run + "/" + project + "/" 
         # GO TO project ID LOCATION to start cellranger command
         os.chdir(work_area)
 
@@ -293,8 +303,8 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                     cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
                     print(cmd)
                     subprocess.run(cmd, shell=True)
-                    send_json['samples'].append({'sample':'Sample_' + sample, 'type':tag, 'project':project, 'run':sequencer_and_run})
-            if send_json['samples']:
+                    send_json["samples"].append({"sample":"Sample_" + sample, "type":tag, "project":project, "run":sequencer_and_run})
+            if send_json["samples"]:
                 create_json(send_json, sequencer_and_run, project, tag, work_area)
         else:
             sample_list = project_sample_dict[project]
@@ -322,19 +332,19 @@ def lanuch_by_project(project_directory, recipe, species):
     sample_fastqfile_dict = find_fastq_file(sample_list)
     tag = get_tag(recipe)
     send_json = {}
-    send_json['samples'] = []
+    send_json["samples"] = []
     # CREATE RUN FOLDER AND PROJECT FOLDER IF NOT ALREADY THERE
     os.chdir(STATS_AREA)
-    runs = next(os.walk('.'))[1]
+    runs = next(os.walk("."))[1]
     if sequencer_and_run not in runs:
         os.mkdir(sequencer_and_run, ACCESS)
                     
     stats_and_run = STATS_AREA + sequencer_and_run
     os.chdir(stats_and_run)
-    projects = next(os.walk('.'))[1]
+    projects = next(os.walk("."))[1]
     if project not in projects:
         os.mkdir(project, ACCESS)
-    work_area = stats_and_run + "/" + project + '/' 
+    work_area = stats_and_run + "/" + project + "/" 
     # GO TO project ID LOCATION to start cellranger command
     os.chdir(work_area)
 
@@ -358,8 +368,8 @@ def lanuch_by_project(project_directory, recipe, species):
             cmd = generate_cellranger_cmd(sample, tag, species, sample_fastqfile_dict[sample], sequencer_and_run)
             print(cmd)
             subprocess.run(cmd, shell=True)
-            send_json['samples'].append({'sample':'Sample_' + sample, 'type':tag, 'project':project, 'run':sequencer_and_run})
-    if send_json['samples']:
+            send_json["samples"].append({"sample":"Sample_" + sample, "type":tag, "project":project, "run":sequencer_and_run})
+    if send_json["samples"]:
         create_json(send_json, sequencer_and_run, project, tag, work_area)
 
 
