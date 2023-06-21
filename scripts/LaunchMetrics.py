@@ -4,7 +4,6 @@ import os
 from subprocess import call
 import sys
 import csv
-import pickle
 from dataclasses import dataclass
 from collections import OrderedDict
 import glob
@@ -14,9 +13,9 @@ import scripts.generate_run_params
 
 
 # Global Variable : we do not want to process these experiments in this script
-DO_NOT_PROCESS = ["10X_Genomics", "DLP", "HumanWholeGenome"]
+DO_NOT_PROCESS = ["10X_Genomics", "DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "ChIPSeq", "AmpliconSeq",  "PigWholeGenome"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "ChIPSeq", "AmpliconSeq",  "PigWholeGenome", "HumanWholeGenome"]
 # this list contains the headers of the columns.  we will access the data using these listings
 PICARD_VERSION = "2_23_2"
 PICARD_JAR = "/igo/home/igo/resources/picard2.23.2/picard.jar "
@@ -140,7 +139,7 @@ class LaunchMetrics(object):
 		rna_dragen_parse_header = "{}___RNA_DRAGEN_PARSE___".format(run)
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
 		
-		dragen_parse_rna = "/igo/work/nabors/tools/venvpy3/bin/python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(rna_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
+		dragen_parse_rna = "python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(rna_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
 		bsub_dragen_parse_rna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(rna_dragen_parse_header, sample.sample_id, rna_dragen_job_name_header, rna_directory, dragen_parse_rna)
 		print(bsub_dragen_parse_rna)
 		call(bsub_dragen_parse_rna, shell = True)
@@ -172,7 +171,7 @@ class LaunchMetrics(object):
 		call(bsub_launch_dragen, shell = True)
 		
 		dragen_parse_header = "{}___DRAGEN_PARSE___".format(run)
-		dragen_parse_dna = "/igo/work/nabors/tools/venvpy3/bin/python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
+		dragen_parse_dna = "python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
 		bsub_dragen_parse_dna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(dragen_parse_header, sample.sample_id, dragen_job_name_header, dragen_directory, dragen_parse_dna)
 		print(bsub_dragen_parse_dna)
 		call(bsub_dragen_parse_dna, shell = True)
@@ -206,7 +205,7 @@ class LaunchMetrics(object):
 		
 		# launch DRAGEN PARSER
 		dragen_methylation_parse_header = "{}___DRAGEN_METHYLATION_PARSE___".format(run)
-		dragen_methylation_parse_dna = "/igo/work/nabors/tools/venvpy3/bin/python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
+		dragen_methylation_parse_dna = "python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
 		bsub_dragen_methylation_parse_dna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(dragen_methylation_parse_header, sample.sample_id, dragen_methylation_job_name_header, dragen_directory, dragen_methylation_parse_dna)
 		print(bsub_dragen_methylation_parse_dna)
 		call(bsub_dragen_methylation_parse_dna, shell = True)

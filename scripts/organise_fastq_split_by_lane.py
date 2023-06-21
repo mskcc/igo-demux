@@ -4,6 +4,7 @@ import glob
 import os
 import linecache
 from subprocess import call
+import pathlib
 
 """
 Imitate the bcl2fastq option which created a sub-directory per sample from the sample sheet since IGO has been delivering fastq.gz files that way for many years.
@@ -21,8 +22,10 @@ def create_fastq_folders(run_demux_dir):
             sample_id = re.split("_S(\d+)_L00(.)_R(.)_001.fastq.gz", fastq)[0]
             sample_directory = "Sample_{}".format(sample_id)
             pathlib.Path(sample_directory).mkdir(parents = True, exist_ok = True)
-            # print("mv {} {}".format(fastq, sample_directory))
-            shutil.move(fastq, sample_directory)
+            move_fastq_to_sample_directory = "mv {} {}".format(fastq, sample_directory)
+            print(move_fastq_to_sample_directory)
+            call(move_fastq_to_sample_directory, shell = True)
+            
             # Special behavior for 08822 projects, create merged R1 fastq.gz & merged R2 fastq.gz for bwamem2 consumption
             if "_IGO_08822" in sample_directory and not "_RNA_IGO_" in sample_directory:
                 ppg_dir = run_demux_dir +"_PPG/" + project + "/" + sample_directory + "/"

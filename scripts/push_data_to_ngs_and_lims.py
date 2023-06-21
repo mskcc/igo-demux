@@ -8,13 +8,13 @@ from subprocess import call
 def main(sequencer, run):
 	
 	# lets push txt data files to NGS, and then to LIMS
-	delphi_endpoint = "curl http://igodb.mskcc.org:8080/ngs-stats/picardstats/updaterun/" + sequencer + "/" + run
+	delphi_endpoint = "curl http://igodb.mskcc.org:8080/ngs-stats/picardstats/updaterun/{}/{}".format(sequencer, run)
 	print(delphi_endpoint)
 	call(delphi_endpoint, shell = True)
 
 	# give time for NGS to post data
 	time.sleep(100)
-	lims_endpoint = "curl -k https://igolims.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQc?runId=" + run
+	lims_endpoint = "curl -k https://igolims.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQc?runId={}".format(run)
 	print(lims_endpoint)
 	call(lims_endpoint, shell = True)
 	
