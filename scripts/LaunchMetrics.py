@@ -139,7 +139,7 @@ class LaunchMetrics(object):
 		rna_dragen_parse_header = "{}___RNA_DRAGEN_PARSE___".format(run)
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
 		
-		dragen_parse_rna = "python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(rna_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
+		dragen_parse_rna = "/opt/common/CentOS_7/python/python-3.10.0/bin/python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(rna_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
 		bsub_dragen_parse_rna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(rna_dragen_parse_header, sample.sample_id, rna_dragen_job_name_header, rna_directory, dragen_parse_rna)
 		print(bsub_dragen_parse_rna)
 		call(bsub_dragen_parse_rna, shell = True)
@@ -171,7 +171,7 @@ class LaunchMetrics(object):
 		call(bsub_launch_dragen, shell = True)
 		
 		dragen_parse_header = "{}___DRAGEN_PARSE___".format(run)
-		dragen_parse_dna = "python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
+		dragen_parse_dna = "/opt/common/CentOS_7/python/python-3.10.0/bin/python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
 		bsub_dragen_parse_dna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(dragen_parse_header, sample.sample_id, dragen_job_name_header, dragen_directory, dragen_parse_dna)
 		print(bsub_dragen_parse_dna)
 		call(bsub_dragen_parse_dna, shell = True)
@@ -205,7 +205,7 @@ class LaunchMetrics(object):
 		
 		# launch DRAGEN PARSER
 		dragen_methylation_parse_header = "{}___DRAGEN_METHYLATION_PARSE___".format(run)
-		dragen_methylation_parse_dna = "python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
+		dragen_methylation_parse_dna = "/opt/common/CentOS_7/python/python-3.10.0/bin/python3 /igo/work/igo/igo-demux/scripts/dragen_sample_parser.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
 		bsub_dragen_methylation_parse_dna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(dragen_methylation_parse_header, sample.sample_id, dragen_methylation_job_name_header, dragen_directory, dragen_methylation_parse_dna)
 		print(bsub_dragen_methylation_parse_dna)
 		call(bsub_dragen_methylation_parse_dna, shell = True)
