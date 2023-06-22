@@ -16,7 +16,7 @@ def create_fastq_folders(run_demux_dir):
 
     for project in glob.iglob("Project_*"):
         #
-        project_dir = "{}/{}".format(run, project)
+        project_dir = "{}/{}".format(run_demux_dir, project)
         os.chdir(project_dir)
         for fastq in glob.iglob("*fastq.gz"):
             sample_id = re.split("_S(\d+)_L00(.)_R(.)_001.fastq.gz", fastq)[0]
