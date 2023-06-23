@@ -4,6 +4,7 @@ import glob
 import os
 import linecache
 from subprocess import call
+import pathlib
 
 """
 Immitate the bcl2fastq option which created a sub-directory per sample from the sample sheet since IGO has been delivering fastq.gz files that way for many years.
