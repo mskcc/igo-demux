@@ -26,7 +26,7 @@ def create_fastq_folders(run_demux_dir):
             if fastq_folder not in fastqs_folders:
                 os.mkdir(fastq_folder, 0o775)
                 print(fastq_folder)
-                all_fastqs_of_one_sample = sample_name + "*" + ".fastq.gz"
+                all_fastqs_of_one_sample = sample_name + "_*" + ".fastq.gz"
                 move_fastq_2_folder = "mv " + all_fastqs_of_one_sample + " " + fastq_folder
                 print(move_fastq_2_folder)
                 call(move_fastq_2_folder, shell = True)
