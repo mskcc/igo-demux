@@ -17,7 +17,6 @@ def get_sample_list(folder_path):
         ls = i.split('.')
         if len(ls) == 3 and (ls[-1] == "csv") and (ls[0] not in sample_list):
             sample_list.append(ls[0])
-    
     return sample_list
 
 
@@ -45,6 +44,12 @@ class DragenStats:
         wgs_coverage_metrics_file = "{}/{}.wgs_coverage_metrics.csv".format(dragen_metrics_directory, sample_id)
         df_coverage_metrics = pd.read_csv(wgs_coverage_metrics_file, index_col = 2, names = [0,1,2,3,4])
         self.MEAN_TARGET_COVERAGE = df_coverage_metrics.loc["Average alignment coverage over genome"][3]
+        self.PCT_1X = df_coverage_metrics.loc["PCT of genome with coverage [   1x: inf)"][3]
+        self.PCT_10X = df_coverage_metrics.loc["PCT of genome with coverage [  10x: inf)"][3]
+        self.PCT_15X = df_coverage_metrics.loc["PCT of genome with coverage [  15x: inf)"][3]
+        self.PCT_20X = df_coverage_metrics.loc["PCT of genome with coverage [  20x: inf)"][3]
+        self.PCT_50X = df_coverage_metrics.loc["PCT of genome with coverage [  50x: inf)"][3]
+        self.PCT_100X = df_coverage_metrics.loc["PCT of genome with coverage [ 100x: inf)"][3]
         self.PF_READS_ALIGNED = int(df_coverage_metrics.loc["Aligned reads"][3])
 
 
@@ -54,56 +59,72 @@ class DragenStats:
         data_list_to_write = [0] * 24
         data_list_to_write[0] = "PAIR"
         data_list_to_write[1] = self.TOTAL_READS
-        # data_list_to_write[5] = self.PF_READS_ALIGNED
+        data_list_to_write[5] = self.PF_READS_ALIGNED
         data_list_to_write[16] = self.READS_ALIGNED_IN_PAIRS
+        
+        tab = "\t"
+        newline = "\n"
+        header = "CATEGORY{0}TOTAL_READS{0}PF_READS{0}PCT_PF_READS{0}PF_NOISE_READS{0}PF_READS_ALIGNED{0}PCT_PF_READS_ALIGNED{0}PF_ALIGNED_BASES{0}PF_HQ_ALIGNED_READS{0}PF_HQ_ALIGNED_BASES{0}PF_HQ_ALIGNED_Q20_BASES{0}PF_HQ_MEDIAN_MISMATCHES{0}PF_MISMATCH_RATE{0}PF_HQ_ERROR_RATE{0}PF_INDEL_RATE{0}MEAN_READ_LENGTH{0}READS_ALIGNED_IN_PAIRS{0}PCT_READS_ALIGNED_IN_PAIRS{0}PF_READS_IMPROPER_PAIRS{0}PCT_PF_READS_IMPROPER_PAIRS{0}BAD_CYCLES{0}STRAND_BALANCE{0}PCT_CHIMERAS{0}PCT_ADAPTER{0}SAMPLE{0}LIBRARY{0}READ_GROUP".format(tab)
 
         write_to_file ="{}/{}___DRAGEN3_10_8___AM.txt".format(work_directory, metrics_file_prefix)
         data_line = ""
         for i in data_list_to_write:
-            data_line = data_line + str(i) + "\t"
+            data_line = "{}{}{}".format(data_line, str(i), tab)
         
         with open(write_to_file, 'w') as _file:
-            _file.write("#" + metrics_file_prefix + "\n")
-            for i in range(6):
-                _file.write("#\n")
+            _file.write("#{}{}".format(metrics_file_prefix, newline))
+            for i in range(5):
+                _file.write("#{}".format(newline))
+            _file.write("{}{}".format(header, newline))
             _file.write(data_line)
 
     # creat ___MD.txt picard stats format file
     def write_to_md_txt(self):
         data_list_to_write = [0] * 10
-        data_list_to_write[0] = self.sample_name
+        data_list_to_write[0] = metrics_file_prefix
         data_list_to_write[2] = self.READ_PAIRS_EXAMINED
         data_list_to_write[4] = self.UNMAPPED_READS
         data_list_to_write[6] = self.READ_PAIR_DUPLICATES
         data_list_to_write[8] = self.PERCENT_DUPLICATION
         
-        header = "LIBRARY	UNPAIRED_READS_EXAMINED	READ_PAIRS_EXAMINED	SECONDARY_OR_SUPPLEMENTARY_RDS	UNMAPPED_READS	UNPAIRED_READ_DUPLICATES	READ_PAIR_DUPLICATES	READ_PAIR_OPTICAL_DUPLICATES	PERCENT_DUPLICATION	ESTIMATED_LIBRARY_SIZE"
+        tab = "\t"
+        newline = "\n"
+        header = "LIBRARY{0}UNPAIRED_READS_EXAMINED{0}READ_PAIRS_EXAMINED{0}SECONDARY_OR_SUPPLEMENTARY_RDS{0}UNMAPPED_READS{0}UNPAIRED_READ_DUPLICATES{0}READ_PAIR_DUPLICATES{0}READ_PAIR_OPTICAL_DUPLICATES{0}PERCENT_DUPLICATION{0}ESTIMATED_LIBRARY_SIZE".format(tab)
+        
         write_to_file = "{}/{}___DRAGEN3_10_8___MD.txt".format(work_directory, metrics_file_prefix)
         data_line = ""
         for i in data_list_to_write:
-            data_line = data_line + str(i) + "\t"
+            data_line = "{}{}{}".format(data_line, str(i), tab)
         
         with open(write_to_file, 'w') as _file:
-            _file.write("#" +metrics_file_prefix + "\n" + "#\n" + "\n")
-            _file.write(header + "\n")
+            _file.write("#{0}{1}{1}{1}".format(metrics_file_prefix, newline))
+            _file.write("{}{}".format(header, newline))
             _file.write(data_line)
-            
             
     def write_to_wgs_txt(self):
         data_list_to_write = [0] * 28
         data_list_to_write[1] = self.MEAN_TARGET_COVERAGE
+        data_list_to_write[13] = self.PCT_1X
+        data_list_to_write[15] = self.PCT_10X
+        data_list_to_write[16] = self.PCT_15X
+        data_list_to_write[17] = self.PCT_20X
+        data_list_to_write[21] = self.PCT_50X
+        data_list_to_write[26] = self.PCT_100X
         
-        header = "GENOME_TERRITORY	MEAN_COVERAGE	SD_COVERAGE	MEDIAN_COVERAGE	MAD_COVERAGE	PCT_EXC_ADAPTER	PCT_EXC_MAPQ	PCT_EXC_DUPE	PCT_EXC_UNPAIRED	PCT_EXC_BASEQ	PCT_EXC_OVERLAP	PCT_EXC_CAPPED	PCT_EXC_TOTAL	PCT_1X	PCT_5X	PCT_10X	PCT_15X	PCT_20X	PCT_25X	PCT_30X	PCT_40X	PCT_50X	PCT_60X	PCT_70X	PCT_80X	PCT_90X	PCT_100X	FOLD_80_BASE_PENALTY	FOLD_90_BASE_PENALTY	FOLD_95_BASE_PENALTY	HET_SNP_SENSITIVITY	HET_SNP_Q"
+        tab = "\t"
+        newline = "\n"
+        header = "GENOME_TERRITORY{0}MEAN_COVERAGE{0}SD_COVERAGE{0}MEDIAN_COVERAGE{0}MAD_COVERAGE{0}PCT_EXC_ADAPTER{0}PCT_EXC_MAPQ{0}PCT_EXC_DUPE{0}PCT_EXC_UNPAIRED{0}PCT_EXC_BASEQ{0}PCT_EXC_OVERLAP{0}PCT_EXC_CAPPED{0}PCT_EXC_TOTAL{0}PCT_1X{0}PCT_5X{0}PCT_10X{0}PCT_15X{0}PCT_20X{0}PCT_25X{0}PCT_30X{0}PCT_40X{0}PCT_50X{0}PCT_60X{0}PCT_70X{0}PCT_80X{0}PCT_90X{0}PCT_100X{0}FOLD_80_BASE_PENALTY{0}FOLD_90_BASE_PENALTY{0}FOLD_95_BASE_PENALTY{0}HET_SNP_SENSITIVITY{0}HET_SNP_Q".format(tab)
+        
         write_to_file = "{}/{}___DRAGEN3_10_8___WGS.txt".format(work_directory, metrics_file_prefix)
         data_line = ""
         for i in data_list_to_write:
-            data_line = data_line + str(i) + "\t"
+            data_line = "{}{}{}".format(data_line, str(i), tab)
                 
         with open(write_to_file, 'w') as _file:
-            _file.write("#" + self.sample_name + "\n")
+            _file.write("#{}{}".format(metrics_file_prefix, newline))
             for i in range(4):
-                _file.write("#\n")
-            _file.write("\n" + header + "\n")
+                _file.write("#{}".format(newline))
+            _file.write("{0}{1}{0}".format(newline, header))
             _file.write(data_line)
            
 def main(dragen_metrics_directory, work_directory, metrics_file_prefix, sample_type):
