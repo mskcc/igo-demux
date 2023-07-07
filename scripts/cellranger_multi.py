@@ -2,8 +2,6 @@ import pandas as pd
 import re
 import sys
 import os
-import glob
-import json
 import subprocess
 from subprocess import call
 import argparse
@@ -11,15 +9,18 @@ import scripts.cellranger
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
+BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-7.0.0/lib/bin/bamtofastq"
+
+# TODO: special case: ch + fb, ch + vdj or ch + vdj + fb
 
 # config file class. It contains all the information needed for config file and can create csv file base on those info
 class Multi_Config:
     def __init__(self):
-        self.gene_expression = {}
-        self.lirbaries = {}
-        self.vdj = "EMPTY"
-        self.samples = "EMPTY"
-        self.features = "EMPTY"
+        self.gene_expression = {}   # genome info for the ge sample
+        self.lirbaries = {}   # location info for fastq files
+        self.vdj = "EMPTY"    # genome info for the vdj sample
+        self.samples = "EMPTY"  # sub_samples for cell hashing
+        self.features = "EMPTY"   # fb info for fb sample, provided by user
     
     def write_to_csv(self, name_of_file):
         with open(name_of_file,'w') as file:
@@ -41,36 +42,35 @@ class Multi_Config:
 
             if self.samples != "EMPTY":
                 file.write("\n[samples]\nsample_id,cmo_ids\n")
-                for item in self.samples:
-                    file.write("{},{}\n".format(item[0], item[1]))
+                for key, value in self.samples.items():
+                    file.write("{},{}\n".format(key, value))
 
-# read ch file from shared drive and generate config file per sample and return sample to sample info also
+# read ch file from shared drive and generate config/ch file per sample and return sample to sub sample info also
 # default all hash tag are totalseq B from biolegend
-def ch_file_generation(project_id):
+def ch_file_generation(project_id, sample_name):
     in_file_location = DRIVE_LOCATION + project_id + "/" + os.listdir(DRIVE_LOCATION + project_id)[0]
     df = pd.read_excel(in_file_location, engine="openpyxl")
     line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
     df = pd.read_excel(in_file_location, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
     sample_tag_dict = pd.Series(df['Hashtag Name'].values,index=df['Sample Name']).to_dict()
     tag_seq_dict = pd.Series(df['Hashtag sequence'].values,index=df['Hashtag Name']).to_dict()
-    sample_lst = set(df["Sample Name in IGO"].tolist())
-    sample_dict = {}
-    for sample in sample_lst:
-        sample_dict[sample] = df[df["Sample Name in IGO"] == sample]["Sample Name"].tolist()
-        for i in range(len(sample_dict[sample])):
-            sample_dict[sample][i] = [sample_dict[sample][i], sample_tag_dict[sample_dict[sample][i]]]
+
+    sub_sample_dict = {}
+    sub_sample_lst = df[df["Sample Name in IGO"] == sample_name]["Sample Name"].tolist()
+    for item in sub_sample_lst:
+        sub_sample_dict[item] = sample_tag_dict[item]
 
     # write ch config file for this project
-    file_name = "{}Project_{}/Project_{}_ch.csv".format(CONFIG_AREA, project_id, project_id)
+    file_name = "{}Project_{}/Project_{}_ch_{}.csv".format(CONFIG_AREA, project_id, project_id, sample_name)
     if not os.path.exists(os.path.dirname(file_name)):
         os.makedirs(os.path.dirname(file_name))
 
     with open(file_name,'w') as file:
         file.write("id,name,read,pattern,sequence,feature_type\n")
-        for key, value in tag_seq_dict.items():
-            file.write("{},{},R2,5PNNNNNNNNNN(BC),{},Multiplexing Capture\n".format(key, key, value))
+        for tag in sub_sample_dict.values():
+            file.write("{},{},R2,5PNNNNNNNNNN(BC),{},Multiplexing Capture\n".format(tag, tag, tag_seq_dict[tag]))
 
-    return(sample_dict)
+    return(sub_sample_dict)
 
 def gather_config_info(sample_dict, genome, IGO_ID):
     """
@@ -93,10 +93,11 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     # if feature barcoding invovled, add feature list file path
     if "fb" in sample_dict.keys():
         config.features = CONFIG_AREA + "Project_{}/Project_{}_fb.csv".format(project_ID, project_ID)
+        
     # if cell hashing invovled, add cmo-set file path and get sample info from file, id as sample name and name as hashtag name
     if "ch" in sample_dict.keys():
-        config.gene_expression["cmo-set"] = CONFIG_AREA + "Project_{}/Project_{}_ch.csv".format(project_ID, project_ID)
-        config.samples = ch_file_generation(project_ID)[sample_name]
+        config.gene_expression["cmo-set"] = CONFIG_AREA + "Project_{}/Project_{}_ch_{}.csv".format(project_ID, project_ID, sample_name)
+        config.samples = ch_file_generation(project_ID, sample_name)
 
     # find fastq files for each sample and append information into config["libraries"]
     sample_list = []

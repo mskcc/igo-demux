@@ -5,7 +5,6 @@ import pandas as pd
 import re
 import sys
 import os
-import glob
 import json
 import subprocess
 from os.path import join
