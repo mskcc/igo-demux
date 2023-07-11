@@ -102,25 +102,6 @@ with DAG(
         print("Running command to copy demux reports: " + copy_reports_cmd)
         subprocess.run(copy_reports_cmd, shell=True)
         
-        # for DLP projects create the .yaml file
-        if is_DLP and "REFERENCE" not in samplesheet_path:
-            sample_sheet_path = output_directory + "/Reports/SampleSheet.csv"
-            stats = output_directory + "/Reports/Demultiplex_Stats.csv"
-            run_info = output_directory + "/Reports/RunInfo.xml"
-            #python scripts/yaml/generate_metadata.py /igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/ \
-            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/SampleSheet.csv \
-            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/Demultiplex_Stats.csv \
-            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/RunInfo.xml \
-            #Project_09443_CT \
-            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/070PP_DLP_UNSORTED_metadata.yaml --revcomp_i5
-            for project in sample_sheet.project_set: # such as: Project_09443_CT from the "Sample_Project" column
-                fastq_project_dir = output_directory + "/" + project + "/"
-                chip_number = get_dlp_chip(sample_sheet, project)
-                output_yaml = fastq_project_dir + chip_number + "_metadata.yaml"
-                python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
-                print("Calling DLP generate yaml command: {}".format(python_cmd))
-                subprocess.check_output(python_cmd, cwd="/home/igo/shared-single-cell", shell=True)
-
         return demux_command
 
     def get_dlp_chip(samplesheet, project):
@@ -155,7 +136,27 @@ with DAG(
         if "DLP" in sample_sheet.recipe_set:
             scripts.get_total_reads_from_demux.run_DLP(sample_sheet, sequencer_and_run)
             scripts.upload_stats.upload_stats(sequencer_and_run)
-            return "DLP stats posted"
+            
+            # create the .yaml file for each DLP projects
+            output_directory = "/igo/staging/FASTQ/" + sequencer_and_run
+            sample_sheet_path = output_directory + "/Reports/SampleSheet.csv"
+            stats = output_directory + "/Reports/Demultiplex_Stats.csv"
+            run_info = output_directory + "/Reports/RunInfo.xml"
+            #python scripts/yaml/generate_metadata.py /igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/ \
+            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/SampleSheet.csv \
+            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/Demultiplex_Stats.csv \
+            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Reports/RunInfo.xml \
+            #Project_09443_CT \
+            #/igo/delivery/FASTQ/MICHELLE_0480_AH5KTWDSX3_DLP/Project_09443_CT/070PP_DLP_UNSORTED_metadata.yaml --revcomp_i5
+            for project in sample_sheet.project_set: # such as: Project_09443_CT from the "Sample_Project" column
+                fastq_project_dir = output_directory + "/" + project + "/"
+                chip_number = get_dlp_chip(sample_sheet, project)
+                output_yaml = fastq_project_dir + chip_number + "_metadata.yaml"
+                python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
+                print("Calling DLP generate yaml command: {}".format(python_cmd))
+                subprocess.check_output(python_cmd, cwd="/home/igo/shared-single-cell", shell=True)
+
+            return "DLP stats posted and yaml file generated"
 
         if any("10X_" in s for s in sample_sheet.recipe_set):
             # if is atac run, demux is using cellranger mkfastq
