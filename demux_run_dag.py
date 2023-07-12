@@ -72,8 +72,8 @@ with DAG(
         
         demux_command = ""
         # -K - wait for the job to complete
-        if dragen_demux == 'True':
-            bsub_command = "bsub -K -n48 -q dragen -m id02 -eo " + output_directory + "/dragen-demux.log "
+        if (dragen_demux == 'True') or ("AMELIE" in sample_sheet):
+            bsub_command = "bsub -K -n48 -q dragen -eo " + output_directory + "/dragen-demux.log "
             # same as bcl-convert arguments except:  "--bcl-conversion-only true --bcl-only-matched-reads true"
             demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
         elif (atac):
@@ -359,7 +359,7 @@ with DAG(
                 #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
                 output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
                 job_name = sequencer_and_run + "_" + sample
-                bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m \"id02 id03\" -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
+                bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m \"id01 id02 id03\" -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
                 dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559 --intermediate-results-dir /staging/temp --enable-duplicate-marking true --enable-map-align-output true "
                 dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
                 dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
