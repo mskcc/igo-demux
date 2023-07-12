@@ -7,18 +7,17 @@ import glob
 from subprocess import call
 import argparse
 import scripts.cellranger
+from collections import OrderedDict
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
 BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-7.0.0/lib/bin/bamtofastq"
 
-# TODO: special case: ch + fb
-
 # config file class. It contains all the information needed for config file and can create csv file base on those info
 class Multi_Config:
     def __init__(self):
         self.name = "EMPTY"  # gene expression sample name
-        self.gene_expression = {}   # genome info for the ge sample
+        self.gene_expression = OrderedDict()   # genome info for the ge sample
         self.lirbaries = {}   # location info for fastq files
         self.vdj = "EMPTY"    # genome info for the vdj sample
         self.samples = "EMPTY"  # sub_samples for cell hashing
@@ -203,26 +202,39 @@ if __name__ == '__main__':
     genome = args.genome
     config = gather_config_info(sample_dict, genome, args.ge)
     project_ID = "_".join(args.ge.split("IGO_")[1].split("_")[:-1])
-    fb_project_ID = "_".join(args.ch.split("IGO_")[1].split("_")[:-1])
+    ch_project_ID = "_".join(args.ch.split("IGO_")[1].split("_")[:-1])
     file_name = "{}Project_{}/{}.csv".format(CONFIG_AREA, project_ID, args.ge)
-    config.write_to_csv(file_name)
-    cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(args.ge, args.ge, scripts.cellranger.config_dict["multi"]["tool"], args.ge, file_name, scripts.cellranger.OPTIONS)
-    print(cmd)
-    
-    # process when have ch + vdj +/- fb
-    config.update_info_from_step1(fb_project_ID)
-    # create bam2fastq cmd per sub sample
-    for key in config.sub_sample_info.keys():
-        name2 = args.ge + "_" + key
-        source_bam = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/count/sample_alignments.bam".format(fb_project_ID, args.ge, key)
-        destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
-        cmd = "bsub -J {}_bamtofastq -o {}_bamtofastq.out -n 8 -M 8 {} --reads-per-fastq={} {} {}".format(name2, name2, BAMTOFASTQ, config.ge_reads_number, source_bam, destination_bam)
+
+    # condition for ch + vdj +/- fb
+    if args.ch and args.vdj:
+        # run ch + ge first
+        # need function to write csv for ch and ge only and put output under pipeline folder name it as _step1
+        # TODO
+        
+        # update cell number and ge reads number after ge + ch finish
+        config.update_info_from_step1(ch_project_ID)
+        # create bam2fastq cmd per sub sample
+        for key in config.sub_sample_info.keys():
+            name2 = args.ge + "_" + key
+            source_bam = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/count/sample_alignments.bam".format(ch_project_ID, args.ge, key)
+            destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
+            cmd = "bsub -J {}_bamtofastq -o {}_bamtofastq.out -n 8 -M 8 {} --reads-per-fastq={} {} {}".format(name2, name2, BAMTOFASTQ, config.ge_reads_number, source_bam, destination_bam)
+            print(cmd)
+
+        # update new fastq file path after bam2fastq for each sub sample
+        for key in config.sub_sample_info.keys():
+            name2 = args.ge + "_" + key
+            destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
+            config.update_fastq_location(key, destination_bam)
+
+        config.new_config_and_generate_cmd()
+    # condition for ch + fb - vdj
+    elif args.ch and args.fb:
+        #TODO modify fb fastq files and store in new location then proceed
+        print("not finished")
+    # other normal cases
+    else:
+        config.write_to_csv(file_name)
+        cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(args.ge, args.ge, scripts.cellranger.config_dict["multi"]["tool"], args.ge, file_name, scripts.cellranger.OPTIONS)
         print(cmd)
-
-    # update new fastq file path after bam2fastq for each sub sample
-    for key in config.sub_sample_info.keys():
-        name2 = args.ge + "_" + key
-        destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
-        config.update_fastq_location(key, destination_bam)
-
-    config.new_config_and_generate_cmd()
+    
