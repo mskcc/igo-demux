@@ -44,7 +44,7 @@ with DAG(
              'sequencer_path': '/igo/sequencers/johnsawyers/211206_JOHNSAWYERS_0317_000000000-K3LFK'},
     """
     def demux(ds, **kwargs):
-        dragen_demux = kwargs["params"]["dragen_demux"]
+        dragen_demux = eval(kwargs["params"]["dragen_demux"])
         sequencer_path = kwargs["params"]["sequencer_path"]
         samplesheet_path = kwargs["params"]["samplesheet"]
         print("Starting demux {} {}".format(sequencer_path, samplesheet_path))
@@ -68,11 +68,15 @@ with DAG(
         # check if the sample sheet contains DLP project
         is_DLP = False
         if "DLP" in sample_sheet.recipe_set:
-            is_DLP = True 
+            is_DLP = True
+            dragen_demux = True
+          
+        # to test for any future sequencers that will need dragen demux
+        linux_sequencers = ["AMELIE", "FAUCI", "PEPE"]
         
         demux_command = ""
         # -K - wait for the job to complete
-        if (dragen_demux == 'True') or ("AMELIE" in sequencer_path):
+        if (dragen_demux) or any(s in sequencer_path for s in linux_sequencers):
             bsub_command = "bsub -K -n48 -q dragen -eo " + output_directory + "/dragen-demux.log "
             # same as bcl-convert arguments except:  "--bcl-conversion-only true --bcl-only-matched-reads true"
             demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
