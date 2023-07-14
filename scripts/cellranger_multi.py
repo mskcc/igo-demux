@@ -1,6 +1,4 @@
 import pandas as pd
-import re
-import sys
 import os
 import subprocess
 import glob
@@ -12,6 +10,7 @@ from collections import OrderedDict
 CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
 BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-7.0.0/lib/bin/bamtofastq"
+STATS_AREA = "/igo/stats/PIPELINE/"
 
 # config file class. It contains all the information needed for config file and can create csv file base on those info
 class Multi_Config:
@@ -25,6 +24,7 @@ class Multi_Config:
         self.sub_sample_info = {} # cell number and fastq path as list for sub samples if include cell hashing
         self.ge_reads_number = 0  # gene expression fastq reads number if needed
     
+    # write all info from the class to csv file
     def write_to_csv(self, name_of_file):
         with open(name_of_file,'w') as file:
             file.write("[gene-expression]\n")
@@ -46,6 +46,24 @@ class Multi_Config:
                 file.write("\n[samples]\nsample_id,cmo_ids\n")
                 for key, value in self.samples.items():
                     file.write("{},{}\n".format(key, value))
+
+    # write to csv for ch and ge only, prepare for bam2fastq
+    def write_ch_ge_only_to_csv(self, name_of_file):
+        with open(name_of_file,'w') as file:
+            file.write("[gene-expression]\n")
+            for key, value in self.gene_expression.items():
+                file.write("{},{}\n".format(key, value))
+            
+            file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
+            
+            for key, value in self.lirbaries.items():
+                if value[1] == "Gene Expression" or value[1] == "Multiplexing Capture":
+                    for i in value[0]:
+                        file.write("{},{},{}\n".format(key, i, value[1]))
+                
+            file.write("\n[samples]\nsample_id,cmo_ids\n")
+            for key, value in self.samples.items():
+                file.write("{},{}\n".format(key, value))
 
     # write to csv without ch info after bam2fastq for each sub sample
     def new_config_and_generate_cmd(self):
@@ -71,6 +89,7 @@ class Multi_Config:
                     file.write("\n[feature]\nreference,{}\n".format(self.features))
             
             # generate cmd for final cellranger
+            # TODO add wait bam2fastq finish option to bsub command
             cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, scripts.cellranger.config_dict["multi"]["tool"], self.name, key, name_of_file, scripts.cellranger.OPTIONS)
             print(cmd)
 
@@ -170,17 +189,6 @@ def gather_config_info(sample_dict, genome, IGO_ID):
 
 # TODO fb file generation from user form
 
-# example config Class
-# test = Multi_Config()
-# test.gene_expression["reference"] = "/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A"
-# test.lirbaries = {"WO9112_NoPeptide_IGO_14514_1":[["/igo/staging/FASTQ/MICHELLE_0643_BHKL3GDMXY/Project_14514/Sample_WO9112_NoPeptide_IGO_14514_1"], "Gene Expression"], "WO9112_NoPeptide_VDJ_IGO_14514_C_1":[["/igo/staging/FASTQ/MICHELLE_0643_BHKL3GDMXY/Project_14514_C/Sample_WO9112_NoPeptide_VDJ_IGO_14514_C_1", "fake test"],"VDJ"]}
-# test.vdj = "/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0"
-# test.features = "/igo/stats/Multi_config/Project_14514_fb.csv"
-# test.samples = {"test1":"B301", "test2":"B302"}
-
-# test.write_to_csv("test.csv")
-
-
 if __name__ == '__main__':
     # input as name for each library type plus genome
     # Usage: python cellranger_multi.py -ge=AT3_C1-hashtag_IGO_14767_1 -ch=AT3_C1-hashtag_FB_IGO_14767_B_1 -genome=Mouse
@@ -207,9 +215,19 @@ if __name__ == '__main__':
 
     # condition for ch + vdj +/- fb
     if args.ch and args.vdj:
-        # run ch + ge first
-        # need function to write csv for ch and ge only and put output under pipeline folder name it as _step1
-        # TODO
+        # run ch + ge first under PIPELINE folder with name of Project_fb_step1
+        config.write_ch_ge_only_to_csv(file_name)
+        cmd = "bsub -K -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(args.ge, args.ge, scripts.cellranger.config_dict["multi"]["tool"], args.ge, file_name, scripts.cellranger.OPTIONS)
+        os.chdir(STATS_AREA)
+        projects = next(os.walk("."))[1]
+        project = "Project_{}_step1".format(ch_project_ID)
+        if project not in projects:
+            os.mkdir(project, scripts.cellranger.ACCESS)
+        work_area = STATS_AREA + project + "/" 
+        # GO TO project ID LOCATION to start cellranger command
+        os.chdir(work_area)
+        print(cmd)
+        # subprocess.run(cmd, shell=True)
         
         # update cell number and ge reads number after ge + ch finish
         config.update_info_from_step1(ch_project_ID)
@@ -228,13 +246,24 @@ if __name__ == '__main__':
             config.update_fastq_location(key, destination_bam)
 
         config.new_config_and_generate_cmd()
+    
     # condition for ch + fb - vdj
     elif args.ch and args.fb:
         #TODO modify fb fastq files and store in new location then proceed
-        print("not finished")
+        print("not ready")
+    
     # other normal cases
     else:
         config.write_to_csv(file_name)
         cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(args.ge, args.ge, scripts.cellranger.config_dict["multi"]["tool"], args.ge, file_name, scripts.cellranger.OPTIONS)
+        # create project folder if not exists
+        os.chdir(STATS_AREA)
+        projects = next(os.walk("."))[1]
+        project = "Project_" + ch_project_ID
+        if project not in projects:
+            os.mkdir(project, scripts.cellranger.ACCESS)
+        work_area = STATS_AREA + project + "/" 
+        # GO TO project ID LOCATION to start cellranger command
+        os.chdir(work_area)
         print(cmd)
-    
+        # subprocess.run(cmd, shell=True)
