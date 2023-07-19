@@ -67,8 +67,8 @@ config_dict = {
     "spaceranger": {
         "tool": " /igo/work/nabors/tools/spaceranger-2.0.0/spaceranger count ",
         "genome": {
-            "Human": " --reference=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
-            "Mouse": " --reference=/igo/work/nabors/genomes/10X_Genomics/spatial_gex/refdata-gex-mm10-2020-A"
+            "Human": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
+            "Mouse": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/spatial_gex/refdata-gex-mm10-2020-A"
         },
         "probe": {
             "Human": "/igo/work/nabors/genomes/10X_Genomics/spatial_gex/Visium_Human_Transcriptome_Probe_Set_v1.0_GRCh38-2020-A.csv",
@@ -312,10 +312,10 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                         cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --image={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
                         if sample_info.preservation == "FFPE":
                             probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
-                            cmd = cmd + "--probe-set={}".format(probe)
+                            cmd = cmd + " --probe-set={}".format(probe)
                         bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, OPTIONS)
                         print(bsub_cmd)
-                        # subprocess.run(bsub_cmd, shell=True)
+                        subprocess.run(bsub_cmd, shell=True)
                 
                 elif tag != "Skip":
                     cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
@@ -391,10 +391,10 @@ def lanuch_by_project(project_directory, recipe, species):
                 cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --image={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
                 if sample_info.preservation == "FFPE":
                     probe = config_dict[tag]["probe"][species]
-                cmd = cmd + "--probe-set={}".format(probe)
+                cmd = cmd + " --probe-set={}".format(probe)
                 bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, OPTIONS)
                 print(bsub_cmd)
-                # subprocess.run(bsub_cmd, shell=True)
+                subprocess.run(bsub_cmd, shell=True)
 
         elif tag != "Skip":
             cmd = generate_cellranger_cmd(sample, tag, species, sample_fastqfile_dict[sample], sequencer_and_run)
