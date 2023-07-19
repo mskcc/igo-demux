@@ -139,7 +139,7 @@ def get_tag(recipe):
     if recipe in ARC_FLAVORS:
         tag = "arc"
     if recipe in SPATIAL_FLAVORS:
-        tag = "spatial"
+        tag = "spaceranger"
     return tag
 
 # return tag and genome according to sample_ID for SCRI samples, all SCRI samples are starting with Project_12437
@@ -302,7 +302,7 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                         subprocess.run(bsub_cmd, shell=True)
                     else:
                         print("Multiome sample set not complete yet")
-                elif tag == "spatial":
+                elif tag == "spaceranger":
                     sample_info = scripts.cellranger_spatial.Spatial_sample(sample, project)
                     if sample_info.tiff_image == "EMPTY":
                         print("check tif image")
@@ -381,7 +381,7 @@ def lanuch_by_project(project_directory, recipe, species):
             else:
                 print("Multiome sample not finished yet")
                 print(validation)
-        elif tag == "spatial":
+        elif tag == "spaceranger":
             sample_info = scripts.cellranger_spatial.Spatial_sample(sample, project)
             if sample_info.tiff_image == "EMPTY":
                 print("check tif image")
