@@ -5,7 +5,6 @@ import pandas as pd
 import re
 import sys
 import os
-import glob
 import json
 import subprocess
 from os.path import join
@@ -14,6 +13,7 @@ from os.path import abspath
 from os.path import isdir
 from subprocess import call
 import scripts.get_sequencing_read_data
+import scripts.cellranger_spatial
 
 """
 input: sample_sheet object(for sample list and essential info), sequencer_and_run(for stats folder and fastq file location)
@@ -86,6 +86,7 @@ VDJ_FLAVORS = ["10X_Genomics_VDJ"]
 ATAC_FLAVORS = ["10X_Genomics_ATAC"]
 CNV_FLAVORS = ["10X_Genomics_CNV"]
 ARC_FLAVORS = ["10X_Genomics_Multiome", "10X_Genomics_Multiome_ATAC", "10X_Genomics_Multiome_GeneExpression"]
+SPATIAL_FLAVORS = ["10X_Genomics_Visium"]
 
 """
 steps:
@@ -137,6 +138,8 @@ def get_tag(recipe):
         tag = "atac_count"
     if recipe in ARC_FLAVORS:
         tag = "arc"
+    if recipe in SPATIAL_FLAVORS:
+        tag = "spatial"
     return tag
 
 # return tag and genome according to sample_ID for SCRI samples, all SCRI samples are starting with Project_12437
@@ -299,6 +302,21 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                         subprocess.run(bsub_cmd, shell=True)
                     else:
                         print("Multiome sample set not complete yet")
+                elif tag == "spatial":
+                    sample_info = scripts.cellranger_spatial.Spatial_sample(sample, project)
+                    if sample_info.tiff_image == "EMPTY":
+                        print("check tif image")
+                    else:
+                        tool = config_dict[tag]["tool"]
+                        transcriptome = config_dict[tag]["genome"][sample_genome_dict[sample]]
+                        cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --image={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
+                        if sample_info.preservation == "FFPE":
+                            probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
+                            cmd = cmd + "--probe-set={}".format(probe)
+                        bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, OPTIONS)
+                        print(bsub_cmd)
+                        # subprocess.run(bsub_cmd, shell=True)
+                
                 elif tag != "Skip":
                     cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
                     print(cmd)
@@ -314,7 +332,6 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                 # if recipe within the tool being set up, lanuch cellranger
                 if tag != "Skip" and genome != "na":
                     cmd = generate_cellranger_cmd(sample, tag, genome, sample_fastqfile_dict[sample], sequencer_and_run)
-                    cmd = cmd + " --include-introns=true"  # SCRI samples always have include-introns true
                     print(cmd)
                     subprocess.run(cmd, shell=True)
 
@@ -364,6 +381,21 @@ def lanuch_by_project(project_directory, recipe, species):
             else:
                 print("Multiome sample not finished yet")
                 print(validation)
+        elif tag == "spatial":
+            sample_info = scripts.cellranger_spatial.Spatial_sample(sample, project)
+            if sample_info.tiff_image == "EMPTY":
+                print("check tif image")
+            else:
+                tool = config_dict[tag]["tool"]
+                transcriptome = config_dict[tag]["genome"][species]
+                cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --image={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
+                if sample_info.preservation == "FFPE":
+                    probe = config_dict[tag]["probe"][species]
+                cmd = cmd + "--probe-set={}".format(probe)
+                bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, OPTIONS)
+                print(bsub_cmd)
+                # subprocess.run(bsub_cmd, shell=True)
+
         elif tag != "Skip":
             cmd = generate_cellranger_cmd(sample, tag, species, sample_fastqfile_dict[sample], sequencer_and_run)
             print(cmd)
