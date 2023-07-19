@@ -35,16 +35,18 @@ class Spatial_sample:
     def copy_tiff(self, project_id):
         # project_id format as Project_12345
         source_loc_dir = original_tiff_images_directory + project_id
-        destination_loc = tiff_images_directory + project_id + "/" + self.sample_name + ".tif"
+        destination_loc = tiff_images_directory + project_id
+        destination_file = destination_loc + "/" + self.sample_name + ".tif"
         # create TIFF_images director if not exists
-        if not os.path.exists(source_loc_dir):
-            os.makedirs(source_loc_dir)
+        if not os.path.exists(destination_loc):
+            os.makedirs(destination_loc)
 
         # copy all the image files using rsync?
         original_tiff_image = glob.glob(source_loc_dir + "/" + self.sample_name + "*")
-        if len(original_tiff_image) != 0 or "tif" not in original_tiff_image[0]:
+        if len(original_tiff_image) != 1 or ".tif" not in original_tiff_image[0]:
             print("tif file is not in proper format for sample {}, please check".format(self.IGO_ID))
         else:
-            shutil.copy(original_tiff_image[0], destination_loc)
-            self.tiff_image = destination_loc
-
+            shutil.copy(original_tiff_image[0], destination_file)
+            self.tiff_image = destination_file
+            print("copy {} to {}".format(original_tiff_image[0], destination_file))
+            
