@@ -13,9 +13,9 @@ import scripts.generate_run_params
 
 
 # Global Variable : we do not want to process these experiments in this script
-DO_NOT_PROCESS = ["10X_Genomics", "DLP", "HumanWholeGenome"]
+DO_NOT_PROCESS = ["10X_Genomics", "DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "ChIPSeq", "AmpliconSeq",  "PigWholeGenome"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "ChIPSeq", "AmpliconSeq", "HumanWholeGenome"]
 # this list contains the headers of the columns.  we will access the data using these listings
 PICARD_VERSION = "2_23_2"
 PICARD_JAR = "/igo/home/igo/resources/picard2.23.2/picard.jar "
@@ -176,6 +176,16 @@ class LaunchMetrics(object):
 		print(bsub_dragen_parse_dna)
 		call(bsub_dragen_parse_dna, shell = True)
 		
+		# launch special BWA_MEM2 script to create PED PEG samples
+		if ("_IGO_08822_" in sample.sample_id) and ("_RNA_" not in sample.sample_id):
+			# create directory 
+			output_dir = "{}{}".format(work_directory, sample.project)
+			pathlib.Path(output_dir).mkdir(parents = True, exist_ok = True)
+			sample_dir = "/igo/staging/FASTQ/{}_PPG/{}/Sample_{}".format(run, sample.project, sample.sample_id)
+			run_bwa_mem = "/home/igo/miniconda_airflow/bin/python3 /igo/work/igo/igo-demux/scripts/bwa_mem2_only_per_sample.py {} {}".format(sample_dir, output_dir)
+			print(run_bwa_mem)
+			call(run_bwa_mem, shell = True)
+			
 		if ("BAITS" in sample_parameters.keys()):
 			hs_metrics_job_name_header = "{}___HS_METRICS___".format(run)
 			hs_metrics = "{} CollectHsMetrics --INPUT {}.bam --OUTPUT {}{}___{}___HS.txt --REFERENCE_SEQUENCE {} --BAIT_INTERVALS {} --TARGET_INTERVALS {}".format(PICARD_AND_JAR, sample.sample_id, work_directory, metric_file_prefix, PICARD_VERSION, sample_parameters["REFERENCE"], sample_parameters["BAITS"], sample_parameters["TARGETS"])
@@ -267,3 +277,4 @@ class LaunchMetrics(object):
 			
 
 	
+			

@@ -189,9 +189,9 @@ with DAG(
 
             return "10X Pipeline stats done"
         
-        if "HumanWholeGenome" in sample_sheet.recipe_set:
-            launch_wgs_stats(sample_sheet, sequencer_and_run)
-            print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
+        # if "HumanWholeGenome" in sample_sheet.recipe_set:
+            # launch_wgs_stats(sample_sheet, sequencer_and_run)
+            # print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
         scripts.calculate_stats.main(samplesheet_path)
 
