@@ -189,6 +189,9 @@ with DAG(
 
             return "10X Pipeline stats done"
         
+        # if "HumanWholeGenome" in sample_sheet.recipe_set:
+            # launch_wgs_stats(sample_sheet, sequencer_and_run)
+            # print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
         scripts.calculate_stats.main(samplesheet_path)
 
@@ -292,3 +295,78 @@ with DAG(
     )
 
     demux_run >> launch_stats >> launch_fingerprinting >> send_stats_email
+
+
+    def launch_wgs_stats(sample_sheet, sequencer_and_run):
+        # Make sure DRAGEN commands do not fail for non-existent directory
+        stats_path = "/igo/staging/stats/" + sequencer_and_run
+        if not os.path.exists(stats_path):
+            os.makedirs(stats_path)
+            print("Created the stats directory: {}".format(stats_path))
+        
+        cmds_dragen = build_dragen_cmds(sample_sheet, sequencer_and_run)
+        for cmd in cmds_dragen:
+            subprocess.run(cmd, shell=True)
+        
+        # Only for 08822* PED-PEG Projects also create bwamem2 .bam
+        cmds_bwamem2 = build_bwamem2_cmds(sample_sheet, sequencer_and_run)
+        for cmd in cmds_bwamem2:
+            subprocess.run(cmd, shell=True)
+
+        # create txt stats files from dragen result after dragen command finish for one run directly to /igo/stats/DONE/<sequncer> folder
+        sequencer = sequencer_and_run.split("_")[0]
+        stats_path_for_conversion = stats_path + "/"
+        stats_done_dir = "/igo/stats/DONE/" + sequencer + "/"
+        cmd_conversion = "python /igo/work/igo/igo-demux/scripts/dragen_parse_csv_stats_hWGS.py {} {}".format(stats_path_for_conversion, stats_done_dir)
+        bsub_command_conversion = "bsub -J create_txt_{} -o {}create_txt.out -w \"done({}*)\" {}".format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, cmd_conversion)
+        print(bsub_command_conversion)
+        subprocess.run(bsub_command_conversion, shell=True)
+
+        # call endpoint to push data to ngs database and LIMS
+        upload_stats = "python /igo/work/igo/igo-demux/scripts/upload_stats.py {}".format(sequencer_and_run)
+        upload_stats_cmd = 'bsub -J uplaodWGSstats{} -o {}uplaodWGSstats.out -w \"done(create_txt_{}*)\" \"{}\"'.format(sequencer_and_run, stats_path_for_conversion, sequencer_and_run, upload_stats)
+        print(upload_stats_cmd)
+        subprocess.run(upload_stats_cmd, shell=True)
+
+
+    def build_bwamem2_cmds(sample_sheet, sequencer_and_run):
+        # For all ped-peg create the BWA-MEM2 GRCh37 .bam (~30x slower than the DRAGEN GRCh38 .bam)
+        # python3 /igo/work/nabors/tools/wgs_python/wgs_stats_bwa_mem2.py 
+        # --project-dir /igo/staging/FASTQ/MICHELLE_0457_AHGFTGDSX2_WGS/Project_08822_NZ/ 
+        # --output-dir /igo/staging/stats/naborsd_workspace/PPG/MICHELLE_0457/08822_NZ
+        cmd_list = []
+        for project in sample_sheet.project_set:
+            if "08822" in project:
+                project_dir = "/igo/staging/FASTQ/" + sequencer_and_run + "_PPG/" + project # note special "_PPG" fastq directory
+                output_dir = "/igo/staging/stats/" + sequencer_and_run + "/" + project
+                cmd = "python3 /igo/work/nabors/tools/wgs_python/bwa_mem2_only.py --project-dir {} --output-dir {}".format(project_dir, output_dir)
+                print(cmd)
+                cmd_list.append(cmd)
+        return cmd_list
+
+    def build_dragen_cmds(sample_sheet, sequencer_and_run):
+        print("Creating DRAGEN pipeline command for each sample on " + sequencer_and_run)
+        # dictionary of Sample_ID->Project
+        sample_dict = pandas.Series(sample_sheet.df_ss_data['Sample_Project'].values,index=sample_sheet.df_ss_data['Sample_ID']).to_dict()
+        # Create DRAGEN pipeline command, for example:
+        # bsub -J RAD_Pt_20_T_IGO_04540_P_15 -o RAD_Pt_20_T_IGO_04540_P_15.out -q dragen -n 48 -M 4 
+        # /opt/edico/bin/dragen --ref-dir /staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559 --enable-duplicate-marking true --enable-map-align-output true --fastq-list /igo/work/luc/DIANA_0441_fastq_list.csv 
+        # --output-directory /igo/staging/stats/DIANA_0441_AH2V3TDSX3 --fastq-list-sample-id RAD_Pt_20_T_IGO_04540_P_15 --output-file-prefix DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
+        cmd_set = set()
+        
+        # get prefix from the sequencer_and_run with keeping only machineName_runID_flowcellID
+        sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+
+        for sample, project in sample_dict.items():
+            print("PROJECT: {} {}".format(project, sample_sheet.project_dict[project]))
+            if sample_sheet.sample_dict[sample] == "HumanWholeGenome":
+                #for example: DIANA_0441_AH2V3TDSX3___P04540_P__RAD_Pt_20_T_IGO_04540_P_15
+                output_prefix = "{}___P{}___{}".format(sequencer_and_run_prefix, project.replace("Project_",""), sample)
+                job_name = sequencer_and_run + "_" + sample
+                bsub = "bsub -J {} -eo /igo/staging/stats/{}/{}.out -q dragen -m \"id01 id02 id03\" -n 48 -M 4 ".format(job_name, sequencer_and_run, sample)
+                dragen_cmd_1 = "/opt/edico/bin/dragen --ref-dir /staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559 --intermediate-results-dir /staging/temp --enable-duplicate-marking true --enable-map-align-output true "
+                dragen_cmd_2 = "--fastq-list /igo/staging/FASTQ/{}/Reports/fastq_list.csv --output-directory /igo/staging/stats/{} ".format(sequencer_and_run, sequencer_and_run)
+                dragen_cmd_3 = "--fastq-list-sample-id {} --output-file-prefix {}".format(sample, output_prefix)
+                cmd = bsub + dragen_cmd_1 + dragen_cmd_2 + dragen_cmd_3
+                cmd_set.add(cmd)
+        return cmd_set 
