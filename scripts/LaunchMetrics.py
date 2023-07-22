@@ -177,7 +177,7 @@ class LaunchMetrics(object):
 		call(bsub_dragen_parse_dna, shell = True)
 		
 		# launch special BWA_MEM2 script to create PED PEG samples
-		if ("_IGO_08822_" in sample.sample_id) and ("_RNA_" not in sample.sample_id):
+		if ("08822" in sample.project) and ("_RNA_" not in sample.sample_id):
 			# create directory 
 			output_dir = "{}{}".format(work_directory, sample.project)
 			pathlib.Path(output_dir).mkdir(parents = True, exist_ok = True)
