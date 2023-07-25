@@ -80,7 +80,9 @@ def fingerprint(project_id):
         print('No Picard .bams found, searching again')
         project_id_p = 'P' + project_id
         # search for .bams named like 'RUTH_0084_AHWWTHDSX2___P10811_I___Sample_IM-GBM-111-CSF_IGO_10811_I_15.bam'
-        for fileName in glob.glob('/igo/staging/stats/**/*___' + project_id_p + '___*.bam', recursive=False):
+        # hold previous string for search >> '/igo/staging/stats/**/*___' + project_id_p + '___*.bam'
+        # change recursive from False to True to retrieve PEDPEG bams from DRAGEN folder
+        for fileName in glob.glob("/igo/staging/stats/**/*{}*.bam".format(project_id), recursive = True):
             input_bams.add(fileName)
             print(fileName + " Added")
     

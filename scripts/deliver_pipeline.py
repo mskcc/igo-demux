@@ -90,7 +90,7 @@ def deliver_pipeline_output(project, pi, recipe):
     elif recipe.startswith("10XGenomics") or project.startswith("12437_"):
         folder_list = scripts.deliver_cellranger.find_cellranger(project)
         if len(folder_list) == 0:
-            print("No cellragner result available")
+            print("No cellranger result available")
         else:
             # create pipeline folder if not exists
             cellranger_delivery_folder = delivery_folder + "/cellranger"
@@ -127,10 +127,10 @@ def find_bams(project, stats_base_dir):
     Find all bams for a project and return a dictionary of "igo_id" -> "bam list"
     """
     
-    bam_unix_regex = stats_base_dir + '/**/*_IGO_' + project + '_*.bam'
+    bam_unix_regex = "{}/**/*_IGO_{}_*.bam".format(stats_base_dir, project)
     print("Searching for all .bams for project {} starting in folder {} matching glob {}".format(project, stats_base_dir, bam_unix_regex))
     # search for all .bams named like /igo/staging/stats/DIANA_0479_BHM2NVDSX3/RNA/GA28_ot_IGO_12785_H_1.bam
-    project_bams = glob.glob(bam_unix_regex, recursive=True)  # recurisive=True causes the search to be a bit slow (more than 1 min)
+    project_bams = glob.glob(bam_unix_regex, recursive = True)  # recurisive=True causes the search to be a bit slow (more than 1 min)
     print("Total bams found {}".format(len(project_bams)))
 
     bamdict = {}
