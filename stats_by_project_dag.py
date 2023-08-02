@@ -1,8 +1,6 @@
 from datetime import datetime
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-import scripts.calculate_stats
-import scripts.cellranger
 
 """
 Airflow DAG to run stats by project giving projectID, recipe parameters
@@ -20,6 +18,10 @@ with DAG(
     {"project_directory":"/igo/staging/FASTQ/RUTH_0141_AH27NGDSX5/Project_13586_B","recipe":"RNASeq_PolyA", "species":"human"}
     """
     def run_stats(ds, **kwargs):
+        import scripts.calculate_stats
+        import scripts.cellranger
+        import subprocess
+
         project_directory = kwargs["params"]["project_directory"]
         recipe = kwargs["params"]["recipe"]
         species = kwargs["params"]["species"]
@@ -29,6 +31,10 @@ with DAG(
         # let's go ahead and run stats by project
         if "10X_" in recipe:
             scripts.cellranger.lanuch_by_project(project_directory, recipe, species)
+        elif "ONT" in recipe:
+            cmd = "bsub -J ont_stats -n 8 -M 8 python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_directory)
+            print(cmd)
+            subprocess.run(cmd, shell=True)
         else:
             scripts.calculate_stats.main([project_directory, recipe, species])
 
