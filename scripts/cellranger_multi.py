@@ -204,13 +204,16 @@ if __name__ == '__main__':
         sample_dict["vdj"] = args.vdj
     if args.ch:
         sample_dict["ch"] = args.ch
+        ch_project_ID = "_".join(args.ch.split("IGO_")[1].split("_")[:-1])
+
     if args.fb:
         sample_dict["fb"] = args.fb
+        ch_project_ID = "_".join(args.fb.split("IGO_")[1].split("_")[:-1])
+
     
     genome = args.genome
     config = gather_config_info(sample_dict, genome, args.ge)
     project_ID = "_".join(args.ge.split("IGO_")[1].split("_")[:-1])
-    ch_project_ID = "_".join(args.ch.split("IGO_")[1].split("_")[:-1])
     file_name = "{}Project_{}/{}.csv".format(CONFIG_AREA, project_ID, args.ge)
 
     # condition for ch + vdj +/- fb
@@ -265,5 +268,6 @@ if __name__ == '__main__':
         work_area = STATS_AREA + project + "/" 
         # GO TO project ID LOCATION to start cellranger command
         os.chdir(work_area)
+        print("Start cellranger from {}".format(work_area))
         print(cmd)
-        # subprocess.run(cmd, shell=True)
+        subprocess.run(cmd, shell=True)
