@@ -70,16 +70,12 @@ with DAG(
         if "DLP" in sample_sheet.recipe_set:
             is_DLP = True
             dragen_demux = True
-<<<<<<< HEAD
-          
-        # to test for any future sequencers that will need dragen demux
+          # to test for any future sequencers that will need dragen demux
         linux_sequencers = ["AMELIE"]
-=======
->>>>>>> 830efea06570521af484fa0a487f4ac9dede4066
         
         demux_command = ""
         # -K - wait for the job to complete
-        if (dragen_demux):
+        if (dragen_demux) or ("AMELIE" in sequencer_path):
             bsub_command = "bsub -K -n48 -q dragen -eo " + output_directory + "/dragen-demux.log "
             # same as bcl-convert arguments except:  "--bcl-conversion-only true --bcl-only-matched-reads true"
             demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
