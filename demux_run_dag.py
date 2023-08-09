@@ -71,8 +71,8 @@ with DAG(
             is_DLP = True
             dragen_demux = True
           
-        # to test for any future sequencers that will need dragen demux
-        linux_sequencers = ["AMELIE", "FAUCI", "PEPE"]
+        # AMELIE long read demuxes often crash bcl-convert
+        linux_sequencers = ["AMELIE"]
         
         demux_command = ""
         # -K - wait for the job to complete
