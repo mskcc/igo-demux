@@ -17,7 +17,7 @@ class Multi_Config:
     def __init__(self):
         self.name = "EMPTY"  # gene expression sample name
         self.gene_expression = OrderedDict()   # genome info for the ge sample
-        self.lirbaries = {}   # location info for fastq files
+        self.lirbaries = OrderedDict()   # location info for fastq files
         self.vdj = "EMPTY"    # genome info for the vdj sample
         self.samples = "EMPTY"  # sub_samples for cell hashing
         self.features = "EMPTY"   # fb info for fb sample, provided by user
@@ -170,6 +170,10 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         config.gene_expression["cmo-set"] = CONFIG_AREA + "Project_{}/Project_{}_ch_{}.csv".format(project_ID, project_ID, sample_name)
         config.samples = ch_file_generation(project_ID, sample_name)
 
+    # if both ch and fb are there, change the ch name
+    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys():
+        sample_dict["ch"] = sample_dict["ch"].replace("FB_IGO", "CH_IGO")
+
     # find fastq files for each sample and append information into config["libraries"]
     sample_list = []
     for i in sample_dict.values():
@@ -253,7 +257,40 @@ if __name__ == '__main__':
     # condition for ch + fb - vdj
     elif args.ch and args.fb:
         #TODO modify fb fastq files and store in new location then proceed
-        print("not ready")
+        # 1. copy fb fastq to a separate location
+        # 2. modify the fastq using modify_fastq_for_fb.sh
+        # 3. same process as normal cases
+        new_ch_sample_name = args.ch.replace("FB_IGO", "CH_IGO")
+        DESTINATION_CH_FASTQ_prefix = "/igo/stats/Multi_config/"
+        os.chdir(DESTINATION_CH_FASTQ_prefix)
+        runs = next(os.walk("."))[1]
+        # copy fb fastq file to /igo/stats/Multi_config/<RUN>/<Sample>
+        for i in config.lirbaries[args.fb][0]:
+            print(i)
+            # /igo/staging/FASTQ/RUTH_0233_AHHYVKDSX5/Project_13422_F/Sample_19288_66_IGO_13422_F_1
+            run = i.split("/")[4]
+            if run not in runs:
+                os.mkdir(run, scripts.cellranger.ACCESS)
+            cmd = "cp -R {}/ {}/".format(i, run)
+            print(cmd)
+            # subprocess.run(cmd, shell=True)
+            sample = i.split("/")[6]
+            # go to the fastq folder and modify fastq files. The name will be CH replaced FB
+            DESTINATION_CH_FASTQ = "{}/{}/{}".format(DESTINATION_CH_FASTQ_prefix, run, sample)
+            os.chdir(DESTINATION_CH_FASTQ)
+            job_name = "modify_fb_{}_{}".format(run, sample)
+            cmd = "bsub -J {} -o '/igo/stats/Multi_config/{}/{}.out' -n 8 -M 8 sh /igo/work/igo/igo-demux/scripts/modify_fastq_for_fb.sh".format(job_name, run, job_name)
+            print(cmd)
+            # subprocess.run(cmd, shell=True)
+
+            # append new fastq location for ch sample under config class
+            config.lirbaries[new_ch_sample_name][0].append(DESTINATION_CH_FASTQ)
+
+        # create config and submit job to wait for modify fastq finish before excute
+        config.write_to_csv(file_name)
+        cmd = "bsub -J {}_multi -o {}_multi.out -w \"done(*{})\"{}--id={} --csv={}{}".format(args.ge, args.ge, sample, scripts.cellranger.config_dict["multi"]["tool"], args.ge, file_name, scripts.cellranger.OPTIONS)
+        print(cmd)
+        # subprocess.run(cmd, shell=True)
     
     # other normal cases
     else:
