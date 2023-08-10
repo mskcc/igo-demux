@@ -276,7 +276,8 @@ if __name__ == '__main__':
             # subprocess.run(cmd, shell=True)
             sample = i.split("/")[6]
             # go to the fastq folder and modify fastq files. The name will be CH replaced FB
-            DESTINATION_CH_FASTQ = "{}/{}/{}".format(DESTINATION_CH_FASTQ_prefix, run, sample)
+            DESTINATION_CH_FASTQ = "{}{}/{}".format(DESTINATION_CH_FASTQ_prefix, run, sample)
+            print(DESTINATION_CH_FASTQ)
             os.chdir(DESTINATION_CH_FASTQ)
             job_name = "modify_fb_{}_{}".format(run, sample)
             cmd = "bsub -J {} -o '/igo/stats/Multi_config/{}/{}.out' -n 8 -M 8 sh /igo/work/igo/igo-demux/scripts/modify_fastq_for_fb.sh".format(job_name, run, job_name)
@@ -289,6 +290,16 @@ if __name__ == '__main__':
         # create config and submit job to wait for modify fastq finish before excute
         config.write_to_csv(file_name)
         cmd = "bsub -J {}_multi -o {}_multi.out -w \"done(*{})\"{}--id={} --csv={}{}".format(args.ge, args.ge, sample, scripts.cellranger.config_dict["multi"]["tool"], args.ge, file_name, scripts.cellranger.OPTIONS)
+        # create project folder if not exists
+        os.chdir(STATS_AREA)
+        projects = next(os.walk("."))[1]
+        project = "Project_" + ch_project_ID
+        if project not in projects:
+            os.mkdir(project, scripts.cellranger.ACCESS)
+        work_area = STATS_AREA + project + "/" 
+        # GO TO project ID LOCATION to start cellranger command
+        os.chdir(work_area)
+        print("Start cellranger from {}".format(work_area))
         print(cmd)
         # subprocess.run(cmd, shell=True)
     
