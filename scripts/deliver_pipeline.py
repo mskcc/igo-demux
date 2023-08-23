@@ -59,7 +59,7 @@ def deliver_pipeline_output(project, pi, recipe):
                 sample_folder = tapestri_path + sample
                 destination = tapestri_delivery_folder + "/" + sample
                 print("copy {}".format(sample_folder))
-                shutil.copytree(sample_folder, destination)
+                shutil.copytree(sample_folder, destination, symlinks=True)
 
     # if recipe is CRISPRSeq or GeoMx, go to pipeline folder and find output, if exists the copy
     # add cellranger multi output for featurebarcoding project here for now
@@ -80,7 +80,7 @@ def deliver_pipeline_output(project, pi, recipe):
                 destination = delivery_folder + "/" + sample
                 print("copy {}".format(sample_path))
                 if os.path.isdir(sample_path):
-                    shutil.copytree(sample_path, destination)
+                    shutil.copytree(sample_path, destination, symlinks=True)
                 else:
                     cmd = "cp {} {}".format(sample_path, destination)
                     print(cmd)
@@ -103,7 +103,7 @@ def deliver_pipeline_output(project, pi, recipe):
                 sample_name = folder.split("/")[-1]
                 sample_delivery_name = cellranger_delivery_folder + "/" + sample_name
                 print("copy {}".format(folder))
-                shutil.copytree(folder, sample_delivery_name)
+                shutil.copytree(folder, sample_delivery_name, symlinks=True)
 
     # TCR seq only need deliver manifest, those files located under viale lab drive
     # example file: /pskis34/LIMS/TCRseqManifest/Project_13545_TCRseq_Manifest_Beta.csv
