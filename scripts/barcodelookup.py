@@ -1,10 +1,32 @@
 # Code that re-writes Illumina HTML Reports wich have barcodes so the barcodes have tooltips with their names 
 # i.e. an HTML report with DNA barcode "GCGCAAGC-TCACGCCG" has tooltip "UDI0042"
-# Usage: python3 barcodelookup.py laneBarcode.html Barcodes.json
+# if the sequncer has reversed i5, add reversed as third input
+# Usage: python3 barcodelookup.py laneBarcode.html Barcodes.json reversed
 
 import re
 import json
 import sys
+
+
+def reverse_barcode(barcode):
+    # given a barcode such as GGGGGGGG-AGATCTCG, reverse complementary the part after - and return
+    barcode_lst = barcode.split('-')
+    if len(barcode_lst) != 2:
+        return barcode
+    else:
+        barcode_reversed = []
+        for letter in barcode_lst[1]:
+            if letter == "A":
+                barcode_reversed.insert(0, "T")
+            elif letter == "T":
+                barcode_reversed.insert(0, "A")
+            elif letter == "C":
+                barcode_reversed.insert(0, "G")
+            elif letter == "G":
+                barcode_reversed.insert(0, "C")
+        barcode_reversed = "".join(barcode_reversed)
+        barcode_reversed = "-".join([barcode_lst[0], barcode_reversed])
+    return barcode_reversed
 
 if (len(sys.argv) > 1):
     htmlfile = sys.argv[1]
@@ -13,17 +35,25 @@ if __name__ == "__main__":
     jsonfile = sys.argv[2] # The dictionary of known barcodes
     newhtmlstring = htmlfile.replace(".html", "_.html") # The name of the new HTML file to write to
     newhtml = open(newhtmlstring,'w')
-
+        
     # build barcode dictionary from Barcodes.json file
     with open(jsonfile) as f:
         jsondata = json.load(f)
     bcdict = {}
-    for key in jsondata:
-        if key['INDEXTAG'] in bcdict:
-            bcdict[key['INDEXTAG']].append(key['INDEXID'])
-        else:
-            bcdict[key['INDEXTAG']] = [key['INDEXID']]
+    if sys.argv[3] == "reversed":
+        for key in jsondata:
+            key['INDEXTAG'] = reverse_barcode(key['INDEXTAG'])
+            if key['INDEXTAG'] in bcdict:
+                bcdict[key['INDEXTAG']].append(key['INDEXID'])
+            else:
+                bcdict[key['INDEXTAG']] = [key['INDEXID']]
 
+    else:
+        for key in jsondata:
+            if key['INDEXTAG'] in bcdict:
+                bcdict[key['INDEXTAG']].append(key['INDEXID'])
+            else:
+                bcdict[key['INDEXTAG']] = [key['INDEXID']]
     #taken from https://www.w3schools.com/css/css_tooltip.asp
     styletext = """
     <style>
@@ -56,7 +86,7 @@ if __name__ == "__main__":
 
     f = open(htmlfile).read().splitlines()
     # The regex to look for all DNA barcodes in the Illumina HTML reports
-    reglist = [re.findall(r'\<td\>([ATGC]+\+?[ATGC]+)\<\/td\>', line) for line in f]
+    reglist = [re.findall(r'\<td\>([ATGC]+\-?[ATGC]+)\<\/td\>', line) for line in f]
     assert len(reglist) == len(f)
     for idx,line in enumerate(reglist):
         if idx == 2:

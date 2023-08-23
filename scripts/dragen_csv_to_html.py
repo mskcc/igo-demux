@@ -14,7 +14,7 @@ def build_lane_summary_html(demux_reports_dir, write_to_file):
     demux_stats_csv = pandas.read_csv(demultiplex_stats)
     # convert int dtype to float in order to add commas to reads number
     demux_stats_csv_convert = demux_stats_csv.astype({"# Reads": 'float64', "# Perfect Index Reads": 'float64', "# One Mismatch Index Reads": 'float64'})
-
+    demux_stats_csv_convert["% Reads"] = demux_stats_csv_convert["% Reads"] * 100
     top_unknown_barcodes_csv = pandas.read_csv(top_unknown_barcodes)
     # convert int dtype to float in order to add commas to reads number
     top_unknown_barcodes_csv_covert = top_unknown_barcodes_csv.astype({"# Reads": 'float64'})
@@ -24,7 +24,8 @@ def build_lane_summary_html(demux_reports_dir, write_to_file):
     for i in range(1, lane_number + 1):
         df_name = "top_unknown_lane" + str(i)
         df_by_lanes[df_name] = top_unknown_barcodes_csv_covert.loc[top_unknown_barcodes_csv_covert["Lane"] == i]
-    
+        df_by_lanes[df_name]["index"] = df_by_lanes[df_name]["index"].str.cat(df_by_lanes[df_name]["index2"], sep="-")
+        df_by_lanes[df_name] = df_by_lanes[df_name].drop("index2", axis=1)
     # format two tables in the html with different column headers
     with open(write_to_file, 'w') as _file:
         _file.write("<h2>Lane Summary<h2>" + demux_stats_csv_convert.to_html(index = False, float_format =  '{:,.0f}'.format) + "\n<h2>Top Unknown Barcodes<h2>\n" + "<table>\n" )
