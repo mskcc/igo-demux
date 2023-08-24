@@ -1,6 +1,7 @@
 #!/bin/bash
 # Copies the laneBarcode.html demux report to the run-qc website
-# Usage: CopyIlluminaReports.sh /igo/staging/FASTQ/RUTH_0066_BHTJ33DRXY
+# Usage: CopyIlluminaReports.sh <optional_demux_dir> 
+# Example: CopyIlluminaReports.sh /igo/staging/FASTQ/RUTH_0066_BHTJ33DRXY
 
 DIR=/igo/staging/FASTQ
 cd $DIR
@@ -55,8 +56,17 @@ for fastq_dir in ${FASTQ_DIRS}; do
     toNameRemote=$toDir$runFullName$html
     echo "Converting DRAGEN reports in folder $dragen_reports_dir to name $toNameLocal"
     python /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir $toNameLocal
-
     touch $toNameLocal -r $dragen_replay #set correct timestamp on new html file from a DRAGEN demux file
+
+    # Miseq's (Ayyan & Johnsawyers) are not reverse complemented, all other sequencers are
+    should_reverse="reverse"
+    echo $fastq_dir
+    if [[ $fastq_dir == *"AYYAN_"* || $fastq_dir == *"JOHNSAWYERS_"* ]]; then
+       should_reverse="shouldnot"
+    fi
+    echo "Calling barcodelookup.py $toNameLocal /igo/work/igo/igo-demux/scripts/Barcodes.json $should_reverse"
+    python3 /igo/work/igo/igo-demux/scripts/barcodelookup.py $toNameLocal /igo/work/igo/igo-demux/scripts/Barcodes.json $should_reverse
+    
     echo "scp $toNameLocal to $toNameRemote"
     scp -p $toNameLocal igo@igo:$toNameRemote
   else
