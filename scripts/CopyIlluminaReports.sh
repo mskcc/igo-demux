@@ -59,7 +59,7 @@ for fastq_dir in ${FASTQ_DIRS}; do
     touch $toNameLocal -r $dragen_replay #set correct timestamp on new html file from a DRAGEN demux file
 
     # Miseq's (Ayyan & Johnsawyers) are not reverse complemented, all other sequencers are
-    should_reverse="reverse"
+    should_reverse="reversed"
     echo $fastq_dir
     if [[ $fastq_dir == *"AYYAN_"* || $fastq_dir == *"JOHNSAWYERS_"* ]]; then
        should_reverse="shouldnot"
