@@ -42,7 +42,7 @@ for fastq_dir in ${FASTQ_DIRS}; do
     echo "Copying $filename to $copiedname"
     cp -p $filename $copiedname
 
-    /opt/common/CentOS_7/python/python-3.7.1/bin/python3 /igo/work/igo/igo-demux/scripts/barcodelookup.py $copiedname /igo/work/igo/igo-demux/scripts/Barcodes.json
+    /opt/common/CentOS_7/python/python-3.7.1/bin/python3 /igo/work/igo/igo-demux/scripts/barcodelookup.py $copiedname /igo/work/igo/igo-demux/scripts/Barcodes.json shouldnot
     toDir=/srv/www/sequencing-qc/static/html/FASTQ/
     toName=$toDir$runFullName$html
 
@@ -53,6 +53,7 @@ for fastq_dir in ${FASTQ_DIRS}; do
     # This was a DRAGEN or bclconvert demux
     toDir=/srv/www/sequencing-qc/static/html/FASTQ/
     toNameLocal=$homedir$runFullName$html
+    toNameLocalPlus=$homedir$runFullName$htmlnewfile
     toNameRemote=$toDir$runFullName$html
     echo "Converting DRAGEN reports in folder $dragen_reports_dir to name $toNameLocal"
     python /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir $toNameLocal
@@ -67,8 +68,8 @@ for fastq_dir in ${FASTQ_DIRS}; do
     echo "Calling barcodelookup.py $toNameLocal /igo/work/igo/igo-demux/scripts/Barcodes.json $should_reverse"
     python3 /igo/work/igo/igo-demux/scripts/barcodelookup.py $toNameLocal /igo/work/igo/igo-demux/scripts/Barcodes.json $should_reverse
     
-    echo "scp $toNameLocal to $toNameRemote"
-    scp -p $toNameLocal igo@igo:$toNameRemote
+    echo "scp $toNameLocalPlus to $toNameRemote"
+    scp -p $toNameLocalPlus igo@igo:$toNameRemote
   else
     echo "Failed to copy demux reports for run $fastq_dir"
   fi
