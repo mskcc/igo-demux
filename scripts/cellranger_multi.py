@@ -89,9 +89,10 @@ class Multi_Config:
                     file.write("\n[feature]\nreference,{}\n".format(self.features))
             
             # generate cmd for final cellranger
-            # TODO add wait bam2fastq finish option to bsub command
-            cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, scripts.cellranger.config_dict["multi"]["tool"], self.name, key, name_of_file, scripts.cellranger.OPTIONS)
+            # wait bam2fastq finish before excute bsub command
+            cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out -w \"done(*_bamtofastq)\"{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, scripts.cellranger.config_dict["multi"]["tool"], self.name, key, name_of_file, scripts.cellranger.OPTIONS)
             print(cmd)
+            # subprocess.run(cmd, shell=True)
 
     # get reads number and sub sample cell number
     def update_info_from_step1(self, fb_project_id):
@@ -191,6 +192,103 @@ def gather_config_info(sample_dict, genome, IGO_ID):
        
     return config
 
+# for case of ch + vdj +/- fb
+def cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, ge):
+    # run ch + ge first under PIPELINE folder with name of Project_fb_step1
+    config.write_ch_ge_only_to_csv(file_name)
+    cmd = "bsub -K -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(ge, ge, scripts.cellranger.config_dict["multi"]["tool"], ge, file_name, scripts.cellranger.OPTIONS)
+    os.chdir(STATS_AREA)
+    projects = next(os.walk("."))[1]
+    project = "Project_{}_step1".format(ch_project_ID)
+    if project not in projects:
+        os.mkdir(project, scripts.cellranger.ACCESS)
+    work_area = STATS_AREA + project + "/" 
+    # GO TO project ID LOCATION to start cellranger command
+    os.chdir(work_area)
+    print(cmd)
+    # subprocess.run(cmd, shell=True)
+    
+    # update cell number and ge reads number after ge + ch finish
+    config.update_info_from_step1(ch_project_ID)
+    # create bam2fastq cmd per sub sample
+    for key in config.sub_sample_info.keys():
+        name2 = ge + "_" + key
+        source_bam = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/count/sample_alignments.bam".format(ch_project_ID, ge, key)
+        destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
+        cmd = "bsub -J {}_bamtofastq -o {}_bamtofastq.out -n 8 -M 8 {} --reads-per-fastq={} {} {}".format(name2, name2, BAMTOFASTQ, config.ge_reads_number, source_bam, destination_bam)
+        print(cmd)
+        # subprocess.run(cmd, shell=True)
+        # update new fastq file path after bam2fastq for each sub sample
+        config.update_fastq_location(key, destination_bam)
+
+    config.new_config_and_generate_cmd()
+
+# for case of ch + fb - vdj
+def cellranger_ch_fb(config, file_name, ch_project_ID, ge, ch, fb):
+    # Process: modify fb fastq files and store in new location then proceed
+    # 1. copy fb fastq to a separate location
+    # 2. modify the fastq using modify_fastq_for_fb.sh
+    # 3. same process as normal cases
+    new_ch_sample_name = ch.replace("FB_IGO", "CH_IGO")
+    DESTINATION_CH_FASTQ_prefix = "/igo/stats/Multi_config/"
+    os.chdir(DESTINATION_CH_FASTQ_prefix)
+    runs = next(os.walk("."))[1]
+    # copy fb fastq file to /igo/stats/Multi_config/<RUN>/<Sample>
+    for i in config.lirbaries[fb][0]:
+        print(i)
+        # /igo/staging/FASTQ/RUTH_0233_AHHYVKDSX5/Project_13422_F/Sample_19288_66_IGO_13422_F_1
+        run = i.split("/")[4]
+        if run not in runs:
+            os.mkdir(run, scripts.cellranger.ACCESS)
+        cmd = "cp -R {}/ {}/".format(i, run)
+        print(cmd)
+        # subprocess.run(cmd, shell=True)
+        sample = i.split("/")[6]
+        # go to the fastq folder and modify fastq files. The name will be CH replaced FB
+        DESTINATION_CH_FASTQ = "{}{}/{}".format(DESTINATION_CH_FASTQ_prefix, run, sample)
+        print(DESTINATION_CH_FASTQ)
+        os.chdir(DESTINATION_CH_FASTQ)
+        job_name = "modify_fb_{}_{}".format(run, sample)
+        cmd = "bsub -J {} -o '/igo/stats/Multi_config/{}/{}.out' -n 8 -M 8 sh /igo/work/igo/igo-demux/scripts/modify_fastq_for_fb.sh".format(job_name, run, job_name)
+        print(cmd)
+        # subprocess.run(cmd, shell=True)
+
+        # append new fastq location for ch sample under config class
+        config.lirbaries[new_ch_sample_name][0].append(DESTINATION_CH_FASTQ)
+        # create config and submit job to wait for modify fastq finish before excute
+        config.write_to_csv(file_name)
+        cmd = "bsub -J {}_multi -o {}_multi.out -w \"done(*{})\"{}--id={} --csv={}{}".format(ge, ge, sample, scripts.cellranger.config_dict["multi"]["tool"], ge, file_name, scripts.cellranger.OPTIONS)
+        # create project folder if not exists
+        os.chdir(STATS_AREA)
+        projects = next(os.walk("."))[1]
+        project = "Project_" + ch_project_ID
+        if project not in projects:
+            os.mkdir(project, scripts.cellranger.ACCESS)
+        work_area = STATS_AREA + project + "/" 
+        # GO TO project ID LOCATION to start cellranger command
+        os.chdir(work_area)
+        print("Start cellranger from {}".format(work_area))
+        print(cmd)
+        # subprocess.run(cmd, shell=True)
+
+# for other simple cases
+def cellranger_general(config, file_name, ch_project_ID, ge):
+    config.write_to_csv(file_name)
+    cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(ge, ge, scripts.cellranger.config_dict["multi"]["tool"], ge, file_name, scripts.cellranger.OPTIONS)
+    # create project folder if not exists
+    os.chdir(STATS_AREA)
+    projects = next(os.walk("."))[1]
+    project = "Project_" + ch_project_ID
+    if project not in projects:
+        os.mkdir(project, scripts.cellranger.ACCESS)
+    work_area = STATS_AREA + project + "/" 
+    # GO TO project ID LOCATION to start cellranger command
+    os.chdir(work_area)
+    print("Start cellranger from {}".format(work_area))
+    print(cmd)
+    subprocess.run(cmd, shell=True)
+
+
 # TODO fb file generation from user form
 
 if __name__ == '__main__':
@@ -213,7 +311,6 @@ if __name__ == '__main__':
     if args.fb:
         sample_dict["fb"] = args.fb
         ch_project_ID = "_".join(args.fb.split("IGO_")[1].split("_")[:-1])
-
     
     genome = args.genome
     config = gather_config_info(sample_dict, genome, args.ge)
@@ -222,100 +319,13 @@ if __name__ == '__main__':
 
     # condition for ch + vdj +/- fb
     if args.ch and args.vdj:
-        # run ch + ge first under PIPELINE folder with name of Project_fb_step1
-        config.write_ch_ge_only_to_csv(file_name)
-        cmd = "bsub -K -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(args.ge, args.ge, scripts.cellranger.config_dict["multi"]["tool"], args.ge, file_name, scripts.cellranger.OPTIONS)
-        os.chdir(STATS_AREA)
-        projects = next(os.walk("."))[1]
-        project = "Project_{}_step1".format(ch_project_ID)
-        if project not in projects:
-            os.mkdir(project, scripts.cellranger.ACCESS)
-        work_area = STATS_AREA + project + "/" 
-        # GO TO project ID LOCATION to start cellranger command
-        os.chdir(work_area)
-        print(cmd)
-        # subprocess.run(cmd, shell=True)
-        
-        # update cell number and ge reads number after ge + ch finish
-        config.update_info_from_step1(ch_project_ID)
-        # create bam2fastq cmd per sub sample
-        for key in config.sub_sample_info.keys():
-            name2 = args.ge + "_" + key
-            source_bam = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/count/sample_alignments.bam".format(ch_project_ID, args.ge, key)
-            destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
-            cmd = "bsub -J {}_bamtofastq -o {}_bamtofastq.out -n 8 -M 8 {} --reads-per-fastq={} {} {}".format(name2, name2, BAMTOFASTQ, config.ge_reads_number, source_bam, destination_bam)
-            print(cmd)
-
-        # update new fastq file path after bam2fastq for each sub sample
-        for key in config.sub_sample_info.keys():
-            name2 = args.ge + "_" + key
-            destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
-            config.update_fastq_location(key, destination_bam)
-
-        config.new_config_and_generate_cmd()
-    
+        cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, args.ge)
     # condition for ch + fb - vdj
     elif args.ch and args.fb:
-        #TODO modify fb fastq files and store in new location then proceed
-        # 1. copy fb fastq to a separate location
-        # 2. modify the fastq using modify_fastq_for_fb.sh
-        # 3. same process as normal cases
-        new_ch_sample_name = args.ch.replace("FB_IGO", "CH_IGO")
-        DESTINATION_CH_FASTQ_prefix = "/igo/stats/Multi_config/"
-        os.chdir(DESTINATION_CH_FASTQ_prefix)
-        runs = next(os.walk("."))[1]
-        # copy fb fastq file to /igo/stats/Multi_config/<RUN>/<Sample>
-        for i in config.lirbaries[args.fb][0]:
-            print(i)
-            # /igo/staging/FASTQ/RUTH_0233_AHHYVKDSX5/Project_13422_F/Sample_19288_66_IGO_13422_F_1
-            run = i.split("/")[4]
-            if run not in runs:
-                os.mkdir(run, scripts.cellranger.ACCESS)
-            cmd = "cp -R {}/ {}/".format(i, run)
-            print(cmd)
-            # subprocess.run(cmd, shell=True)
-            sample = i.split("/")[6]
-            # go to the fastq folder and modify fastq files. The name will be CH replaced FB
-            DESTINATION_CH_FASTQ = "{}{}/{}".format(DESTINATION_CH_FASTQ_prefix, run, sample)
-            print(DESTINATION_CH_FASTQ)
-            os.chdir(DESTINATION_CH_FASTQ)
-            job_name = "modify_fb_{}_{}".format(run, sample)
-            cmd = "bsub -J {} -o '/igo/stats/Multi_config/{}/{}.out' -n 8 -M 8 sh /igo/work/igo/igo-demux/scripts/modify_fastq_for_fb.sh".format(job_name, run, job_name)
-            print(cmd)
-            # subprocess.run(cmd, shell=True)
-
-            # append new fastq location for ch sample under config class
-            config.lirbaries[new_ch_sample_name][0].append(DESTINATION_CH_FASTQ)
-
-        # create config and submit job to wait for modify fastq finish before excute
-        config.write_to_csv(file_name)
-        cmd = "bsub -J {}_multi -o {}_multi.out -w \"done(*{})\"{}--id={} --csv={}{}".format(args.ge, args.ge, sample, scripts.cellranger.config_dict["multi"]["tool"], args.ge, file_name, scripts.cellranger.OPTIONS)
-        # create project folder if not exists
-        os.chdir(STATS_AREA)
-        projects = next(os.walk("."))[1]
-        project = "Project_" + ch_project_ID
-        if project not in projects:
-            os.mkdir(project, scripts.cellranger.ACCESS)
-        work_area = STATS_AREA + project + "/" 
-        # GO TO project ID LOCATION to start cellranger command
-        os.chdir(work_area)
-        print("Start cellranger from {}".format(work_area))
-        print(cmd)
-        # subprocess.run(cmd, shell=True)
+        cellranger_ch_fb(config, file_name, ch_project_ID, args.ge, args.ch, args.fb)
     
     # other normal cases
     else:
-        config.write_to_csv(file_name)
-        cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(args.ge, args.ge, scripts.cellranger.config_dict["multi"]["tool"], args.ge, file_name, scripts.cellranger.OPTIONS)
-        # create project folder if not exists
-        os.chdir(STATS_AREA)
-        projects = next(os.walk("."))[1]
-        project = "Project_" + ch_project_ID
-        if project not in projects:
-            os.mkdir(project, scripts.cellranger.ACCESS)
-        work_area = STATS_AREA + project + "/" 
-        # GO TO project ID LOCATION to start cellranger command
-        os.chdir(work_area)
-        print("Start cellranger from {}".format(work_area))
-        print(cmd)
-        subprocess.run(cmd, shell=True)
+        cellranger_general(config, file_name, ch_project_ID, args.ge)
+
+        
