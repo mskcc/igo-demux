@@ -110,7 +110,7 @@ species_genome_mapping_UNORDERED = {
 		"Human": "GRCh38",
 		"Mouse": "grcm39",
 		"Mouse_GeneticallyModified": "grcm39",
-		"Drosophila": "dm3",
+		"Drosophila": "dm6",
 		"Zebrafish": "grcz11",
 		"Chicken": "galGal4",
 		".*uberculosis": "mtubf11",
@@ -275,13 +275,18 @@ genome_reference_mapping_UNORDERED = {
 						RIBOSOMAL_INTERVALS: "/home/igo/resources/BED-Targets/Rattus_norvegicus.Rnor_6.0.94.interval_list"
 				}
 		},
-		"dm3": {
+		"dm6": {
 				DEFAULT: {
-						GENOME: "/igo/work/genomes/D.melanogaster/dm3/BWA_0.7.5a/dm3.fa",
-						REFERENCE: "/igo/work/genomes/D.melanogaster/dm3/BWA_0.7.5a/dm3.fa"
+						GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
+						REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa"
 				},
-				"RNA": {
-						REF_FLAT: "/home/igo/resources/BED-Targets/dm3-Ref_Flat.txt"
+			"RNA": {
+					GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
+					REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
+					REF_FLAT: "/igo/work/nabors/genomes/Drosophila_melanogaster/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.ref.flat",
+					RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/Drosophila_melanogaster/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.bed.rRNA.intervals",
+					GTF: "/igo/work/nabors/genomes/Drosophila_melanogaster/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf",
+					GTAG: "dm6"
 				}
 		},
 		"galGal4": {
