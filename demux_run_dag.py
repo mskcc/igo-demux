@@ -153,7 +153,11 @@ with DAG(
                 fastq_project_dir = output_directory + "/" + project + "/"
                 chip_number = get_dlp_chip(sample_sheet, project)
                 output_yaml = fastq_project_dir + chip_number + "_metadata.yaml"
-                python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
+                if "FAUCI" in sequencer_and_run:
+                    python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + project + " " + output_yaml
+                else:
+                    python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
+
                 print("Calling DLP generate yaml command: {}".format(python_cmd))
                 subprocess.check_output(python_cmd, cwd="/home/igo/shared-single-cell", shell=True)
 
