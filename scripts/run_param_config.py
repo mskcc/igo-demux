@@ -112,7 +112,7 @@ species_genome_mapping_UNORDERED = {
 		"Mouse_GeneticallyModified": "grcm39",
 		"Drosophila": "dm6",
 		"Zebrafish": "grcz11",
-		"Chicken": "galGal4",
+		"Chicken": "Galgal4",
 		".*uberculosis": "mtubf11",
 		"S.cerevisiae": "sccer",
 		"other": "sccer",
@@ -289,13 +289,13 @@ genome_reference_mapping_UNORDERED = {
 					GTAG: "dm6"
 				}
 		},
-		"galGal4": {
+		"Galgal4": {
 				DEFAULT: {
-						GENOME: "/igo/work/genomes/G.gallus/BWA_0.7.5a/galGal4.fa",
-						REFERENCE: "/igo/work/genomes/G.gallus/BWA_0.7.5a/galGal4.fa"
+						GENOME: "/igo/work/genomes/G.gallus/BWA_0.7.5a/Galgal4.fa",
+						REFERENCE: "/igo/work/genomes/G.gallus/BWA_0.7.5a/Galgal4.fa"
 				},
 				"RNA": {
-						REF_FLAT: "/home/igo/resources/BED-Targets/galGal4-Ref_Flat.txt"
+						REF_FLAT: "/home/igo/resources/BED-Targets/Galgal4-Ref_Flat.txt"
 				}
 		},
 		"sccer": {
