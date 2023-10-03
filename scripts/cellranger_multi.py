@@ -8,7 +8,8 @@ import scripts.cellranger
 from collections import OrderedDict
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
-DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
+DRIVE_LOCATION = "/igo/work/igo/Cellranger_Multi_Config/"
+ORIGIN_DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
 BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-7.0.0/lib/bin/bamtofastq"
 STATS_AREA = "/igo/stats/PIPELINE/"
 
@@ -79,7 +80,7 @@ class Multi_Config:
                 for key1, value1 in self.lirbaries.items():
                     if value1[1] == "Gene Expression":
                         file.write("bamtofastq,{},{}\n".format(value[1] , value1[1]))
-                    else:
+                    elif value1[1] != "Multiplexing Capture":
                         for i in value1[0]:
                             file.write("{},{},{}\n".format(key1, i, value1[1]))
                 if self.vdj != "EMPTY":
@@ -90,9 +91,11 @@ class Multi_Config:
             
             # generate cmd for final cellranger
             # wait bam2fastq finish before excute bsub command
-            cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out -w \"done(*_bamtofastq)\"{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, scripts.cellranger.config_dict["multi"]["tool"], self.name, key, name_of_file, scripts.cellranger.OPTIONS)
+            # cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out -w \"done(*_bamtofastq)\"{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, scripts.cellranger.config_dict["multi"]["tool"], self.name, key, name_of_file, scripts.cellranger.OPTIONS)
+            # no need to wait bam2fastq finish before excute bsub command for now since we wait bam2fastq finish before updating the fastq path
+            cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, scripts.cellranger.config_dict["multi"]["tool"], self.name, key, name_of_file, scripts.cellranger.OPTIONS)
             print(cmd)
-            # subprocess.run(cmd, shell=True)
+            subprocess.run(cmd, shell=True)
 
     # get reads number and sub sample cell number
     def update_info_from_step1(self, fb_project_id):
@@ -113,6 +116,7 @@ class Multi_Config:
                 self.sub_sample_info[key] = [cell_number]
 
     # get fastq location after bam2fastq, need to run for each sub sample
+    # doesn't know what is the pattern when have two runs for one sample. leave as it is for now
     def update_fastq_location(self, sub_sample_name, destination):
         file = glob.glob(destination + "/" + self.name + "_0_*")
         self.sub_sample_info[sub_sample_name].append(file[0])
@@ -206,18 +210,24 @@ def cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, ge):
     # GO TO project ID LOCATION to start cellranger command
     os.chdir(work_area)
     print(cmd)
-    # subprocess.run(cmd, shell=True)
+    subprocess.run(cmd, shell=True)
     
     # update cell number and ge reads number after ge + ch finish
     config.update_info_from_step1(ch_project_ID)
+    # create bamtofastq folder if not exists
+    try:
+        os.mkdir("{}Project_{}/bamtofastq".format(CONFIG_AREA, project_ID))
+    except OSError as error:
+        print(error)  
+        
     # create bam2fastq cmd per sub sample
     for key in config.sub_sample_info.keys():
         name2 = ge + "_" + key
         source_bam = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/count/sample_alignments.bam".format(ch_project_ID, ge, key)
         destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
-        cmd = "bsub -J {}_bamtofastq -o {}_bamtofastq.out -n 8 -M 8 {} --reads-per-fastq={} {} {}".format(name2, name2, BAMTOFASTQ, config.ge_reads_number, source_bam, destination_bam)
+        cmd = "bsub -K -J {}_bamtofastq -o {}_bamtofastq.out -n 8 -M 8 {} --reads-per-fastq={} {} {}".format(name2, name2, BAMTOFASTQ, config.ge_reads_number, source_bam, destination_bam)
         print(cmd)
-        # subprocess.run(cmd, shell=True)
+        subprocess.run(cmd, shell=True)
         # update new fastq file path after bam2fastq for each sub sample
         config.update_fastq_location(key, destination_bam)
 
@@ -327,5 +337,3 @@ if __name__ == '__main__':
     # other normal cases
     else:
         cellranger_general(config, file_name, ch_project_ID, args.ge)
-
-        
