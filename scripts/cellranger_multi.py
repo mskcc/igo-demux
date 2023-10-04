@@ -6,12 +6,16 @@ from subprocess import call
 import argparse
 import scripts.cellranger
 from collections import OrderedDict
+import requests
+import json
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/igo/work/igo/Cellranger_Multi_Config/"
 ORIGIN_DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
 BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-7.0.0/lib/bin/bamtofastq"
 STATS_AREA = "/igo/stats/PIPELINE/"
+# endpoint for cellranger multi
+ENDPOINT= "https://igolims.mskcc.org:8443/LimsRest/getTenxSampleInfo?requestId="
 
 # config file class. It contains all the information needed for config file and can create csv file base on those info
 class Multi_Config:
@@ -297,6 +301,44 @@ def cellranger_general(config, file_name, ch_project_ID, ge):
     print("Start cellranger from {}".format(work_area))
     print(cmd)
     subprocess.run(cmd, shell=True)
+
+# parsing LIMS endpoint to get sample set for cellranger multi using gene expression sample
+# example input 190121-TSR1_IGO_15041_1, expected return{"ge": "190121-TSR1_IGO_15041_1", "ch": "190121-TSR1_FB_IGO_15041_B_1"}
+def gather_sample_set_info(sample_name):
+    sample_set = {"ge": sample_name, "ch": None, "vdj": None, "fb": None}
+    IGO_ID = sample_name.split("_IGO_")[1]
+    sample_number = IGO_ID.split("_")[-1]
+    print(sample_number)
+    project_ID = "_".join(IGO_ID.split("_")[0:-1])
+    response = requests.get(ENDPOINT + project_ID , auth = ("pms", "tiagostarbuckslightbike"), verify = False)
+    response_data = json.loads(response.text.encode("utf8"))
+    # get ilab request info to get full set sampels later
+    for sample in response_data:
+        for key, value in sample.items():
+            if key == IGO_ID:
+                ilab_request = value[0]
+                # TODO not sure what is the return value if both are there
+                fb_type = value[2].split(",")[1].strip()
+                vdj_type = value[2].split(",")[2].strip()
+                print(fb_type, vdj_type)
+                break
+
+    # using ilab and sample name for this 
+    for sample in response_data:
+        for key, value in sample.items():
+            if value[0].startswith(ilab_request) and key.endswith(sample_number):
+                value[2] = value[2].split(",")
+                if "10X_Genomics_FeatureBarcoding" in value[2][0]:
+                    if fb_type == "Feature Barcoding":
+                        sample_set["fb"] = "_IGO_".join([value[1], key])
+                    elif fb_type == "Cell Hashing":
+                        sample_set["ch"] = "_IGO_".join([value[1], key])
+                if "10X_Genomics_VDJ" in value[2][0]:
+                    sample_set["vdj"] = "_IGO_".join([value[1], key])
+
+    return sample_set
+
+# TODO check whether a project set is complete to launch pipeline
 
 
 # TODO fb file generation from user form
