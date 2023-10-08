@@ -64,6 +64,7 @@ def get_ordered_dic(unordered_dic):
 recipe_type_mapping_UNORDERED = {
 		"MouseWholeGenome": { TYPE: "WGS" },
 		"PigWholeGenome": { TYPE: "WGS" },
+		"PombeWholeGenome": { TYPE: "WGS" },
 		"ShallowWGS": { TYPE: "WGS" },
 		"10X_Genomics_WGS": { TYPE: "WGS" },
 		"WholeGenomeSequencing": { TYPE: "WGS" },
@@ -367,6 +368,10 @@ genome_reference_mapping_UNORDERED = {
 				DEFAULT: {
 						GENOME: "/igo/work/genomes/S.pombe/Ensembl/BWA_0.7.5a/Schizosaccharomyces_pombe.ASM294v2.20.fa",
 						REFERENCE: "/igo/work/genomes/S.pombe/Ensembl/Schizosaccharomyces_pombe.ASM294v2.20.fa"
+				},
+				"RNA": {
+						#REF_FLAT: "/home/igo/resources/BED-Targets/mycobacterium_tuberculosis_h37rv2_RefFlat.txt"
+						GTAG: "pombe"
 				}
 		},
 		"ercc": {
@@ -650,6 +655,12 @@ recipe_options_mapping_UNORDERED = {
 				# sh $DIR/../PicardScripts/LaunchPipelines.sh $RUNTYPE --input /igo/work/FASTQ/$RUNNAME/$PROJECT/ --genome $GENOME --type WGS --md $MARKDUPLICATES --mskq $MSKQ
 		},
 		"PigWholeGenome": {
+						MSKQ: "no",
+						MD: "yes"
+						# TODO
+						# sh $DIR/../PicardScripts/LaunchPipelines.sh $RUNTYPE --input /igo/work/FASTQ/$RUNNAME/$PROJECT/ --genome $GENOME --type WGS --md $MARKDUPLICATES --mskq $MSKQ
+		},
+		"PombeWholeGenome": {
 						MSKQ: "no",
 						MD: "yes"
 						# TODO
