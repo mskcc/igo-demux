@@ -366,11 +366,15 @@ genome_reference_mapping_UNORDERED = {
 		},
 		"pombe": {
 				DEFAULT: {
-						GENOME: "/igo/work/genomes/S.pombe/Ensembl/BWA_0.7.5a/Schizosaccharomyces_pombe.ASM294v2.20.fa",
-						REFERENCE: "/igo/work/genomes/S.pombe/Ensembl/Schizosaccharomyces_pombe.ASM294v2.20.fa"
+						GENOME: "/igo/work/genomes/S.pombe/GCF/GCF_000002945.1_ASM294v2_genomic.fa",
+						REFERENCE: "/igo/work/genomes/S.pombe/GCF/GCF_000002945.1_ASM294v2_genomic.fa"
 				},
 				"RNA": {
-						#REF_FLAT: "/home/igo/resources/BED-Targets/mycobacterium_tuberculosis_h37rv2_RefFlat.txt"
+						GENOME: "/igo/work/genomes/S.pombe/GCF/GCF_000002945.1_ASM294v2_genomic.fa",
+						REFERENCE: "/igo/work/genomes/S.pombe/GCF/GCF_000002945.1_ASM294v2_genomic.fa",
+						REF_FLAT: "/igo/work/genomes/S.pombe/GCF/GCF_000002945.1_ASM294v2_genomic.gtf.refflat",
+						RIBOSOMAL_INTERVALS: "/igo/work/genomes/S.pombe/GCF/GCF_000002945.1_ASM294v2_genomic.gtf.rRNA.intervals",
+						GTF: "/igo/work/genomes/S.pombe/GCF/GCF_000002945.1_ASM294v2_genomic.gtf",
 						GTAG: "pombe"
 				}
 		},
