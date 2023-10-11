@@ -229,7 +229,7 @@ class LaunchMetrics(object):
 			call(bsub_hs_metrics, shell = True)
 			
 			
-	# launch the picrd tools to process the bams
+	# launch the picard tools to process the bams
 	@staticmethod
 	def launch_picard(bams_by_lane, run, sample, sample_parameters, work_directory):
 		#
