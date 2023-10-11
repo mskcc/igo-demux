@@ -378,7 +378,7 @@ def lanuch_by_project(project_directory, recipe, species):
                 cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--libraries={}/Sample_{}.csv".format(work_area, sample) + OPTIONS
                 bsub_cmd = "bsub -J {}_{}_{}_ARC -o {}_ARC.out{}".format(sequencer_and_run, project, sample, sample, cmd)
                 print(bsub_cmd)
-                subprocess.run(cmd, shell=True)
+                subprocess.run(bsub_cmd, shell=True)
             else:
                 print("Multiome sample not finished yet")
                 print(validation)
