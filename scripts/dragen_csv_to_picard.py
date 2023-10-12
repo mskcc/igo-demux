@@ -60,7 +60,7 @@ class DragenStats:
         newline = "\n"
         header = "CATEGORY{0}TOTAL_READS{0}PF_READS{0}PCT_PF_READS{0}PF_NOISE_READS{0}PF_READS_ALIGNED{0}PCT_PF_READS_ALIGNED{0}PF_ALIGNED_BASES{0}PF_HQ_ALIGNED_READS{0}PF_HQ_ALIGNED_BASES{0}PF_HQ_ALIGNED_Q20_BASES{0}PF_HQ_MEDIAN_MISMATCHES{0}PF_MISMATCH_RATE{0}PF_HQ_ERROR_RATE{0}PF_INDEL_RATE{0}MEAN_READ_LENGTH{0}READS_ALIGNED_IN_PAIRS{0}PCT_READS_ALIGNED_IN_PAIRS{0}PF_READS_IMPROPER_PAIRS{0}PCT_PF_READS_IMPROPER_PAIRS{0}BAD_CYCLES{0}STRAND_BALANCE{0}PCT_CHIMERAS{0}PCT_ADAPTER{0}SAMPLE{0}LIBRARY{0}READ_GROUP".format(tab)
 
-        write_to_file ="{}/{}___GRCh38___DRAGEN3_10_8___AM.txt".format(output_folder, metrics_file_prefix)
+        write_to_file ="{}/{}___DRAGEN3_10_8___AM.txt".format(output_folder, metrics_file_prefix)
         print("Writing: " + write_to_file)
         data_line = ""
         for i in data_list_to_write:
@@ -86,7 +86,7 @@ class DragenStats:
         newline = "\n"
         header = "LIBRARY{0}UNPAIRED_READS_EXAMINED{0}READ_PAIRS_EXAMINED{0}SECONDARY_OR_SUPPLEMENTARY_RDS{0}UNMAPPED_READS{0}UNPAIRED_READ_DUPLICATES{0}READ_PAIR_DUPLICATES{0}READ_PAIR_OPTICAL_DUPLICATES{0}PERCENT_DUPLICATION{0}ESTIMATED_LIBRARY_SIZE".format(tab)
         
-        write_to_file = "{}/{}___GRCh38___DRAGEN3_10_8___MD.txt".format(output_folder, metrics_file_prefix)
+        write_to_file = "{}/{}___DRAGEN3_10_8___MD.txt".format(output_folder, metrics_file_prefix)
         print("Writing: " + write_to_file)
         data_line = ""
         for i in data_list_to_write:
@@ -112,7 +112,7 @@ class DragenStats:
         newline = "\n"
         header = "GENOME_TERRITORY{0}MEAN_COVERAGE{0}SD_COVERAGE{0}MEDIAN_COVERAGE{0}MAD_COVERAGE{0}PCT_EXC_ADAPTER{0}PCT_EXC_MAPQ{0}PCT_EXC_DUPE{0}PCT_EXC_UNPAIRED{0}PCT_EXC_BASEQ{0}PCT_EXC_OVERLAP{0}PCT_EXC_CAPPED{0}PCT_EXC_TOTAL{0}PCT_1X{0}PCT_5X{0}PCT_10X{0}PCT_15X{0}PCT_20X{0}PCT_25X{0}PCT_30X{0}PCT_40X{0}PCT_50X{0}PCT_60X{0}PCT_70X{0}PCT_80X{0}PCT_90X{0}PCT_100X{0}FOLD_80_BASE_PENALTY{0}FOLD_90_BASE_PENALTY{0}FOLD_95_BASE_PENALTY{0}HET_SNP_SENSITIVITY{0}HET_SNP_Q".format(tab)
         
-        write_to_file = "{}/{}___GRCh38___DRAGEN3_10_8___WGS.txt".format(output_folder, metrics_file_prefix)
+        write_to_file = "{}/{}___DRAGEN3_10_8___WGS.txt".format(output_folder, metrics_file_prefix)
         print("Writing: " + write_to_file)
         data_line = ""
         for i in data_list_to_write:
@@ -137,10 +137,9 @@ def process_one_sample(dragen_metrics_directory, work_directory, sample_id, metr
 
 if __name__ == "__main__":
     # Usage: python dragenstats_csv_to_txt.py [dragen_stats_dir] [output_file_dir] [] [TYPE]
-    # example: python3 /Users/luc/Documents/GitHub/igo-demux/scripts/dragen_csv_to_picard.py /Users/luc/Documents/GitHub/igo-demux/test/ /Users/luc/Documents/GitHub/igo-demux/test/result_test/
     
     # if there are 4 arguments process the one sample named
-    # example: python scripts/dragen_csv_to_picard.py /Users/mcmanamd/Downloads/DRAGENRNA/RNA /Users/mcmanamd/Downloads/test FAUCI_0050_A22C3WKLT3___RNA_METRICS___XPRO_1057_T_RNA_IGO_08822_VD_2 RNA
+    # example: python scripts/dragen_csv_to_picard.py /Users/mcmanamd/Downloads/DRAGENRNA/RNA /Users/mcmanamd/Downloads/test FAUCI_0050_A22C3WKLT3___P08822___XPRO_1057_T_RNA_IGO_08822_VD_2 RNA
     if len(sys.argv) == 5:
         dragen_metrics_directory = sys.argv[1]
         work_directory = sys.argv[2]
@@ -152,6 +151,7 @@ if __name__ == "__main__":
         process_one_sample(dragen_metrics_directory, work_directory, sample_id, metrics_file_prefix, sample_type)
 
     # if there are 2 arguments to main() then Process all DRAGEN WGS stats in the entire directory
+    # example: python3 /Users/luc/Documents/GitHub/igo-demux/scripts/dragen_csv_to_picard.py /Users/luc/Documents/GitHub/igo-demux/test/ /Users/luc/Documents/GitHub/igo-demux/test/result_test/
     if len(sys.argv) == 3:
         dragen_stats_folder = sys.argv[1]
         output_folder_path = sys.argv[2]
