@@ -31,13 +31,13 @@ with DAG(
 
         # main process of calling stats here
         # let's go ahead and run stats by project
-        # add multi process, use recipe as 10X_multi
+        # add multi process, use recipe as 10X_multi, the project folder has to be gene expression project folder
         if recipe == "10X_multi":
             project_id = project_directory.split("/")[-1]
             # copy the multi config from shared drive to cluster
             cmd = "cp -R {}{} {}".format(scripts.cellranger_multi.ORIGIN_DRIVE_LOCATION, project_id[8:], scripts.cellranger_multi.DRIVE_LOCATION)
             print(cmd)
-            # subprocess.run(cmd, shell=True)
+            subprocess.run(cmd, shell=True)
             os.chdir(scripts.cellranger_multi.STATS_AREA)
             # gather sample set info from LIMS for each sample
             sample_list_ori = os.listdir(project_directory)
@@ -53,7 +53,7 @@ with DAG(
                         cmd = cmd + "-{}={} ".format(key, value)
                 cmd = cmd + "-genome={}".format(species)
                 print(cmd)
-                # subprocess.run(cmd, shell=True)
+                subprocess.run(cmd, shell=True)
 
         elif "10X_" in recipe:
             scripts.cellranger.lanuch_by_project(project_directory, recipe, species)

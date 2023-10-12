@@ -370,7 +370,6 @@ def gather_sample_set_info(sample_name):
     sample_set = {"ge": sample_name, "ch": None, "vdj": None, "fb": None}
     IGO_ID = sample_name.split("_IGO_")[1]
     sample_number = IGO_ID.split("_")[-1]
-    print(sample_number)
     project_ID = "_".join(IGO_ID.split("_")[0:-1])
     response = requests.get(ENDPOINT + project_ID , auth = ("pms", "tiagostarbuckslightbike"), verify = False)
     response_data = json.loads(response.text.encode("utf8"))
