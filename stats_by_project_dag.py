@@ -21,6 +21,8 @@ with DAG(
         import scripts.calculate_stats
         import scripts.cellranger
         import subprocess
+        import scripts.cellranger_multi
+        import os
 
         project_directory = kwargs["params"]["project_directory"]
         recipe = kwargs["params"]["recipe"]
@@ -29,7 +31,31 @@ with DAG(
 
         # main process of calling stats here
         # let's go ahead and run stats by project
-        if "10X_" in recipe:
+        # add multi process, use recipe as 10X_multi
+        if recipe == "10X_multi":
+            project_id = project_directory.split("/")[-1]
+            # copy the multi config from shared drive to cluster
+            cmd = "cp -R {}{} {}".format(scripts.cellranger_multi.ORIGIN_DRIVE_LOCATION, project_id[8:], scripts.cellranger_multi.DRIVE_LOCATION)
+            print(cmd)
+            # subprocess.run(cmd, shell=True)
+            os.chdir(scripts.cellranger_multi.STATS_AREA)
+            # gather sample set info from LIMS for each sample
+            sample_list_ori = os.listdir(project_directory)
+            sample_list = []
+            for sample in sample_list_ori:
+                # remove Sample_ prefix
+                sample_list.append(sample[7:])
+            for sample in sample_list:
+                sample_set = scripts.cellranger_multi.gather_sample_set_info(sample)
+                cmd = "bsub -J {}_multi -o {}_multi.out python /igo/work/igo/igo-demux/scripts/cellranger_multi.py ".format(sample, sample)
+                for key, value in sample_set.items():
+                    if value is not None:
+                        cmd = cmd + "-{}={} ".format(key, value)
+                cmd = cmd + "-genome={}".format(species)
+                print(cmd)
+                # subprocess.run(cmd, shell=True)
+
+        elif "10X_" in recipe:
             scripts.cellranger.lanuch_by_project(project_directory, recipe, species)
         elif "ONT" in recipe:
             cmd = "bsub -J ont_stats -n 8 -M 8 python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_directory)
