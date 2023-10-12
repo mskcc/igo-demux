@@ -4,10 +4,63 @@ import subprocess
 import glob
 from subprocess import call
 import argparse
-import scripts.cellranger
 from collections import OrderedDict
 import requests
 import json
+
+# copy those config info from cellranger.py so this code can run independently.
+ACCESS = 0o775
+config_dict = {
+    "count": {
+        "tool": " /igo/work/nabors/tools/cellranger-7.0.0/cellranger count ",
+        "genome": {
+            "Human": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
+            "Mouse": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A "
+        }
+    },
+    "vdj": {
+        "tool": " /igo/work/nabors/tools/cellranger-7.0.0/cellranger vdj ",
+        "genome": {
+            "Human": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0 ",
+            "Mouse": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-7.0.0 "
+        }
+    },
+    "multi": {
+        "tool": " /igo/work/nabors/tools/cellranger-7.0.0/cellranger multi "
+    }
+}
+
+# cellranger command line options
+OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"
+def find_fastq_file(sample_ID_list):
+    # get whole list of all fastq files that available with project folder as tag
+    path_prefix = "/igo/staging/FASTQ/"
+    run_list = os.listdir(path_prefix)
+    # dictionary of run_ID->project_list
+    run_project_dict = {}
+    for run_ID in run_list:
+        current_path = path_prefix + run_ID + "/"
+        if os.path.isdir(current_path):
+            run_project_dict[run_ID] = []
+            file_list = os.listdir(current_path)
+            for item in file_list:
+                if "Project_" in item:
+                    run_project_dict[run_ID].append(item)
+    
+    fastq_file_list_dict = {}
+    # get fastq file path list for given sample_ID
+    for sample_ID in sample_ID_list:
+        fastq_file_list = []
+        project_ID = "Project_" + "_".join(sample_ID.split("_")[sample_ID.split("_").index("IGO") + 1:-1])
+        sample_folder_name = "Sample_" + sample_ID
+        for run_ID, project_list in run_project_dict.items():
+            if project_ID in project_list:
+                fastq_file_path_prefix = path_prefix + run_ID + "/" + project_ID + "/"
+                sample_folder_list = os.listdir(fastq_file_path_prefix)
+                if sample_folder_name in sample_folder_list:
+                    fastq_file_list.append(fastq_file_path_prefix + sample_folder_name)
+        fastq_file_list_dict[sample_ID] = fastq_file_list
+    return fastq_file_list_dict
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/igo/work/igo/Cellranger_Multi_Config/"
@@ -95,9 +148,9 @@ class Multi_Config:
             
             # generate cmd for final cellranger
             # wait bam2fastq finish before excute bsub command
-            # cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out -w \"done(*_bamtofastq)\"{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, scripts.cellranger.config_dict["multi"]["tool"], self.name, key, name_of_file, scripts.cellranger.OPTIONS)
+            # cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out -w \"done(*_bamtofastq)\"{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, config_dict["multi"]["tool"], self.name, key, name_of_file, OPTIONS)
             # no need to wait bam2fastq finish before excute bsub command for now since we wait bam2fastq finish before updating the fastq path
-            cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, scripts.cellranger.config_dict["multi"]["tool"], self.name, key, name_of_file, scripts.cellranger.OPTIONS)
+            cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out{}--id={}_{} --csv={}{}".format(self.name, key, self.name, key, config_dict["multi"]["tool"], self.name, key, name_of_file, OPTIONS)
             print(cmd)
             subprocess.run(cmd, shell=True)
 
@@ -166,9 +219,9 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     sample_name = IGO_ID.split("_IGO_")[0]
     config = Multi_Config()
     config.name = IGO_ID
-    config.gene_expression["reference"] = scripts.cellranger.config_dict["count"]["genome"][genome][17:]
+    config.gene_expression["reference"] = config_dict["count"]["genome"][genome][17:]
     if "vdj" in sample_dict.keys():
-        config.vdj = scripts.cellranger.config_dict["vdj"]["genome"][genome][13:]
+        config.vdj = config_dict["vdj"]["genome"][genome][13:]
     
     # if feature barcoding invovled, add feature list file path
     if "fb" in sample_dict.keys():
@@ -187,7 +240,7 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     sample_list = []
     for i in sample_dict.values():
         sample_list.append(i)
-    fastq_list = scripts.cellranger.find_fastq_file(sample_list)
+    fastq_list = find_fastq_file(sample_list)
     for key, value in sample_dict.items():
         if key == "ge":
             config.lirbaries[value] = [fastq_list[value], "Gene Expression"]
@@ -204,12 +257,12 @@ def gather_config_info(sample_dict, genome, IGO_ID):
 def cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, ge):
     # run ch + ge first under PIPELINE folder with name of Project_fb_step1
     config.write_ch_ge_only_to_csv(file_name)
-    cmd = "bsub -K -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(ge, ge, scripts.cellranger.config_dict["multi"]["tool"], ge, file_name, scripts.cellranger.OPTIONS)
+    cmd = "bsub -K -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(ge, ge, config_dict["multi"]["tool"], ge, file_name, OPTIONS)
     os.chdir(STATS_AREA)
     projects = next(os.walk("."))[1]
     project = "Project_{}_step1".format(ch_project_ID)
     if project not in projects:
-        os.mkdir(project, scripts.cellranger.ACCESS)
+        os.mkdir(project, ACCESS)
     work_area = STATS_AREA + project + "/" 
     # GO TO project ID LOCATION to start cellranger command
     os.chdir(work_area)
@@ -253,7 +306,7 @@ def cellranger_ch_fb(config, file_name, ch_project_ID, ge, ch, fb):
         # /igo/staging/FASTQ/RUTH_0233_AHHYVKDSX5/Project_13422_F/Sample_19288_66_IGO_13422_F_1
         run = i.split("/")[4]
         if run not in runs:
-            os.mkdir(run, scripts.cellranger.ACCESS)
+            os.mkdir(run, ACCESS)
         cmd = "cp -R {}/ {}/".format(i, run)
         print(cmd)
         # subprocess.run(cmd, shell=True)
@@ -271,13 +324,13 @@ def cellranger_ch_fb(config, file_name, ch_project_ID, ge, ch, fb):
         config.lirbaries[new_ch_sample_name][0].append(DESTINATION_CH_FASTQ)
         # create config and submit job to wait for modify fastq finish before excute
         config.write_to_csv(file_name)
-        cmd = "bsub -J {}_multi -o {}_multi.out -w \"done(*{})\"{}--id={} --csv={}{}".format(ge, ge, sample, scripts.cellranger.config_dict["multi"]["tool"], ge, file_name, scripts.cellranger.OPTIONS)
+        cmd = "bsub -J {}_multi -o {}_multi.out -w \"done(*{})\"{}--id={} --csv={}{}".format(ge, ge, sample, config_dict["multi"]["tool"], ge, file_name, OPTIONS)
         # create project folder if not exists
         os.chdir(STATS_AREA)
         projects = next(os.walk("."))[1]
         project = "Project_" + ch_project_ID
         if project not in projects:
-            os.mkdir(project, scripts.cellranger.ACCESS)
+            os.mkdir(project, ACCESS)
         work_area = STATS_AREA + project + "/" 
         # GO TO project ID LOCATION to start cellranger command
         os.chdir(work_area)
@@ -288,13 +341,13 @@ def cellranger_ch_fb(config, file_name, ch_project_ID, ge, ch, fb):
 # for other simple cases
 def cellranger_general(config, file_name, ch_project_ID, ge):
     config.write_to_csv(file_name)
-    cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(ge, ge, scripts.cellranger.config_dict["multi"]["tool"], ge, file_name, scripts.cellranger.OPTIONS)
+    cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(ge, ge, config_dict["multi"]["tool"], ge, file_name, OPTIONS)
     # create project folder if not exists
     os.chdir(STATS_AREA)
     projects = next(os.walk("."))[1]
     project = "Project_" + ch_project_ID
     if project not in projects:
-        os.mkdir(project, scripts.cellranger.ACCESS)
+        os.mkdir(project, ACCESS)
     work_area = STATS_AREA + project + "/" 
     # GO TO project ID LOCATION to start cellranger command
     os.chdir(work_area)
