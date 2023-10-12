@@ -47,7 +47,7 @@ with DAG(
                 sample_list.append(sample[7:])
             for sample in sample_list:
                 sample_set = scripts.cellranger_multi.gather_sample_set_info(sample)
-                cmd = "bsub -J {}_multi -o {}_multi.out python /igo/work/igo/igo-demux/scripts/cellranger_multi.py ".format(sample, sample)
+                cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out python /igo/work/igo/igo-demux/scripts/cellranger_multi.py ".format(project_id, sample, project_id, sample)
                 for key, value in sample_set.items():
                     if value is not None:
                         cmd = cmd + "-{}={} ".format(key, value)
