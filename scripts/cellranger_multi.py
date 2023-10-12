@@ -182,9 +182,11 @@ class Multi_Config:
 # default all hash tag are totalseq B from biolegend
 def ch_file_generation(project_id, sample_name):
     in_file_location = DRIVE_LOCATION + project_id + "/" + os.listdir(DRIVE_LOCATION + project_id)[0]
-    df = pd.read_excel(in_file_location, engine="openpyxl")
+    with open(in_file_location, "rb") as f:
+        df = pd.read_excel(f, engine="openpyxl")
     line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
-    df = pd.read_excel(in_file_location, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
+    with open(in_file_location, "rb") as f:
+        df = pd.read_excel(f, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
     sample_tag_dict = pd.Series(df['Hashtag Name'].values,index=df['Sample Name']).to_dict()
     tag_seq_dict = pd.Series(df['Hashtag sequence'].values,index=df['Hashtag Name']).to_dict()
 
@@ -400,7 +402,6 @@ def gather_sample_set_info(sample_name):
     return sample_set
 
 # TODO check whether a project set is complete to launch pipeline
-
 
 # TODO fb file generation from user form
 
