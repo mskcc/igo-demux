@@ -287,7 +287,16 @@ def cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, ge):
         subprocess.run(cmd, shell=True)
         # update new fastq file path after bam2fastq for each sub sample
         config.update_fastq_location(key, destination_bam)
-    # TODO change working directory before starting last command
+    
+    os.chdir(STATS_AREA)
+    projects = next(os.walk("."))[1]
+    project = "Project_{}".format(ch_project_ID)
+    if project not in projects:
+        os.mkdir(project, ACCESS)
+    work_area = STATS_AREA + project + "/" 
+    # GO TO project ID LOCATION to start cellranger command
+    os.chdir(work_area)
+
     config.new_config_and_generate_cmd()
 
 # for case of ch + fb - vdj
