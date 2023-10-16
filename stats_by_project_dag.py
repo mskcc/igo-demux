@@ -58,7 +58,7 @@ with DAG(
         elif "10X_" in recipe:
             scripts.cellranger.lanuch_by_project(project_directory, recipe, species)
         elif "ONT" in recipe:
-            cmd = "bsub -J ont_stats -n 8 -M 8 python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_directory)
+            cmd = "bsub -J ont_stats -n 16 -M 16 /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_directory)
             print(cmd)
             subprocess.run(cmd, shell=True)
         else:
