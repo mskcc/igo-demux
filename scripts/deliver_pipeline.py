@@ -108,7 +108,7 @@ def deliver_pipeline_output(project, pi, recipe):
     # TCR seq only need deliver manifest, those files located under viale lab drive
     # example file: /pskis34/LIMS/TCRseqManifest/Project_13545_TCRseq_Manifest_Beta.csv
     elif recipe == "TCRSeq-IGO":
-        pipeline_path_prefix = "/skimcs/mohibullahlab/LIMS/TCRseqManifest/Project_" + project + "_TCRseq"
+        pipeline_path_prefix = "/rtssdc/mohibullahlab/LIMS/TCRseqManifest/Project_" + project + "_TCRseq"
         TCR_delivery_folder = delivery_folder + "/Manifest"
         if not os.path.exists(TCR_delivery_folder):
                 print("Creating pipeline delivery folder {}".format(TCR_delivery_folder))

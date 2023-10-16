@@ -64,7 +64,7 @@ def find_fastq_file(sample_ID_list):
 
 CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/igo/work/igo/Cellranger_Multi_Config/"
-ORIGIN_DRIVE_LOCATION = "/skimcs/mohibullahlab/LIMS/LIMS_cellranger_multi/"
+ORIGIN_DRIVE_LOCATION = "/rtssdc/mohibullahlab/LIMS/LIMS_cellranger_multi/"
 BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-7.0.0/lib/bin/bamtofastq"
 STATS_AREA = "/igo/stats/PIPELINE/"
 # endpoint for cellranger multi

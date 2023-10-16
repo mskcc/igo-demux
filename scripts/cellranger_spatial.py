@@ -9,7 +9,7 @@ import glob
 
 
 ENDPOINT = "https://igolims.mskcc.org:8443/LimsRest/getConfig?igoId="
-original_tiff_images_directory = "/skimcs/mohibullahlab/IGO_Pipeline_Results/Single_Cell/10X_Genomics/TIFF_Images/"
+original_tiff_images_directory = "/rtssdc/mohibullahlab/IGO_Pipeline_Results/Single_Cell/10X_Genomics/TIFF_Images/"
 tiff_images_directory = "/igo/work/igo/TIFF_Images/"
 
 
