@@ -380,9 +380,16 @@ def gather_sample_set_info(sample_name):
         for key, value in sample.items():
             if key == IGO_ID:
                 ilab_request = value[0]
-                # TODO not sure what is the return value if both are there
-                fb_type = value[2].split(",")[1].strip()
-                vdj_type = value[2].split(",")[2].strip()
+                # The return value is whole list, order of Cell Hashing, Feature Barcoding, T Cells, B Cells
+                tag_lst = [x.strip() for x in value[2].split(',')]
+                print(tag_lst)
+                fb_type = []
+                vdj_type = []
+                if "Cell Hashing" in tag_lst:
+                    fb_type.append("Cell Hashing")
+                if "Feature Barcoding" in tag_lst:
+                    fb_type.append("Feature Barcoding")
+                # TODO add vdj type
                 print(fb_type, vdj_type)
                 break
 
@@ -392,9 +399,9 @@ def gather_sample_set_info(sample_name):
             if value[0].startswith(ilab_request) and key.endswith(sample_number):
                 value[2] = value[2].split(",")
                 if "10X_Genomics_FeatureBarcoding" in value[2][0]:
-                    if fb_type == "Feature Barcoding":
+                    if "Feature Barcoding" in fb_type:
                         sample_set["fb"] = "_IGO_".join([value[1], key])
-                    elif fb_type == "Cell Hashing":
+                    if "Cell Hashing" in fb_type:
                         sample_set["ch"] = "_IGO_".join([value[1], key])
                 if "10X_Genomics_VDJ" in value[2][0]:
                     sample_set["vdj"] = "_IGO_".join([value[1], key])
