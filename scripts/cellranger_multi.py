@@ -320,7 +320,7 @@ def cellranger_ch_fb(config, file_name, ch_project_ID, ge, ch, fb):
             os.mkdir(run, ACCESS)
         cmd = "cp -R {}/ {}/".format(i, run)
         print(cmd)
-        # subprocess.run(cmd, shell=True)
+        subprocess.run(cmd, shell=True)
         sample = i.split("/")[6]
         # go to the fastq folder and modify fastq files. The name will be CH replaced FB
         DESTINATION_CH_FASTQ = "{}{}/{}".format(DESTINATION_CH_FASTQ_prefix, run, sample)
@@ -329,7 +329,7 @@ def cellranger_ch_fb(config, file_name, ch_project_ID, ge, ch, fb):
         job_name = "modify_fb_{}_{}".format(run, sample)
         cmd = "bsub -J {} -o '/igo/stats/Multi_config/{}/{}.out' -n 8 -M 8 sh /igo/work/igo/igo-demux/scripts/modify_fastq_for_fb.sh".format(job_name, run, job_name)
         print(cmd)
-        # subprocess.run(cmd, shell=True)
+        subprocess.run(cmd, shell=True)
 
         # append new fastq location for ch sample under config class
         config.lirbaries[new_ch_sample_name][0].append(DESTINATION_CH_FASTQ)
@@ -347,7 +347,7 @@ def cellranger_ch_fb(config, file_name, ch_project_ID, ge, ch, fb):
         os.chdir(work_area)
         print("Start cellranger from {}".format(work_area))
         print(cmd)
-        # subprocess.run(cmd, shell=True)
+        subprocess.run(cmd, shell=True)
 
 # for other simple cases
 def cellranger_general(config, file_name, ch_project_ID, ge):
