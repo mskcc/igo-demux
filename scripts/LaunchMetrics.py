@@ -16,6 +16,8 @@ import scripts.generate_run_params
 DO_NOT_PROCESS = ["10X_Genomics", "DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
 RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "HumanWholeGenome", "PombeWholeGenome", "ChIPSeq", "AmpliconSeq"]
+# Organisms to have DRAGEN BAMS
+DRAGEN_RNA_GENOMES = ["GRCh38", "grcm39"]
 # this list contains the headers of the columns.  we will access the data using these listings
 PICARD_VERSION = "2_23_2"
 PICARD_JAR = "/igo/home/igo/resources/picard2.23.2/picard.jar "
@@ -60,9 +62,9 @@ class LaunchMetrics(object):
 			# grab the sample parameters (bait set, type, gtag, etc)
 			sample_parameters = self.get_parameters(sample.genome, sample.recipe)
 			# process the RNA data seperately
-			if (sample_parameters["TYPE"] == "RNA"):
+			if (sample_parameters["TYPE"] == "RNA") and (sample_parameters["GTAG"] in DRAGEN_RNA_GENOMES):
 				pathlib.Path(rna_directory).mkdir(parents = True, exist_ok = True)
-				self.rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory, fastq_list)
+				self.dragen_rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory, fastq_list)
 				continue
 			# check to see if we need to run the samples on dragen
 			if any(s in sample.recipe for s in RUN_ON_DRAGEN):
@@ -117,7 +119,7 @@ class LaunchMetrics(object):
 	
 	# processing the RNA data: Using DRAGEN for the alignment and CollectRNASeqMetrics Picard tool
 	@staticmethod
-	def rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory, fastq_list):
+	def dragen_rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory, fastq_list):
 		# 
 		os.chdir(rna_directory)
 		
@@ -274,6 +276,14 @@ class LaunchMetrics(object):
 			bsub_collect_wgs = "bsub -w \"done({0}{1})\" -J {2}{1} -o {2}{1}.out -cwd \"{3}\" -n 8 -M 8 {4}".format(mark_duplicates_job_name_header, sample.sample_id, wgs_metrics_job_name_header, work_directory, collect_wgs)
 			print(bsub_collect_wgs)
 			call(bsub_collect_wgs, shell = True)
+			
+		# run Picard RNA metrics tools if RNA Project
+		if (sample_parameters["TYPE"] == "RNA"):
+			rna_metrics_job_name_header = "{}___RNA_METRICS___".format(run)
+			rnaseq = "{0} CollectRnaSeqMetrics --RIBOSOMAL_INTERVALS {1} --STRAND_SPECIFICITY NONE --REF_FLAT {2} --INPUT {3}___MD.bam --OUTPUT {5}{6}___{4}___RNA.txt".format(PICARD_AND_JAR, sample_parameters["RIBOSOMAL_INTERVALS"], sample_parameters["REF_FLAT"], sample.sample_id, PICARD_VERSION, work_directory, metric_file_prefix)
+			bsub_rnaseq = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(rna_metrics_job_name_header, sample.sample_id, mark_duplicates_job_name_header, work_directory, rnaseq)
+			print(bsub_rnaseq)
+			call(bsub_rnaseq, shell = True)
 			
 
 	
