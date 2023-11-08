@@ -32,8 +32,9 @@ with DAG(
         # main process of calling stats here
         # let's go ahead and run stats by project
         # add multi process, use recipe as 10X_multi, the project folder has to be gene expression project folder
+        project_id = project_directory.split("/")[-1]
+
         if recipe == "10X_multi":
-            project_id = project_directory.split("/")[-1]
             # copy the multi config from shared drive to cluster
             cmd = "cp -R {}{} {}".format(scripts.cellranger_multi.ORIGIN_DRIVE_LOCATION, project_id[8:], scripts.cellranger_multi.DRIVE_LOCATION)
             print(cmd)
@@ -58,7 +59,7 @@ with DAG(
         elif "10X_" in recipe:
             scripts.cellranger.lanuch_by_project(project_directory, recipe, species)
         elif "ONT" in recipe:
-            cmd = "bsub -J ont_stats -n 16 -M 16 /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_directory)
+            cmd = "bsub -J ont_stats_{} -n 16 -M 16 /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_id, project_directory)
             print(cmd)
             subprocess.run(cmd, shell=True)
         else:
