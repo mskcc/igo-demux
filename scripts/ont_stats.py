@@ -40,6 +40,7 @@ if __name__ == '__main__':
     for sample in sample_list:
         destination = project_directory + "/" + sample
         file = glob.glob(destination + "/*/sequencing_summary_*")
-        sample_dict[sample] = get_read_length_and_summary(file[0])
+        if len(file) != 0:
+            sample_dict[sample] = get_read_length_and_summary(file[0])
     
     write_to_csv(sample_dict)
