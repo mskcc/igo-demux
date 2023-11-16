@@ -31,6 +31,7 @@ class Spatial_sample:
         self.chip_position = response_data["chipPosition"]
         self.chip_id = response_data["chipID"]
         self.preservation = response_data["preservation"]
+        self.cytAssist = response_data["cytAssist"]
     
     def copy_tiff(self, project_id):
         # project_id format as Project_12345

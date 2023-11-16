@@ -392,6 +392,10 @@ def lanuch_by_project(project_directory, recipe, species):
                 cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --image={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
                 if sample_info.preservation == "FFPE":
                     probe = config_dict[tag]["probe"][species]
+                if sample_info.cytAssist:
+                    cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --cytaimage={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
+                    if species == "Human":
+                        probe = config_dict[tag]["probe"]["Human_CytAssist"]
                 cmd = cmd + " --probe-set={}".format(probe)
                 bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, OPTIONS)
                 print(bsub_cmd)
