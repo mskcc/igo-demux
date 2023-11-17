@@ -311,9 +311,20 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                         tool = config_dict[tag]["tool"]
                         transcriptome = config_dict[tag]["genome"][sample_genome_dict[sample]]
                         cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --image={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
-                        if sample_info.preservation == "FFPE":
+                        
+                        if sample_info.cytAssist:
+                            cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --cytaimage={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
+                            if species == "Human":
+                                probe = config_dict[tag]["probe"]["Human_CytAssist"]
+                                cmd = cmd + " --probe-set={}".format(probe)
+                            elif species == "Mouse":
+                                probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
+                                cmd = cmd + " --probe-set={}".format(probe)
+                                
+                        elif sample_info.preservation == "FFPE":
                             probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
                             cmd = cmd + " --probe-set={}".format(probe)
+                        
                         bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, OPTIONS)
                         print(bsub_cmd)
                         subprocess.run(bsub_cmd, shell=True)
@@ -390,13 +401,20 @@ def lanuch_by_project(project_directory, recipe, species):
                 tool = config_dict[tag]["tool"]
                 transcriptome = config_dict[tag]["genome"][species]
                 cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --image={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
-                if sample_info.preservation == "FFPE":
-                    probe = config_dict[tag]["probe"][species]
+                
                 if sample_info.cytAssist:
                     cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --cytaimage={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
                     if species == "Human":
                         probe = config_dict[tag]["probe"]["Human_CytAssist"]
-                cmd = cmd + " --probe-set={}".format(probe)
+                        cmd = cmd + " --probe-set={}".format(probe)
+                    elif species == "Mouse":
+                        probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
+                        cmd = cmd + " --probe-set={}".format(probe)
+                        
+                elif sample_info.preservation == "FFPE":
+                    probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
+                    cmd = cmd + " --probe-set={}".format(probe)
+                
                 bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, OPTIONS)
                 print(bsub_cmd)
                 subprocess.run(bsub_cmd, shell=True)
