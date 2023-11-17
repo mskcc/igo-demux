@@ -314,10 +314,10 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                         
                         if sample_info.cytAssist:
                             cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --cytaimage={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
-                            if species == "Human":
+                            if sample_genome_dict[sample] == "Human":
                                 probe = config_dict[tag]["probe"]["Human_CytAssist"]
                                 cmd = cmd + " --probe-set={}".format(probe)
-                            elif species == "Mouse":
+                            elif sample_genome_dict[sample] == "Mouse":
                                 probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
                                 cmd = cmd + " --probe-set={}".format(probe)
                                 
@@ -408,11 +408,11 @@ def lanuch_by_project(project_directory, recipe, species):
                         probe = config_dict[tag]["probe"]["Human_CytAssist"]
                         cmd = cmd + " --probe-set={}".format(probe)
                     elif species == "Mouse":
-                        probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
+                        probe = config_dict[tag]["probe"][species]
                         cmd = cmd + " --probe-set={}".format(probe)
                         
                 elif sample_info.preservation == "FFPE":
-                    probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
+                    probe = config_dict[tag]["probe"][species]
                     cmd = cmd + " --probe-set={}".format(probe)
                 
                 bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, OPTIONS)
