@@ -315,14 +315,16 @@ def cellranger_ch_fb(config, file_name, ch_project_ID, ge, ch, fb):
     new_ch_sample_name = ch.replace("FB_IGO", "CH_IGO")
     DESTINATION_CH_FASTQ_prefix = "/igo/stats/Multi_config/"
     os.chdir(DESTINATION_CH_FASTQ_prefix)
-    runs = next(os.walk("."))[1]
     # copy fb fastq file to /igo/stats/Multi_config/<RUN>/<Sample>
     for i in config.lirbaries[fb][0]:
         print(i)
         # /igo/staging/FASTQ/RUTH_0233_AHHYVKDSX5/Project_13422_F/Sample_19288_66_IGO_13422_F_1
         run = i.split("/")[4]
-        if run not in runs:
+        try:
             os.mkdir(run, ACCESS)
+        except OSError as error:
+            print(error)  
+
         cmd = "cp -R {}/ {}/".format(i, run)
         print(cmd)
         subprocess.run(cmd, shell=True)
@@ -343,10 +345,12 @@ def cellranger_ch_fb(config, file_name, ch_project_ID, ge, ch, fb):
         cmd = "bsub -J {}_multi -o {}_multi.out -w \"done(*{})\"{}--id={} --csv={}{}".format(ge, ge, sample, config_dict["multi"]["tool"], ge, file_name, OPTIONS)
         # create project folder if not exists
         os.chdir(STATS_AREA)
-        projects = next(os.walk("."))[1]
         project = "Project_" + ch_project_ID
-        if project not in projects:
+        try:
             os.mkdir(project, ACCESS)
+        except OSError as error:
+            print(error)  
+
         work_area = STATS_AREA + project + "/" 
         # GO TO project ID LOCATION to start cellranger command
         os.chdir(work_area)
@@ -360,10 +364,12 @@ def cellranger_general(config, file_name, ch_project_ID, ge):
     cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(ge, ge, config_dict["multi"]["tool"], ge, file_name, OPTIONS)
     # create project folder if not exists
     os.chdir(STATS_AREA)
-    projects = next(os.walk("."))[1]
     project = "Project_" + ch_project_ID
-    if project not in projects:
+    try:
         os.mkdir(project, ACCESS)
+    except OSError as error:
+        print(error)  
+
     work_area = STATS_AREA + project + "/" 
     # GO TO project ID LOCATION to start cellranger command
     os.chdir(work_area)
