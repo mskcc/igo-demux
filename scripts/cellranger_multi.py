@@ -261,10 +261,13 @@ def cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, ge):
     config.write_ch_ge_only_to_csv(file_name)
     cmd = "bsub -K -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(ge, ge, config_dict["multi"]["tool"], ge, file_name, OPTIONS)
     os.chdir(STATS_AREA)
-    projects = next(os.walk("."))[1]
+    # create project folder if not exists
     project = "Project_{}_step1".format(ch_project_ID)
-    if project not in projects:
+    try:
         os.mkdir(project, ACCESS)
+    except OSError as error:
+        print(error)  
+
     work_area = STATS_AREA + project + "/" 
     # GO TO project ID LOCATION to start cellranger command
     os.chdir(work_area)
@@ -291,10 +294,12 @@ def cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, ge):
         config.update_fastq_location(key, destination_bam)
     
     os.chdir(STATS_AREA)
-    projects = next(os.walk("."))[1]
     project = "Project_{}".format(ch_project_ID)
-    if project not in projects:
+    try:
         os.mkdir(project, ACCESS)
+    except OSError as error:
+        print(error)  
+
     work_area = STATS_AREA + project + "/" 
     # GO TO project ID LOCATION to start cellranger command
     os.chdir(work_area)
