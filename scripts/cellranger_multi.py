@@ -197,9 +197,10 @@ def ch_file_generation(project_id, sample_name):
 
     # write ch config file for this sample
     file_name = "{}Project_{}/Project_{}_ch_{}.csv".format(CONFIG_AREA, project_id, project_id, sample_name)
-    if not os.path.exists(os.path.dirname(file_name)):
+    try:
         os.makedirs(os.path.dirname(file_name))
-
+    except OSError as error:
+        print(error) 
     with open(file_name,'w') as file:
         file.write("id,name,read,pattern,sequence,feature_type\n")
         for tag in sub_sample_dict.values():
