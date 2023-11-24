@@ -203,6 +203,7 @@ def create_library_csv_file(ge_sample_path, atac_sample_path, sample_ID):
 
 def get_sequencer_runID(fastq_path):
     runID = fastq_path.split("/")[4]
+    runID = "_".join(runID.split("_")[0:3])
     sequencer = runID.split("_")[0].lower()
     return sequencer, runID
 
