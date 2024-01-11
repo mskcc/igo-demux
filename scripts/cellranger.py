@@ -89,6 +89,11 @@ CNV_FLAVORS = ["10X_Genomics_CNV"]
 ARC_FLAVORS = ["10X_Genomics_Multiome", "10X_Genomics_Multiome_ATAC", "10X_Genomics_Multiome_GeneExpression"]
 SPATIAL_FLAVORS = ["10X_Genomics_Visium"]
 
+# we do not want to PROCESS SAIL (15500) or SCRI (12437) projects
+SCRI = "12437"
+SAIL = "15500"
+DO_NOT_PROCESS = [SCRI, SAIL]
+
 """
 steps:
 1. check whether there is previous fastq existing under /igo/staging/FASTQ (find_fastq_file)
@@ -283,8 +288,9 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
         # GO TO project ID LOCATION to start cellranger command
         os.chdir(work_area)
 
-        # SCRI samples don't need to be pushed onto qc website
-        if "Project_12437" not in project:
+        
+        # SCRI or SAIL samples don't need to be pushed onto qc website
+        if (not any(prj in project for prj in DO_NOT_PROCESS)):
             sample_list = project_sample_dict[project]
             # call cellranger for each sample and append info to json dict
             for sample in sample_list:
