@@ -164,7 +164,7 @@ class LaunchMetrics(object):
 		if (sample_parameters["GTAG"] == "GRCh38"):
 			dragen_path = "/igo/work/igo/dragen_hash_tables/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		else:
-			dragen_path = "/igo/work/igo/dragen_hash_tables/{}".format(sample_parameters["GTAG"])
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/{}".format(sample_parameters["GTAG"])
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
 		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
