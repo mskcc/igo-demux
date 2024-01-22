@@ -124,6 +124,8 @@ with DAG(
             return None
 
     def stats(ds, **kwargs):
+        import requests
+        from pathlib import Path
         sequencer_path = kwargs["params"]["sequencer_path"]
         samplesheet_path = kwargs["params"]["samplesheet"]
         samplesheet = os.path.basename(samplesheet_path)
@@ -153,10 +155,15 @@ with DAG(
                 fastq_project_dir = output_directory + "/" + project + "/"
                 chip_number = get_dlp_chip(sample_sheet, project)
                 output_yaml = fastq_project_dir + chip_number + "_metadata.yaml"
+                fld_endpoint = "https://igolims.mskcc.org:8443/LimsRest/getDLPFieldMapFile?chipNumber={}".format(chip_number)
+                fld_file_path = fastq_project_dir + chip_number + ".fld"
+                fld_file = Path(fld_file_path)
+                response = requests.get(fld_endpoint, auth = ("pms", "tiagostarbuckslightbike"), verify = False)
+                fld_file.write_bytes(response.content)
                 if "FAUCI" in sequencer_and_run:
-                    python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + project + " " + output_yaml
+                    python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + fld_file_path + " " + project + " " + output_yaml
                 else:
-                    python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + project + " " + output_yaml + " --revcomp_i5"
+                    python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + fld_file_path + " " + project + " " + output_yaml + " --revcomp_i5"
 
                 print("Calling DLP generate yaml command: {}".format(python_cmd))
                 subprocess.check_output(python_cmd, cwd="/home/igo/shared-single-cell", shell=True)
