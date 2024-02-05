@@ -651,6 +651,18 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
+		"MSK-CH": {
+				BAITS: "/igo/home/igo/resources/ilist/hg38/CMO-CH/CMO-CH.hg38.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/CMO-CH/CMO-CH.hg38.targets",
+				MSKQ: "no",
+				MD: "yes"
+		},
+		"CMO-CH": {
+				BAITS: "/igo/home/igo/resources/ilist/hg38/CMO-CH/CMO-CH.hg38.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/CMO-CH/CMO-CH.hg38.targets",
+				MSKQ: "no",
+				MD: "yes"
+		},
 		"HumanWholeGenome": {
 				MSKQ: "no",
 				MD: "yes",
