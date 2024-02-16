@@ -191,7 +191,7 @@ def create_json(send_json, sequencer_and_run, project, tag, work_area):
     with open(json_data_file, "w") as jfile:
         json.dump(send_json, jfile)
         
-    bsub_json = "bsub -J create_json___{} -o create_json___{}.log -w \"done({}*)\" sh /home/igo/Scripts/PicardScripts/send_json_data.sh {} {}".format(job_id, job_id, job_id, work_area, json_data_file)
+    bsub_json = "bsub -J create_json___{} -o create_json___{}.log -w \"done({}*)\" sh /igo/work/igo/igo-demux/scripts/send_json_data.sh {} {}".format(job_id, job_id, job_id, work_area, json_data_file)
     print(bsub_json)
     subprocess.run(bsub_json, shell = True)
 
