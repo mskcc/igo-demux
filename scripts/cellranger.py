@@ -332,6 +332,10 @@ def launch_cellranger(sample_sheet, sequencer_and_run):
                             probe = config_dict[tag]["probe"][sample_genome_dict[sample]]
                             cmd = cmd + " --probe-set={}".format(probe)
                         
+                        # if there is manual alignment json file availabe, add that to the cmd
+                        if sample_info.json != "EMPTY":
+                            cmd = cmd + " --loupe-alignment={}".format(sample_info.json)
+
                         bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, OPTIONS)
                         print(bsub_cmd)
                         subprocess.run(bsub_cmd, shell=True)
