@@ -10,7 +10,7 @@ def test_mixed_10X_barcodes():
     print(ss_list[2].df_ss_header)
 
 def test_only_10XSI_barcodes():
-    x = SampleSheet("test/SampleSheet_10X_SI.csv")
+    x = SampleSheet("/home/runner/work/igo-demux/igo-demux/test/SampleSheet_10X_SI.csv")
     print("Calling split sample sheet.")
     ss_list = x.split_sample_sheet()
     print("After split sample sheet.")
@@ -18,30 +18,30 @@ def test_only_10XSI_barcodes():
     assert(len(ss_list) == 1)
 
 def test_read_10X_sample_sheet():
-    samplesheet = SampleSheet("test/SampleSheet_10X_SI.csv")
+    samplesheet = SampleSheet("./test/SampleSheet_10X_SI.csv")
     corrected = convert_SI_barcodes(samplesheet)
     print(corrected.df_ss_data.to_string())
     assert(len(corrected.df_ss_data) == 16)
 
 def test_read_empty_sample_sheet():
-    x = SampleSheet("test/empty_sample_sheet.csv")
+    x = SampleSheet("/test/empty_sample_sheet.csv")
     print("Success")
 
 def test_read_blank_sample_sheet():
     with pytest.raises(Exception):
-        x = SampleSheet("test/blank_sample_sheet.csv")
+        x = SampleSheet("/home/runner/work/igo-demux/igo-demux/test/blank_sample_sheet.csv")
 
 def test_read_SE_sample_sheet():
-    x = SampleSheet("test/SampleSheet_PEPE.csv")
+    x = SampleSheet("/home/runner/work/igo-demux/igo-demux/test/SampleSheet_PEPE.csv")
     print("Success")
 
 def test_WGS_only_not_split():
-    x = SampleSheet("test/DIANA_0434.csv")
+    x = SampleSheet("/home/runner/work/igo-demux/igo-demux/test/DIANA_0434.csv")
     ss_list = x.split_sample_sheet()
     assert(len(ss_list) == 1)
 
 def test_barcode_read_lengths():
-    x = SampleSheet("test/SampleSheet.csv")
+    x = SampleSheet("/home/runner/work/igo-demux/igo-demux/test/SampleSheet.csv")
     assert (x.read_lengths[0] == 151)
     assert (x.read_lengths[1] == 151)
 
