@@ -2,7 +2,7 @@ from SampleSheet import SampleSheet, convert_SI_barcodes
 import pytest
 
 def test_mixed_10X_barcodes():
-    x = SampleSheet("igo-demux/test/MICHELLE_0543_10X_MIXED.csv")
+    x = SampleSheet("/home/runner/work/igo-demux/igo-demux/test/MICHELLE_0543_10X_MIXED.csv")
     ss_list = x.split_sample_sheet()
 
     if "OverrideCycles" in ss_list[1].df_ss_header.astype(str):
