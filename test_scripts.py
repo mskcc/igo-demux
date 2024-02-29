@@ -51,7 +51,7 @@ def testCellranger_get_sequencer_runID():
 
 def testGettotalreads():
     sample_list = ["PDX_WD0010_P1_1845_IGO_12754_E_1", "PDX_WD0010_P1_1850_IGO_12754_E_2"]
-    total_reads_dict = scripts.get_total_reads_from_demux.get_total_reads(sample_list, "test/Demultiplex_Stats.csv")
+    total_reads_dict = scripts.get_total_reads_from_demux.get_total_reads(sample_list, "/home/runner/work/igo-demux/igo-demux/test/Demultiplex_Stats.csv")
     print(total_reads_dict)
     assert(total_reads_dict["PDX_WD0010_P1_1845_IGO_12754_E_1"] == 770373032)
     assert(total_reads_dict["PDX_WD0010_P1_1850_IGO_12754_E_2"] == 602357556)
