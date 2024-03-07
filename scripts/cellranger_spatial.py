@@ -22,8 +22,10 @@ class Spatial_sample:
         self.chip_id = "EMPTY"
         self.preservation = "EMPTY"
         self.tiff_image = "EMPTY"
+        self.json = "EMPTY"
         self.get_info_from_LIMS()
         self.copy_tiff(project_id)
+        self.copy_json(project_id)
 
     def get_info_from_LIMS(self):
         response = requests.get(ENDPOINT + self.IGO_ID , auth = ("pms", "tiagostarbuckslightbike"), verify = False)
@@ -42,12 +44,29 @@ class Spatial_sample:
         if not os.path.exists(destination_loc):
             os.makedirs(destination_loc)
 
-        # copy all the image files using rsync?
-        original_tiff_image = glob.glob(source_loc_dir + "/" + self.sample_name + "*")
-        if len(original_tiff_image) != 1 or ".tif" not in original_tiff_image[0]:
-            print("tif file is not in proper format for sample {}, please check".format(self.IGO_ID))
-        else:
-            shutil.copy(original_tiff_image[0], destination_file)
+        # copy image file per sample
+        original_tiff_image = source_loc_dir + "/" + self.sample_name + ".tif"
+        if os.path.isfile(original_tiff_image):
+            shutil.copy(original_tiff_image, destination_file)
             self.tiff_image = destination_file
-            print("copy {} to {}".format(original_tiff_image[0], destination_file))
+            print("copy {} to {}".format(original_tiff_image, destination_file))
+        else:
+            print("tif file is not in proper format for sample {}, please check".format(self.IGO_ID))
             
+    # copy json file if exists
+    def copy_json(self, project_id):
+        # project_id format as Project_12345
+        source_loc = original_tiff_images_directory + project_id + "/json/" + self.sample_name + ".json"
+        destination_loc = tiff_images_directory + project_id
+        destination_file = destination_loc + "/" + self.sample_name + ".json"
+
+        # create director if not exists
+        if not os.path.exists(destination_loc):
+            os.makedirs(destination_loc)
+        
+        if os.path.isfile(source_loc):
+            shutil.copy(source_loc, destination_file)
+            self.json = destination_file
+            print("copy {} to {}".format(source_loc, destination_file))
+        else:
+            print("json file does not exist for {}".format(self.sample_name))            
