@@ -125,7 +125,8 @@ class LaunchMetrics(object):
 		
 		# get the correct path for the reference
 		if (sample_parameters["GTAG"] == "GRCh38"):
-			rna_path = "/igo/work/igo/dragen_hash_tables/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
+			# rna_path = "/igo/work/igo/dragen_hash_tables/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
+			rna_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38-alt_masked.cnv.graph.hla.rna-9-r3.0-1"
 		else:
 			rna_path = "/igo/work/igo/dragen_hash_tables/{}".format(sample_parameters["GTAG"])
 			
@@ -133,7 +134,7 @@ class LaunchMetrics(object):
 		
 		
 		launch_dragen_rna = "/opt/edico/bin/dragen -f -r {} --fastq-list {} --fastq-list-sample-id {} -a {} --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort true --enable-bam-indexing true --enable-map-align-output true --output-format BAM --enable-rna true --enable-duplicate-marking true --enable-rna-quantification true --output-file-prefix {} --output-directory {} ".format(rna_path, fastq_list, sample.sample_id, sample_parameters["GTF"], sample.sample_id, rna_directory)
-		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n 48 -M 4 {3}".format(rna_dragen_job_name_header, sample.sample_id, rna_directory, launch_dragen_rna)
+		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01\" -q dragen -n 48 -M 4 {3}".format(rna_dragen_job_name_header, sample.sample_id, rna_directory, launch_dragen_rna)
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
 		
@@ -162,13 +163,14 @@ class LaunchMetrics(object):
 		
 		# get the correct path for the reference
 		if (sample_parameters["GTAG"] == "GRCh38"):
-			dragen_path = "/igo/work/igo/dragen_hash_tables/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
+			# dragen_path = "/igo/work/igo/dragen_hash_tables/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38-alt_masked.cnv.graph.hla.rna-9-r3.0-1"
 		else:
 			dragen_path = "/igo/work/igo/dragen_hash_tables/{}".format(sample_parameters["GTAG"])
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
 		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true --bin_memory 50000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
-		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
+		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		
