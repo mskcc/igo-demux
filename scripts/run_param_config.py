@@ -74,6 +74,8 @@ recipe_type_mapping_UNORDERED = {
 		".*SMARTer.*": { TYPE: "RNA" },
 		"FusionDiscoverySeq": { TYPE: "RNA" },
 		".*Ribo.*": { TYPE: "RNA" },
+		"SMART-Seq": { TYPE: "RNA" },
+		"SMARTSeq": { TYPE: "RNA" },
 		".*CDH1_RNA.*": { TYPE: "CAPTURE" },
 		# FOR NEW ENTRIES
 		# "{regex}": { TYPE: type }
