@@ -33,6 +33,9 @@ class LaunchMetrics(object):
 		
 	def launch_metrics(self, all_samples, run, project_directory):
 		#
+		# special run 
+		run = "FAUCI_0121_B222WMMLT4_special"
+		
 		# create output directories
 		parent_directory = "/igo/staging/stats"
 		work_directory = "{}/{}/".format(parent_directory, run)
