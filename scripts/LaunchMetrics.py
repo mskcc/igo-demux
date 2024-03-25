@@ -43,7 +43,7 @@ class LaunchMetrics(object):
 		rna_directory = "{}RNA/".format(work_directory)
 		dragen_directory = "{}DRAGEN/".format(work_directory)
 		stats_done_directory = "/igo/stats/DONE/{}".format(run.split("_")[0])
-		
+		print(stats_done_directory)
 		# create work directory	
 		pathlib.Path(work_directory).mkdir(parents = True, exist_ok = True)
 		
