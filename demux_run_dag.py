@@ -170,7 +170,8 @@ with DAG(
 
             return "DLP stats posted and yaml file generated"
 
-        if any("10X_" in s for s in sample_sheet.recipe_set):
+        atac, use_bases_mask = scripts.get_sequencing_read_data.main(sequencer_path)
+        if use_bases_mask == [29, 89]:
             # if is atac run, demux is using cellranger mkfastq
             if scripts.get_sequencing_read_data.main(sequencer_path)[0]:
                 scripts.get_total_reads_from_demux.by_json(sequencer_and_run)
