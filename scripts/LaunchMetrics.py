@@ -68,6 +68,7 @@ class LaunchMetrics(object):
 			if any(s in sample.recipe for s in DEMUX_ONLY):
 				demux_report_file = "/igo/staging/FASTQ/{}/Reports/Demultiplex_Stats.csv".format(run)
 				demux_reads_per_sample = scripts.get_total_reads_from_demux.get_total_reads([sample.sample_id], demux_report_file)
+				print(demux_reads_per_sample)
 				scripts.get_total_reads_from_demux.write_to_am_txt(run, sample.sample_id, demux_reads_per_sample[sample.sample_id], stats_done_directory)
 				continue
 				
