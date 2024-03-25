@@ -10,12 +10,16 @@ import glob
 import shutil
 import pathlib
 import scripts.generate_run_params
+import scripts.get_total_reads_from_demux
 
 
 # Global Variable : we do not want to process these experiments in this script
-DO_NOT_PROCESS = ["10X_Genomics", "DLP"]
+DO_NOT_PROCESS = ["DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
 RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "HumanWholeGenome", "PombeWholeGenome", "ChIPSeq", "AmpliconSeq"]
+# these projects willl only need demux stats
+DEMUX_ONLY = ["SMARTSeq", "10X_Genomics"]
+
 # Organisms to have DRAGEN BAMS
 DRAGEN_RNA_GENOMES = ["GRCh38", "grcm39"]
 # this list contains the headers of the columns.  we will access the data using these listings
@@ -38,6 +42,7 @@ class LaunchMetrics(object):
 		work_directory = "{}/{}/".format(parent_directory, run)
 		rna_directory = "{}RNA/".format(work_directory)
 		dragen_directory = "{}DRAGEN/".format(work_directory)
+		stats_done_directory = "/igo/stats/DONE/{}".format(run.split("_")[0])
 		
 		# create work directory	
 		pathlib.Path(work_directory).mkdir(parents = True, exist_ok = True)
@@ -59,6 +64,12 @@ class LaunchMetrics(object):
 			# test to see if there are some samples that this script will not process
 			if any(s in sample.recipe for s in DO_NOT_PROCESS):
 				continue
+			
+			if any(s in sample.recipe for s in DEMUX_ONLY):
+				demux_report_file = "/igo/staging/FASTQ/{}/Reports/Demultiplex_Stats.csv".format(run)
+				demux_reads_per_sample = scripts.get_total_reads_from_demux.get_total_reads([sample.sample_id], demux_report_file)
+				scripts.get_total_reads_from_demux.write_to_am_txt(run, sample.sample_id, demux_reads_per_sample[sample.sample_id], stats_done_directory)
+				
 			# grab the sample parameters (bait set, type, gtag, etc)
 			sample_parameters = self.get_parameters(sample.genome, sample.recipe)
 			# process the RNA data seperately
