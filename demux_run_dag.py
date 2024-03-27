@@ -3,7 +3,6 @@ import re
 import subprocess
 from datetime import datetime, timedelta
 
-from numpy import equal
 import pandas
 from SampleSheet import SampleSheet
 import scripts.organise_fastq_split_by_lane
@@ -170,10 +169,11 @@ with DAG(
 
             return "DLP stats posted and yaml file generated"
 
+        # check if the run is 10X by read length
         atac, use_bases_mask = scripts.get_sequencing_read_data.main(sequencer_path)
-        if use_bases_mask == [29, 89]:
+        if use_bases_mask == [29, 89] or atac:
             # if is atac run, demux is using cellranger mkfastq
-            if scripts.get_sequencing_read_data.main(sequencer_path)[0]:
+            if atac:
                 scripts.get_total_reads_from_demux.by_json(sequencer_and_run)
                 scripts.upload_stats.upload_stats(sequencer_and_run)
 
