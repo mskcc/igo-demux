@@ -27,14 +27,14 @@ STATS_AREA = "/igo/stats/CELLRANGER/"
 ACCESS = 0o775
 config_dict = {
     "count": {
-        "tool": " /igo/work/nabors/tools/cellranger-7.0.0/cellranger count ",
+        "tool": " /igo/work/nabors/tools/cellranger-8.0.0/cellranger count ",
         "genome": {
             "Human": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
             "Mouse": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A "
         }
     },
     "vdj": {
-        "tool": " /igo/work/nabors/tools/cellranger-7.0.0/cellranger vdj ",
+        "tool": " /igo/work/nabors/tools/cellranger-8.0.0/cellranger vdj ",
         "genome": {
             "Human": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0 ",
             "Mouse": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-7.0.0 "
@@ -55,17 +55,17 @@ config_dict = {
         }
     },
     "multi": {
-        "tool": " /igo/work/nabors/tools/cellranger-7.0.0/cellranger multi "
+        "tool": " /igo/work/nabors/tools/cellranger-8.0.0/cellranger multi "
     },
     "arc": {
-        "tool": " /igo/work/bin/cellranger-arc-2.0.0/cellranger-arc count ",
+        "tool": " /igo/work/bin/cellranger-arc-2.0.2/cellranger-arc count ",
         "genome": {
             "Human": " --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-GRCh38-2020-A-2.0.0 ",
             "Mouse": " --reference=/igo/work/nabors/genomes/10X_Genomics/ARC/refdata-cellranger-arc-mm10-2020-A-2.0.0 "
         }
     },
     "spaceranger": {
-        "tool": " /igo/work/nabors/tools/spaceranger-2.0.0/spaceranger count ",
+        "tool": " /igo/work/nabors/tools/spaceranger-3.0.0/spaceranger count ",
         "genome": {
             "Human": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
             "Mouse": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/spatial_gex/refdata-gex-mm10-2020-A "
@@ -73,7 +73,7 @@ config_dict = {
         "probe": {
             "Human": "/igo/work/nabors/genomes/10X_Genomics/spatial_gex/Visium_Human_Transcriptome_Probe_Set_v1.0_GRCh38-2020-A.csv",
             "Human_CytAssist": "/igo/work/genomes/10X_Genomics/spaceranger/Visium_Human_Transcriptome_Probe_Set_v2.0_GRCh38-2020-A.csv",
-            "Mouse": "/igo/work/nabors/tools/spaceranger-2.0.0/external/tenx_feature_references/targeted_panels/Visium_Mouse_Transcriptome_Probe_Set_v1.0_mm10-2020-A.csv"
+            "Mouse": "/igo/work/nabors/tools/spaceranger-3.0.0/external/tenx_feature_references/targeted_panels/Visium_Mouse_Transcriptome_Probe_Set_v1.0_mm10-2020-A.csv"
         }
     }
 }
