@@ -190,7 +190,7 @@ with DAG(
                 # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
                 # trim sequencer_and_run if postfix like _10X exsiting
                 sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
-                scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
+                scripts.cellranger.launch_cellranger_by_sample_sheet(sample_sheet, sequencer_and_run_prefix)
 
                 # add DONE file when all the 10X pipeline finished, -K to wait until finish
                 cmd = 'bsub -K -J wait_stats_done_for_{} -w \"ended(create_json___{}*)\" touch /igo/stats/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
