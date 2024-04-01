@@ -1,17 +1,10 @@
 import pandas as pd
-import sys
 import os
 import json
 import os.path
 import requests
 import shutil
-import glob
-
-
-ENDPOINT = "https://igolims.mskcc.org:8443/LimsRest/getConfig?igoId="
-original_tiff_images_directory = "/rtssdc/mohibullahlab/IGO_Pipeline_Results/Single_Cell/10X_Genomics/TIFF_Images/"
-tiff_images_directory = "/igo/work/igo/TIFF_Images/"
-
+import scripts.cellranger_config as CONFIG
 
 # sample_id can be get from sample sheet, will be the part in front of _IGO_
 class Spatial_sample:
@@ -28,7 +21,7 @@ class Spatial_sample:
         self.copy_json(project_id)
 
     def get_info_from_LIMS(self):
-        response = requests.get(ENDPOINT + self.IGO_ID , auth = ("pms", "tiagostarbuckslightbike"), verify = False)
+        response = requests.get(CONFIG.VISIUM_ENDPOINT + self.IGO_ID , auth = ("pms", "tiagostarbuckslightbike"), verify = False)
         response_data = json.loads(response.text.encode("utf8"))
         self.chip_position = response_data["chipPosition"]
         self.chip_id = response_data["chipID"]
@@ -37,8 +30,8 @@ class Spatial_sample:
     
     def copy_tiff(self, project_id):
         # project_id format as Project_12345
-        source_loc_dir = original_tiff_images_directory + project_id
-        destination_loc = tiff_images_directory + project_id
+        source_loc_dir = CONFIG.original_tiff_images_directory + project_id
+        destination_loc = CONFIG.tiff_images_directory + project_id
         destination_file = destination_loc + "/" + self.sample_name + ".tif"
         # create TIFF_images director if not exists
         if not os.path.exists(destination_loc):
@@ -56,8 +49,8 @@ class Spatial_sample:
     # copy json file if exists
     def copy_json(self, project_id):
         # project_id format as Project_12345
-        source_loc = original_tiff_images_directory + project_id + "/json/" + self.sample_name + ".json"
-        destination_loc = tiff_images_directory + project_id
+        source_loc = CONFIG.original_tiff_images_directory + project_id + "/json/" + self.sample_name + ".json"
+        destination_loc = CONFIG.tiff_images_directory + project_id
         destination_file = destination_loc + "/" + self.sample_name + ".json"
 
         # create director if not exists
