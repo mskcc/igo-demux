@@ -58,7 +58,7 @@ config_dict = {
 }
 
 # cellranger command line options
-OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"
+OPTIONS = " --create-bam=true --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"
 
 # 10X recipe list for different pipelines
 COUNT_FLAVORS = ["10X_Genomics_GeneExpression-3", "10X_Genomics_GeneExpression-5"]
