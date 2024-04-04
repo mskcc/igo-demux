@@ -180,7 +180,7 @@ with DAG(
 
                 # launch cell ranger based on recipe
                 sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
-                scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
+                scripts.cellranger.launch_cellranger_by_sample_sheet(sample_sheet, sequencer_and_run_prefix)
 
             else:
                 # step 1, generate txt files containing total reads and upload to qc website
