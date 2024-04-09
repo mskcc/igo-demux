@@ -1,5 +1,5 @@
 # work folder
-STATS_AREA = "/igo/stats/CELLRANGER/"
+STATS_AREA = "/igo/staging/CELLRANGER/"
 
 # config info 
 ACCESS = 0o775

@@ -7,7 +7,7 @@ At time of delivery for all RNASeq projects:
 - Re-run setaccess.py (on a separate server)
 
 At time of delivery for all 10X projects:
-- Search under folder /igo/stats/CELLRANGER/ for any possible cell ranger output
+- Search under folder /igo/staging/CELLRANGER/ for any possible cell ranger output
 - If existing, then copy to delivery/pipeline/cellranger directory
 """
 
@@ -64,7 +64,7 @@ def deliver_pipeline_output(project, pi, recipe):
     # if recipe is CRISPRSeq or GeoMx, go to pipeline folder and find output, if exists the copy
     # add cellranger multi output for featurebarcoding project here for now
     elif recipe == "CRISPRSeq" or recipe == "GeoMx" or recipe == "GeoMX" or recipe == "10XGenomics_FeatureBarcoding":
-        pipeline_path = "/igo/stats/PIPELINE/Project_" + project
+        pipeline_path = "/igo/staging/PIPELINE/Project_" + project
         if not os.path.exists(pipeline_path):
             print("No pipeline result available")
         else:

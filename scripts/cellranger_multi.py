@@ -66,7 +66,7 @@ CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/igo/work/igo/Cellranger_Multi_Config/"
 ORIGIN_DRIVE_LOCATION = "/rtssdc/mohibullahlab/LIMS/LIMS_cellranger_multi/"
 BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-7.0.0/lib/bin/bamtofastq"
-STATS_AREA = "/igo/stats/PIPELINE/"
+STATS_AREA = "/igo/staging/PIPELINE/"
 # endpoint for cellranger multi
 ENDPOINT= "https://igolims.mskcc.org:8443/LimsRest/getTenxSampleInfo?requestId="
 
@@ -157,7 +157,7 @@ class Multi_Config:
     # get reads number and sub sample cell number
     def update_info_from_step1(self, fb_project_id):
         # get total reads number for gene expression library
-        reads_file = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/metrics_summary.csv".format(fb_project_id, self.name, list(self.samples.keys())[0])
+        reads_file = "/igo/staging/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/metrics_summary.csv".format(fb_project_id, self.name, list(self.samples.keys())[0])
         summary_metrix = pd.read_csv(reads_file)
         ind = summary_metrix.index[(summary_metrix["Category"] == "Library") & (summary_metrix["Metric Name"] == "Number of reads") & (summary_metrix["Library Type"] == "Gene Expression") & (summary_metrix["Grouped By"] == "Physical library ID")].tolist()
         reads_number = summary_metrix.iloc[ind[0]]["Metric Value"]
@@ -165,7 +165,7 @@ class Multi_Config:
         self.ge_reads_number = reads_number
 
         # update sub sample cell number
-        cell_file = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/multi/multiplexing_analysis/tag_calls_summary.csv".format(fb_project_id, self.name)
+        cell_file = "/igo/staging/PIPELINE/Project_{}_step1/{}/outs/multi/multiplexing_analysis/tag_calls_summary.csv".format(fb_project_id, self.name)
         cell_matrix = pd.read_csv(cell_file)
         for key, value in self.samples.items():
             if value in cell_matrix["Category"].values:
@@ -286,7 +286,7 @@ def cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, ge):
     # create bam2fastq cmd per sub sample
     for key in config.sub_sample_info.keys():
         name2 = ge + "_" + key
-        source_bam = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/count/sample_alignments.bam".format(ch_project_ID, ge, key)
+        source_bam = "/igo/staging/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/count/sample_alignments.bam".format(ch_project_ID, ge, key)
         destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
         cmd = "bsub -K -J {}_bamtofastq -o {}_bamtofastq.out -n 8 -M 8 {} --reads-per-fastq={} {} {}".format(name2, name2, BAMTOFASTQ, config.ge_reads_number, source_bam, destination_bam)
         print(cmd)
