@@ -173,7 +173,7 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
                 create_library_csv_file(validation[1], validation[2], sample)
                 tool = CONFIG.config_dict[tag]["tool"]
                 transcriptome = CONFIG.config_dict[tag]["genome"][sample_genome_dict[sample]]
-                cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--libraries={}Sample_{}.csv".format(work_area, sample) + CONFIG.OPTIONS
+                cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--libraries={}Sample_{}.csv".format(work_area, sample) + CONFIG.ARC_OPTIONS
                 bsub_cmd = "bsub -J {}_{}_{}_ARC -o {}_ARC.out{}".format(sequencer_and_run, project, sample, sample, cmd)
                 print(bsub_cmd)
                 subprocess.run(bsub_cmd, shell=True)
