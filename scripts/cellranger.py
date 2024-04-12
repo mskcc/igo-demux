@@ -72,6 +72,8 @@ def generate_cellranger_cmd(sample_ID, tag, genome, fastq_file_path, sequencer_a
     transcriptome = CONFIG.config_dict[tag]["genome"][genome]
     project_ID = "Project_" + "_".join(sample_ID.split("_")[sample_ID.split("_").index("IGO") + 1:-1])
     cellranger_cmd = "{}--id=Sample_{}__{}".format(tool, sample_ID, tag) + transcriptome + "--fastqs=" + ",".join(fastq_file_path) + CONFIG.OPTIONS
+    if tag == "vdj":
+        cellranger_cmd = cellranger_cmd.replace(" --create-bam=true", "")
     job_name = "{}_{}_{}_{}_cellranger".format(sequencer_and_run, project_ID, sample_ID, tag)
     bsub_cmd = "bsub -J {} -o {}.out{}".format(job_name, job_name, cellranger_cmd) 
     return bsub_cmd
