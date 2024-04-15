@@ -2,7 +2,6 @@ import pandas as pd
 import os
 import subprocess
 import glob
-from subprocess import call
 import argparse
 from collections import OrderedDict
 import requests
@@ -191,7 +190,7 @@ def ch_file_generation(project_id, sample_name):
     tag_seq_dict = pd.Series(df['Hashtag sequence'].values,index=df['Hashtag Name']).to_dict()
 
     sub_sample_dict = {}
-    sub_sample_lst = df[df["Sample Name in IGO"] == sample_name]["Sample Name"].tolist()
+    sub_sample_lst = df[str(df["Sample Name in IGO"]) == sample_name]["Sample Name"].tolist()
     for item in sub_sample_lst:
         sub_sample_dict[item] = sample_tag_dict[item]
 
@@ -401,7 +400,10 @@ def gather_sample_set_info(sample_name):
                     fb_type.append("Cell Hashing")
                 if "Feature Barcoding" in tag_lst:
                     fb_type.append("Feature Barcoding")
-                # TODO add vdj type
+                if "T Cells" in tag_lst:
+                    vdj_type.append("VDJ-T")
+                if "B Cells" in tag_lst:
+                    vdj_type.append("VDJ-B")
                 print(fb_type, vdj_type)
                 break
 
@@ -417,7 +419,7 @@ def gather_sample_set_info(sample_name):
                         sample_set["ch"] = "_IGO_".join([value[1], key])
                 if "10X_Genomics_VDJ" in value[2][0]:
                     sample_set["vdj"] = "_IGO_".join([value[1], key])
-
+    # TODO add vdj type to the whole pipeline
     return sample_set
 
 # TODO check whether a project set is complete to launch pipeline
