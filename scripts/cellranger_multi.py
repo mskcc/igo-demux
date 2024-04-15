@@ -190,7 +190,7 @@ def ch_file_generation(project_id, sample_name):
     tag_seq_dict = pd.Series(df['Hashtag sequence'].values,index=df['Hashtag Name']).to_dict()
 
     sub_sample_dict = {}
-    sub_sample_lst = df[str(df["Sample Name in IGO"]) == sample_name]["Sample Name"].tolist()
+    sub_sample_lst = df[df["Sample Name in IGO"].astype(str) == str(sample_name)]["Sample Name"].tolist()
     for item in sub_sample_lst:
         sub_sample_dict[item] = sample_tag_dict[item]
 
