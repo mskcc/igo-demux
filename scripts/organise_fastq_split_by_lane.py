@@ -92,7 +92,7 @@ if __name__ == '__main__':
     demux_dir = sys.argv[2]
     if demux_type == "create":
         create_fastq_folders(demux_dir)
-        # add correct fastq list step?
+        correct_fastq_list_csv(demux_dir+"/Reports")
     elif demux_type == "correct":
         correct_sample_folder_name(demux_dir)
     else:
