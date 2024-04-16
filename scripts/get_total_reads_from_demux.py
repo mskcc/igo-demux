@@ -3,6 +3,7 @@ import sys
 import numpy
 import json
 import re
+import os
 
 # get total reads number from Demultiplex_Stats.csv file or json file and generate txt files for each sample
 # add DLP type function. For DLP, only total reads for each project is needed
@@ -98,22 +99,23 @@ def run(sample_sheet, sequencer_and_run):
     print("generate AM txt files to folder: {}".format(stats_done_dir))
 
 # generate AM txt files containing total reads by project ID such as "Project_12754_E"
-def by_project(sample_sheet, project_id, sequencer_and_run):
+def by_project_location(project_directory):
+    # get sample_ID list
+    sample_list_ori = os.listdir(project_directory)
+    sample_list = []
+    for sample in sample_list_ori:
+        # remove Sample_ prefix
+        sample_list.append(sample[7:])
+    # get run info from project_directory
+    sequencer_and_run = project_directory.split("/")[4]
+    
     sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
     sequencer = sequencer_and_run.split("_")[0]
     stats_done_dir = STATS_DONE_DIR_PREFIX + sequencer + "/"
-    demux_report_file = "/igo/staging/FASTQ/" + sequencer_and_run + "/Reports/Demultiplex_Stats.csv"
-    # dictionary of Sample_ID->Project
-    sample_project_dict = pd.Series(sample_sheet.df_ss_data['Sample_Project'].values,index=sample_sheet.df_ss_data['Sample_ID']).to_dict()
-    
-    sample_ID_list = []
-    # filter sample_ID by projectID and append to sample_ID_list
-    for sample, project in sample_project_dict.items():
-        if project == project_id:
-            sample_ID_list.append(sample)
-
-    total_reads_dict = get_total_reads(sample_ID_list, demux_report_file)
-    for sample in sample_ID_list:
+    demux_report_file = project_directory + "/Reports/Demultiplex_Stats.csv"
+ 
+    total_reads_dict = get_total_reads(sample_list, demux_report_file)
+    for sample in sample_list:
         write_to_am_txt(sequencer_and_run_prefix, sample, total_reads_dict[sample], stats_done_dir)
 
     print("generate AM txt files to folder: {}".format(stats_done_dir))

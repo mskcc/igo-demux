@@ -23,6 +23,7 @@ with DAG(
         import subprocess
         import scripts.cellranger_multi
         import os
+        import scripts.get_total_reads_from_demux
 
         project_directory = kwargs["params"]["project_directory"]
         recipe = kwargs["params"]["recipe"]
@@ -62,6 +63,8 @@ with DAG(
             cmd = "bsub -J ont_stats_{} -n 16 -M 16 /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_id, project_directory)
             print(cmd)
             subprocess.run(cmd, shell=True)
+        elif recipe == "demux_stats":
+            scripts.get_total_reads_from_demux.by_project_location(project_directory)
         else:
             scripts.calculate_stats.main([project_directory, recipe, species])
 
