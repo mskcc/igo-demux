@@ -112,7 +112,7 @@ def by_project_location(project_directory):
     sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
     sequencer = sequencer_and_run.split("_")[0]
     stats_done_dir = STATS_DONE_DIR_PREFIX + sequencer + "/"
-    demux_report_file = project_directory + "/Reports/Demultiplex_Stats.csv"
+    demux_report_file = "/igo/staging/FASTQ/" + sequencer_and_run + "/Reports/Demultiplex_Stats.csv"
  
     total_reads_dict = get_total_reads(sample_list, demux_report_file)
     for sample in sample_list:
