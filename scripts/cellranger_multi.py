@@ -449,6 +449,7 @@ if __name__ == '__main__':
     
     genome = args.genome
     config = gather_config_info(sample_dict, genome, args.ge)
+    print(config.lirbaries)
     project_ID = "_".join(args.ge.split("IGO_")[1].split("_")[:-1])
     file_name = "{}Project_{}/{}.csv".format(CONFIG_AREA, project_ID, args.ge)
 
