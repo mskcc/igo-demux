@@ -114,7 +114,7 @@ class Multi_Config:
             file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
             
             for key, value in self.lirbaries.items():
-                key.replace("_CHMARKER_", "")
+                key = key.replace("_CHMARKER_", "")
                 if value[1] == "Gene Expression" or value[1] == "Multiplexing Capture":
                     for i in value[0]:
                         file.write("{},{},{}\n".format(key, i, value[1]))
