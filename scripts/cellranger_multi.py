@@ -235,7 +235,7 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         config.samples = ch_file_generation(project_ID, sample_name)
 
     # if both ch and fb are there and vdj not there, change the ch name
-    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and "vdj" not in sample_dict.keys():
+    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and ("vdj" not in sample_dict.keys()):
         sample_dict["ch"] = sample_dict["ch"].replace("FB_IGO", "CH_IGO")
 
     # find fastq files for each sample and append information into config["libraries"]
@@ -244,6 +244,7 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         sample_list.append(i)
     fastq_list = find_fastq_file(sample_list)
     for key, value in sample_dict.items():
+        print("key: {}, value: {}".format(key, value))
         if key == "ge":
             config.lirbaries[value] = [fastq_list[value], "Gene Expression"]
         elif key == "vdj":
