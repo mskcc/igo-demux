@@ -234,8 +234,8 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         config.gene_expression["cmo-set"] = CONFIG_AREA + "Project_{}/Project_{}_ch_{}.csv".format(project_ID, project_ID, sample_name)
         config.samples = ch_file_generation(project_ID, sample_name)
 
-    # if both ch and fb are there, change the ch name
-    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys():
+    # if both ch and fb are there and vdj not there, change the ch name
+    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and "vdj" not in sample_dict.keys():
         sample_dict["ch"] = sample_dict["ch"].replace("FB_IGO", "CH_IGO")
 
     # find fastq files for each sample and append information into config["libraries"]
