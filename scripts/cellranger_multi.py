@@ -114,6 +114,7 @@ class Multi_Config:
             file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
             
             for key, value in self.lirbaries.items():
+                key.replace("_CHMARKER_", "")
                 if value[1] == "Gene Expression" or value[1] == "Multiplexing Capture":
                     for i in value[0]:
                         file.write("{},{},{}\n".format(key, i, value[1]))
@@ -252,7 +253,11 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         elif key == "fb":
             config.lirbaries[value] = [fastq_list[value], "Antibody Capture"]
         elif key == "ch":
-            config.lirbaries[value] = [fastq_list[value], "Multiplexing Capture"]
+            # for case of all ch, fb and vdj exits and doesn't need to make two copies of fb fastq file
+            if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and "vdj" in sample_dict.keys():
+                config.lirbaries[value + "_CHMARKER_"] = [fastq_list[value], "Multiplexing Capture"]
+            else:
+                config.lirbaries[value] = [fastq_list[value], "Multiplexing Capture"]
        
     return config
 
