@@ -16,7 +16,7 @@ import scripts.get_total_reads_from_demux
 # Global Variable : we do not want to process these experiments in this script
 DO_NOT_PROCESS = ["DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "HumanWholeGenome", "PombeWholeGenome", "ChIPSeq", "AmpliconSeq"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "HumanWholeGenome", "PombeWholeGenome", "ChIPSeq", "AmpliconSeq", "MethylCaptureSeq"]
 # these projects willl only need demux stats
 DEMUX_ONLY = ["SMARTSeq", "10X_Genomics"]
 
@@ -218,13 +218,13 @@ class LaunchMetrics(object):
 		
 		# get the correct path for the reference
 		if (sample_parameters["GTAG"] == "GRCh38"):
-			dragen_path = "/igo/work/igo/dragen_hash_tables/hg38_methylated"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38_methylated"
 		else:
-			dragen_path = "/igo/work/igo/dragen_hash_tables/grcm39_methylated"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/grcm39_methylated"
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
 		launch_dragen_methylation = "/opt/edico/bin/dragen --enable-methylation-calling true --methylation-protocol directional --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
-		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id03\" -q dragen -n 48 -M 4 {3}".format(dragen_methylation_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
+		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_methylation_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		
