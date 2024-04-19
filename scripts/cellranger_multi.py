@@ -2,7 +2,6 @@ import pandas as pd
 import os
 import subprocess
 import glob
-from subprocess import call
 import argparse
 from collections import OrderedDict
 import requests
@@ -115,6 +114,7 @@ class Multi_Config:
             file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
             
             for key, value in self.lirbaries.items():
+                key = key.replace("_CHMARKER_", "")
                 if value[1] == "Gene Expression" or value[1] == "Multiplexing Capture":
                     for i in value[0]:
                         file.write("{},{},{}\n".format(key, i, value[1]))
@@ -191,7 +191,7 @@ def ch_file_generation(project_id, sample_name):
     tag_seq_dict = pd.Series(df['Hashtag sequence'].values,index=df['Hashtag Name']).to_dict()
 
     sub_sample_dict = {}
-    sub_sample_lst = df[df["Sample Name in IGO"] == sample_name]["Sample Name"].tolist()
+    sub_sample_lst = df[df["Sample Name in IGO"].astype(str) == str(sample_name)]["Sample Name"].tolist()
     for item in sub_sample_lst:
         sub_sample_dict[item] = sample_tag_dict[item]
 
@@ -235,8 +235,8 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         config.gene_expression["cmo-set"] = CONFIG_AREA + "Project_{}/Project_{}_ch_{}.csv".format(project_ID, project_ID, sample_name)
         config.samples = ch_file_generation(project_ID, sample_name)
 
-    # if both ch and fb are there, change the ch name
-    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys():
+    # if both ch and fb are there and vdj not there, change the ch name
+    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and ("vdj" not in sample_dict.keys()):
         sample_dict["ch"] = sample_dict["ch"].replace("FB_IGO", "CH_IGO")
 
     # find fastq files for each sample and append information into config["libraries"]
@@ -245,6 +245,7 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         sample_list.append(i)
     fastq_list = find_fastq_file(sample_list)
     for key, value in sample_dict.items():
+        print("key: {}, value: {}".format(key, value))
         if key == "ge":
             config.lirbaries[value] = [fastq_list[value], "Gene Expression"]
         elif key == "vdj":
@@ -252,7 +253,11 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         elif key == "fb":
             config.lirbaries[value] = [fastq_list[value], "Antibody Capture"]
         elif key == "ch":
-            config.lirbaries[value] = [fastq_list[value], "Multiplexing Capture"]
+            # for case of all ch, fb and vdj exits and doesn't need to make two copies of fb fastq file
+            if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and "vdj" in sample_dict.keys():
+                config.lirbaries[value + "_CHMARKER_"] = [fastq_list[value], "Multiplexing Capture"]
+            else:
+                config.lirbaries[value] = [fastq_list[value], "Multiplexing Capture"]
        
     return config
 
@@ -401,7 +406,10 @@ def gather_sample_set_info(sample_name):
                     fb_type.append("Cell Hashing")
                 if "Feature Barcoding" in tag_lst:
                     fb_type.append("Feature Barcoding")
-                # TODO add vdj type
+                if "T Cells" in tag_lst:
+                    vdj_type.append("VDJ-T")
+                if "B Cells" in tag_lst:
+                    vdj_type.append("VDJ-B")
                 print(fb_type, vdj_type)
                 break
 
@@ -417,7 +425,7 @@ def gather_sample_set_info(sample_name):
                         sample_set["ch"] = "_IGO_".join([value[1], key])
                 if "10X_Genomics_VDJ" in value[2][0]:
                     sample_set["vdj"] = "_IGO_".join([value[1], key])
-
+    # TODO add vdj type to the whole pipeline
     return sample_set
 
 # TODO check whether a project set is complete to launch pipeline
@@ -447,6 +455,7 @@ if __name__ == '__main__':
     
     genome = args.genome
     config = gather_config_info(sample_dict, genome, args.ge)
+    print(config.lirbaries)
     project_ID = "_".join(args.ge.split("IGO_")[1].split("_")[:-1])
     file_name = "{}Project_{}/{}.csv".format(CONFIG_AREA, project_ID, args.ge)
 
