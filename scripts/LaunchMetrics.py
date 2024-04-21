@@ -21,7 +21,7 @@ RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "HumanWholeG
 DEMUX_ONLY = ["SMARTSeq", "10X_Genomics"]
 
 # Organisms to have DRAGEN BAMS
-DRAGEN_RNA_GENOMES = ["GRCh38", "grcm39"]
+DRAGEN_RNA_GENOMES = ["GRCh38", "grcm39", "dm6"]
 # this list contains the headers of the columns.  we will access the data using these listings
 PICARD_VERSION = "2_23_2"
 PICARD_JAR = "/igo/home/igo/resources/picard2.23.2/picard.jar "
@@ -146,7 +146,7 @@ class LaunchMetrics(object):
 		
 		
 		launch_dragen_rna = "/opt/edico/bin/dragen -f -r {} --fastq-list {} --fastq-list-sample-id {} -a {} --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort true --enable-bam-indexing true --enable-map-align-output true --output-format BAM --enable-rna true --enable-duplicate-marking true --enable-rna-quantification true --output-file-prefix {} --output-directory {} --bin_memory 50000000000".format(rna_path, fastq_list, sample.sample_id, sample_parameters["GTF"], sample.sample_id, rna_directory)
-		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01\" -q dragen -n 48 -M 4 {3}".format(rna_dragen_job_name_header, sample.sample_id, rna_directory, launch_dragen_rna)
+		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(rna_dragen_job_name_header, sample.sample_id, rna_directory, launch_dragen_rna)
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
 		
@@ -181,7 +181,7 @@ class LaunchMetrics(object):
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
 		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true --bin_memory 50000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
-		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
+		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		
