@@ -281,15 +281,15 @@ genome_reference_mapping_UNORDERED = {
 		},
 		"dm6": {
 				DEFAULT: {
-						GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
-						REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa"
+						GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
+						REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa"
 				},
 			"RNA": {
-					GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
-					REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
-					REF_FLAT: "/igo/work/nabors/genomes/Drosophila_melanogaster/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.ref.flat",
-					RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/Drosophila_melanogaster/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.bed.rRNA.intervals",
-					GTF: "/igo/work/nabors/genomes/Drosophila_melanogaster/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf",
+					GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
+					REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
+					REF_FLAT: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.refFlat",
+					RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.bed.rRNA.intervals",
+					GTF: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf",
 					GTAG: "dm6"
 				}
 		},

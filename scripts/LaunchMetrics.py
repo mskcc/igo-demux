@@ -21,7 +21,7 @@ RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "HumanWholeG
 DEMUX_ONLY = ["SMARTSeq", "10X_Genomics"]
 
 # Organisms to have DRAGEN BAMS
-DRAGEN_RNA_GENOMES = ["GRCh38", "grcm39", "dm6"]
+DRAGEN_RNA_GENOMES = ["GRCh38", "grcm39"]
 # this list contains the headers of the columns.  we will access the data using these listings
 PICARD_VERSION = "2_23_2"
 PICARD_JAR = "/igo/home/igo/resources/picard2.23.2/picard.jar "
