@@ -97,7 +97,7 @@ recipe_overrides = {
 				"RDM": "hg19",
 				"myTYPE_V1": "hg19",
 				"PanCancerV2": "hg19",
-				"MissionBio-Heme": "hg19",
+				"MissionBio-Heme": "GRCh38",
 				"WholeExome_v4": "hg19",
 				"AmpliSeq": "hg19",
 				"HemeBrainPACT_v1": "hg19"
@@ -575,8 +575,8 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"MissionBio-Heme": {
-				BAITS: "/igo/home/igo/resources/ilist/MissionBio-Heme/AML_BAITS.iList",
-				TARGETS: "/igo/home/igo/resources/ilist/MissionBio-Heme/AML_BAITS.iList",
+				BAITS: "/igo/work/nabors/bed_files/Mission_Bio/hg38/MissionBio-Heme_BAITS.iList",
+				TARGETS: "/igo/work/nabors/bed_files/Mission_Bio/hg38/MissionBio-Heme_TARGETS.iList",
 				MSKQ: "no",
 				MD: "yes"
 		},
