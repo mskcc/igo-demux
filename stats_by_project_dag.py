@@ -57,9 +57,9 @@ with DAG(
                 print(cmd)
                 subprocess.run(cmd, shell=True)
 
-        elif "10X_" in recipe:
+        elif "SC_Chromium" in recipe:
             scripts.cellranger.launch_cellranger_by_project_location(project_directory, recipe, species)
-        elif "ONT" in recipe:
+        elif "Nanopore" in recipe:
             cmd = "bsub -J ont_stats_{} -n 16 -M 16 /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_id, project_directory)
             print(cmd)
             subprocess.run(cmd, shell=True)

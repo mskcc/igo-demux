@@ -18,20 +18,6 @@ config_dict = {
             "Mouse": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-7.0.0 "
         }
     },
-    "atac_count": {
-        "tool": " /igo/work/nabors/tools/cellranger-atac-2.1.0/cellranger-atac count ",
-        "genome": {
-            "Human": " --reference=/igo/work/nabors/genomes/10X_Genomics/ATAC/refdata-cellranger-atac-GRCh38-1.0.1 ",
-            "Mouse": " --reference=/igo/work/nabors/genomes/10X_Genomics/ATAC/refdata-cellranger-atac-mm10-1.1.0 "
-        }
-    },
-    "cnv": {
-        "tool": " /igo/work/nabors/tools/cellranger-dna-1.1.0/cellranger-dna cnv ",
-        "genome": {
-            "Human": " --reference=/igo/work/nabors/10X_Genomics/CNV/refdata-GRCh38-1.0.0 ",
-            "Mouse": " --reference=/igo/work/nabors/10X_Genomics/CNV/refdata-GRCm38-1.0.0 "
-        }
-    },
     "multi": {
         "tool": " /igo/work/nabors/tools/cellranger-8.0.0/cellranger multi "
     },
@@ -62,12 +48,10 @@ OPTIONS = " --create-bam=true --nopreflight --jobmode=lsf --mempercore=64 --disa
 ARC_OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"
 
 # 10X recipe list for different pipelines
-COUNT_FLAVORS = ["10X_Genomics_GeneExpression-3", "10X_Genomics_GeneExpression-5"]
-VDJ_FLAVORS = ["10X_Genomics_VDJ"]
-ATAC_FLAVORS = ["10X_Genomics_ATAC"]
-CNV_FLAVORS = ["10X_Genomics_CNV"]
-ARC_FLAVORS = ["10X_Genomics_Multiome", "10X_Genomics_Multiome_ATAC", "10X_Genomics_Multiome_GeneExpression"]
-SPATIAL_FLAVORS = ["10X_Genomics_Visium"]
+COUNT_FLAVORS = ["SC_Chromium-GEX-3", "SC_Chromium-GEX-5"]
+VDJ_FLAVORS = ["SC_Chromium-TCR", "SC_Chromium-BCR"]
+ARC_FLAVORS = ["SC_Chromium-Multiome", "SC_Chromium-Multiome_ATAC", "SC_Chromium-Multiome_GEX"]
+SPATIAL_FLAVORS = ["ST_Visium"]
 
 # we do not want to PROCESS SAIL (15500) or SCRI (12437) projects
 SCRI = "12437"

@@ -25,6 +25,7 @@ with DAG(
     def deliver(ds, **kwargs):
         project = kwargs["params"]["project"]
         pi = kwargs["params"]["pi"]
+        # recipe here is actually request name
         recipe = kwargs["params"]["recipe"]
         print("Delivering the pipeline output and/or .bams for {} {} {}".format(project, pi, recipe))
 

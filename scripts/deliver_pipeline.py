@@ -27,70 +27,59 @@ STATS_DIR = "/igo/staging/stats"
 PICARD = "java -jar /igo/home/igo/resources/picard2.23.2/picard.jar "
 NGS_STATS_FASTQ_ENDPOINT = "http://igodb.mskcc.org:8080/ngs-stats/permissions/getRequestPermissions/"
 
-def deliver_pipeline_output(project, pi, recipe):
-    if not project or not pi or not recipe:
+def deliver_pipeline_output(project, pi, requestName):
+    if not project or not pi or not requestName:
         return "Project, pi and recipe are all required arguments."
     # change pi to all lowercase
     pi = pi.lower()
     delivery_folder = LAB_SHARE_DIR + "/" + pi + "/Project_" + project + "/pipeline"
 
-    if recipe.startswith("RNASeq"):
+    if requestName == "RNALibraryPrep":
         print("Delivering all RNASeq .bams for {} {} {}".format(project, pi, recipe))
         bamdict = find_bams(project, STATS_DIR)
         bsub_commands =  write_bams_to_share(bamdict, delivery_folder)
         reconcile_bam_fastq_list(project, bamdict)
         return "Completed RNA bams delivery"
     
-    # if is missionbio recipe, find tapestri pipelie output and copy all sample folders
-    elif recipe == "MissionBio":
-        tapestri_path = "/igo/staging/stats/MissionBio/Project_" + project
-        if not os.path.exists(tapestri_path):
-            print("No tapestri result available")
-        else:
-            tapestri_delivery_folder = delivery_folder + "/Tapestri"
-            if not os.path.exists(tapestri_delivery_folder):
-                print("Creating pipeline delivery folder {}".format(tapestri_delivery_folder))
-                os.makedirs(tapestri_delivery_folder)
-            
-            # copy each sample folder to the delivery folder
-            tapestri_path = tapestri_path + "/"
-            sample_list = os.listdir(tapestri_path)
-            for sample in sample_list:
-                sample_folder = tapestri_path + sample
-                destination = tapestri_delivery_folder + "/" + sample
-                print("copy {}".format(sample_folder))
-                shutil.copytree(sample_folder, destination, symlinks=True)
+    # TCR seq only need deliver manifest, those files located under viale lab drive
+    # example file: /pskis34/LIMS/TCRseqManifest/Project_13545_TCRseq_Manifest_Beta.csv
+    elif requestName == "TCRSeq":
+        pipeline_path_prefix = "/rtssdc/mohibullahlab/LIMS/TCRseqManifest/Project_" + project + "_TCRseq"
+        TCR_delivery_folder = delivery_folder + "/Manifest"
+        if not os.path.exists(TCR_delivery_folder):
+                print("Creating pipeline delivery folder {}".format(TCR_delivery_folder))
+                os.makedirs(TCR_delivery_folder)
+        
+        cmd = "cp {}* {}/".format(pipeline_path_prefix, TCR_delivery_folder)
+        print(cmd)
+        call(cmd, shell=True)
 
-    # if recipe is CRISPRSeq or GeoMx, go to pipeline folder and find output, if exists the copy
-    # add cellranger multi output for featurebarcoding project here for now
-    elif recipe == "CRISPRSeq" or recipe == "GeoMx" or recipe == "GeoMX" or recipe == "10XGenomics_FeatureBarcoding":
-        pipeline_path = "/igo/staging/PIPELINE/Project_" + project
-        if not os.path.exists(pipeline_path):
-            print("No pipeline result available")
-        else:
-            if not os.path.exists(delivery_folder):
-                print("Creating pipeline delivery folder {}".format(delivery_folder))
-                os.makedirs(delivery_folder)
-            
-            # copy each sample folder to the delivery folder
-            pipeline_path = pipeline_path + "/"
-            sample_list = os.listdir(pipeline_path)
-            for sample in sample_list:
-                sample_path = pipeline_path + sample
-                destination = delivery_folder + "/" + sample
-                print("copy {}".format(sample_path))
-                if os.path.isdir(sample_path):
-                    shutil.copytree(sample_path, destination, symlinks=True)
-                else:
-                    cmd = "cp {} {}".format(sample_path, destination)
-                    print(cmd)
-                    call(cmd, shell=True)
-    
-    # if 10X recipe or SCRI project starting with 12437, copy cell ranger result to project folder
-    elif recipe.startswith("10XGenomics") or project.startswith("12437_"):
+    # For all other projects, check CELLRANGER folder first then PIPELINE folder
+    else:
         folder_list = scripts.deliver_cellranger.find_cellranger(project)
         if len(folder_list) == 0:
-            print("No cellranger result available")
+            # check PIPELINE folder 
+            pipeline_path = "/igo/staging/PIPELINE/Project_" + project
+            if not os.path.exists(pipeline_path):
+                print("No cellranger/pipeline result available")
+            else:
+                if not os.path.exists(delivery_folder):
+                    print("Creating pipeline delivery folder {}".format(delivery_folder))
+                    os.makedirs(delivery_folder)
+                
+                # copy each sample folder to the delivery folder
+                pipeline_path = pipeline_path + "/"
+                sample_list = os.listdir(pipeline_path)
+                for sample in sample_list:
+                    sample_path = pipeline_path + sample
+                    destination = delivery_folder + "/" + sample
+                    print("copy {}".format(sample_path))
+                    if os.path.isdir(sample_path):
+                        shutil.copytree(sample_path, destination, symlinks=True)
+                    else:
+                        cmd = "cp {} {}".format(sample_path, destination)
+                        print(cmd)
+                        call(cmd, shell=True)
         else:
             # create pipeline folder if not exists
             cellranger_delivery_folder = delivery_folder + "/cellranger"
@@ -105,21 +94,6 @@ def deliver_pipeline_output(project, pi, recipe):
                 print("copy {}".format(folder))
                 shutil.copytree(folder, sample_delivery_name, symlinks=True)
 
-    # TCR seq only need deliver manifest, those files located under viale lab drive
-    # example file: /pskis34/LIMS/TCRseqManifest/Project_13545_TCRseq_Manifest_Beta.csv
-    elif recipe == "TCRSeq-IGO":
-        pipeline_path_prefix = "/rtssdc/mohibullahlab/LIMS/TCRseqManifest/Project_" + project + "_TCRseq"
-        TCR_delivery_folder = delivery_folder + "/Manifest"
-        if not os.path.exists(TCR_delivery_folder):
-                print("Creating pipeline delivery folder {}".format(TCR_delivery_folder))
-                os.makedirs(TCR_delivery_folder)
-        
-        cmd = "cp {}* {}/".format(pipeline_path_prefix, TCR_delivery_folder)
-        print(cmd)
-        call(cmd, shell=True)
-
-    else:
-        print("Pipeline delivery is not needed for recipe {} and project {}".format(recipe, project))
     return "Completed pipeline delivery"
 
 def find_bams(project, stats_base_dir):
