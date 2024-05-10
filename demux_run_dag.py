@@ -66,7 +66,7 @@ with DAG(
         
         # check if the sample sheet contains DLP project
         is_DLP = False
-        if "DLP" in sample_sheet.recipe_set:
+        if "SC_DLP" in sample_sheet.recipe_set:
             is_DLP = True
             dragen_demux = True
         
@@ -214,7 +214,7 @@ with DAG(
 
     def fingerprinting(ds, **kwargs):
         # read in sample sheet as arguments, filter out projects that need to run fingerprinting
-        recipe_list_for_fp = [".*IMPACT*", ".*Heme*", "IDT_Exome*", "WholeExomeSequencing", "Twist_Exome", "MSK-ACCESS*", "CMO-CH", "HumanWholeGenome"]
+        recipe_list_for_fp = ["PED-PEG", "WGS_Deep", "HC_IMPACT", "HC_IMPACT-Heme", "HC_ACCESS", "WES_Human", "HC_CMOCH"]
         # call fingerprinting_dag.py for each project
         samplesheet_path = kwargs["params"]["samplesheet"]
 
@@ -228,13 +228,9 @@ with DAG(
         project_list_to_run = []        
         for project, recipe in sample_sheet.project_dict.items():
             # fingerprinting only support human
-            if project_genome_dict[project] == "Human":
-                for recipe_list_item in recipe_list_for_fp:
-                    print(project, recipe)
-                    expr = re.compile(recipe_list_item)
-                    if expr.match(recipe):
-                        project_list_to_run.append(project)
-                        break
+            if project_genome_dict[project] == "Human" and recipe in recipe_list_for_fp:
+                project_list_to_run.append(project)
+                
         print("Projects need to run fp: {}".format(project_list_to_run))
         if len(project_list_to_run) == 0:
             return "No project need to run fingerprinting"
