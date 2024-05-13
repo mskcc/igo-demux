@@ -1,5 +1,7 @@
 import os
 import shutil
+import requests
+import config
 
 def isBarcoded(experiment_directory):
     for root, dirs, files in os.walk(experiment_directory):
@@ -64,6 +66,15 @@ def OrganizeData(data_path):
                 reorganizeExperiment(experiment_path)
                 renameBarcodedSamples(experiment_path)
     renameNonBarcodeSamples()
+
+def get_Rrun_summary(lims_host):
+
+    url = "https://%s/LimsRest/api/planRuns?%s" % (lims_host)
+    try:
+            resp = requests.get(url, auth=(config.LIMS_USER, config.LIMS_PASSWORD), verify=False)
+        except:
+            print("Request Failed: %s" % url)
+    
 
 
 if __name__ == "__main__":
