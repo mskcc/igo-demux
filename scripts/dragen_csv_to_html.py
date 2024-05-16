@@ -25,9 +25,9 @@ def build_lane_summary_html(demux_reports_dir, write_to_file):
     for i in range(1, lane_number + 1):
         df_name = "top_unknown_lane" + str(i)
         df_by_lanes[df_name] = top_unknown_barcodes_csv_covert.loc[top_unknown_barcodes_csv_covert["Lane"] == i]
-        if not df_by_lanes[df_name]["index2"].isnull().values.any():
-            df_by_lanes[df_name]["index"] = df_by_lanes[df_name]["index"].str.cat(df_by_lanes[df_name]["index2"], sep="-")
-        df_by_lanes[df_name] = df_by_lanes[df_name].drop("index2", axis=1)
+        if not df_by_lanes[df_name]["index"].isnull().values.any():
+            df_by_lanes[df_name]["index2"] = df_by_lanes[df_name]["index2"].str.cat(df_by_lanes[df_name]["index"], sep="-")
+        df_by_lanes[df_name] = df_by_lanes[df_name].drop("index", axis=1)
     # format two tables in the html with different column headers
     with open(write_to_file, 'w') as _file:
         _file.write("<h2>Lane Summary<h2>" + demux_stats_csv_convert.to_html(index = False, float_format =  '{:,.0f}'.format) + "\n<h2>Top Unknown Barcodes<h2>\n" + "<table>\n" )
