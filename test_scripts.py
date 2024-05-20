@@ -30,7 +30,7 @@ def testCellranger_generate_cellranger_cmd():
 
 def testCellranger_get_tag():
     assert(cellranger.get_tag("10X_genomic") == "Skip")
-    assert(cellranger.get_tag("10X_Genomics_GeneExpression-3") == "count")
+    assert(cellranger.get_tag("SC_Chromium-GEX-3") == "count")
 
 def testCellranger_get_sequencer_runID():
     fastq_path = "/igo/staging/FASTQ/DIANA_0453_AHFKJ5DRXY/Project_06265_AG/Sample_06265_8869_1_IGO_06265_AG_3"
