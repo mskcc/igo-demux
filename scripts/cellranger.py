@@ -55,12 +55,8 @@ def get_tag(recipe):
     tag = "Skip"
     if recipe in CONFIG.COUNT_FLAVORS:
         tag = "count"
-    if recipe in CONFIG.CNV_FLAVORS:
-        tag = "cnv"    
     if recipe in CONFIG.VDJ_FLAVORS:
         tag = "vdj"
-    if recipe in CONFIG.ATAC_FLAVORS:
-        tag = "atac_count"
     if recipe in CONFIG.ARC_FLAVORS:
         tag = "arc"
     if recipe in CONFIG.SPATIAL_FLAVORS:
