@@ -16,9 +16,9 @@ import scripts.get_total_reads_from_demux
 # Global Variable : we do not want to process these experiments in this script
 DO_NOT_PROCESS = ["DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "HumanWholeGenome", "PombeWholeGenome", "ChIPSeq", "AmpliconSeq"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "WGS_Deep", "ChIP", "CUT&RUN","Amplicon"]
 # these projects willl only need demux stats
-DEMUX_ONLY = ["SMARTSeq", "10X_Genomics"]
+DEMUX_ONLY = ["SMARTSeq", "Chromium", "10X_Genomics"]
 
 # Organisms to have DRAGEN BAMS
 DRAGEN_RNA_GENOMES = ["GRCh38", "grcm39"]
@@ -85,7 +85,7 @@ class LaunchMetrics(object):
 				self.dragen(sample, run, sample_parameters, work_directory, dragen_directory, fastq_list)
 				continue
 			# check for methylated samples
-			if ((sample.recipe == "MethylCaptureSeq") or (sample.recipe == "WholeGenomeBisulfiteSequencing")):
+			if ("Methyl" in sample.recipe):
 				pathlib.Path(dragen_directory).mkdir(parents = True, exist_ok = True)
 				self.dragen_methylation(sample, run, sample_parameters, work_directory, dragen_directory, fastq_list)
 				continue
