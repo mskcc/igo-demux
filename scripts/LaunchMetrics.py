@@ -18,7 +18,7 @@ DO_NOT_PROCESS = ["DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
 RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "WGS_Deep", "ChIP", "CUT&RUN","Amplicon"]
 # these projects willl only need demux stats
-DEMUX_ONLY = ["SMARTSeq", "Chromium", "10X_Genomics"]
+DEMUX_ONLY = ["SMARTSeq", "Chromium", "10X_Genomics", "Visium"]
 
 # Organisms to have DRAGEN BAMS
 DRAGEN_RNA_GENOMES = ["GRCh38", "grcm39"]
