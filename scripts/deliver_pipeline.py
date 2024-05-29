@@ -35,7 +35,7 @@ def deliver_pipeline_output(project, pi, requestName):
     delivery_folder = LAB_SHARE_DIR + "/" + pi + "/Project_" + project + "/pipeline"
 
     if requestName == "RNALibraryPrep":
-        print("Delivering all RNASeq .bams for {} {} {}".format(project, pi, recipe))
+        print("Delivering all RNASeq .bams for {} {} {}".format(project, pi, requestName))
         bamdict = find_bams(project, STATS_DIR)
         bsub_commands =  write_bams_to_share(bamdict, delivery_folder)
         reconcile_bam_fastq_list(project, bamdict)
