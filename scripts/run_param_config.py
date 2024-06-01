@@ -473,7 +473,8 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "yes",
 				MD: "yes"
 		},
-		"WholeExomeSequencing": {
+		"WES_Human": {
+				# WholeExomeSequencing
 				BAITS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_BAITS.baits",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_TARGETS.targets",
 				MSKQ: "no",
@@ -504,7 +505,7 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"IDT_Exome_v2_FP_Viral_Probes": {
+		"WES_Human": {
 				# IDT_Exome_v2_FP_Viral_Probes or WES_Human
 				BAITS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_BAITS.baits",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_TARGETS.targets",
@@ -612,7 +613,8 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"Twist_mWES": {
+		"WES_Mouse": {
+			# Twist_mWES
 			BAITS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_BAITS.IntervalList",
 			TARGETS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_TARGETS.IntervalList"
 		},
