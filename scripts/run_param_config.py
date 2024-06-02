@@ -105,6 +105,7 @@ recipe_overrides = {
 		"Mouse": {
 				"M-IMPACT_v1": "mm10",
 				"HC_IMPACT-Mouse": "mm10",
+				"WES_Mouse": "mm10",
 				"Twist_mWES": "mm10",
 				"SC_Chromium-Multiome": "mm10"
 		}
@@ -493,7 +494,8 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"Agilent_MouseAllExonV1": {
+		"WES_Mouse": {
+				# Agilent_MouseAllExonV1
 				BAITS: "/home/igo/resources/BED-Targets/Agilent_MouseAllExonV1_mm10_v1_baits.ilist",
 				TARGETS: "/home/igo/resources/BED-Targets/Agilent_MouseAllExonV1_mm10_v1_targets.ilist",
 				MSKQ: "no",
@@ -613,10 +615,12 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"WES_Mouse": {
-			# Twist_mWES
+		"Twist_mWES": {
+			# WES_Mouse ??
 			BAITS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_BAITS.IntervalList",
-			TARGETS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_TARGETS.IntervalList"
+			TARGETS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_TARGETS.IntervalList",
+			MSKQ: "no",
+			MD: "yes"
 		},
 		"Twist_Kentsis_spikeinWES_RK_V3": {
 			BAITS: "/home/igo/resources/ilist/Twist_Kentsis_spikeinWES_RK_V3/Twist_Kentsis_spikeinWES_RK_V3_BAITS.intervalList",
