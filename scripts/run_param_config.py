@@ -494,7 +494,7 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"WES_Mouse": {
+		"Agilent_MouseAllExonV1": {
 				# Agilent_MouseAllExonV1
 				BAITS: "/home/igo/resources/BED-Targets/Agilent_MouseAllExonV1_mm10_v1_baits.ilist",
 				TARGETS: "/home/igo/resources/BED-Targets/Agilent_MouseAllExonV1_mm10_v1_targets.ilist",
@@ -615,8 +615,8 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"Twist_mWES": {
-			# WES_Mouse ??
+		"WES_Mouse": {
+			# Twist_mWES ??
 			BAITS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_BAITS.IntervalList",
 			TARGETS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_TARGETS.IntervalList",
 			MSKQ: "no",
