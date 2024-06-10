@@ -114,9 +114,9 @@ class SampleSheet:
         if "SC_DLP" in self.recipe_set and len(self.recipe_set) > 1:
             print("Copying all DLP samples to a new sample sheet")
             # copy all DLP rows to a new sample sheet
-            dlp_data = self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("DLP") == True].copy()
+            dlp_data = self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("SC_DLP") == True].copy()
             # and remove DLP samples from the main sample sheet
-            self.df_ss_data= self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("DLP") == False].copy()
+            self.df_ss_data= self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("SC_DLP") == False].copy()
             # rename DLP sample sheet w/"_DLP.csv"
             dlp_path = os.path.splitext(self.path)[0]+'_DLP.csv'
             header_copy = self.df_ss_header.copy(deep=True)
