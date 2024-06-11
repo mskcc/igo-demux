@@ -6,6 +6,7 @@ import os
 import json
 import subprocess
 import os.path
+import shutil
 import scripts.get_sequencing_read_data
 import scripts.cellranger_spatial
 import scripts.cellranger_config as CONFIG
@@ -144,18 +145,11 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
     sample_fastqfile_dict = find_fastq_file(sample_id_list)
     send_json = {}
     send_json["samples"] = []
-    # CREATE RUN FOLDER AND PROJECT FOLDER IF NOT ALREADY THERE
-    os.chdir(CONFIG.STATS_AREA)
-    runs = next(os.walk("."))[1]
-    if sequencer_and_run not in runs:
-        os.mkdir(sequencer_and_run, CONFIG.ACCESS)
-                
-    stats_and_run = CONFIG.STATS_AREA + sequencer_and_run
-    os.chdir(stats_and_run)
-    projects = next(os.walk("."))[1]
-    if project not in projects:
-        os.mkdir(project, CONFIG.ACCESS)
-    work_area = stats_and_run + "/" + project + "/" 
+    # CREATE RUN FOLDER AND PROJECT FOLDER IF NOT ALREADY THERE    
+    work_area = CONFIG.STATS_AREA + sequencer_and_run + "/" + project + "/" 
+    if not os.path.exists(work_area):
+        os.makedirs(work_area, CONFIG.ACCESS)
+
     # GO TO project ID LOCATION to start cellranger command
     os.chdir(work_area)
 
@@ -190,14 +184,25 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
                     cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --cytaimage={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
                     if sample_genome_dict[sample] == "Human":
                         probe = CONFIG.config_dict[tag]["probe"]["Human_CytAssist"]
-                        cmd = cmd + " --probe-set={}".format(probe)
                     elif sample_genome_dict[sample] == "Mouse":
-                        probe = CONFIG.config_dict[tag]["probe"][sample_genome_dict[sample]]
-                        cmd = cmd + " --probe-set={}".format(probe)
+                        if sample_info.slide.startswith("H1"):
+                            probe = CONFIG.config_dict[tag]["probe"]["Mouse_HD"]
+                        else:
+                            probe = CONFIG.config_dict[tag]["probe"]["Mouse"]
+                    cmd = cmd + " --probe-set={}".format(probe)
                         
                 elif sample_info.preservation == "FFPE":
                     probe = CONFIG.config_dict[tag]["probe"][sample_genome_dict[sample]]
                     cmd = cmd + " --probe-set={}".format(probe)
+                
+                # Eventhough HE image is required internal, the pipeline doesn't need it. Add it if exists
+                if sample_info.HE_tiff_image != "EMPTY":
+                    cmd = cmd + " --image={}".format(sample_info.HE_tiff_image)
+                    # copy microsope image here in sub folder for delivery 
+                    HE_folder_loc = work_area + "Microscope/"
+                    if not os.path.exists(HE_folder_loc):
+                        os.makedirs(HE_folder_loc)
+                    shutil.copy(sample_info.HE_tiff_image , HE_folder_loc)
                 
                 # if there is manual alignment json file availabe, add that to the cmd
                 if sample_info.json != "EMPTY":
@@ -206,7 +211,7 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
                 bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, CONFIG.OPTIONS)
                 print(bsub_cmd)
                 subprocess.run(bsub_cmd, shell=True)
-        
+
         elif tag != "Skip":
             cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
             print(cmd)

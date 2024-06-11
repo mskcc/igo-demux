@@ -1,4 +1,3 @@
-import pandas as pd
 import os
 import json
 import os.path
@@ -16,6 +15,7 @@ class Spatial_sample:
         self.preservation = "EMPTY"
         self.tiff_image = "EMPTY"
         self.json = "EMPTY"
+        self.HE_tiff_image = "EMPTY"
         self.get_info_from_LIMS()
         self.copy_tiff(project_id)
         self.copy_json(project_id)
@@ -33,9 +33,14 @@ class Spatial_sample:
         source_loc_dir = CONFIG.original_tiff_images_directory + project_id
         destination_loc = CONFIG.tiff_images_directory + project_id
         destination_file = destination_loc + "/" + self.sample_name + ".tif"
+        destination_HE_loc = destination_loc + "/Microscope"
+        destination_HE_file = destination_HE_loc + "/HE_" + self.sample_name + ".tif"       
         # create TIFF_images director if not exists
         if not os.path.exists(destination_loc):
             os.makedirs(destination_loc)
+        # create microscope image director if not exists
+        if not os.path.exists(destination_HE_loc):
+            os.makedirs(destination_HE_loc)
 
         # copy image file per sample
         original_tiff_image = source_loc_dir + "/" + self.sample_name + ".tif"
@@ -45,7 +50,16 @@ class Spatial_sample:
             print("copy {} to {}".format(original_tiff_image, destination_file))
         else:
             print("tif file is not in proper format for sample {}, please check".format(self.IGO_ID))
-            
+
+        # copy HE file per sample if exists
+        original_HE_tiff_image = source_loc_dir + "/Microscope/HE_" + self.sample_name + ".tif"
+        if os.path.isfile(original_HE_tiff_image):
+            shutil.copy(original_HE_tiff_image, destination_HE_file)
+            self.HE_tiff_image = destination_HE_file
+            print("copy {} to {}".format(original_HE_tiff_image, destination_HE_file))
+        else:
+            print("HE tif file does not exist for sample {}, please check".format(self.IGO_ID))
+    
     # copy json file if exists
     def copy_json(self, project_id):
         # project_id format as Project_12345
