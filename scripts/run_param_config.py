@@ -70,6 +70,7 @@ recipe_type_mapping_UNORDERED = {
 		# "10X_Genomics_WGS": { TYPE: "WGS" },
 		"WGS_Metagenomic": { TYPE: "WGS" },
 		"WGS_Deep": { TYPE: "WGS" },
+		"User_WGS": { TYPE: "WGS" },
 		".*RNA.*": { TYPE: "RNA" },
 		# ".*96Well_SmartSeq2": { TYPE: "RNA" },
 		".*SMARTer.*": { TYPE: "RNA" },
