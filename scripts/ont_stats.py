@@ -23,6 +23,7 @@ def get_read_length_and_summary(file_path):
 
 def write_to_csv(sample_dict):
     file_name = "summary.csv"
+    print("Writing stats file: " + file_name)
     with open(file_name,'w') as file:
         file.write("sample_id, Reads, Bases, N50, Meidan Read Length\n")
         for key, value in sample_dict.items():
@@ -38,9 +39,11 @@ if __name__ == '__main__':
     sample_dict = OrderedDict()
     sample_list.sort()
     for sample in sample_list:
+        print("Processing sample: " + sample)
         destination = project_directory + "/" + sample
         file = glob.glob(destination + "/*/sequencing_summary_*")
         if len(file) != 0:
             sample_dict[sample] = get_read_length_and_summary(file[0])
     
     write_to_csv(sample_dict)
+    print("ONT stats complete for: " + project_directory)
