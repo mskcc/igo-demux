@@ -2,7 +2,6 @@ import pandas as pd
 import os
 import subprocess
 import glob
-from subprocess import call
 import argparse
 from collections import OrderedDict
 import requests
@@ -66,7 +65,7 @@ CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/igo/work/igo/Cellranger_Multi_Config/"
 ORIGIN_DRIVE_LOCATION = "/rtssdc/mohibullahlab/LIMS/LIMS_cellranger_multi/"
 BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-7.0.0/lib/bin/bamtofastq"
-STATS_AREA = "/igo/stats/PIPELINE/"
+STATS_AREA = "/igo/staging/PIPELINE/"
 # endpoint for cellranger multi
 ENDPOINT= "https://igolims.mskcc.org:8443/LimsRest/getTenxSampleInfo?requestId="
 
@@ -115,6 +114,7 @@ class Multi_Config:
             file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
             
             for key, value in self.lirbaries.items():
+                key = key.replace("_CHMARKER_", "")
                 if value[1] == "Gene Expression" or value[1] == "Multiplexing Capture":
                     for i in value[0]:
                         file.write("{},{},{}\n".format(key, i, value[1]))
@@ -157,7 +157,7 @@ class Multi_Config:
     # get reads number and sub sample cell number
     def update_info_from_step1(self, fb_project_id):
         # get total reads number for gene expression library
-        reads_file = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/metrics_summary.csv".format(fb_project_id, self.name, list(self.samples.keys())[0])
+        reads_file = "/igo/staging/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/metrics_summary.csv".format(fb_project_id, self.name, list(self.samples.keys())[0])
         summary_metrix = pd.read_csv(reads_file)
         ind = summary_metrix.index[(summary_metrix["Category"] == "Library") & (summary_metrix["Metric Name"] == "Number of reads") & (summary_metrix["Library Type"] == "Gene Expression") & (summary_metrix["Grouped By"] == "Physical library ID")].tolist()
         reads_number = summary_metrix.iloc[ind[0]]["Metric Value"]
@@ -165,7 +165,7 @@ class Multi_Config:
         self.ge_reads_number = reads_number
 
         # update sub sample cell number
-        cell_file = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/multi/multiplexing_analysis/tag_calls_summary.csv".format(fb_project_id, self.name)
+        cell_file = "/igo/staging/PIPELINE/Project_{}_step1/{}/outs/multi/multiplexing_analysis/tag_calls_summary.csv".format(fb_project_id, self.name)
         cell_matrix = pd.read_csv(cell_file)
         for key, value in self.samples.items():
             if value in cell_matrix["Category"].values:
@@ -191,7 +191,7 @@ def ch_file_generation(project_id, sample_name):
     tag_seq_dict = pd.Series(df['Hashtag sequence'].values,index=df['Hashtag Name']).to_dict()
 
     sub_sample_dict = {}
-    sub_sample_lst = df[df["Sample Name in IGO"] == sample_name]["Sample Name"].tolist()
+    sub_sample_lst = df[df["Sample Name in IGO"].astype(str) == str(sample_name)]["Sample Name"].tolist()
     for item in sub_sample_lst:
         sub_sample_dict[item] = sample_tag_dict[item]
 
@@ -235,8 +235,8 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         config.gene_expression["cmo-set"] = CONFIG_AREA + "Project_{}/Project_{}_ch_{}.csv".format(project_ID, project_ID, sample_name)
         config.samples = ch_file_generation(project_ID, sample_name)
 
-    # if both ch and fb are there, change the ch name
-    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys():
+    # if both ch and fb are there and vdj not there, change the ch name
+    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and ("vdj" not in sample_dict.keys()):
         sample_dict["ch"] = sample_dict["ch"].replace("FB_IGO", "CH_IGO")
 
     # find fastq files for each sample and append information into config["libraries"]
@@ -245,6 +245,7 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         sample_list.append(i)
     fastq_list = find_fastq_file(sample_list)
     for key, value in sample_dict.items():
+        print("key: {}, value: {}".format(key, value))
         if key == "ge":
             config.lirbaries[value] = [fastq_list[value], "Gene Expression"]
         elif key == "vdj":
@@ -252,7 +253,11 @@ def gather_config_info(sample_dict, genome, IGO_ID):
         elif key == "fb":
             config.lirbaries[value] = [fastq_list[value], "Antibody Capture"]
         elif key == "ch":
-            config.lirbaries[value] = [fastq_list[value], "Multiplexing Capture"]
+            # for case of all ch, fb and vdj exits and doesn't need to make two copies of fb fastq file
+            if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and "vdj" in sample_dict.keys():
+                config.lirbaries[value + "_CHMARKER_"] = [fastq_list[value], "Multiplexing Capture"]
+            else:
+                config.lirbaries[value] = [fastq_list[value], "Multiplexing Capture"]
        
     return config
 
@@ -286,7 +291,7 @@ def cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, ge):
     # create bam2fastq cmd per sub sample
     for key in config.sub_sample_info.keys():
         name2 = ge + "_" + key
-        source_bam = "/igo/stats/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/count/sample_alignments.bam".format(ch_project_ID, ge, key)
+        source_bam = "/igo/staging/PIPELINE/Project_{}_step1/{}/outs/per_sample_outs/{}/count/sample_alignments.bam".format(ch_project_ID, ge, key)
         destination_bam = "{}Project_{}/bamtofastq/{}".format(CONFIG_AREA, project_ID, name2)
         cmd = "bsub -K -J {}_bamtofastq -o {}_bamtofastq.out -n 8 -M 8 {} --reads-per-fastq={} {} {}".format(name2, name2, BAMTOFASTQ, config.ge_reads_number, source_bam, destination_bam)
         print(cmd)
@@ -401,7 +406,10 @@ def gather_sample_set_info(sample_name):
                     fb_type.append("Cell Hashing")
                 if "Feature Barcoding" in tag_lst:
                     fb_type.append("Feature Barcoding")
-                # TODO add vdj type
+                if "T Cells" in tag_lst:
+                    vdj_type.append("VDJ-T")
+                if "B Cells" in tag_lst:
+                    vdj_type.append("VDJ-B")
                 print(fb_type, vdj_type)
                 break
 
@@ -410,14 +418,14 @@ def gather_sample_set_info(sample_name):
         for key, value in sample.items():
             if value[0].startswith(ilab_request) and key.endswith(sample_number):
                 value[2] = value[2].split(",")
-                if "10X_Genomics_FeatureBarcoding" in value[2][0]:
+                if "SC_Chromium-FB-5" in value[2][0]:
                     if "Feature Barcoding" in fb_type:
                         sample_set["fb"] = "_IGO_".join([value[1], key])
                     if "Cell Hashing" in fb_type:
                         sample_set["ch"] = "_IGO_".join([value[1], key])
-                if "10X_Genomics_VDJ" in value[2][0]:
+                if "SC_Chromium-BCR" in value[2][0] or "SC_Chromium-TCR" in value[2][0]:
                     sample_set["vdj"] = "_IGO_".join([value[1], key])
-
+    # TODO add vdj type to the whole pipeline
     return sample_set
 
 # TODO check whether a project set is complete to launch pipeline
@@ -447,6 +455,7 @@ if __name__ == '__main__':
     
     genome = args.genome
     config = gather_config_info(sample_dict, genome, args.ge)
+    print(config.lirbaries)
     project_ID = "_".join(args.ge.split("IGO_")[1].split("_")[:-1])
     file_name = "{}Project_{}/{}.csv".format(CONFIG_AREA, project_ID, args.ge)
 

@@ -4,7 +4,7 @@ import glob
 
 # given project ID, look through cellranger folder and return a list of path of folders need to copy
 
-CELLRANGER_DIR = '/igo/stats/CELLRANGER/'
+CELLRANGER_DIR = '/igo/staging/CELLRANGER/'
 # structure '/igo/stats/CELLRANGER/RUNNAME/PROJECTID/SAMPLEFOLDER
 
 # find all the cellranger result given project ID, return a list of address

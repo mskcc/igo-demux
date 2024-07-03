@@ -18,11 +18,12 @@ CELLRANGER_ARC = "CELLRANGER_ARC"
 HAPLOTYPE_MAP = "HAPLOTYPE_MAP"
 
 # 3) Determined by recipe (see: recipe_options_mapping)
-BAITS="BAITS"
-TARGETS="TARGETS"
-MSKQ="MSKQ"
-MD="MD"
-DGN_REFERENCE="DGN_REFERENCE"
+BAITS = "BAITS"
+TARGETS = "TARGETS"
+MSKQ = "MSKQ"
+MD = "MD"
+DGN_REFERENCE = "DGN_REFERENCE"
+DGN_REFERENCE = "DGN_REFERENCE"
 """
 				D E P E N D E N C Y    G R A P H
 									+-----------+
@@ -58,23 +59,26 @@ def get_ordered_dic(unordered_dic):
 		Returns:
 			type, OrderedDict: Ordered dictionary by key-length
 		"""
-		return OrderedDict(sorted(unordered_dic.items(), key=lambda t: -len(t[0])))
+		return OrderedDict(sorted(unordered_dic.items(), key = lambda t: -len(t[0])))
 
 """ Mapping of recipes to their type, default should be DNA """
 recipe_type_mapping_UNORDERED = {
-		"MouseWholeGenome": { TYPE: "WGS" },
-		"PigWholeGenome": { TYPE: "WGS" },
-		"PombeWholeGenome": { TYPE: "WGS" },
-		"ShallowWGS": { TYPE: "WGS" },
-		"10X_Genomics_WGS": { TYPE: "WGS" },
-		"WholeGenomeSequencing": { TYPE: "WGS" },
-		"HumanWholeGenome": { TYPE: "WGS" },
+		# "MouseWholeGenome": { TYPE: "WGS" },
+		# "PigWholeGenome": { TYPE: "WGS" },
+		# "PombeWholeGenome": { TYPE: "WGS" },
+		"WGS_Shallow": { TYPE: "WGS" },
+		# "10X_Genomics_WGS": { TYPE: "WGS" },
+		"WGS_Metagenomic": { TYPE: "WGS" },
+		"WGS_Deep": { TYPE: "WGS" },
+		"User_WGS": { TYPE: "WGS" },
 		".*RNA.*": { TYPE: "RNA" },
-		".*96Well_SmartSeq2": { TYPE: "RNA" },
+		# ".*96Well_SmartSeq2": { TYPE: "RNA" },
 		".*SMARTer.*": { TYPE: "RNA" },
-		"FusionDiscoverySeq": { TYPE: "RNA" },
+		# "FusionDiscoverySeq": { TYPE: "RNA" },
 		".*Ribo.*": { TYPE: "RNA" },
-		".*CDH1_RNA.*": { TYPE: "CAPTURE" },
+		# "SMART-Seq": { TYPE: "RNA" },
+		"SMARTSeq": { TYPE: "RNA" },
+		# ".*CDH1_RNA.*": { TYPE: "CAPTURE" },
 		# FOR NEW ENTRIES
 		# "{regex}": { TYPE: type }
 		".*": { TYPE: "DNA" }      # DEFAULT
@@ -94,16 +98,17 @@ recipe_overrides = {
 				"RDM": "hg19",
 				"myTYPE_V1": "hg19",
 				"PanCancerV2": "hg19",
-				"MissionBio-Heme": "hg19",
+				"User_MissionBio": "GRCh38",
 				"WholeExome_v4": "hg19",
 				"AmpliSeq": "hg19",
 				"HemeBrainPACT_v1": "hg19"
 		},
 		"Mouse": {
 				"M-IMPACT_v1": "mm10",
-				"M-IMPACT_v2": "mm10",
+				"HC_IMPACT-Mouse": "mm10",
+				"WES_Mouse": "mm10",
 				"Twist_mWES": "mm10",
-				"10X_Genomics_Multiome": "mm10"
+				"SC_Chromium-Multiome": "mm10"
 		}
 }
 """ Mapping of species to their genome-type """
@@ -278,15 +283,15 @@ genome_reference_mapping_UNORDERED = {
 		},
 		"dm6": {
 				DEFAULT: {
-						GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
-						REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa"
+						GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
+						REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa"
 				},
 			"RNA": {
-					GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
-					REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
-					REF_FLAT: "/igo/work/nabors/genomes/Drosophila_melanogaster/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.ref.flat",
-					RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/Drosophila_melanogaster/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.bed.rRNA.intervals",
-					GTF: "/igo/work/nabors/genomes/Drosophila_melanogaster/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf",
+					GENOME: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
+					REFERENCE: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/Drosophila_melanogaster.BDGP6.46.dna.toplevel.fa",
+					REF_FLAT: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.refFlat",
+					RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf.bed.rRNA.intervals",
+					GTF: "/igo/work/nabors/genomes/Drosophila_melanogaster/ENSEMBL/GTF/Drosophila_melanogaster.BDGP6.46.110.gtf",
 					GTAG: "dm6"
 				}
 		},
@@ -429,7 +434,8 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "yes",
 				MD: "yes"
 		},
-		"IMPACT505": {
+		"HC_IMPACT": {
+				# IMPACT505
 				# NOTE: interval list file name "IMPACT468_BAITS" is stored in LIMS and passed to pipelines, change file name with caution
 				BAITS: "/igo/home/igo/resources/ilist/hg38/IMPACT505/IMPACT505_BAITS.baits",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/IMPACT505/IMPACT505_TARGETS.targets",
@@ -442,13 +448,15 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "yes",
 				MD: "yes"
 		},
-		"IMPACT-Heme": {
+		"HC_IMPACT-Heme": {
+				# IMPACT-Heme
 				BAITS: "/igo/home/igo/resources/ilist/hg38/IMPACT-Heme_v2/IMPACT-Heme_v2_BAITS.iList",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/IMPACT-Heme_v2/IMPACT-Heme_v2_TARGETS.iList",
 				MSKQ: "yes",
 				MD: "yes"
 		},
-		"IMPACT_Heme_v2": {
+		"HC_IMPACT-Heme": {
+				# IMPACT_Heme_v2
 				BAITS: "/igo/home/igo/resources/ilist/hg38/IMPACT-Heme_v2/IMPACT-Heme_v2_BAITS.iList",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/IMPACT-Heme_v2/IMPACT-Heme_v2_TARGETS.iList",
 				MSKQ: "yes",
@@ -460,13 +468,15 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "yes",
 				MD: "yes"
 		},
-		"M-IMPACT_v2": {
+		"HC_IMPACT-Mouse": {
+				# M-IMPACT_v2
 				BAITS: "/home/igo/resources/BED-Targets/IMPACT/MM_IMPACT/M-IMPACT_v2.baits",
 				TARGETS: "/home/igo/resources/BED-Targets/IMPACT/MM_IMPACT/M-IMPACT_v2.targets",
 				MSKQ: "yes",
 				MD: "yes"
 		},
-		"WholeExomeSequencing": {
+		"WES_Human": {
+				# WholeExomeSequencing
 				BAITS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_BAITS.baits",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_TARGETS.targets",
 				MSKQ: "no",
@@ -486,6 +496,7 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"Agilent_MouseAllExonV1": {
+				# Agilent_MouseAllExonV1
 				BAITS: "/home/igo/resources/BED-Targets/Agilent_MouseAllExonV1_mm10_v1_baits.ilist",
 				TARGETS: "/home/igo/resources/BED-Targets/Agilent_MouseAllExonV1_mm10_v1_targets.ilist",
 				MSKQ: "no",
@@ -497,11 +508,12 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"IDT_Exome_v2_FP_Viral_Probes": {
-			BAITS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_BAITS.baits",
-			TARGETS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_TARGETS.targets",
-			MSKQ: "no",
-			MD: "yes"
+		"WES_Human": {
+				# IDT_Exome_v2_FP_Viral_Probes or WES_Human
+				BAITS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_BAITS.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_TARGETS.targets",
+				MSKQ: "no",
+				MD: "yes"
 		},
 		"IDT_Exome_v1": {
 				BAITS: "/home/igo/resources/BED-Targets/xgen-exome-research-panel-BAITS.iList",
@@ -545,14 +557,16 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "yes",
 				MD: "yes"
 		},
-		"MSK-ACCESS_v1": {
+		"HC_ACCESS": {
+				# MSK-ACCESS_v1
 				BAITS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v1/MSK-ACCESS-v1_0-probesAllwFP.baits",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v1/MSK-ACCESS-v1_0-probesAllwFP.targets",
 				MSKQ: "no",
 				MD: "yes",
 				HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_no_chr_ACCESS_unordered.map"
 		},
-		"MSK-ACCESS_v2": {
+		"HC_ACCESS": {
+				# MSK-ACCESS_v2
 				BAITS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v2/MSK-ACCESS-v2_0-probesAllwFP.baits",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v2/MSK-ACCESS-v2_0-probesAllwFP.targets",
 				MSKQ: "no",
@@ -571,9 +585,10 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"MissionBio-Heme": {
-				BAITS: "/igo/home/igo/resources/ilist/MissionBio-Heme/AML_BAITS.iList",
-				TARGETS: "/igo/home/igo/resources/ilist/MissionBio-Heme/AML_BAITS.iList",
+		"User_MissionBio": {
+				# MissionBio-Heme
+				BAITS: "/igo/work/nabors/bed_files/Mission_Bio/hg38/MissionBio-Heme_BAITS.iList",
+				TARGETS: "/igo/work/nabors/bed_files/Mission_Bio/hg38/MissionBio-Heme_TARGETS.iList",
 				MSKQ: "no",
 				MD: "yes"
 		},
@@ -601,9 +616,12 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"Twist_mWES": {
+		"WES_Mouse": {
+			# Twist_mWES ??
 			BAITS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_BAITS.IntervalList",
-			TARGETS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_TARGETS.IntervalList"
+			TARGETS: "/home/igo/resources/ilist/Twist_mWES/Twist_mWES_TARGETS.IntervalList",
+			MSKQ: "no",
+			MD: "yes"
 		},
 		"Twist_Kentsis_spikeinWES_RK_V3": {
 			BAITS: "/home/igo/resources/ilist/Twist_Kentsis_spikeinWES_RK_V3/Twist_Kentsis_spikeinWES_RK_V3_BAITS.intervalList",
@@ -645,13 +663,29 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"MethylCaptureSeq": {
+		"Methyl_Capture": {
+				# MethylCaptureSeq
 				BAITS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.baits.ilist",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.targets.ilist",
 				MSKQ: "no",
 				MD: "yes"
 		},
-		"HumanWholeGenome": {
+		"HC_CMOCH": {
+				# MSK-CH
+				BAITS: "/igo/home/igo/resources/ilist/hg38/CMO-CH/CMO-CH.hg38.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/CMO-CH/CMO-CH.hg38.targets",
+				MSKQ: "no",
+				MD: "yes"
+		},
+		"HC_CMOCH": {
+				# CMO-CH
+				BAITS: "/igo/home/igo/resources/ilist/hg38/CMO-CH/CMO-CH.hg38.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/CMO-CH/CMO-CH.hg38.targets",
+				MSKQ: "no",
+				MD: "yes"
+		},
+		"WGS_Deep": {
+				# HumanWholeGenome
 				MSKQ: "no",
 				MD: "yes",
 				HAPLOTYPE_MAP: "", # TODO - Add this
@@ -659,7 +693,8 @@ recipe_options_mapping_UNORDERED = {
 				REFERENCE: "/igo/work/genomes/H.sapiens/GRCh38.p13/ncbi-genomes-2021-09-23/GCF_000001405.39_GRCh38.p13_genomic.fna",
 				DGN_REFERENCE: "/staging/ref/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
 		},
-		"MouseWholeGenome": {
+		"WGS_Deep": {
+				# MouseWholeGenome
 				MSKQ: "no",
 				MD: "yes"
 				# TODO
@@ -677,7 +712,7 @@ recipe_options_mapping_UNORDERED = {
 						# TODO
 						# sh $DIR/../PicardScripts/LaunchPipelines.sh $RUNTYPE --input /igo/work/FASTQ/$RUNNAME/$PROJECT/ --genome $GENOME --type WGS --md $MARKDUPLICATES --mskq $MSKQ
 		},
-		"ShallowWGS": {
+		"WGS_Shallow": {
 				MSKQ: "no",
 				MD: "yes"
 				# TODO
@@ -695,13 +730,15 @@ recipe_options_mapping_UNORDERED = {
 				# TODO
 				# sh $DIR/../PicardScripts/LaunchPipelines.sh $RUNTYPE --input /igo/work/FASTQ/$RUNNAME/$PROJECT/ --genome $GENOME --md $MARKDUPLICATES --mskq $MSKQ
 		},
-		"AmpliconSeq": {
+		"DNA_Amplicon": {
+				# AmpliconSeq
 				MSKQ: "no",
 				MD: "yes"
 				# TODO
 				# sh $DIR/../PicardScripts/LaunchPipelines.sh $RUNTYPE --input /igo/work/FASTQ/$RUNNAME/$PROJECT/ --genome $GENOME --md $MARKDUPLICATES --mskq $MSKQ
 		},
-		"CRISPRSeq": {
+		"DNA_CRISPR": {
+				# CRISPRSeq
 				MSKQ: "no",
 				MD: "yes"
 				# TODO

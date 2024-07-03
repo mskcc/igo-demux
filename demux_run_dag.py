@@ -3,7 +3,6 @@ import re
 import subprocess
 from datetime import datetime, timedelta
 
-from numpy import equal
 import pandas
 from SampleSheet import SampleSheet
 import scripts.organise_fastq_split_by_lane
@@ -67,7 +66,7 @@ with DAG(
         
         # check if the sample sheet contains DLP project
         is_DLP = False
-        if "DLP" in sample_sheet.recipe_set:
+        if "SC_DLP" in sample_sheet.recipe_set:
             is_DLP = True
             dragen_demux = True
         
@@ -108,7 +107,7 @@ with DAG(
     def get_dlp_chip(samplesheet, project):
         samplesheet.df_ss_data.reset_index()
         for index, row in samplesheet.df_ss_data.iterrows():
-            if row['Sample_Well'] == 'DLP' and project == row['Sample_Project']:
+            if row['Sample_Well'] == 'SC_DLP' and project == row['Sample_Project']:
                 # return chip from 071PP_DLP_UNSORTED_128624A_13_12_IGO_09443_CU_1_1_121
                 sample = row['Sample_ID']
                 return get_dlp_chip_from_sample_name(sample)
@@ -136,7 +135,7 @@ with DAG(
         if "REFERENCE" in samplesheet_path:
             return "No stats for reference "  + samplesheet_path
 
-        if "DLP" in sample_sheet.recipe_set:
+        if "SC_DLP" in sample_sheet.recipe_set:
             scripts.get_total_reads_from_demux.run_DLP(sample_sheet, sequencer_and_run)
             scripts.upload_stats.upload_stats(sequencer_and_run)
             
@@ -170,15 +169,18 @@ with DAG(
 
             return "DLP stats posted and yaml file generated"
 
-        if any("10X_" in s for s in sample_sheet.recipe_set):
+        # check if the run is 10X by read length
+        atac, use_bases_mask = scripts.get_sequencing_read_data.main(sequencer_path)
+        print("read length: {}".format(use_bases_mask))
+        if use_bases_mask == [29, 89] or atac:
             # if is atac run, demux is using cellranger mkfastq
-            if scripts.get_sequencing_read_data.main(sequencer_path)[0]:
+            if atac:
                 scripts.get_total_reads_from_demux.by_json(sequencer_and_run)
                 scripts.upload_stats.upload_stats(sequencer_and_run)
 
                 # launch cell ranger based on recipe
                 sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
-                scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
+                scripts.cellranger.launch_cellranger_by_sample_sheet(sample_sheet, sequencer_and_run_prefix)
 
             else:
                 # step 1, generate txt files containing total reads and upload to qc website
@@ -188,10 +190,10 @@ with DAG(
                 # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
                 # trim sequencer_and_run if postfix like _10X exsiting
                 sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
-                scripts.cellranger.launch_cellranger(sample_sheet, sequencer_and_run_prefix)
+                scripts.cellranger.launch_cellranger_by_sample_sheet(sample_sheet, sequencer_and_run_prefix)
 
                 # add DONE file when all the 10X pipeline finished, -K to wait until finish
-                cmd = 'bsub -K -J wait_stats_done_for_{} -w \"ended(create_json___{}*)\" touch /igo/stats/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
+                cmd = 'bsub -K -J wait_stats_done_for_{} -w \"ended(create_json___{}*)\" touch /igo/staging/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
                 print(cmd)
                 subprocess.run(cmd, shell=True)
 
@@ -212,7 +214,7 @@ with DAG(
 
     def fingerprinting(ds, **kwargs):
         # read in sample sheet as arguments, filter out projects that need to run fingerprinting
-        recipe_list_for_fp = [".*IMPACT*", ".*Heme*", "IDT_Exome*", "WholeExomeSequencing", "Twist_Exome", "MSK-ACCESS*", "CMO-CH", "HumanWholeGenome"]
+        recipe_list_for_fp = ["PED-PEG", "WGS_Deep", "HC_IMPACT", "HC_IMPACT-Heme", "HC_ACCESS", "WES_Human", "HC_CMOCH"]
         # call fingerprinting_dag.py for each project
         samplesheet_path = kwargs["params"]["samplesheet"]
 
@@ -226,13 +228,9 @@ with DAG(
         project_list_to_run = []        
         for project, recipe in sample_sheet.project_dict.items():
             # fingerprinting only support human
-            if project_genome_dict[project] == "Human":
-                for recipe_list_item in recipe_list_for_fp:
-                    print(project, recipe)
-                    expr = re.compile(recipe_list_item)
-                    if expr.match(recipe):
-                        project_list_to_run.append(project)
-                        break
+            if project_genome_dict[project] == "Human" and recipe in recipe_list_for_fp:
+                project_list_to_run.append(project)
+                
         print("Projects need to run fp: {}".format(project_list_to_run))
         if len(project_list_to_run) == 0:
             return "No project need to run fingerprinting"

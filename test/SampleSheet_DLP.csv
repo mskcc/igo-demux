@@ -1,6 +1,6 @@
 [Header],,,,,,,,
 IEMFileVersion,4,,,,,,,
-Date,11/30/2021,,,,,,,
+Date,11/30/21,,,,,,,
 Workflow,GenerateFASTQ,,,,,,,
 Application,MICHELLE,,,,,,,
 Assay,,,,,,,,
@@ -16,5 +16,5 @@ BarcodeMismatchesIndex1,0,,,,,,,
 BarcodeMismatchesIndex2,0,,,,,,,
 [Data],,,,,,,,
 Lane,Sample_ID,Sample_Plate,Sample_Well,I7_Index_ID,index,index2,Sample_Project,Description
-1,DLPNegativeCONTROL_12345A_3_3_IGO_DLPNegativeCONTROL-2710,Mouse,DLP,DLPi7_03-i5_03,AAGGACAT,AACCCCGT,Project_12345,someone@mskcc.org
+1,DLPNegativeCONTROL_12345A_3_3_IGO_DLPNegativeCONTROL-2710,Mouse,SC_DLP,DLPi7_03-i5_03,AAGGACAT,AACCCCGT,Project_12345,someone@mskcc.org
 1,IM-1613_RU1697a_IGO_12437_AD_11,Mouse,10X_Genomics,SI-GA-G9,SI-GA-G9,SI-GA-G9,Project_12437_AD,peerd@mskcc.org

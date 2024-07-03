@@ -1,17 +1,9 @@
-import pandas as pd
-import sys
 import os
 import json
 import os.path
 import requests
 import shutil
-import glob
-
-
-ENDPOINT = "https://igolims.mskcc.org:8443/LimsRest/getConfig?igoId="
-original_tiff_images_directory = "/rtssdc/mohibullahlab/IGO_Pipeline_Results/Single_Cell/10X_Genomics/TIFF_Images/"
-tiff_images_directory = "/igo/work/igo/TIFF_Images/"
-
+import scripts.cellranger_config as CONFIG
 
 # sample_id can be get from sample sheet, will be the part in front of _IGO_
 class Spatial_sample:
@@ -22,11 +14,14 @@ class Spatial_sample:
         self.chip_id = "EMPTY"
         self.preservation = "EMPTY"
         self.tiff_image = "EMPTY"
+        self.json = "EMPTY"
+        self.HE_tiff_image = "EMPTY"
         self.get_info_from_LIMS()
         self.copy_tiff(project_id)
+        self.copy_json(project_id)
 
     def get_info_from_LIMS(self):
-        response = requests.get(ENDPOINT + self.IGO_ID , auth = ("pms", "tiagostarbuckslightbike"), verify = False)
+        response = requests.get(CONFIG.VISIUM_ENDPOINT + self.IGO_ID , auth = ("pms", "tiagostarbuckslightbike"), verify = False)
         response_data = json.loads(response.text.encode("utf8"))
         self.chip_position = response_data["chipPosition"]
         self.chip_id = response_data["chipID"]
@@ -35,19 +30,50 @@ class Spatial_sample:
     
     def copy_tiff(self, project_id):
         # project_id format as Project_12345
-        source_loc_dir = original_tiff_images_directory + project_id
-        destination_loc = tiff_images_directory + project_id
+        source_loc_dir = CONFIG.original_tiff_images_directory + project_id
+        destination_loc = CONFIG.tiff_images_directory + project_id
         destination_file = destination_loc + "/" + self.sample_name + ".tif"
+        destination_HE_loc = destination_loc + "/Microscope"
+        destination_HE_file = destination_HE_loc + "/HE_" + self.sample_name + ".tif"       
         # create TIFF_images director if not exists
         if not os.path.exists(destination_loc):
             os.makedirs(destination_loc)
+        # create microscope image director if not exists
+        if not os.path.exists(destination_HE_loc):
+            os.makedirs(destination_HE_loc)
 
-        # copy all the image files using rsync?
-        original_tiff_image = glob.glob(source_loc_dir + "/" + self.sample_name + "*")
-        if len(original_tiff_image) != 1 or ".tif" not in original_tiff_image[0]:
-            print("tif file is not in proper format for sample {}, please check".format(self.IGO_ID))
-        else:
-            shutil.copy(original_tiff_image[0], destination_file)
+        # copy image file per sample
+        original_tiff_image = source_loc_dir + "/" + self.sample_name + ".tif"
+        if os.path.isfile(original_tiff_image):
+            shutil.copy(original_tiff_image, destination_file)
             self.tiff_image = destination_file
-            print("copy {} to {}".format(original_tiff_image[0], destination_file))
-            
+            print("copy {} to {}".format(original_tiff_image, destination_file))
+        else:
+            print("tif file is not in proper format for sample {}, please check".format(self.IGO_ID))
+
+        # copy HE file per sample if exists
+        original_HE_tiff_image = source_loc_dir + "/Microscope/HE_" + self.sample_name + ".tif"
+        if os.path.isfile(original_HE_tiff_image):
+            shutil.copy(original_HE_tiff_image, destination_HE_file)
+            self.HE_tiff_image = destination_HE_file
+            print("copy {} to {}".format(original_HE_tiff_image, destination_HE_file))
+        else:
+            print("HE tif file does not exist for sample {}, please check".format(self.IGO_ID))
+    
+    # copy json file if exists
+    def copy_json(self, project_id):
+        # project_id format as Project_12345
+        source_loc = CONFIG.original_tiff_images_directory + project_id + "/json/" + self.sample_name + ".json"
+        destination_loc = CONFIG.tiff_images_directory + project_id
+        destination_file = destination_loc + "/" + self.sample_name + ".json"
+
+        # create director if not exists
+        if not os.path.exists(destination_loc):
+            os.makedirs(destination_loc)
+        
+        if os.path.isfile(source_loc):
+            shutil.copy(source_loc, destination_file)
+            self.json = destination_file
+            print("copy {} to {}".format(source_loc, destination_file))
+        else:
+            print("json file does not exist for {}".format(self.sample_name))            

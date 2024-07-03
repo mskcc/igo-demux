@@ -10,12 +10,16 @@ import glob
 import shutil
 import pathlib
 import scripts.generate_run_params
+import scripts.get_total_reads_from_demux
 
 
 # Global Variable : we do not want to process these experiments in this script
-DO_NOT_PROCESS = ["10X_Genomics", "DLP"]
+DO_NOT_PROCESS = ["SC_DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "MouseWholeGenome", "HumanWholeGenome", "PombeWholeGenome", "ChIPSeq", "AmpliconSeq"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "WGS_Deep", "ChIP", "CUT&RUN","Amplicon"]
+# these projects willl only need demux stats
+DEMUX_ONLY = ["SMARTSeq", "Chromium", "10X_Genomics", "Visium"]
+
 # Organisms to have DRAGEN BAMS
 DRAGEN_RNA_GENOMES = ["GRCh38", "grcm39"]
 # this list contains the headers of the columns.  we will access the data using these listings
@@ -38,7 +42,8 @@ class LaunchMetrics(object):
 		work_directory = "{}/{}/".format(parent_directory, run)
 		rna_directory = "{}RNA/".format(work_directory)
 		dragen_directory = "{}DRAGEN/".format(work_directory)
-		
+		stats_done_directory = "/igo/stats/DONE/{}/".format(run.split("_")[0])
+		print(stats_done_directory)
 		# create work directory	
 		pathlib.Path(work_directory).mkdir(parents = True, exist_ok = True)
 		
@@ -59,6 +64,14 @@ class LaunchMetrics(object):
 			# test to see if there are some samples that this script will not process
 			if any(s in sample.recipe for s in DO_NOT_PROCESS):
 				continue
+			
+			if any(s in sample.recipe for s in DEMUX_ONLY):
+				demux_report_file = "/igo/staging/FASTQ/{}/Reports/Demultiplex_Stats.csv".format(run)
+				demux_reads_per_sample = scripts.get_total_reads_from_demux.get_total_reads([sample.sample_id], demux_report_file)
+				print(demux_reads_per_sample)
+				scripts.get_total_reads_from_demux.write_to_am_txt(run, sample.sample_id, demux_reads_per_sample[sample.sample_id], stats_done_directory)
+				continue
+				
 			# grab the sample parameters (bait set, type, gtag, etc)
 			sample_parameters = self.get_parameters(sample.genome, sample.recipe)
 			# process the RNA data seperately
@@ -72,7 +85,7 @@ class LaunchMetrics(object):
 				self.dragen(sample, run, sample_parameters, work_directory, dragen_directory, fastq_list)
 				continue
 			# check for methylated samples
-			if ((sample.recipe == "MethylCaptureSeq") or (sample.recipe == "WholeGenomeBisulfiteSequencing")):
+			if ("Methyl" in sample.recipe):
 				pathlib.Path(dragen_directory).mkdir(parents = True, exist_ok = True)
 				self.dragen_methylation(sample, run, sample_parameters, work_directory, dragen_directory, fastq_list)
 				continue
@@ -125,15 +138,15 @@ class LaunchMetrics(object):
 		
 		# get the correct path for the reference
 		if (sample_parameters["GTAG"] == "GRCh38"):
-			rna_path = "/igo/work/igo/dragen_hash_tables/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
+			rna_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38-alt_masked.cnv.graph.hla.rna-9-r3.0-1"
 		else:
-			rna_path = "/igo/work/igo/dragen_hash_tables/{}".format(sample_parameters["GTAG"])
+			rna_path = "/igo/work/igo/dragen_hash_tables/4.2/{}".format(sample_parameters["GTAG"])
 			
 		rna_dragen_job_name_header = "{}___RNA_DRAGEN___".format(run)
 		
 		
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r {} --fastq-list {} --fastq-list-sample-id {} -a {} --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort true --enable-bam-indexing true --enable-map-align-output true --output-format BAM --enable-rna true --enable-duplicate-marking true --enable-rna-quantification true --output-file-prefix {} --output-directory {} ".format(rna_path, fastq_list, sample.sample_id, sample_parameters["GTF"], sample.sample_id, rna_directory)
-		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n 48 -M 4 {3}".format(rna_dragen_job_name_header, sample.sample_id, rna_directory, launch_dragen_rna)
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r {} --fastq-list {} --fastq-list-sample-id {} -a {} --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort true --enable-bam-indexing true --enable-map-align-output true --output-format BAM --enable-rna true --enable-duplicate-marking true --enable-rna-quantification true --output-file-prefix {} --output-directory {} --bin_memory 50000000000".format(rna_path, fastq_list, sample.sample_id, sample_parameters["GTF"], sample.sample_id, rna_directory)
+		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(rna_dragen_job_name_header, sample.sample_id, rna_directory, launch_dragen_rna)
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
 		
@@ -162,13 +175,13 @@ class LaunchMetrics(object):
 		
 		# get the correct path for the reference
 		if (sample_parameters["GTAG"] == "GRCh38"):
-			dragen_path = "/igo/work/igo/dragen_hash_tables/hg38_alt_masked_graph_v2+cnv+graph+rna-8-1644018559"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38-alt_masked.cnv.graph.hla.rna-9-r3.0-1"
 		else:
-			dragen_path = "/igo/work/igo/dragen_hash_tables/{}".format(sample_parameters["GTAG"])
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/{}".format(sample_parameters["GTAG"])
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
-		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
-		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
+		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true --bin_memory 50000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
+		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		
@@ -205,13 +218,13 @@ class LaunchMetrics(object):
 		
 		# get the correct path for the reference
 		if (sample_parameters["GTAG"] == "GRCh38"):
-			dragen_path = "/igo/work/igo/dragen_hash_tables/hg38_methylated"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38_methylated"
 		else:
-			dragen_path = "/igo/work/igo/dragen_hash_tables/grcm39_methylated"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/grcm39_methylated"
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
-		launch_dragen_methylation = "/opt/edico/bin/dragen --enable-methylation-calling true --methylation-protocol directional --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
-		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_methylation_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
+		launch_dragen_methylation = "/opt/edico/bin/dragen --enable-methylation-calling true --methylation-protocol directional --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true --bin_memory 50000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
+		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_methylation_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		

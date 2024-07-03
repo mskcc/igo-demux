@@ -99,7 +99,7 @@ class SampleSheet:
          if sample sheet recipes have mixed DLP and other all DLP need to go on a separate sample sheet named "_DLP"
         """
         # if 10x DRAGEN demux add to header CreateFastqForIndexReads,1,,,,,,,
-        if any("10X_" in s for s in self.recipe_set):
+        if any("SC_Chromium" in s for s in self.recipe_set):
             print("Adding CreateFastqForIndexReads,1 to sample sheet header since 10X samples are present")
             self.df_ss_header.loc[len(self.df_ss_header.index)-1] = ["CreateFastqForIndexReads",1,"","","","","","",""]
             self.df_ss_header.loc[len(self.df_ss_header.index)] = ["[Data]","","","","","","","",""]
@@ -111,12 +111,12 @@ class SampleSheet:
         split_ss_list = [ss_copy, self]  
 
         was_split = False
-        if "DLP" in self.recipe_set and len(self.recipe_set) > 1:
+        if "SC_DLP" in self.recipe_set and len(self.recipe_set) > 1:
             print("Copying all DLP samples to a new sample sheet")
             # copy all DLP rows to a new sample sheet
-            dlp_data = self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("DLP") == True].copy()
+            dlp_data = self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("SC_DLP") == True].copy()
             # and remove DLP samples from the main sample sheet
-            self.df_ss_data= self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("DLP") == False].copy()
+            self.df_ss_data= self.df_ss_data[self.df_ss_data["Sample_Well"].str.match("SC_DLP") == False].copy()
             # rename DLP sample sheet w/"_DLP.csv"
             dlp_path = os.path.splitext(self.path)[0]+'_DLP.csv'
             header_copy = self.df_ss_header.copy(deep=True)
