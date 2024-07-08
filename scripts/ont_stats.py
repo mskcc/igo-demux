@@ -67,13 +67,19 @@ if __name__ == '__main__':
         destination = project_directory + "/" + sample
         file = glob.glob(destination + "/*/sequencing_summary_*")
         if len(file) != 0:
-            summary_metrix = pd.read_csv(file[0], delimiter = "\t")
-            pooled = if_pooled(summary_metrix)
-            if pooled:
-                sample_dict_sub = get_read_length_and_summary_pooled(summary_metrix, sample)
-                sample_dict.update(sample_dict_sub)
-            else:
-                sample_dict[sample] = get_read_length_and_summary(summary_metrix)
+            file_count = 0
+            for i in file:
+                file_count += 1
+                summary_matrix = pd.read_csv(i, delimiter = "\t")
+                pooled = if_pooled(summary_matrix)
+                # give different sample name for multi runs on one flow cell
+                if file_count != 1:
+                    sample = sample + "_" + str(file_count)
+                if pooled:
+                    sample_dict_sub = get_read_length_and_summary_pooled(summary_matrix, sample)
+                    sample_dict.update(sample_dict_sub)
+                else:
+                    sample_dict[sample] = get_read_length_and_summary(summary_matrix)
 
     write_to_csv(sample_dict)
     print("ONT stats complete for: " + project_directory)
