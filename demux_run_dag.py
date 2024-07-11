@@ -172,30 +172,26 @@ with DAG(
         # check if the run is 10X by read length
         atac, use_bases_mask = scripts.get_sequencing_read_data.main(sequencer_path)
         print("read length: {}".format(use_bases_mask))
-        if use_bases_mask == [29, 89] or atac:
+        if use_bases_mask == [29, 89] or use_bases_mask == [44, 51] or atac:
             # if is atac run, demux is using cellranger mkfastq
+
+            # step 1, generate txt files containing total reads and upload to qc website
             if atac:
                 scripts.get_total_reads_from_demux.by_json(sequencer_and_run)
-                scripts.upload_stats.upload_stats(sequencer_and_run)
-
-                # launch cell ranger based on recipe
-                sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
-                scripts.cellranger.launch_cellranger_by_sample_sheet(sample_sheet, sequencer_and_run_prefix)
-
             else:
-                # step 1, generate txt files containing total reads and upload to qc website
                 scripts.get_total_reads_from_demux.run(sample_sheet, sequencer_and_run)
-                scripts.upload_stats.upload_stats(sequencer_and_run)
+            
+            scripts.upload_stats.upload_stats(sequencer_and_run)
 
-                # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
-                # trim sequencer_and_run if postfix like _10X exsiting
-                sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
-                scripts.cellranger.launch_cellranger_by_sample_sheet(sample_sheet, sequencer_and_run_prefix)
+            # step 2, start cell ranger based on recipe/barcode, check whether multiple fastq files existing
+            # trim sequencer_and_run if postfix like _10X exsiting
+            sequencer_and_run_prefix = "_".join(sequencer_and_run.split("_")[0:3])
+            scripts.cellranger.launch_cellranger_by_sample_sheet(sample_sheet, sequencer_and_run_prefix)
 
-                # add DONE file when all the 10X pipeline finished, -K to wait until finish
-                cmd = 'bsub -K -J wait_stats_done_for_{} -w \"ended(create_json___{}*)\" touch /igo/staging/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
-                print(cmd)
-                subprocess.run(cmd, shell=True)
+            # add DONE file when all the 10X pipeline finished, -K to wait until finish
+            cmd = 'bsub -K -J wait_stats_done_for_{} -w \"ended(create_json___{}*)\" touch /igo/staging/CELLRANGER/{}/DONE'.format(sequencer_and_run_prefix, sequencer_and_run_prefix, sequencer_and_run_prefix)
+            print(cmd)
+            subprocess.run(cmd, shell=True)
 
             return "10X Pipeline stats done"
         
