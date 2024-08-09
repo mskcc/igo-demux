@@ -87,7 +87,8 @@ class Multi_Config:
             file.write("[gene-expression]\n")
             for key, value in self.gene_expression.items():
                 file.write("{},{}\n".format(key, value))
-            
+            file.write("create-bam,true\n")
+
             file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
             
             for key, value in self.lirbaries.items():
@@ -110,7 +111,8 @@ class Multi_Config:
             file.write("[gene-expression]\n")
             for key, value in self.gene_expression.items():
                 file.write("{},{}\n".format(key, value))
-            
+            file.write("create-bam,true\n")
+
             file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
             
             for key, value in self.lirbaries.items():
@@ -131,6 +133,7 @@ class Multi_Config:
                 file.write("[gene-expression]\n")
                 file.write("{},{}\n".format("reference", self.gene_expression["reference"]))
                 file.write("force-cells, {}\ncheck-library-compatibility,FALSE\n".format(value[0]))
+                file.write("create-bam,true\n")
                 
                 file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
                 
