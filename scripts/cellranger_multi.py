@@ -418,7 +418,7 @@ def gather_sample_set_info(sample_name):
         for key, value in sample.items():
             if value[0].startswith(ilab_request) and key.endswith(sample_number):
                 value[2] = value[2].split(",")
-                if "SC_Chromium-FB-5" in value[2][0]:
+                if "SC_Chromium-FB-5" in value[2][0] or "SC_Chromium-FB-3" in value[2][0]:
                     if "Feature Barcoding" in fb_type:
                         sample_set["fb"] = "_IGO_".join([value[1], key])
                     if "Cell Hashing" in fb_type:
