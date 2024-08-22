@@ -51,7 +51,7 @@ ARC_OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjo
 COUNT_FLAVORS = ["SC_Chromium-GEX-3", "SC_Chromium-GEX-5"]
 VDJ_FLAVORS = ["SC_Chromium-TCR", "SC_Chromium-BCR"]
 ARC_FLAVORS = ["SC_Chromium-Multiome", "SC_Chromium-Multiome-ATAC", "SC_Chromium-Multiome-GEX"]
-SPATIAL_FLAVORS = ["ST_Visium"]
+SPATIAL_FLAVORS = ["ST_Visium", "ST_Visium-HD"]
 
 # we do not want to PROCESS SAIL (15500) or SCRI (12437) projects
 SCRI = "12437"
