@@ -211,6 +211,27 @@ def ch_file_generation(project_id, sample_name):
 
     return(sub_sample_dict)
 
+# create fb template from user submitted file
+def fb_file_generation(project_ID):
+    file_path = DRIVE_LOCATION + project_ID + "/" + os.listdir(DRIVE_LOCATION + project_ID)[0]
+    with open(file_path, "rb") as f:
+        df = pd.read_excel(f, engine="openpyxl")
+    line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
+    with open(file_path, "rb") as f:
+        df = pd.read_excel(f, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
+    antibody_seq_dict = pd.Series(df['Sequence'].values,index=df['Target']).to_dict()
+
+    # write fb config file for this project
+    file_name = CONFIG_AREA + "Project_{}/Project_{}_fb.csv".format(project_ID, project_ID)
+    try:
+        os.makedirs(os.path.dirname(file_name))
+    except OSError as error:
+        print(error) 
+    with open(file_name,'w') as file:
+        file.write("id,name,read,pattern,sequence,feature_type\n")
+        for antibody in antibody_seq_dict.values():
+            file.write("{},{},R2,5PNNNNNNNNNN(BC),{},Antibody Capture\n".format(antibody, antibody, antibody_seq_dict[antibody]))
+
 def gather_config_info(sample_dict, genome, IGO_ID):
     """
     sample_dict contains all the information about samples, sample name, project_ID and recipe name
@@ -229,8 +250,9 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     if "vdj" in sample_dict.keys():
         config.vdj = config_dict["vdj"]["genome"][genome][13:]
     
-    # if feature barcoding invovled, add feature list file path
+    # if feature barcoding invovled, add feature list file path and create fb template
     if "fb" in sample_dict.keys():
+        fb_file_generation(project_ID)
         config.features = CONFIG_AREA + "Project_{}/Project_{}_fb.csv".format(project_ID, project_ID)
         
     # if cell hashing invovled, add cmo-set file path and get sample info from file, id as sample name and name as hashtag name
@@ -432,8 +454,6 @@ def gather_sample_set_info(sample_name):
     return sample_set
 
 # TODO check whether a project set is complete to launch pipeline
-
-# TODO fb file generation from user form
 
 if __name__ == '__main__':
     # input as name for each library type plus genome
