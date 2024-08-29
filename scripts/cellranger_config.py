@@ -53,10 +53,10 @@ VDJ_FLAVORS = ["SC_Chromium-TCR", "SC_Chromium-BCR"]
 ARC_FLAVORS = ["SC_Chromium-Multiome", "SC_Chromium-Multiome-ATAC", "SC_Chromium-Multiome-GEX"]
 SPATIAL_FLAVORS = ["ST_Visium", "ST_Visium-HD"]
 
-# we do not want to PROCESS SAIL (15500) or SCRI (12437) projects
+# we do not want to PROCESS SAIL (15500) or SCRI (12437) projects, adding new chemistry for SAIL, 16364
 SCRI = "12437"
 SAIL = "15500"
-DO_NOT_PROCESS = [SCRI, SAIL]
+DO_NOT_PROCESS = [SCRI, SAIL, "16364"]
 
 VISIUM_ENDPOINT = "https://igolims.mskcc.org:8443/LimsRest/getConfig?igoId="
 original_tiff_images_directory = "/rtssdc/mohibullahlab/IGO_Pipeline_Results/Single_Cell/10X_Genomics/TIFF_Images/"

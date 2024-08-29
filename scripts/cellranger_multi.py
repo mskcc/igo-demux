@@ -441,7 +441,7 @@ def gather_sample_set_info(sample_name):
     # using ilab and sample name for this 
     for sample in response_data:
         for key, value in sample.items():
-            if value[0].startswith(ilab_request) and key.endswith(sample_number):
+            if value[0].startswith(ilab_request[:-1]) and key.endswith(sample_number):
                 value[2] = value[2].split(",")
                 if "SC_Chromium-FB-5" in value[2][0] or "SC_Chromium-FB-3" in value[2][0]:
                     if "Feature Barcoding" in fb_type:
