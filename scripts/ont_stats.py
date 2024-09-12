@@ -4,6 +4,7 @@ import sys
 import glob
 import os
 from collections import OrderedDict
+import re
 
 # TODO get barcode info from lims
 # check if the run is pooled
@@ -14,7 +15,7 @@ def if_pooled(sequencing_summary_df):
     return pooled
 
 # get stats metric if the run is not pooled
-def get_read_length_and_summary(sequencing_summary_df):
+def get_read_length_and_summary(sequencing_summary_df, flowcell):
     read_length = sequencing_summary_df[sequencing_summary_df["passes_filtering"]]["sequence_length_template"].tolist()
     if len(read_length) != 0:
         read_length.sort(reverse = True)
@@ -30,10 +31,10 @@ def get_read_length_and_summary(sequencing_summary_df):
         median = 0
         N50_value = 0
         N50 = 0
-    return(len(read_length), N50_value * 2 / 1000000000, N50, median)
+    return(len(read_length), N50_value * 2 / 1000000000, N50, median, flowcell)
 
 # get stats metric if the run is pooled
-def get_read_length_and_summary_pooled(sequencing_summary_df, sample_name):
+def get_read_length_and_summary_pooled(sequencing_summary_df, sample_name, flowcell):
     sample_dict = {}
     samples = sequencing_summary_df["barcode_arrangement"].unique()
     for sample in samples:
@@ -45,13 +46,21 @@ def get_read_length_and_summary_pooled(sequencing_summary_df, sample_name):
             sample_dict[sample_sub] = get_read_length_and_summary(sample_df)
     return sample_dict
 
+def extract_flowcell(text):
+    # Regular expression to match the characters after 'sequencing_summary_' and before the next '_'
+    match = re.search(r'sequencing_summary_([^_]+)', text)
+    if match:
+        return match.group(1)
+    else:
+        return None
+
 def write_to_csv(sample_dict):
     file_name = "summary.csv"
     print("Writing stats file: " + file_name)
     with open(file_name,'w') as file:
-        file.write("sample_id, Reads, Bases, N50, Meidan Read Length\n")
+        file.write("sample_id, Reads, Bases, N50, Median Read Length, Flowcell\n")
         for key, value in sample_dict.items():
-            file.write("{}, {}, {}, {}, {}\n".format(key, value[0], value[1], value[2], value[3]))
+            file.write("{}, {}, {}, {}, {}, {}\n".format(key, value[0], value[1], value[2], value[3], value[4]))
 
 if __name__ == '__main__':
     # Usage: python ont_stats.py [project_directory]
@@ -70,16 +79,19 @@ if __name__ == '__main__':
             file_count = 0
             for i in file:
                 file_count += 1
+                flowcell = extract_flowcell(i)
+                print("Processing file: " + i + " from flowcell: " + flowcell)
                 summary_matrix = pd.read_csv(i, delimiter = "\t")
                 pooled = if_pooled(summary_matrix)
                 # give different sample name for multi runs on one flow cell
                 if file_count != 1:
                     sample = sample + "_" + str(file_count)
                 if pooled:
-                    sample_dict_sub = get_read_length_and_summary_pooled(summary_matrix, sample)
+                    sample_dict_sub = get_read_length_and_summary_pooled(summary_matrix, sample, flowcell)
                     sample_dict.update(sample_dict_sub)
                 else:
-                    sample_dict[sample] = get_read_length_and_summary(summary_matrix)
+                    sample_dict[sample] = get_read_length_and_summary(summary_matrix, flowcell)
+                print(sample_dict)
 
     write_to_csv(sample_dict)
     print("ONT stats complete for: " + project_directory)
