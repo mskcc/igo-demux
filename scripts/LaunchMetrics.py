@@ -176,11 +176,13 @@ class LaunchMetrics(object):
 		# get the correct path for the reference
 		if (sample_parameters["GTAG"] == "GRCh38"):
 			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38-alt_masked.cnv.graph.hla.rna-9-r3.0-1"
+			vcfFileOption = "--qc-cross-cont-vcf /opt/edico/config/sample_cross_contamination_resource_hg38.vcf.gz"
 		else:
 			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/{}".format(sample_parameters["GTAG"])
+			vcfFileOption = ""
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
-		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true --bin_memory 50000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
+		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true --bin_memory 50000000000 {}".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id, vcfFileOption)
 		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01 id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
