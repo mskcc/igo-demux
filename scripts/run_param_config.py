@@ -131,6 +131,7 @@ species_genome_mapping_UNORDERED = {
 		"E.Lambda": "elambda",
 		"Plasmid": "ecolik12",
 		"Pig": "sscrofa11",
+		"N. glabratus": "cbs138",
 		# FOR NEW ENTRIES
 		# "{regex}": "{GENOME}"
 	
@@ -322,6 +323,20 @@ genome_reference_mapping_UNORDERED = {
 						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/zebrafish/Danio_rerio.GRCz11.109.rRNA.intervals",
 						GTF: "/igo/work/nabors/genomes/zebrafish/Danio_rerio.GRCz11.109.gtf",
 						GTAG: "grcz11"
+				}
+		},
+		"cbs138": {
+				DEFAULT: {
+						GENOME: "/igo/work/nabors/genomes/N.glabratus/GCF/GCF_010111755_1_ASM1011175v1_genomic.fa",
+						REFERENCE: "/igo/work/nabors/genomes/N.glabratus/GCF/GCF_010111755_1_ASM1011175v1_genomic.fa"
+				},
+				"RNA": {
+						GENOME: "/igo/work/nabors/genomes/N.glabratus/GCF/GCF_010111755_1_ASM1011175v1_genomic.fa",
+						REFERENCE: "/igo/work/nabors/genomes/N.glabratus/GCF/GCF_010111755_1_ASM1011175v1_genomic.fa",
+						REF_FLAT: "/igo/work/nabors/genomes/N.glabratus/GCF/GCF_010111755_1_ASM1011175v1_genomic.CLEAN.gtf.refflat",
+						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/N.glabratus/GCF/GCF_010111755_1_ASM1011175v1_genomic.CLEAN.gtf.rRNA.intervals",
+						GTF: "/igo/work/nabors/genomes/N.glabratus/GCF/GCF_010111755_1_ASM1011175v1_genomic.CLEAN.gtf",
+						GTAG: "cbs138"
 				}
 		},
 		"ce10": {
