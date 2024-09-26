@@ -105,7 +105,8 @@ if __name__ == '__main__':
     converted_sample_dict = {}
     for key, values in sample_dict.items():
         # Create a nested dictionary by zipping parameter names and values
-        converted_sample_dict[key] = dict(zip(parameter_names, values.append(key)))
+        values = values + (key,)
+        converted_sample_dict[key] = dict(zip(parameter_names, values))
     print(converted_sample_dict)
 
     # Write to LIMS endpoint with a GET:
