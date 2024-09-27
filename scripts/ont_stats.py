@@ -1,4 +1,5 @@
 import pandas as pd
+import requests
 import statistics
 import sys
 import glob
@@ -54,8 +55,7 @@ def extract_flowcell(text):
     else:
         return None
 
-def write_to_csv(sample_dict):
-    file_name = "summary.csv"
+def write_to_csv(sample_dict, file_name):
     print("Writing stats file: " + file_name)
     with open(file_name,'w') as file:
         file.write("sample_id, Reads, Bases, N50, Median Read Length, Flowcell, Position\n")
@@ -94,5 +94,33 @@ if __name__ == '__main__':
                     sample_dict[sample] = get_read_length_and_summary(summary_matrix, flowcell, position)
                 print(sample_dict)
 
-    write_to_csv(sample_dict)
-    print("ONT stats complete for: " + project_directory)
+    print(sample_dict)
+    write_to_csv(sample_dict, "summary.csv")
+    print("ONT stats .csv complete for: " + project_directory)
+    
+    # List of parameter names corresponding to the values skipping columns "estimatedCoverage", "bamCoverage", "sequencerName"
+    parameter_names = ["reads", "bases", "N50", "medianReadLength", "flowcell", "sequencerPosition", "igoId"]
+
+    # Convert initial dictionary to a nested dictionary with parameter names
+    converted_sample_dict = {}
+    for key, values in sample_dict.items():
+        # Create a nested dictionary by zipping parameter names and values
+        values = values + (key,)
+        converted_sample_dict[key] = dict(zip(parameter_names, values))
+    print(converted_sample_dict)
+
+    # Write to LIMS endpoint with a GET:
+    # /LimsRest/updateLimsSampleLevelSequencingQcONT?igoId=04540_U_26_1_1_1_1_1&flowcell=PAY61078&reads=19775442&bases=9103016668&N50=16508&medianReadLength=766&estimatedCoverage=0&bamCoverage=0&sequencerPosition=1A&sequencerName=zeppelin
+    LIMS_ENDPOINT="https://igo-lims02.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQcONT"
+    for sample_id, params in converted_sample_dict.items():
+        # Send GET request for each set of parameters
+        print("Sending LIMS get request for: " + params)
+        response = requests.get(LIMS_ENDPOINT, params=params, verify=False)
+
+        # Check the response status and print the output
+        if response.status_code == 200:
+            print(f"Request for {sample_id} successful!")
+            print("Response Data:", response.json())
+        else:
+            print(f"Request for {sample_id} failed with status code {response.status_code}")
+            print("Error details:", response.text)
