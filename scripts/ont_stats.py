@@ -114,7 +114,7 @@ if __name__ == '__main__':
     LIMS_ENDPOINT="https://igo-lims02.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQcONT"
     for sample_id, params in converted_sample_dict.items():
         # Send GET request for each set of parameters
-        print("Sending LIMS get request for: " + params)
+        print("Sending LIMS get request for: " + sample_id)
         response = requests.get(LIMS_ENDPOINT, params=params, verify=False)
 
         # Check the response status and print the output
