@@ -580,14 +580,6 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes",
 				HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_no_chr_ACCESS_unordered.map"
 		},
-		"HC_ACCESS": {
-				# MSK-ACCESS_v2
-				BAITS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v2/MSK-ACCESS-v2_0-probesAllwFP.baits",
-				TARGETS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v2/MSK-ACCESS-v2_0-probesAllwFP.targets",
-				MSKQ: "no",
-				MD: "yes",
-				HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_no_chr_ACCESS_unordered.map"
-		},
 		"PanCancerV2": {
 				BAITS: "/home/igo/resources/BED-Targets/PanCancerV2/PanCancerV2_BAITS.iList",
 				TARGETS: "/home/igo/resources/BED-Targets/PanCancerV2/PanCancerV2_TARGETS.iList",
