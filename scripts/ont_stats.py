@@ -28,11 +28,13 @@ def get_read_length_and_summary(sequencing_summary_df, flowcell, position):
             if total >= N50_value:
                 N50 = item
                 break
+        estimated_cov = len(read_length) * (N50 + median) / (2 * 3000000000)
     else:
         median = 0
         N50_value = 0
         N50 = 0
-    return(len(read_length), N50_value * 2 / 1000000000, N50, median, flowcell, position)
+        estimated_cov = 0
+    return(len(read_length), N50_value * 2 / 1000000000, N50, median, flowcell, position, estimated_cov)
 
 # get stats metric if the run is pooled
 def get_read_length_and_summary_pooled(sequencing_summary_df, sample_name, flowcell, position):
@@ -58,9 +60,37 @@ def extract_flowcell(text):
 def write_to_csv(sample_dict, file_name):
     print("Writing stats file: " + file_name)
     with open(file_name,'w') as file:
-        file.write("sample_id, Reads, Bases, N50, Median Read Length, Flowcell, Position\n")
+        file.write("sample_id, Reads, Bases, N50, Median Read Length, Flowcell, Position, Estimated_Cov\n")
         for key, value in sample_dict.items():
-            file.write("{}, {}, {}, {}, {}, {}, {}\n".format(key, value[0], value[1], value[2], value[3], value[4], value[5]))
+            file.write("{}, {}, {}, {}, {}, {}, {}\n".format(key, value[0], value[1], value[2], value[3], value[4], value[5], value[6]))
+
+def push_to_lims(sample_dict):
+    # List of parameter names corresponding to the values skipping columns "estimatedCoverage", "bamCoverage", "sequencerName"
+    parameter_names = ["reads", "bases", "N50", "medianReadLength", "flowcell", "sequencerPosition", "estimatedCoverage", "igoId"]
+
+    # Convert initial dictionary to a nested dictionary with parameter names
+    converted_sample_dict = {}
+    for key, values in sample_dict.items():
+        # Create a nested dictionary by zipping parameter names and values
+        values = values + (key,)
+        converted_sample_dict[key] = dict(zip(parameter_names, values))
+    print(converted_sample_dict)
+
+    # Write to LIMS endpoint with a GET:
+    # /LimsRest/updateLimsSampleLevelSequencingQcONT?igoId=04540_U_26_1_1_1_1_1&flowcell=PAY61078&reads=19775442&bases=9103016668&N50=16508&medianReadLength=766&estimatedCoverage=0&bamCoverage=0&sequencerPosition=1A&sequencerName=zeppelin
+    LIMS_ENDPOINT="https://igo-lims02.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQcONT"
+    for sample_id, params in converted_sample_dict.items():
+        # Send GET request for each set of parameters
+        print("Sending LIMS get request for: " + sample_id)
+        response = requests.get(LIMS_ENDPOINT, params=params, verify=False)
+
+        # Check the response status and print the output
+        if response.status_code == 200:
+            print(f"Request for {sample_id} successful!")
+            print("Response Data:", response.json())
+        else:
+            print(f"Request for {sample_id} failed with status code {response.status_code}")
+            print("Error details:", response.text)
 
 if __name__ == '__main__':
     # Usage: python ont_stats.py [project_directory]
@@ -94,33 +124,8 @@ if __name__ == '__main__':
                     sample_dict[sample] = get_read_length_and_summary(summary_matrix, flowcell, position)
                 print(sample_dict)
 
-    print(sample_dict)
     write_to_csv(sample_dict, "summary.csv")
     print("ONT stats .csv complete for: " + project_directory)
     
-    # List of parameter names corresponding to the values skipping columns "estimatedCoverage", "bamCoverage", "sequencerName"
-    parameter_names = ["reads", "bases", "N50", "medianReadLength", "flowcell", "sequencerPosition", "igoId"]
-
-    # Convert initial dictionary to a nested dictionary with parameter names
-    converted_sample_dict = {}
-    for key, values in sample_dict.items():
-        # Create a nested dictionary by zipping parameter names and values
-        values = values + (key,)
-        converted_sample_dict[key] = dict(zip(parameter_names, values))
-    print(converted_sample_dict)
-
-    # Write to LIMS endpoint with a GET:
-    # /LimsRest/updateLimsSampleLevelSequencingQcONT?igoId=04540_U_26_1_1_1_1_1&flowcell=PAY61078&reads=19775442&bases=9103016668&N50=16508&medianReadLength=766&estimatedCoverage=0&bamCoverage=0&sequencerPosition=1A&sequencerName=zeppelin
-    LIMS_ENDPOINT="https://igo-lims02.mskcc.org:8443/LimsRest/updateLimsSampleLevelSequencingQcONT"
-    for sample_id, params in converted_sample_dict.items():
-        # Send GET request for each set of parameters
-        print("Sending LIMS get request for: " + sample_id)
-        response = requests.get(LIMS_ENDPOINT, params=params, verify=False)
-
-        # Check the response status and print the output
-        if response.status_code == 200:
-            print(f"Request for {sample_id} successful!")
-            print("Response Data:", response.json())
-        else:
-            print(f"Request for {sample_id} failed with status code {response.status_code}")
-            print("Error details:", response.text)
+    push_to_lims(sample_dict)
+    print("Stats posted to LIMS")
