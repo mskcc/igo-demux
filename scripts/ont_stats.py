@@ -87,7 +87,6 @@ def push_to_lims(sample_dict):
         # Check the response status and print the output
         if response.status_code == 200:
             print(f"Request for {sample_id} successful!")
-            print("Response Data:", response.json())
         else:
             print(f"Request for {sample_id} failed with status code {response.status_code}")
             print("Error details:", response.text)
