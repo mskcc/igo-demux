@@ -62,7 +62,7 @@ def write_to_csv(sample_dict, file_name):
     with open(file_name,'w') as file:
         file.write("sample_id, Reads, Bases, N50, Median Read Length, Flowcell, Position, Estimated_Cov\n")
         for key, value in sample_dict.items():
-            file.write("{}, {}, {}, {}, {}, {}, {}\n".format(key, value[0], value[1], value[2], value[3], value[4], value[5], value[6]))
+            file.write("{}, {}, {}, {}, {}, {}, {}, {}\n".format(key, value[0], value[1], value[2], value[3], value[4], value[5], value[6]))
 
 def push_to_lims(sample_dict):
     # List of parameter names corresponding to the values skipping columns "estimatedCoverage", "bamCoverage", "sequencerName"
