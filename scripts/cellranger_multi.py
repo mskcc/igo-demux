@@ -252,7 +252,8 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     
     # if feature barcoding invovled, add feature list file path and create fb template
     if "fb" in sample_dict.keys():
-        fb_file_generation(project_ID)
+        if "ch" not in sample_dict.keys():
+            fb_file_generation(project_ID)
         config.features = CONFIG_AREA + "Project_{}/Project_{}_fb.csv".format(project_ID, project_ID)
         
     # if cell hashing invovled, add cmo-set file path and get sample info from file, id as sample name and name as hashtag name
