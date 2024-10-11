@@ -185,7 +185,7 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
                     if sample_genome_dict[sample] == "Human":
                         probe = CONFIG.config_dict[tag]["probe"]["Human_CytAssist"]
                     elif sample_genome_dict[sample] == "Mouse":
-                        if sample_info.slide.startswith("H1"):
+                        if sample_info.chip_id.startswith("H1"):
                             probe = CONFIG.config_dict[tag]["probe"]["Mouse_HD"]
                         else:
                             probe = CONFIG.config_dict[tag]["probe"]["Mouse"]
