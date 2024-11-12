@@ -16,7 +16,7 @@ import scripts.get_total_reads_from_demux
 # Global Variable : we do not want to process these experiments in this script
 DO_NOT_PROCESS = ["SC_DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "WGS_Deep", "User_WGS", "ChIP", "CUT&RUN", "Amplicon"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "WGS_Deep", "User_WGS", "ChIP", "CUT&RUN", "Amplicon", "User_ERIL"]
 # these projects willl only need demux stats
 DEMUX_ONLY = ["SMARTSeq", "Chromium", "10X_Genomics", "Visium"]
 
