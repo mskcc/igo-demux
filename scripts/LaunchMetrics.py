@@ -80,7 +80,7 @@ class LaunchMetrics(object):
 				self.dragen_rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory, fastq_list)
 				continue
 			# check to see if we need to run the samples on dragen
-			if any(s in sample.recipe for s in RUN_ON_DRAGEN):
+			if any(s in sample.recipe for s in RUN_ON_DRAGEN) or (sample.genome == "Synthetic"):
 				pathlib.Path(dragen_directory).mkdir(parents = True, exist_ok = True)
 				self.dragen(sample, run, sample_parameters, work_directory, dragen_directory, fastq_list)
 				continue
