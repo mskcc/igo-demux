@@ -80,7 +80,7 @@ class LaunchMetrics(object):
 				self.dragen_rna_alignment_and_metrics(sample, run, sample_parameters, rna_directory, work_directory, fastq_list)
 				continue
 			# check to see if we need to run the samples on dragen
-			if any(s in sample.recipe for s in RUN_ON_DRAGEN) or (sample.genome == "Synthetic"):
+			if any(s in sample.recipe for s in RUN_ON_DRAGEN):
 				pathlib.Path(dragen_directory).mkdir(parents = True, exist_ok = True)
 				self.dragen(sample, run, sample_parameters, work_directory, dragen_directory, fastq_list)
 				continue
@@ -137,7 +137,7 @@ class LaunchMetrics(object):
 		os.chdir(rna_directory)
 		
 		# get the correct path for the reference
-		if (sample_parameters["GTAG"] == "GRCh38"):
+		if (sample_parameters["GTAG"] == "GRCh38") or (sample.genome == "Synthetic"):
 			rna_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38-alt_masked.cnv.graph.hla.rna-9-r3.0-1"
 		else:
 			rna_path = "/igo/work/igo/dragen_hash_tables/4.2/{}".format(sample_parameters["GTAG"])
@@ -174,7 +174,7 @@ class LaunchMetrics(object):
 		dragen_job_name_header = "{}___DRAGEN___".format(run)
 		
 		# get the correct path for the reference
-		if (sample_parameters["GTAG"] == "GRCh38"):
+		if (sample_parameters["GTAG"] == "GRCh38") or (sample.genome == "Synthetic"):
 			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38-alt_masked.cnv.graph.hla.rna-9-r3.0-1"
 			vcfFileOption = "--qc-cross-cont-vcf /opt/edico/config/sample_cross_contamination_resource_hg38.vcf.gz"
 		else:
@@ -219,7 +219,7 @@ class LaunchMetrics(object):
 		dragen_methylation_job_name_header = "{}___DRAGEN_METHYLATION___".format(run)
 		
 		# get the correct path for the reference
-		if (sample_parameters["GTAG"] == "GRCh38"):
+		if (sample_parameters["GTAG"] == "GRCh38") or (sample.genome == "Synthetic"):
 			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38_methylated"
 		else:
 			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/grcm39_methylated"
