@@ -67,15 +67,27 @@ def OrganizeData(data_path):
                 renameBarcodedSamples(experiment_path)
     renameNonBarcodeSamples()
 
-def get_Rrun_summary(lims_host):
+'''
+Returns list of run summary objects in JSON format.
+The run summary objects are individual library and pooled library samples going for pooling (sample status = Ready for - Pooling of Sample Libraries for Sequencing)   
+'''
+def get_run_summary(lims_host):
 
-    url = "https://%s/LimsRest/api/planRuns?%s" % (lims_host)
+    url = "https://%s/LimsRest/api/getPoolsBarcodes?%s" % (lims_host, poolId)
     try:
             resp = requests.get(url, auth=(config.LIMS_USER, config.LIMS_PASSWORD), verify=False)
-        except:
-            print("Request Failed: %s" % url)
-    
+            return resp
+    except:
+        print("Request Failed: %s" % url)
 
+    content = json.loads(resp.content)
+    if (resp.status_code != 200 or len(content) == 0):
+        # Warning
+        print("Plan runs failed to return data. Service Response: %s" %
+            (resp.status_code))
+    
+#/getNearestParentLibrarySamplesForPool(pooled sample, user)
+#/getBarcodeList
 
 if __name__ == "__main__":
     data_path = "/Users/desmondlambe/data"
