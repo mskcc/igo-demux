@@ -190,6 +190,11 @@ def ch_file_generation(project_id, sample_name):
     line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
     with open(in_file_location, "rb") as f:
         df = pd.read_excel(f, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
+
+    # update column name for new template
+    df.columns = ['Sample Name' if col == 'Sample Name Pre-Hashing' else col for col in df.columns]
+    df.columns = ['Sample Name in IGO' if col == 'Sample ID from Sample Submission' else col for col in df.columns]
+
     sample_tag_dict = pd.Series(df['Hashtag Name'].values,index=df['Sample Name']).to_dict()
     tag_seq_dict = pd.Series(df['Hashtag sequence'].values,index=df['Hashtag Name']).to_dict()
 
