@@ -133,6 +133,7 @@ species_genome_mapping_UNORDERED = {
 		"Plasmid": "ecolik12",
 		"Pig": "sscrofa11",
 		"N. glabratus": "cbs138",
+		"C. parapsilosis": "cdc317",
 		# FOR NEW ENTRIES
 		# "{regex}": "{GENOME}"
 	
@@ -338,6 +339,20 @@ genome_reference_mapping_UNORDERED = {
 						RIBOSOMAL_INTERVALS: "/igo/work/nabors/genomes/N.glabratus/GCF/GCF_010111755_1_ASM1011175v1_genomic.CLEAN.gtf.rRNA.intervals",
 						GTF: "/igo/work/nabors/genomes/N.glabratus/GCF/GCF_010111755_1_ASM1011175v1_genomic.CLEAN.gtf",
 						GTAG: "cbs138"
+				}
+		},
+		"cdc317": {
+				DEFAULT: {
+						GENOME: "/igo/work/nabors/genomes/Candida_parapsilosis/GCF_000182765.1_ASM18276v2_CDC317.fa",
+						REFERENCE: "/igo/work/nabors/genomes/Candida_parapsilosis/GCF_000182765.1_ASM18276v2_CDC317.fa"
+				},
+				"RNA": {
+						GENOME: "/igo/work/nabors/genomes/Candida_parapsilosis/GCF_000182765.1_ASM18276v2_CDC317.fa",
+						REFERENCE: "/igo/work/nabors/genomes/Candida_parapsilosis/GCF_000182765.1_ASM18276v2_CDC317.fa",
+						REF_FLAT: "",
+						RIBOSOMAL_INTERVALS: "",
+						GTF: "/igo/work/nabors/genomes/Candida_parapsilosis/GTF/GCF_000182765.1_ASM18276v2_CDC317.gtf",
+						GTAG: "cdc317"
 				}
 		},
 		"ce10": {
