@@ -590,8 +590,8 @@ recipe_options_mapping_UNORDERED = {
 		},
 		"HC_ACCESS": {
 				# MSK-ACCESS_v1
-				BAITS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v1/MSK-ACCESS-v1_0-probesAllwFP.baits",
-				TARGETS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v1/MSK-ACCESS-v1_0-probesAllwFP.targets",
+				BAITS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v2/MSK-ACCESS-v2_0-probesAllwFP.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v2/MSK-ACCESS-v2_0-probesAllwFP.targets",
 				MSKQ: "no",
 				MD: "yes",
 				HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_no_chr_ACCESS_unordered.map"
