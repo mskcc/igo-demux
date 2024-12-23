@@ -6,8 +6,8 @@ import glob
 import os
 from collections import OrderedDict
 import re
+import json
 
-# TODO get barcode info from lims
 # check if the run is pooled
 def if_pooled(sequencing_summary_df):
     pooled = False
@@ -36,16 +36,37 @@ def get_read_length_and_summary(sequencing_summary_df, flowcell, position):
         estimated_cov = 0
     return(len(read_length), N50_value * 2 / 1000000000, N50, median, flowcell, position, estimated_cov)
 
+def get_numbers_from_string(input_string):
+    # Use regular expression to find numbers at the end of the string
+    match = re.search(r'\d+$', input_string)
+    # Return the matched numbers or None if no match is found
+    return match.group() if match else None
+    
+# get barcode info from lims if the run is pooled return a sample barcode information dictionary
+def get_sub_sample_barcode(sample_name):
+    lims_endpoint = "https://igolims.mskcc.org:8443/LimsRest/getPoolsBarcodes?poolId="
+    response = requests.get(lims_endpoint + sample_name, auth = ("pms", "tiagostarbuckslightbike"), verify = False)
+    response_data = json.loads(response.text.encode("utf8"))
+    sample_info = {}
+    for sample in response_data:
+        sample_info[get_numbers_from_string(sample["sampleBarcode"]["barcodId"])] = sample["librarySample"]
+    print(sample_info)
+    return sample_info
+
 # get stats metric if the run is pooled
 def get_read_length_and_summary_pooled(sequencing_summary_df, sample_name, flowcell, position):
     sample_dict = {}
-    samples = sequencing_summary_df["barcode_arrangement"].unique()
-    for sample in samples:
-        sample_df = sequencing_summary_df.loc[sequencing_summary_df['barcode_arrangement'] == sample]
-        sample_sub = sample_name + "_" + sample
+    sub_sample_info = get_sub_sample_barcode(sample_name)
+    barcodes = sequencing_summary_df["barcode_arrangement"].unique()
+    for barcode in barcodes:
+        sample_df = sequencing_summary_df.loc[sequencing_summary_df['barcode_arrangement'] == barcode]
+        sample_sub = sample_name + "_" + barcode
         stats = get_read_length_and_summary(sample_df, flowcell, position)
         # only record barcodes with more than 10000 reads
         if stats[0] > 10000:
+            # update the sample name if the barcode is in the pool
+            if get_numbers_from_string(barcode) in sub_sample_info.keys():
+                sample_sub = sub_sample_info[get_numbers_from_string(barcode)]
             sample_dict[sample_sub] = get_read_length_and_summary(sample_df, flowcell, position)
     return sample_dict
 
