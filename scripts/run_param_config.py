@@ -473,6 +473,13 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "yes",
 				MD: "yes"
 		},
+		# THIS IS SPECIFICALLY FOR THE BAIT_SET COLUMN IN THE SAMPLE SHEET
+		"IMPACT505": {
+				BAITS: "/igo/home/igo/resources/ilist/hg38/IMPACT505/IMPACT505_BAITS.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/IMPACT505/IMPACT505_TARGETS.targets",
+				MSKQ: "yes",
+				MD: "yes"
+		},
 		"HemePACT_v4": {
 				BAITS: "/igo/home/igo/resources/ilist/hg38/HemePACT_v4/HemePACT_v4_BAITS.baits",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/HemePACT_v4/HemePACT_v4_TARGETS.targets",
@@ -486,7 +493,8 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "yes",
 				MD: "yes"
 		},
-		"HC_IMPACT-Heme": {
+		# THIS IS SPECIFICALLY FOR THE BAIT_SET COLUMN IN THE SAMPLE SHEET
+		"IMPACT_Heme_v2": {
 				# IMPACT_Heme_v2
 				BAITS: "/igo/home/igo/resources/ilist/hg38/IMPACT-Heme_v2/IMPACT-Heme_v2_BAITS.iList",
 				TARGETS: "/igo/home/igo/resources/ilist/hg38/IMPACT-Heme_v2/IMPACT-Heme_v2_TARGETS.iList",
@@ -500,6 +508,14 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes"
 		},
 		"HC_IMPACT-Mouse": {
+				# M-IMPACT_v2
+				BAITS: "/home/igo/resources/BED-Targets/IMPACT/MM_IMPACT/M-IMPACT_v2.baits",
+				TARGETS: "/home/igo/resources/BED-Targets/IMPACT/MM_IMPACT/M-IMPACT_v2.targets",
+				MSKQ: "yes",
+				MD: "yes"
+		},
+		# THIS IS SPECIFICALLY FOR THE BAIT_SET COLUMN IN THE SAMPLE SHEET
+		"M-IMPACT_v2": {
 				# M-IMPACT_v2
 				BAITS: "/home/igo/resources/BED-Targets/IMPACT/MM_IMPACT/M-IMPACT_v2.baits",
 				TARGETS: "/home/igo/resources/BED-Targets/IMPACT/MM_IMPACT/M-IMPACT_v2.targets",
@@ -596,6 +612,33 @@ recipe_options_mapping_UNORDERED = {
 				MD: "yes",
 				HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_no_chr_ACCESS_unordered.map"
 		},
+		# THIS IS SPECIFICALLY FOR THE BAIT_SET COLUMN IN THE SAMPLE SHEET
+		"MSK-ACCESS_v1": {
+				# MSK-ACCESS_v1
+				BAITS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v1/MSK-ACCESS-v1_0-probesAllwFP.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v1/MSK-ACCESS-v1_0-probesAllwFP.targets",
+				MSKQ: "no",
+				MD: "yes",
+				HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_no_chr_ACCESS_unordered.map"
+		},
+		# THIS IS SPECIFICALLY FOR THE BAIT_SET COLUMN IN THE SAMPLE SHEET
+		"MSK-ACCESS_v2": {
+				# MSK-ACCESS_v2
+				BAITS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v2/MSK-ACCESS-v2_0-probesAllwFP.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/MSK-ACCESS-v2/MSK-ACCESS-v2_0-probesAllwFP.targets",
+				MSKQ: "no",
+				MD: "yes",
+				HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_no_chr_ACCESS_unordered.map"
+		},
+		# THIS IS SPECIFICALLY FOR THE BAIT_SET COLUMN IN THE SAMPLE SHEET
+		"ACCESS-Heme": {
+				# MACCESS_HEME_MN1
+				BAITS: "/igo/home/igo/resources/ilist/hg38/ACCESS-Heme/ACCESS_HEME_MN1.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/ACCESS-Heme/ACCESS_HEME_MN1.targets",
+				MSKQ: "no",
+				MD: "yes",
+				HAPLOTYPE_MAP: "/home/igo/fingerprint_maps/map_files/hg38_no_chr_ACCESS_unordered.map"
+		},
 		"PanCancerV2": {
 				BAITS: "/home/igo/resources/BED-Targets/PanCancerV2/PanCancerV2_BAITS.iList",
 				TARGETS: "/home/igo/resources/BED-Targets/PanCancerV2/PanCancerV2_TARGETS.iList",
@@ -674,6 +717,7 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
+		# THIS IS SPECIFICALLY FOR THE BAIT_SET COLUMN IN THE SAMPLE SHEET
 		"CD274_WJ_v1": {
 				BAITS: "/igo/work/nabors/bed_files/CD274_WJ_v1/hg38/CD274_WJ_v1_hg38.baits",
 				TARGETS: "/igo/work/nabors/bed_files/CD274_WJ_v1/hg38/CD274_WJ_v1_hg38.targets",

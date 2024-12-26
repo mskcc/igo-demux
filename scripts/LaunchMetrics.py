@@ -16,7 +16,7 @@ import scripts.get_total_reads_from_demux
 # Global Variable : we do not want to process these experiments in this script
 DO_NOT_PROCESS = ["SC_DLP"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
-RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "WGS_Deep", "User_WGS", "ChIP", "CUT&RUN", "Amplicon", "User_ERIL"]
+RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "WGS", "ChIP", "CUT&RUN", "Amplicon", "User_ERIL"]
 # these projects willl only need demux stats
 DEMUX_ONLY = ["SMARTSeq", "Chromium", "10X_Genomics", "Visium"]
 
@@ -61,6 +61,10 @@ class LaunchMetrics(object):
 			igo_storage_location = "staging"
 		
 		for sample in all_samples:
+			# check for names in the bait_ste column
+			if len(sample.bait_set) != 0:
+				sample = replace(sample, recipe = sample.bait_set)
+			
 			# test to see if there are some samples that this script will not process
 			if any(s in sample.recipe for s in DO_NOT_PROCESS):
 				continue
@@ -302,4 +306,5 @@ class LaunchMetrics(object):
 			
 
 	
+			
 			

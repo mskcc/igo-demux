@@ -27,6 +27,7 @@ class Sample:
 	sample_id: str
 	genome: str
 	recipe: str
+	bait_set: str
 	project: str
 	all_fastqs: str
 	
@@ -89,7 +90,7 @@ class GetSampleData:
 						project_directory = "/igo/staging/FASTQ/{}/{}".format(run, row[data_headers.index("Sample_Project")])
 						sample_id = "Sample_{}".format(row[data_headers.index("Sample_ID")])
 						self.all_lanes = self.get_fastqs(self, sample_id, project_directory)
-						sr = Sample(row[data_headers.index("Sample_ID")], row[data_headers.index("Sample_Plate")], row[data_headers.index("Sample_Well")], row[data_headers.index("Sample_Project")], self.all_lanes)
+						sr = Sample(row[data_headers.index("Sample_ID")], row[data_headers.index("Sample_Plate")], row[data_headers.index("Sample_Well")], row[data_headers.index("Bait_Set")], row[data_headers.index("Sample_Project")], self.all_lanes)
 						self.all_samples.append(sr)
 				else:
 					continue
