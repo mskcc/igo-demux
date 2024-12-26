@@ -234,7 +234,7 @@ def fb_file_generation(project_ID):
         print(error) 
     with open(file_name,'w') as file:
         file.write("id,name,read,pattern,sequence,feature_type\n")
-        for antibody in antibody_seq_dict.values():
+        for antibody in antibody_seq_dict.keys():
             file.write("{},{},R2,5PNNNNNNNNNN(BC),{},Antibody Capture\n".format(antibody, antibody, antibody_seq_dict[antibody]))
 
 def gather_config_info(sample_dict, genome, IGO_ID):
