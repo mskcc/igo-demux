@@ -40,6 +40,27 @@ with DAG(
             cmd = "cp -R {}{} {}".format(scripts.cellranger_multi.ORIGIN_DRIVE_LOCATION, project_id[8:], scripts.cellranger_multi.DRIVE_LOCATION)
             print(cmd)
             subprocess.run(cmd, shell=True)
+            # add file checking for ch and fb because lims request info not accurate at this moment
+            file_lst = []
+            file_prefix = scripts.cellranger_multi.DRIVE_LOCATION + project_id[8:]
+            file_lst = os.listdir(file_prefix)
+            print(file_lst)
+            ch = False
+            fb = False
+            for i in file_lst:
+                file_path = file_prefix + "/" + i
+                file_type = scripts.cellranger_multi.check_file_type(file_path)
+                if file_type == "ch":
+                    ch = True
+                    cmd = "mv {} {}/{}_cell_hash.xlsx".format(file_path, file_prefix, project_id)
+                    print(cmd)
+                    subprocess.run(cmd, shell=True)
+                elif file_type == "fb":
+                    fb = True
+                    cmd = "mv {} {}/{}_feature_barcoding.xlsx".format(file_path, file_prefix, project_id)
+                    print(cmd)
+                    subprocess.run(cmd, shell=True)
+
             os.chdir(scripts.cellranger_multi.STATS_AREA)
             # gather sample set info from LIMS for each sample
             sample_list_ori = os.listdir(project_directory)
@@ -50,12 +71,24 @@ with DAG(
             for sample in sample_list:
                 sample_set = scripts.cellranger_multi.gather_sample_set_info(sample)
                 cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/cellranger_multi.py ".format(project_id, sample, project_id, sample)
+                # update sample_set based on file checking result
+                if "ch" in sample_set:
+                    sample_name = sample_set["ch"]
+                    del sample_set["ch"]
+                elif "fb" in sample_set:
+                    sample_name = sample_set["fb"]
+                    del sample_set["fb"]
+                if ch:
+                    sample_set["ch"] = sample_name
+                if fb:
+                    sample_set["fb"] = sample_name
+
                 for key, value in sample_set.items():
                     if value is not None:
                         cmd = cmd + "-{}={} ".format(key, value)
                 cmd = cmd + "-genome={}".format(species)
                 print(cmd)
-                subprocess.run(cmd, shell=True)
+                # subprocess.run(cmd, shell=True)
 
         elif "SC_Chromium" in recipe:
             scripts.cellranger.launch_cellranger_by_project_location(project_directory, recipe, species)

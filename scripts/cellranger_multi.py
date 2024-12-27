@@ -6,6 +6,7 @@ import argparse
 from collections import OrderedDict
 import requests
 import json
+import openpyxl
 
 # copy those config info from cellranger.py so this code can run independently.
 ACCESS = 0o775
@@ -458,6 +459,23 @@ def gather_sample_set_info(sample_name):
                     sample_set["vdj"] = "_IGO_".join([value[1], key])
     # TODO add vdj type to the whole pipeline
     return sample_set
+
+ # check if the template is fb or ch by reading the first line   
+def check_file_type(file_path):
+    try:
+        workbook = openpyxl.load_workbook(file_path, read_only=True)
+        sheet = workbook.active
+        first_row = [cell.value for cell in next(sheet.iter_rows(max_row=1))]
+        # Check for "cell hashing" or "feature barcoding"
+        if any("Cell Hashing" in cell for cell in first_row):
+            return "ch"
+        elif any("Feature Barcoding" in cell for cell in first_row):
+            return "fb"
+        else:
+            return None                
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
 
 # TODO check whether a project set is complete to launch pipeline
 
