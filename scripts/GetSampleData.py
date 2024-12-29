@@ -42,21 +42,25 @@ class GetSampleData:
 		self.duplicate_sample = ""
 		self.all_fastqs = list()
 		
-		
 	# grab the project from either the staging or delivery FASTQ location
 	def get_samples_project_dir(self, project_directory, run, recipe, genome):
 	
 		global data_headers
 			
 		sample_ids = os.listdir(project_directory)
-			
+		
+		# to handle new Bait_Set field that is used in the sample sheet 
+		# since there is only one sample class, let's create a blank field
+		# to make the sr variable the sample size
+		bait_set = ""
+		
 		for sample_id in sample_ids:
 			#
 			# go to a routine to pair the reads.  and return them
 			self.all_lanes = self.get_fastqs(self, sample_id, project_directory)
 			# get project
 			project = project_directory.split("/")[-1]
-			sr = Sample(sample_id[7:], genome, recipe, project, self.all_lanes)
+			sr = Sample(sample_id[7:], genome, recipe, bait_set, project, self.all_lanes)
 			self.all_samples.append(sr)
 		return(self.all_samples)
 		
