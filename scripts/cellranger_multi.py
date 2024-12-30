@@ -465,7 +465,7 @@ def check_file_type(file_path):
     try:
         workbook = openpyxl.load_workbook(file_path, read_only=True)
         sheet = workbook.active
-        first_row = [cell.value for cell in next(sheet.iter_rows(max_row=1))]
+        first_row = [str(cell.value).strip() for cell in next(sheet.iter_rows(max_row=1)) if cell.value is not None]
         # Check for "cell hashing" or "feature barcoding"
         if any("Cell Hashing" in cell for cell in first_row):
             return "ch"
@@ -474,7 +474,7 @@ def check_file_type(file_path):
         else:
             return None                
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred: {e} while processing file {file_path}")
 
 
 # TODO check whether a project set is complete to launch pipeline
