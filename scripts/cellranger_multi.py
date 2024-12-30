@@ -32,9 +32,13 @@ config_dict = {
 
 # cellranger command line options
 OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"
-def find_fastq_file(sample_ID_list):
+def find_fastq_file(sample_ID_list, archive = False):
     # get whole list of all fastq files that available with project folder as tag
-    path_prefix = "/igo/staging/FASTQ/"
+    if archive:
+        path_prefix = "/igo/delivery/FASTQ/"
+    else:
+        path_prefix = "/igo/staging/FASTQ/"
+
     run_list = os.listdir(path_prefix)
     # dictionary of run_ID->project_list
     run_project_dict = {}
@@ -238,7 +242,7 @@ def fb_file_generation(project_ID):
         for antibody in antibody_seq_dict.keys():
             file.write("{},{},R2,5PNNNNNNNNNN(BC),{},Antibody Capture\n".format(antibody, antibody, antibody_seq_dict[antibody]))
 
-def gather_config_info(sample_dict, genome, IGO_ID):
+def gather_config_info(sample_dict, genome, IGO_ID, archive):
     """
     sample_dict contains all the information about samples, sample name, project_ID and recipe name
     example: {"ge":"LJ01_IGO_14396_1", "vdj": "LJ01_VDJ_IGO_14396_C_1", "fb":"", "ch":""}
@@ -274,7 +278,7 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     sample_list = []
     for i in sample_dict.values():
         sample_list.append(i)
-    fastq_list = find_fastq_file(sample_list)
+    fastq_list = find_fastq_file(sample_list, archive)
     for key, value in sample_dict.items():
         print("key: {}, value: {}".format(key, value))
         if key == "ge":
@@ -487,6 +491,7 @@ if __name__ == '__main__':
     parser.add_argument('-ch')
     parser.add_argument('-fb')
     parser.add_argument('-genome', help = 'Human or Mouse', required = True)
+    parser.add_argument('-archive', action='store_true', default=False)
     args = parser.parse_args()
     sample_dict = {"ge":args.ge}
     if args.vdj:
@@ -500,7 +505,7 @@ if __name__ == '__main__':
         ch_project_ID = "_".join(args.fb.split("IGO_")[1].split("_")[:-1])
     
     genome = args.genome
-    config = gather_config_info(sample_dict, genome, args.ge)
+    config = gather_config_info(sample_dict, genome, args.ge, args.archive)
     print(config.lirbaries)
     project_ID = "_".join(args.ge.split("IGO_")[1].split("_")[:-1])
     file_name = "{}Project_{}/{}.csv".format(CONFIG_AREA, project_ID, args.ge)

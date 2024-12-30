@@ -63,6 +63,10 @@ with DAG(
 
             os.chdir(scripts.cellranger_multi.STATS_AREA)
             # gather sample set info from LIMS for each sample
+            archive = False
+            if "delivery" in project_directory:
+                archive = True
+
             sample_list_ori = os.listdir(project_directory)
             sample_list = []
             for sample in sample_list_ori:
@@ -87,8 +91,10 @@ with DAG(
                     if value is not None:
                         cmd = cmd + "-{}={} ".format(key, value)
                 cmd = cmd + "-genome={}".format(species)
+                if archive:
+                    cmd = cmd + "-archive"
                 print(cmd)
-                # subprocess.run(cmd, shell=True)
+                subprocess.run(cmd, shell=True)
 
         elif "SC_Chromium" in recipe:
             scripts.cellranger.launch_cellranger_by_project_location(project_directory, recipe, species)
