@@ -185,7 +185,7 @@ class Multi_Config:
 # read ch file from shared drive and generate config/ch file per sample and return sample to sub sample info also
 # default all hash tag are totalseq B from biolegend
 def ch_file_generation(project_id, sample_name):
-    in_file_location = DRIVE_LOCATION + project_id + "/" + os.listdir(DRIVE_LOCATION + project_id)[0]
+    in_file_location = glob.glob("{}{}/*cell_hash.xlsx".format(DRIVE_LOCATION, project_id))[0]
     with open(in_file_location, "rb") as f:
         df = pd.read_excel(f, engine="openpyxl")
     line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
@@ -219,7 +219,7 @@ def ch_file_generation(project_id, sample_name):
 
 # create fb template from user submitted file
 def fb_file_generation(project_ID):
-    file_path = DRIVE_LOCATION + project_ID + "/" + os.listdir(DRIVE_LOCATION + project_ID)[0]
+    file_path = glob.glob("{}{}/*feature_barcoding.xlsx".format(DRIVE_LOCATION, project_ID))[0]
     with open(file_path, "rb") as f:
         df = pd.read_excel(f, engine="openpyxl")
     line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
@@ -258,8 +258,7 @@ def gather_config_info(sample_dict, genome, IGO_ID):
     
     # if feature barcoding invovled, add feature list file path and create fb template
     if "fb" in sample_dict.keys():
-        if "ch" not in sample_dict.keys():
-            fb_file_generation(project_ID)
+        fb_file_generation(project_ID)
         config.features = CONFIG_AREA + "Project_{}/Project_{}_fb.csv".format(project_ID, project_ID)
         
     # if cell hashing invovled, add cmo-set file path and get sample info from file, id as sample name and name as hashtag name

@@ -52,14 +52,14 @@ with DAG(
                 file_type = scripts.cellranger_multi.check_file_type(file_path)
                 if file_type == "ch":
                     ch = True
-                    cmd = "mv {} {}/{}_cell_hash.xlsx".format(file_path, file_prefix, project_id)
-                    print(cmd)
-                    subprocess.run(cmd, shell=True)
+                    ch_file_name = "{}/{}_cell_hash.xlsx".format(file_prefix, project_id)
+                    os.rename(file_path, ch_file_name)
+                    print(f"File renamed from {file_path} to {ch_file_name}")
                 elif file_type == "fb":
                     fb = True
-                    cmd = "mv {} {}/{}_feature_barcoding.xlsx".format(file_path, file_prefix, project_id)
-                    print(cmd)
-                    subprocess.run(cmd, shell=True)
+                    fb_file_name = "{}/{}_feature_barcoding.xlsx".format(file_prefix, project_id)
+                    os.rename(file_path, fb_file_name)
+                    print(f"File renamed from {file_path} to {fb_file_name}")
 
             os.chdir(scripts.cellranger_multi.STATS_AREA)
             # gather sample set info from LIMS for each sample
