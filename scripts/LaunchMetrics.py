@@ -4,7 +4,7 @@ import os
 from subprocess import call
 import sys
 import csv
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from collections import OrderedDict
 import glob
 import shutil
