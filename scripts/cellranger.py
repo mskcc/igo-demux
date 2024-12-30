@@ -22,9 +22,12 @@ steps:
 4. run stats and create josn file for each project and call endpoint to push to qc website (launch_cellranger)
 """
 # return a dictionary sample_ID -> list of fastq file path by given sample name list
-def find_fastq_file(sample_ID_list):
+def find_fastq_file(sample_ID_list, archive = False):
     # get whole list of all fastq files that available with project folder as tag
-    path_prefix = "/igo/staging/FASTQ/"
+    if archive:
+        path_prefix = "/igo/delivery/FASTQ/"
+    else:
+        path_prefix = "/igo/staging/FASTQ/"
     run_list = os.listdir(path_prefix)
     # dictionary of run_ID->project_list
     run_project_dict = {}
@@ -141,8 +144,8 @@ def multiome_valid(fastq_list):
     return [is_valid, ge_list, atac_list]
 
 # lanuch cellranger per project
-def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_dict, sample_recipe_dict):
-    sample_fastqfile_dict = find_fastq_file(sample_id_list)
+def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_dict, sample_recipe_dict, archive = False):
+    sample_fastqfile_dict = find_fastq_file(sample_id_list, archive)
     send_json = {}
     send_json["samples"] = []
     # CREATE RUN FOLDER AND PROJECT FOLDER IF NOT ALREADY THERE    
@@ -259,8 +262,11 @@ def launch_cellranger_by_project_location(project_directory, recipe, species):
     for sample in sample_list:
         sample_genome_dict[sample] = species
         sample_recipe_dict[sample] = recipe
-
-    lanuch_by_project(sequencer_and_run, project, sample_list, sample_genome_dict, sample_recipe_dict)
+    # add checker for if fastq file should come from archived location
+    archive = False
+    if "delivery" in project_directory:
+        archive = True
+    lanuch_by_project(sequencer_and_run, project, sample_list, sample_genome_dict, sample_recipe_dict, archive)
 
 
 if __name__ == '__main__':
