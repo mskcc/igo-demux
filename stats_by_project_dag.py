@@ -76,12 +76,12 @@ with DAG(
                 sample_set = scripts.cellranger_multi.gather_sample_set_info(sample)
                 cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/cellranger_multi.py ".format(project_id, sample, project_id, sample)
                 # update sample_set based on file checking result
-                if "ch" in sample_set:
+                if sample_set["ch"] is not None:
                     sample_name = sample_set["ch"]
-                    del sample_set["ch"]
-                elif "fb" in sample_set:
+                elif sample_set["fb"] is not None:
                     sample_name = sample_set["fb"]
-                    del sample_set["fb"]
+                del sample_set["fb"]
+                del sample_set["ch"]
                 if ch:
                     sample_set["ch"] = sample_name
                 if fb:
@@ -92,7 +92,7 @@ with DAG(
                         cmd = cmd + "-{}={} ".format(key, value)
                 cmd = cmd + "-genome={}".format(species)
                 if archive:
-                    cmd = cmd + "-archive"
+                    cmd = cmd + " -archive"
                 print(cmd)
                 subprocess.run(cmd, shell=True)
 
