@@ -47,8 +47,8 @@ def deliver_pipeline_output(project, pi, requestName):
         pipeline_path_prefix = "/rtssdc/mohibullahlab/LIMS/TCRseqManifest/Project_" + project + "_TCRseq"
         TCR_delivery_folder = delivery_folder + "/Manifest"
         if not os.path.exists(TCR_delivery_folder):
-                print("Creating pipeline delivery folder {}".format(TCR_delivery_folder))
-                os.makedirs(TCR_delivery_folder)
+            print("Creating pipeline delivery folder {}".format(TCR_delivery_folder))
+            os.makedirs(TCR_delivery_folder)
         
         cmd = "cp {}* {}/".format(pipeline_path_prefix, TCR_delivery_folder)
         print(cmd)
@@ -75,7 +75,8 @@ def deliver_pipeline_output(project, pi, requestName):
                     destination = delivery_folder + "/" + sample
                     print("copy {}".format(sample_path))
                     if os.path.isdir(sample_path):
-                        shutil.copytree(sample_path, destination, symlinks=True)
+                        if not os.path.exists(destination):
+                            shutil.copytree(sample_path, destination, symlinks=True)
                     else:
                         cmd = "cp {} {}".format(sample_path, destination)
                         print(cmd)
@@ -92,7 +93,8 @@ def deliver_pipeline_output(project, pi, requestName):
                 sample_name = folder.split("/")[-1]
                 sample_delivery_name = cellranger_delivery_folder + "/" + sample_name
                 print("copy {}".format(folder))
-                shutil.copytree(folder, sample_delivery_name, symlinks=True)
+                if not os.path.exists(sample_delivery_name):
+                    shutil.copytree(folder, sample_delivery_name, symlinks=True)
 
     return "Completed pipeline delivery"
 
