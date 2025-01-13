@@ -75,8 +75,7 @@ def deliver_pipeline_output(project, pi, requestName):
                     destination = delivery_folder + "/" + sample
                     print("copy {}".format(sample_path))
                     if os.path.isdir(sample_path):
-                        if not os.path.exists(destination):
-                            shutil.copytree(sample_path, destination, symlinks=True)
+                        shutil.copytree(sample_path, destination, symlinks=True, dirs_exist_ok=True)
                     else:
                         cmd = "cp {} {}".format(sample_path, destination)
                         print(cmd)
