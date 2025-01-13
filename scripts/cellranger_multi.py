@@ -245,33 +245,32 @@ def fb_file_generation(project_ID):
 def gather_config_info(sample_dict, genome, IGO_ID, archive):
     """
     sample_dict contains all the information about samples, sample name, project_ID and recipe name
-    example: {"ge":"LJ01_IGO_14396_1", "vdj": "LJ01_VDJ_IGO_14396_C_1", "fb":"", "ch":""}
+    example: {"ge":"LJ01_IGO_14396_1", "vdj_t": "LJ01_VDJ_IGO_14396_C_1", "fb":"", "ch":""}
     one file per sample named with IGO ID (GEX sample ID)
     """
     # library use fastq id as key, then followed by a list which first item is list of fastq path in case top up and second is feature type
     # fb reference file should have format as following: /igo/stats/Multi_config/Project_12345/Project_12345_fb.csv
     # ch reference file should have format as following: /igo/stats/Multi_config/Project_12345/Project_12345_ch_ABC.csv
-    # how to record vdj-t and vdj-b?
     project_ID = "_".join(IGO_ID.split("IGO_")[1].split("_")[:-1])
     sample_name = IGO_ID.split("_IGO_")[0]
     config = Multi_Config()
     config.name = IGO_ID
     config.gene_expression["reference"] = config_dict["count"]["genome"][genome][17:]
-    if "vdj" in sample_dict.keys():
+    if "vdj_t" in sample_dict or "vdj_b" in sample_dict:
         config.vdj = config_dict["vdj"]["genome"][genome][13:]
     
     # if feature barcoding invovled, add feature list file path and create fb template
-    if "fb" in sample_dict.keys():
+    if "fb" in sample_dict:
         fb_file_generation(project_ID)
         config.features = CONFIG_AREA + "Project_{}/Project_{}_fb.csv".format(project_ID, project_ID)
         
     # if cell hashing invovled, add cmo-set file path and get sample info from file, id as sample name and name as hashtag name
-    if "ch" in sample_dict.keys():
+    if "ch" in sample_dict:
         config.gene_expression["cmo-set"] = CONFIG_AREA + "Project_{}/Project_{}_ch_{}.csv".format(project_ID, project_ID, sample_name)
         config.samples = ch_file_generation(project_ID, sample_name)
 
     # if both ch and fb are there and vdj not there, change the ch name
-    if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and ("vdj" not in sample_dict.keys()):
+    if "ch" in sample_dict and "fb" in sample_dict and ("vdj_t" not in sample_dict) and ("vdj_b" not in sample_dict):
         sample_dict["ch"] = sample_dict["ch"].replace("FB_IGO", "CH_IGO")
 
     # find fastq files for each sample and append information into config["libraries"]
@@ -283,8 +282,10 @@ def gather_config_info(sample_dict, genome, IGO_ID, archive):
         print("key: {}, value: {}".format(key, value))
         if key == "ge":
             config.lirbaries[value] = [fastq_list[value], "Gene Expression"]
-        elif key == "vdj":
-            config.lirbaries[value] = [fastq_list[value], "VDJ"]
+        elif key == "vdj_t":
+            config.lirbaries[value] = [fastq_list[value], "VDJ-T"]
+        elif key == "vdj_b":
+            config.lirbaries[value] = [fastq_list[value], "VDJ-B"]
         elif key == "fb":
             config.lirbaries[value] = [fastq_list[value], "Antibody Capture"]
         elif key == "ch":
@@ -421,7 +422,7 @@ def cellranger_general(config, file_name, ch_project_ID, ge):
 # parsing LIMS endpoint to get sample set for cellranger multi using gene expression sample
 # example input 190121-TSR1_IGO_15041_1, expected return{"ge": "190121-TSR1_IGO_15041_1", "ch": "190121-TSR1_FB_IGO_15041_B_1"}
 def gather_sample_set_info(sample_name):
-    sample_set = {"ge": sample_name, "ch": None, "vdj": None, "fb": None}
+    sample_set = {"ge": sample_name, "ch": None, "vdj_t": None, "vdj_b": None, "fb": None}
     IGO_ID = sample_name.split("_IGO_")[1]
     sample_number = IGO_ID.split("_")[-1]
     project_ID = "_".join(IGO_ID.split("_")[0:-1])
@@ -436,16 +437,11 @@ def gather_sample_set_info(sample_name):
                 tag_lst = [x.strip() for x in value[2].split(',')]
                 print(tag_lst)
                 fb_type = []
-                vdj_type = []
                 if "Cell Hashing" in tag_lst:
                     fb_type.append("Cell Hashing")
                 if "Feature Barcoding" in tag_lst:
                     fb_type.append("Feature Barcoding")
-                if "T Cells" in tag_lst:
-                    vdj_type.append("VDJ-T")
-                if "B Cells" in tag_lst:
-                    vdj_type.append("VDJ-B")
-                print(fb_type, vdj_type)
+                print(fb_type)
                 break
 
     # using ilab and sample name for this 
@@ -458,9 +454,11 @@ def gather_sample_set_info(sample_name):
                         sample_set["fb"] = "_IGO_".join([value[1], key])
                     if "Cell Hashing" in fb_type:
                         sample_set["ch"] = "_IGO_".join([value[1], key])
-                if "SC_Chromium-BCR" in value[2][0] or "SC_Chromium-TCR" in value[2][0]:
-                    sample_set["vdj"] = "_IGO_".join([value[1], key])
-    # TODO add vdj type to the whole pipeline
+                if "SC_Chromium-BCR" in value[2][0]:
+                    sample_set["vdj_b"] = "_IGO_".join([value[1], key])
+                if "SC_Chromium-TCR" in value[2][0]:
+                    sample_set["vdj_t"] = "_IGO_".join([value[1], key])
+
     return sample_set
 
  # check if the template is fb or ch by reading the first line   
@@ -487,15 +485,18 @@ if __name__ == '__main__':
     # Usage: python cellranger_multi.py -ge=AT3_C1-hashtag_IGO_14767_1 -ch=AT3_C1-hashtag_FB_IGO_14767_B_1 -genome=Mouse
     parser = argparse.ArgumentParser(prog = 'Cellranger Multi', usage = 'Run the pipeline for cellranger multi')
     parser.add_argument('-ge', required = True)
-    parser.add_argument('-vdj')
+    parser.add_argument('-vdj_t')
+    parser.add_argument('-vdj_b')
     parser.add_argument('-ch')
     parser.add_argument('-fb')
     parser.add_argument('-genome', help = 'Human or Mouse', required = True)
     parser.add_argument('-archive', action='store_true', default=False)
     args = parser.parse_args()
     sample_dict = {"ge":args.ge}
-    if args.vdj:
-        sample_dict["vdj"] = args.vdj
+    if args.vdj_t:
+        sample_dict["vdj_t"] = args.vdj_t
+    if args.vdj_b:
+        sample_dict["vdj_b"] = args.vdj_b
     if args.ch:
         sample_dict["ch"] = args.ch
         ch_project_ID = "_".join(args.ch.split("IGO_")[1].split("_")[:-1])
@@ -511,7 +512,7 @@ if __name__ == '__main__':
     file_name = "{}Project_{}/{}.csv".format(CONFIG_AREA, project_ID, args.ge)
 
     # condition for ch + vdj +/- fb
-    if args.ch and args.vdj:
+    if args.ch and (args.vdj_t or args.vdj_b):
         cellragner_ch_vdj(config, file_name, ch_project_ID, project_ID, args.ge)
     # condition for ch + fb - vdj
     elif args.ch and args.fb:
