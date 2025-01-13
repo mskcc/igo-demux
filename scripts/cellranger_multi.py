@@ -290,7 +290,7 @@ def gather_config_info(sample_dict, genome, IGO_ID, archive):
             config.lirbaries[value] = [fastq_list[value], "Antibody Capture"]
         elif key == "ch":
             # for case of all ch, fb and vdj exits and doesn't need to make two copies of fb fastq file
-            if "ch" in sample_dict.keys() and "fb" in sample_dict.keys() and "vdj" in sample_dict.keys():
+            if "ch" in sample_dict and "fb" in sample_dict and ("vdj_t" in sample_dict or "vdj_b" in sample_dict):
                 config.lirbaries[value + "_CHMARKER_"] = [fastq_list[value], "Multiplexing Capture"]
             else:
                 config.lirbaries[value] = [fastq_list[value], "Multiplexing Capture"]
