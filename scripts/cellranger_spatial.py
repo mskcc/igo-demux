@@ -31,9 +31,9 @@ class Spatial_sample:
     def copy_tiff(self, project_id):
         # project_id format as Project_12345
         source_loc_dir = CONFIG.original_tiff_images_directory + project_id
-        destination_loc = CONFIG.tiff_images_directory + project_id
+        destination_loc = CONFIG.tiff_images_directory + project_id + "/CytAssist"
         destination_file = destination_loc + "/" + self.sample_name + ".tif"
-        destination_HE_loc = destination_loc + "/Microscope"
+        destination_HE_loc = CONFIG.tiff_images_directory + project_id + "/Microscope"
         destination_HE_file = destination_HE_loc + "/HE_" + self.sample_name + ".tif"       
         # create TIFF_images director if not exists
         if not os.path.exists(destination_loc):
@@ -64,7 +64,7 @@ class Spatial_sample:
     def copy_json(self, project_id):
         # project_id format as Project_12345
         source_loc = CONFIG.original_tiff_images_directory + project_id + "/json/" + self.sample_name + ".json"
-        destination_loc = CONFIG.tiff_images_directory + project_id
+        destination_loc = CONFIG.tiff_images_directory + project_id + "/json"
         destination_file = destination_loc + "/" + self.sample_name + ".json"
 
         # create director if not exists
