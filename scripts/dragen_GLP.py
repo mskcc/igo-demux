@@ -61,7 +61,7 @@ def gather_sample_list(IGO_id):
 
 def create_fastq_list(fastq_file_list_dict, output_file):
     # get the line from previous fastq file list file
-    merged_data = [FASTQ_LIST_HEADER]
+    merged_data = []
     for rgsm_keyword, value in fastq_file_list_dict.items():
         # Load the CSV file
         for file_path in value:
@@ -74,8 +74,11 @@ def create_fastq_list(fastq_file_list_dict, output_file):
 
     # Concatenate all DataFrames
     merged_result = pd.concat(merged_data, ignore_index=True)
-    # Save the merged results to a file
-    merged_result.to_csv(output_file, index=False)    
+    # Save the merged results with the header line to a file
+    with open(output_file, "w") as f:
+        f.write(FASTQ_LIST_HEADER + "\n") 
+        merged_result.to_csv(f, index=False, header=False)  
+
     return merged_result
 
 # generate cmd and create folder for output
