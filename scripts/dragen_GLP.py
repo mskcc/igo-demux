@@ -12,7 +12,7 @@ import sys
 OUTPUT_PATH = "/igo/staging/GLP_pipeline/"
 COMMAND_PREFIX = "/opt/edico/bin/dragen -f -r /staging/ref/hg19"
 COMMAND_PARAMETER = "--enable-duplicate-marking true --enable-map-align true --enable-sv true --enable-map-align-output true --output-format bam --enable-variant-caller true --enable-hla true"
-FASTQ_PATH = "/igo/staging/FASTQ"
+FASTQ_PATH = "/igo/staging/FASTQ/"
 ENDPOINT = "https://igolims.mskcc.org:8443/LimsRest/getSamplePairs?igoSampleId="
 FASTQ_LIST_HEADER = "RGID,RGSM,RGLB,Lane,Read1File,Read2File"
 
@@ -66,6 +66,7 @@ def create_fastq_list(fastq_file_list_dict, output_file):
         # Load the CSV file
         for file_path in value:
             csv_file = "/".join(file_path.split("/")[0:5]) + "/Reports/fastq_list.csv"
+            print("gathering info from {}".format(csv_file))
             data = pd.read_csv(csv_file)
             # Filter rows based on the RGSM keyword
             filtered_data = data[data['RGSM'] == rgsm_keyword]
