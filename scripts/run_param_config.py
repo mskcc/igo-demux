@@ -134,6 +134,7 @@ species_genome_mapping_UNORDERED = {
 		"Pig": "sscrofa11",
 		"N. glabratus": "cbs138",
 		"C. parapsilosis": "cdc317",
+		"Metagenomic": "ecolik12",
 		# FOR NEW ENTRIES
 		# "{regex}": "{GENOME}"
 	
