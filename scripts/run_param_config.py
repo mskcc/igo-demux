@@ -105,6 +105,7 @@ recipe_overrides = {
 		},
 		"Mouse": {
 				"M-IMPACT_v1": "mm10",
+				"M-IMPACT_v2": "mm10",
 				"HC_IMPACT-Mouse": "mm10",
 				"WES_Mouse": "mm10",
 				"Twist_mWES": "mm10",
