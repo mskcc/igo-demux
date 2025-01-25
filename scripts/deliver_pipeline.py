@@ -75,7 +75,10 @@ def deliver_pipeline_output(project, pi, requestName):
                     destination = delivery_folder + "/" + sample
                     print("copy {}".format(sample_path))
                     if os.path.isdir(sample_path):
-                        shutil.copytree(sample_path, destination, symlinks=True, dirs_exist_ok=True)
+                        if os.path.exists(destination):
+                            print("folder exists, skip {}".format(sample_path))
+                        else:
+                            shutil.copytree(sample_path, destination, symlinks=True, dirs_exist_ok=True)
                     else:
                         cmd = "cp {} {}".format(sample_path, destination)
                         print(cmd)
@@ -92,13 +95,18 @@ def deliver_pipeline_output(project, pi, requestName):
                 sample_name = folder.split("/")[-1]
                 sample_delivery_name = cellranger_delivery_folder + "/" + sample_name
                 print("copy {}".format(folder))
-                shutil.copytree(folder, sample_delivery_name, symlinks=True, dirs_exist_ok=True)
+                if os.path.exists(sample_delivery_name):
+                    print("folder exists, skip {}".format(folder))
+                else:
+                    shutil.copytree(folder, sample_delivery_name, symlinks=True, dirs_exist_ok=True)
         
         if requestName == "SpatialTranscriptomics" and os.path.exists(delivery_folder + "/cellranger"):
             # copy tiff file folder for spatial project if pipeline exists
             tiff_folder = "/igo/work/igo/TIFF_Images/Project_" + project
             if os.path.exists(tiff_folder):
                 destination_file = delivery_folder + "/cellranger/tiff_images"
+                if os.path.exists(destination_file):
+                    shutil.rmtree(destination_file)
                 shutil.copytree(tiff_folder, destination_file, dirs_exist_ok=True)
 
     return "Completed pipeline delivery"
