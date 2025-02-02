@@ -155,7 +155,7 @@ with DAG(
                 chip_number = get_dlp_chip(sample_sheet, project)
                 output_yaml = str(fastq_project_dir) + str(chip_number) + "_metadata.yaml"
                 fld_endpoint = "https://igolims.mskcc.org:8443/LimsRest/getDLPFieldMapFile?chipNumber={}".format(chip_number)
-                fld_file_path = fastq_project_dir + chip_number + ".fld"
+                fld_file_path = str(fastq_project_dir) + str(chip_number) + ".fld"
                 fld_file = Path(fld_file_path)
                 response = requests.get(fld_endpoint, auth = ("pms", "tiagostarbuckslightbike"), verify = False)
                 fld_file.write_bytes(response.content)
