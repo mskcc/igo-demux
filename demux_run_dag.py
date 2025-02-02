@@ -153,7 +153,7 @@ with DAG(
             for project in sample_sheet.project_set: # such as: Project_09443_CT from the "Sample_Project" column
                 fastq_project_dir = output_directory + "/" + project + "/"
                 chip_number = get_dlp_chip(sample_sheet, project)
-                output_yaml = fastq_project_dir + chip_number + "_metadata.yaml"
+                output_yaml = str(fastq_project_dir) + str(chip_number) + "_metadata.yaml"
                 fld_endpoint = "https://igolims.mskcc.org:8443/LimsRest/getDLPFieldMapFile?chipNumber={}".format(chip_number)
                 fld_file_path = fastq_project_dir + chip_number + ".fld"
                 fld_file = Path(fld_file_path)
