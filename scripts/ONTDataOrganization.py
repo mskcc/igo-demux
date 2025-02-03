@@ -10,7 +10,7 @@ def isBarcoded(experiment_directory):
     return False
 
 def renameBarcodedSamples(experiment_directory):
-    #search lims db for pool name if pool name is an IGO ID (data -> experiemnt -> pool name)
+    #search lims db for pool name if pool name is an IGO ID (data -> experiment -> pool name)
     #fetch parent samples of pool, find their barcodes
     #match parent sample IGO IDs to barcoded directories
     #rename
@@ -71,9 +71,9 @@ def OrganizeData(data_path):
 Returns list of run summary objects in JSON format.
 The run summary objects are individual library and pooled library samples going for pooling (sample status = Ready for - Pooling of Sample Libraries for Sequencing)   
 '''
-def get_run_summary(lims_host):
+def get_run_summary(poolId):
 
-    url = "https://%s/LimsRest/api/getPoolsBarcodes?%s" % (lims_host, poolId)
+    url = "https://igolims:8443/LimsRest/api/getPoolsBarcodes?poolId=%s" % (poolId)
     try:
             resp = requests.get(url, auth=(config.LIMS_USER, config.LIMS_PASSWORD), verify=False)
             return resp
