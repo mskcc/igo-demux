@@ -10,7 +10,7 @@ import sys
 
 
 OUTPUT_PATH = "/igo/staging/GLP_pipeline/"
-COMMAND_PREFIX = "/opt/edico/bin/dragen -f -r /staging/ref/hg19"
+COMMAND_PREFIX = "/opt/edico/bin/dragen -f -r /igo/work/igo/dragen_hash_tables/hg38-alt_masked.cnv.graph.hla.rna-9-r3.0-1"
 COMMAND_PARAMETER = "--enable-duplicate-marking true --enable-map-align true --enable-sv true --enable-map-align-output true --output-format bam --enable-variant-caller true --enable-hla true"
 FASTQ_PATH = "/igo/staging/FASTQ/"
 ENDPOINT = "https://igolims.mskcc.org:8443/LimsRest/getSamplePairs?igoSampleId="
