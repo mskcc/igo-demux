@@ -56,7 +56,7 @@ for fastq_dir in ${FASTQ_DIRS}; do
     toNameLocalPlus=$homedir$runFullName$htmlnewfile
     toNameRemote=$toDir$runFullName$html
     echo "Converting DRAGEN reports in folder $dragen_reports_dir to name $toNameLocal"
-    python /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir $toNameLocal
+    /igo/work/igo/miniconda3/bin/python /igo/work/igo/igo-demux/scripts/dragen_csv_to_html.py $dragen_reports_dir $toNameLocal
     touch $toNameLocal -r $dragen_replay #set correct timestamp on new html file from a DRAGEN demux file
 
     # Miseq's (Ayyan & Johnsawyers) are not reverse complemented, all other sequencers are
