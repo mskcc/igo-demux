@@ -10,7 +10,7 @@ def get_sequencing_read_data(sequencer_path):
 	""" method to check the read lengths in the RunInfo.xml file """
 	
 	# compare tag
-	atac_reads = [[51, 8, 24, 50], [51, 8, 16, 50]]
+	atac_reads = [[51, 8, 24, 50], [51, 8, 16, 50], [51, 8, 24, 51]]
 	
 	
 	# set variables to parge the XML file
@@ -31,7 +31,9 @@ def get_sequencing_read_data(sequencer_path):
 	detected_reads = [y[1] for y in reads_tag]
 	
 	# check the read lengths.  if they equal the atacReads list, then set atac variable to True
-	if ((detected_reads == atac_reads[0]) or (detected_reads == atac_reads[1])):
+	# if ((detected_reads == atac_reads[0]) or (detected_reads == atac_reads[1]) or (detected_reads == atac_reads[2]))
+	# making a simpler if statement to check for reads
+	if (detected_reads in atac_reads):
 		atac = True
 		use_bases_mask = "Y" + str(reads_tag[0][1]) + ",I" + str(reads_tag[1][1]) + ",Y" + str(reads_tag[2][1]) + ",Y" + str(reads_tag[3][1])
 	else:
