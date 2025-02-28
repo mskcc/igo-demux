@@ -531,6 +531,14 @@ recipe_options_mapping_UNORDERED = {
 				MSKQ: "no",
 				MD: "yes"
 		},
+		# THIS IS SPECIFICALLY FOR THE BAIT_SET COLUMN IN THE SAMPLE SHEET
+		"IDT_Exome_v2_FP_Viral_Probes": {
+				# WholeExomeSequencing
+				BAITS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_BAITS.baits",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/IDT_Exome_v2_FP/IDT_Exome_v2_FP_TARGETS.targets",
+				MSKQ: "no",
+				MD: "yes"
+		},
 		"Twist_Exome": {
 				# TODO - Delete "Twist_Exome" or change interval lists to be GRCh37
 				BAITS: "/home/igo/resources/BED-Targets/Twist/Twist_Exome_Hg19_TARGETS.iList",
