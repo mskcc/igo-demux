@@ -33,7 +33,12 @@ sequencers = {
       },
       {
          "name": "fauci",
-         "path": "/igo/nfsfauci/fauci",
+         "path": "/igo/sequencers/fauci",
+         "last_file": "CopyComplete.txt"
+      },
+      {
+         "name": "fauci2",
+         "path": "/igo/sequencers/fauci2",
          "last_file": "CopyComplete.txt"
       },
       {
