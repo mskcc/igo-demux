@@ -74,7 +74,7 @@ with DAG(
         # -K - wait for the job to complete
         if (dragen_demux) or ("AMELIE" in sequencer_path):
             # bsub_command = "bsub -K -n48 -q dragen -eo " + output_directory + "/dragen-demux.log "
-            bsub_command = "bsub -K -n48 -q dragen -eo {}/dragen-demux.log -m \"id02 id03\"".format(output_directory)
+            bsub_command = "bsub -K -n48 -q dragen -eo {}/dragen-demux.log -m \"id02 id03\" ".format(output_directory)
             # same as bcl-convert arguments except:  "--bcl-conversion-only true --bcl-only-matched-reads true"
             demux_command = bsub_command + "/opt/edico/bin/dragen --bcl-conversion-only true --bcl-only-matched-reads true --force --bcl-sampleproject-subdirectories true --bcl-input-directory \'{}\' --output-directory \'{}\' --sample-sheet \'{}\'".format(sequencer_path, output_directory, samplesheet_path)
         elif (atac):
