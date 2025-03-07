@@ -149,7 +149,7 @@ class LaunchMetrics(object):
 		rna_dragen_job_name_header = "{}___RNA_DRAGEN___".format(run)
 		
 		
-		launch_dragen_rna = "/opt/edico/bin/dragen -f -r {} --fastq-list {} --fastq-list-sample-id {} -a {} --intermediate-results-dir /staging/temp --enable-map-align true --enable-sort true --enable-bam-indexing true --enable-map-align-output true --output-format BAM --enable-rna true --enable-duplicate-marking true --enable-rna-quantification true --output-file-prefix {} --output-directory {} --bin_memory 70000000000".format(rna_path, fastq_list, sample.sample_id, sample_parameters["GTF"], sample.sample_id, rna_directory)
+		launch_dragen_rna = "/opt/edico/bin/dragen -f -r {} --fastq-list {} --fastq-list-sample-id {} -a {} --intermediate-results-dir /staging/temp --enable-rna true --enable-rna-quantification true --output-file-prefix {} --output-directory {} --enable-duplicate-marking true --enable-sort true --enable-map-align true --enable-map-align-output true --output-format bam --enable-bam-indexing true --bin_memory 70000000000".format(rna_path, fastq_list, sample.sample_id, sample_parameters["GTF"], sample.sample_id, rna_directory)
 		bsub_launch_dragen_rna = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n48 -M4 {3}".format(rna_dragen_job_name_header, sample.sample_id, rna_directory, launch_dragen_rna)
 		print(bsub_launch_dragen_rna)
 		call(bsub_launch_dragen_rna, shell = True)
@@ -186,7 +186,7 @@ class LaunchMetrics(object):
 			vcfFileOption = ""
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
-		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true --bin_memory 70000000000 {}".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id, vcfFileOption)
+		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} {} --enable-duplicate-marking true --enable-sort true --enable-map-align true --enable-map-align-output true --output-format cram --bin_memory 70000000000 ".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id, vcfFileOption)
 		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n48 -M4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
@@ -225,11 +225,13 @@ class LaunchMetrics(object):
 		# get the correct path for the reference
 		if (sample_parameters["GTAG"] == "GRCh38") or (sample.genome == "Synthetic"):
 			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38_methylated"
+			vcfFileOption = "--qc-cross-cont-vcf /opt/edico/config/sample_cross_contamination_resource_hg38.vcf.gz"
 		else:
 			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/grcm39_methylated"
+			vcfFileOption = ""
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
-		launch_dragen_methylation = "/opt/edico/bin/dragen --enable-methylation-calling true --methylation-protocol directional --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --enable-sort true --enable-duplicate-marking true --bin_memory 70000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
+		launch_dragen_methylation = "/opt/edico/bin/dragen --enable-methylation-calling true --methylation-protocol directional --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} {} --enable-duplicate-marking true --enable-sort true --enable-map-align true --enable-map-align-output true --output-format cram --bin_memory 70000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id, vcfFileOption)
 		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n48 -M4 {3}".format(dragen_methylation_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
