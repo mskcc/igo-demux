@@ -107,6 +107,7 @@ def deliver_pipeline_output(project, pi, requestName):
                 destination_file = delivery_folder + "/cellranger/tiff_images"
                 if os.path.exists(destination_file):
                     shutil.rmtree(destination_file)
+                print("copying tiff files {} to {}".format(tiff_folder, destination_file))
                 shutil.copytree(tiff_folder, destination_file, dirs_exist_ok=True)
 
     return "Completed pipeline delivery"
