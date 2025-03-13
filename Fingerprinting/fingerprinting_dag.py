@@ -52,8 +52,8 @@ MAPPED_FIELDS = ["cmoPatientId", "tumorOrNormal"]
 
 def fingerprint(project_id):
     """ The steps for fingerprinting a project are:
-            - Find bams for the project
-            - call gatk ExtractFingerprint to convert .bam to extracted fingerprints in .vcf format
+            - Find .crams or .bams for the project
+            - call gatk ExtractFingerprint to extract fingerprints in .vcf format
             - call gatk CrosscheckFingerprints
             - load results to the database
     """
@@ -75,9 +75,12 @@ def fingerprint(project_id):
     for fileName in glob.glob('/igo/staging/stats/**/*_IGO_' + project_id + '*___MD.bam', recursive=False):
         input_bams.add(fileName)
         print(fileName + " Added")
+    for fileName in glob.glob('/igo/staging/stats/**/*_IGO_' + project_id + '*___MD.cram', recursive=False):
+        input_bams.add(fileName)
+        print(fileName + " Added")
 
     if (len(input_bams) == 0):
-        print('No Picard .bams found, searching again')
+        print('No Picard .bam or .cram files found, searching again')
         project_id_p = 'P' + project_id
         # search for .bams named like 'RUTH_0084_AHWWTHDSX2___P10811_I___Sample_IM-GBM-111-CSF_IGO_10811_I_15.bam'
         # hold previous string for search >> '/igo/staging/stats/**/*___' + project_id_p + '___*.bam'
@@ -85,8 +88,11 @@ def fingerprint(project_id):
         for fileName in glob.glob("/igo/staging/stats/**/*{}*.bam".format(project_id), recursive = False):
             input_bams.add(fileName)
             print(fileName + " Added")
+        for fileName in glob.glob("/igo/staging/stats/**/*{}*.cram".format(project_id), recursive = False):
+            input_bams.add(fileName)
+            print(fileName + " Added")
     
-    print("Total number of BAM files: ", len(input_bams))
+    print("Total number of BAM/CRAM files: ", len(input_bams))
     igo_ids = list(set(list(map(lambda bam: get_igo_id(bam), input_bams))))
     print("number of igo ids: " , len(igo_ids))
     sample_manifest = get_sample_manifests(igo_ids, lims_host)
