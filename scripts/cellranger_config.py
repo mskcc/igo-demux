@@ -19,7 +19,7 @@ config_dict = {
         }
     },
     "multi": {
-        "tool": " /igo/work/tools/cellranger-9.0.1/cellranger multi "
+        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger multi "
     },
     "arc": {
         "tool": " /igo/work/nabors/tools/cellranger-arc-2.0.2/cellranger-arc count ",
