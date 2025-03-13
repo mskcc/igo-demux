@@ -78,12 +78,24 @@ def extract_flowcell(text):
     else:
         return None
 
-def write_to_csv(sample_dict, file_name):
+def write_to_csv(sample_dict, params_dict, file_name):
     print("Writing stats file: " + file_name)
     with open(file_name,'w') as file:
-        file.write("sample_id, Reads, Bases, N50, Median Read Length, Flowcell, Position, Estimated_Cov\n")
+        file.write("sample_id, Reads, Bases, N50, Median Read Length, Flowcell, Position, Estimated_Cov, Flow Cell Type, Kit, Software Version\n")
         for key, value in sample_dict.items():
-            file.write("{}, {}, {}, {}, {}, {}, {}, {}\n".format(key, value[0], value[1], value[2], value[3], value[4], value[5], value[6]))
+            file.write("{}, {}, {}, {}, {}, {}, {}, {}, {}, {}, {}\n".format(key, value[0], value[1], value[2], value[3], value[4], value[5], value[6], params_dict[value[4]][0], params_dict[value[4]][1], params_dict[value[4]][2]))
+
+# get run parameter from report json file
+def get_params_from_json(file_path):
+    params_dict = {}
+    with open(file_path, 'r') as f:
+        json_data = json.load(f)
+    flowcell_id = json_data["protocol_run_info"]["flow_cell"]["flow_cell_id"]
+    flowcell_type = json_data["protocol_run_info"]["flow_cell"]["product_code"]
+    kit_type = json_data["protocol_run_info"]["meta_info"]["tags"]["kit"]["string_value"]
+    software_version = json_data["protocol_run_info"]["software_versions"]["distribution_version"]
+    params_dict[flowcell_id] = [flowcell_type, kit_type, software_version]
+    return params_dict
 
 def push_to_lims(sample_dict):
     # List of parameter names corresponding to the values skipping columns "estimatedCoverage", "bamCoverage", "sequencerName"
@@ -120,6 +132,7 @@ if __name__ == '__main__':
     os.chdir(project_directory)
     sample_list = next(os.walk("."))[1]
     sample_dict = {}
+    params_dict = {}
     sample_list.sort()
     for sample in sample_list:
         print("Processing sample: " + sample)
@@ -143,8 +156,10 @@ if __name__ == '__main__':
                 else:
                     sample_dict[sample] = get_read_length_and_summary(summary_matrix, flowcell, position)
                 print(sample_dict)
+        json_file = glob.glob(destination + "/*/report*json")
+        params_dict.update(get_params_from_json(json_file[0]))
 
-    write_to_csv(sample_dict, "summary.csv")
+    write_to_csv(sample_dict, params_dict, "summary.csv")
     print("ONT stats .csv complete for: " + project_directory)
     
     push_to_lims(sample_dict)
