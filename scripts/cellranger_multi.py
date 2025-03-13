@@ -12,21 +12,21 @@ import openpyxl
 ACCESS = 0o775
 config_dict = {
     "count": {
-        "tool": " /igo/work/tools/cellranger-8.0.1/cellranger count ",
+        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger count ",
         "genome": {
             "Human": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
             "Mouse": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A "
         }
     },
     "vdj": {
-        "tool": " /igo/work/tools/cellranger-8.0.1/cellranger vdj ",
+        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger vdj ",
         "genome": {
             "Human": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0 ",
             "Mouse": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-7.0.0 "
         }
     },
     "multi": {
-        "tool": " /igo/work/tools/cellranger-8.0.1/cellranger multi "
+        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger multi "
     }
 }
 
