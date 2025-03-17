@@ -110,7 +110,7 @@ def fingerprint(project_id):
         REFERENCE_SEQUENCE = REFERENCE_SEQUENCE_DIR_37
     
     for bam in input_bams:
-        regex = "_IGO_([a-zA-Z0-9_]*?)(___|.bam)"
+        regex = "_IGO_([a-zA-Z0-9_]*?)(___|.[a-z]{1,2}am)"
         igoId = re.search(regex, bam).group(1)
         patient_id = igo_id_mappings[igoId]['cmoPatientId']
         print("patient_id: " + patient_id)
@@ -167,7 +167,7 @@ def get_igo_id(file_name):
     :param file_name: string    e.g. "/PITT_0452_AHG2THBBXY_A1___P10344_C___13_cf_IGO_10344_C_20___hg19___MD.bam"
     :return: string             e.g. "10344_C_20"
     """
-    regex = "_IGO_([a-zA-Z0-9_]*?)(___|.bam)"
+    regex = "_IGO_([a-zA-Z0-9_]*?)(___|.[a-z]{1,2}am)"
     match = re.search(regex, file_name)
     if match == None:
         print("ERROR: Could not find IGO ID in filename: %s with regex: \"%s\"" % (file_name, regex))
