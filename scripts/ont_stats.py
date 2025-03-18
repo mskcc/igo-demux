@@ -99,7 +99,7 @@ def get_params_from_json(file_path):
 
 def push_to_lims(sample_dict):
     # List of parameter names corresponding to the values skipping columns "estimatedCoverage", "bamCoverage", "sequencerName"
-    parameter_names = ["reads", "bases", "N50", "medianReadLength", "flowcell", "sequencerPosition", "estimatedCoverage", "igoId"]
+    parameter_names = ["reads", "bases", "N50", "medianReadLength", "flowcell", "sequencerPosition", "estimatedCoverage", "igoId", "flowCellType", "Chemistry", "MinKNOWSoftwareVersion"]
 
     # Convert initial dictionary to a nested dictionary with parameter names
     converted_sample_dict = {}
@@ -162,5 +162,9 @@ if __name__ == '__main__':
     write_to_csv(sample_dict, params_dict, "summary.csv")
     print("ONT stats .csv complete for: " + project_directory)
     
+    # update sample_dict with the additional 3 parameters.
+    for key, value in sample_dict.items():
+        sample_dict[key] = value.append(params_dict[value[4]][0], params_dict[value[4]][1], params_dict[value[4]][2])
+
     push_to_lims(sample_dict)
     print("Stats posted to LIMS")
