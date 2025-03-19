@@ -99,7 +99,7 @@ def get_params_from_json(file_path):
 
 def push_to_lims(sample_dict):
     # List of parameter names corresponding to the values skipping columns "estimatedCoverage", "bamCoverage", "sequencerName"
-    parameter_names = ["reads", "bases", "N50", "medianReadLength", "flowcell", "sequencerPosition", "estimatedCoverage", "igoId", "flowCellType", "Chemistry", "MinKNOWSoftwareVersion"]
+    parameter_names = ["reads", "bases", "N50", "medianReadLength", "flowcell", "sequencerPosition", "estimatedCoverage", "flowCellType", "Chemistry", "MinKNOWSoftwareVersion", "igoId"]
 
     # Convert initial dictionary to a nested dictionary with parameter names
     converted_sample_dict = {}
