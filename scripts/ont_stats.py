@@ -164,7 +164,7 @@ if __name__ == '__main__':
     
     # update sample_dict with the additional 3 parameters.
     for key, value in sample_dict.items():
-        sample_dict[key] = value.append(params_dict[value[4]][0], params_dict[value[4]][1], params_dict[value[4]][2])
+        sample_dict[key] = value + (params_dict[value[4]][0], params_dict[value[4]][1], params_dict[value[4]][2])
 
     push_to_lims(sample_dict)
     print("Stats posted to LIMS")
