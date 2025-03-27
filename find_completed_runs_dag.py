@@ -22,11 +22,6 @@ sequencers = {
          "last_file": "CopyComplete.txt"
       },
       {
-         "name": "fauci",
-         "path": "/igo/sequencers/fauci",
-         "last_file": "CopyComplete.txt"
-      },
-      {
          "name": "diana",
          "path": "/igo/sequencers/diana",
          "last_file": "CopyComplete.txt"
@@ -34,6 +29,11 @@ sequencers = {
       {
          "name": "fauci",
          "path": "/igo/sequencers/fauci",
+         "last_file": "CopyComplete.txt"
+      },
+      {
+         "name": "bono",
+         "path": "/igo/sequencers/bono",
          "last_file": "CopyComplete.txt"
       },
       {
