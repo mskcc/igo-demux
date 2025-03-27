@@ -4,6 +4,7 @@ import requests
 import json
 import re
 import sys
+import subprocess
 
 ACCESS = 0o775
 
@@ -45,16 +46,27 @@ def mv_fastq(sample_dict, parent_folder_name, pool_name):
         sample_folder = "/igo/staging/promethion/{}/{}".format(project, key)
         if not os.path.exists(sample_folder):
             print("creating folder: " + sample_folder)
-            # os.makedirs(sample_folder, ACCESS)
+            os.makedirs(sample_folder, ACCESS)
         
         source_fastq_pass = "{}/{}/*/fastq_pass/{}".format(parent_folder_name, pool_name, barcode)
         source_fastq_fail = "{}/{}/*/fastq_fail/{}".format(parent_folder_name, pool_name, barcode)
+
+        source_pod5_pass = "{}/{}/*/pod5_pass/{}".format(parent_folder_name, pool_name, barcode)
+        source_pod5_fail = "{}/{}/*/pod5_fail/{}".format(parent_folder_name, pool_name, barcode)
+
         cmd1 = "mv {} {}/fastq_pass".format(source_fastq_pass, sample_folder)
         cmd2 = "mv {} {}/fastq_fail".format(source_fastq_fail, sample_folder)
+        cmd3 = "mv {} {}/pod5_pass".format(source_pod5_pass, sample_folder)
+        cmd4 = "mv {} {}/pod5_fail".format(source_pod5_fail, sample_folder)
 
         print(cmd1)
         print(cmd2)
-
+        print(cmd3)
+        print(cmd4)
+        subprocess.run(cmd1, shell=True)
+        subprocess.run(cmd2, shell=True)
+        subprocess.run(cmd3, shell=True)
+        subprocess.run(cmd4, shell=True)
 
 if __name__ == '__main__':
     # Usage: python deliver_Barcoded_ONT.py [project_directory]
