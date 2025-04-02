@@ -54,7 +54,7 @@ def get_sub_sample_barcode(sample_name):
     return sample_info
 
 # get stats metric if the run is pooled
-def get_read_length_and_summary_pooled(sequencing_summary_df, sample_name, flowcell, position):
+def get_read_length_and_summary_pooled(sequencing_summary_df, sample_name, flowcell, position, file_count):
     sample_dict = {}
     sub_sample_info = get_sub_sample_barcode(sample_name)
     barcodes = sequencing_summary_df["barcode_arrangement"].unique()
@@ -64,10 +64,13 @@ def get_read_length_and_summary_pooled(sequencing_summary_df, sample_name, flowc
         stats = get_read_length_and_summary(sample_df, flowcell, position)
         # only record barcodes with more than 10000 reads
         if stats[0] > 10000:
-            # update the sample name if the barcode is in the pool
+            # update the sample name if the barcode is in the pool and update sample name if one sample run on multi times
             if get_numbers_from_string(barcode) in sub_sample_info.keys():
                 sample_sub = sub_sample_info[get_numbers_from_string(barcode)]
-            sample_dict[sample_sub] = get_read_length_and_summary(sample_df, flowcell, position)
+                if file_count != 1:
+                    sample_sub = sample_sub + "_" + str(file_count)
+
+            sample_dict[sample_sub] = stats
     return sample_dict
 
 def extract_flowcell(text):
@@ -147,18 +150,20 @@ if __name__ == '__main__':
                 print("Processing file: " + i + " from flowcell: " + flowcell + " at position:" + position)
                 summary_matrix = pd.read_csv(i, delimiter = "\t")
                 pooled = if_pooled(summary_matrix)
-                # give different sample name for multi runs on one flow cell
-                if file_count != 1:
-                    sample = sample + "_" + str(file_count)
+    
                 if pooled:
-                    sample_dict_sub = get_read_length_and_summary_pooled(summary_matrix, sample, flowcell, position)
+                    sample_dict_sub = get_read_length_and_summary_pooled(summary_matrix, sample, flowcell, position, file_count)
                     sample_dict.update(sample_dict_sub)
                 else:
+                    # give different sample name for one sample with multi runs
+                    if file_count != 1:
+                        sample = sample + "_" + str(file_count)
                     sample_dict[sample] = get_read_length_and_summary(summary_matrix, flowcell, position)
-                print(sample_dict)
-        json_file = glob.glob(destination + "/*/report*json")
-        params_dict.update(get_params_from_json(json_file[0]))
 
+                if flowcell not in params_dict.keys():
+                    json_file = glob.glob(destination + "/*{}*/report*json".format(flowcell))
+                    params_dict.update(get_params_from_json(json_file[0]))
+    print(sample_dict)
     write_to_csv(sample_dict, params_dict, "summary.csv")
     print("ONT stats .csv complete for: " + project_directory)
     
