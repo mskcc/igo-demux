@@ -99,7 +99,8 @@ with DAG(
         elif "SC_Chromium" in recipe or "ST_Visium" in recipe:
             scripts.cellranger.launch_cellranger_by_project_location(project_directory, recipe, species)
         elif "Nanopore" in recipe:
-            cmd = "bsub -J ont_stats_{} -n 16 -M 16 /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_id, project_directory)
+            os.chdir("/igo/staging/PIPELINE")
+            cmd = "bsub -J ont_stats_{} -o ont_stats_{}.out -n 16 -M 16 /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/ont_stats.py {}".format(project_id, project_id, project_directory)
             print(cmd)
             subprocess.run(cmd, shell=True)
         elif recipe == "demux_stats":
