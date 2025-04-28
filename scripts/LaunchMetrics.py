@@ -214,7 +214,7 @@ class LaunchMetrics(object):
 			
 		if ("BAITS" in sample_parameters.keys()):
 			hs_metrics_job_name_header = "{}___HS_METRICS___".format(run)
-			hs_metrics = "{} CollectHsMetrics --INPUT {}.bam --OUTPUT {}{}___{}___HS.txt --REFERENCE_SEQUENCE {} --BAIT_INTERVALS {} --TARGET_INTERVALS {}".format(PICARD_AND_JAR, sample.sample_id, work_directory, metric_file_prefix, PICARD_VERSION, sample_parameters["REFERENCE"], sample_parameters["BAITS"], sample_parameters["TARGETS"])
+			hs_metrics = "{} CollectHsMetrics --INPUT {}.cram --OUTPUT {}{}___{}___HS.txt --REFERENCE_SEQUENCE {} --BAIT_INTERVALS {} --TARGET_INTERVALS {}".format(PICARD_AND_JAR, sample.sample_id, work_directory, metric_file_prefix, PICARD_VERSION, sample_parameters["REFERENCE"], sample_parameters["BAITS"], sample_parameters["TARGETS"])
 			bsub_hs_metrics = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n8 -M8 {4}".format(hs_metrics_job_name_header, sample.sample_id, dragen_job_name_header, dragen_directory, hs_metrics)
 			print(bsub_hs_metrics)
 			call(bsub_hs_metrics, shell = True)
