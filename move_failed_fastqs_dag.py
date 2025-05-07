@@ -35,7 +35,7 @@ with DAG(
         python_callable=move_fastqs,
         provide_context=True,
         email_on_failure=True,
-        email='mcmanamd@mskcc.org',
+        email='luc@mskcc.org',
         dag=dag
     )
 
