@@ -231,6 +231,8 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
             cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
             print(cmd)
             subprocess.run(cmd, shell=True)
+            if tag == "vdj_t" or tag == "vdj_b":
+                tag = "vdj"
             send_json["samples"].append({"sample":"Sample_" + sample, "type":tag, "project":project, "run":sequencer_and_run})
     
     if send_json["samples"]:
