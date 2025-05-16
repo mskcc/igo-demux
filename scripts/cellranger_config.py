@@ -49,7 +49,8 @@ ARC_OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjo
 
 # 10X recipe list for different pipelines
 COUNT_FLAVORS = ["SC_Chromium-GEX-3", "SC_Chromium-GEX-5"]
-VDJ_FLAVORS = ["SC_Chromium-TCR", "SC_Chromium-BCR"]
+VDJ_T_FLAVORS = ["SC_Chromium-TCR"]
+VDJ_B_FLAVORS = ["SC_Chromium-BCR"]
 ARC_FLAVORS = ["SC_Chromium-Multiome", "SC_Chromium-Multiome-ATAC", "SC_Chromium-Multiome-GEX"]
 SPATIAL_FLAVORS = ["ST_Visium", "ST_Visium-HD"]
 
