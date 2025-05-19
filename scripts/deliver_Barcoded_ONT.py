@@ -34,6 +34,17 @@ def get_sample_barcode(pool_id):
     for sample in response_data:
         project_id = "Project_" + str(get_project_ID_from_sample(sample["librarySample"]))
         sample_dict[sample["librarySample"]] =[project_id ,"barcode" + str(get_numbers_from_string(sample["sampleBarcode"]["barcodId"]))]
+    
+    # if sample_dict is empty then check if pool_id end with letter.
+    if not sample_dict:
+        last_part = pool_id.split("_")[-1]
+        if last_part.isalpha():
+            response = requests.get(lims_endpoint + "_".join(pool_id.split("_")[:-1]), auth = ("pms", "tiagostarbuckslightbike"), verify = False)
+            response_data = json.loads(response.text.encode("utf8"))
+            for sample in response_data:
+                project_id = "Project_" + str(get_project_ID_from_sample(sample["librarySample"]))
+                sample_dict[sample["librarySample"]] =[project_id ,"barcode" + str(get_numbers_from_string(sample["sampleBarcode"]["barcodId"]))]
+    
     print(sample_dict)
     return sample_dict
 
@@ -83,4 +94,6 @@ if __name__ == '__main__':
     parent_folder_path = ONT_path + project_name
     for i in os.listdir(parent_folder_path):
         sample_dict = get_sample_barcode(i)
-        mv_fastq(sample_dict, parent_folder_path, i)
+        # check if sample_dict is empty before moving files
+        if sample_dict:
+            mv_fastq(sample_dict, parent_folder_path, i)
