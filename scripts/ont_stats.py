@@ -50,6 +50,16 @@ def get_sub_sample_barcode(sample_name):
     sample_info = {}
     for sample in response_data:
         sample_info[get_numbers_from_string(sample["sampleBarcode"]["barcodId"])] = sample["librarySample"]
+        
+    # if sample_dict is empty then check if pool_id end with letter.
+    if not sample_info:
+        last_part = sample_name.split("_")[-1]
+        if last_part.isalpha():
+            response = requests.get(lims_endpoint + "_".join(sample_name.split("_")[:-1]), auth = ("pms", "tiagostarbuckslightbike"), verify = False)
+            response_data = json.loads(response.text.encode("utf8"))
+            for sample in response_data:
+                sample_info[get_numbers_from_string(sample["sampleBarcode"]["barcodId"])] = sample["librarySample"] + last_part
+
     print(sample_info)
     return sample_info
 
