@@ -163,7 +163,7 @@ def write_bams_to_share(bamdict, delivery_folder):
             logging.info(msg)
         else:
             print("Merging .bams {}".format(bamlist))
-            bsub_merge = "bsub -J merge_bam_files_to_deliver_" + igo_id + " -o merge_bam_files___" + igo_id + ".out -n 40 -M 8 "
+            bsub_merge = "bsub -J merge_bam_files_to_deliver_" + igo_id + " -o merge_bam_file_logs/merge_bam_files___" + igo_id + ".out -n 40 -M 8 "
             merge_bams = PICARD + " MergeSamFiles O=" + delivery_folder + "/" + dest_filename + " " + " ".join("I=" + i for i in bamlist)
             bsub_merge_bams = bsub_merge + merge_bams
             print(bsub_merge_bams)
