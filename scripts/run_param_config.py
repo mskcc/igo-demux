@@ -742,8 +742,10 @@ recipe_options_mapping_UNORDERED = {
 		},
 		"Methyl_Capture": {
 				# MethylCaptureSeq
-				BAITS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.baits.ilist",
-				TARGETS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.targets.ilist",
+				# BAITS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.baits.ilist",
+				BAITS: "/igo/home/igo/resources/ilist/hg38/Methyl_Capture/sorted_covered_Twist_Methylome_hg38_annotated_collapsed.baits.ilist",
+				# TARGETS: "/igo/home/igo/resources/ilist/hg38/MethylCaptureSeq/truseq-methyl-capture-epic-manifest-file-hg38.targets.ilist",
+				TARGETS: "/igo/home/igo/resources/ilist/hg38/Methyl_Capture/sorted_covered_Twist_Methylome_hg38_annotated_collapsed.targets.ilist",
 				MSKQ: "no",
 				MD: "yes"
 		},
