@@ -59,8 +59,10 @@ def get_tag(recipe):
     tag = "Skip"
     if recipe in CONFIG.COUNT_FLAVORS:
         tag = "count"
-    if recipe in CONFIG.VDJ_FLAVORS:
-        tag = "vdj"
+    if recipe in CONFIG.VDJ_T_FLAVORS:
+        tag = "vdj_t"
+    if recipe in CONFIG.VDJ_B_FLAVORS:
+        tag = "vdj_b"
     if recipe in CONFIG.ARC_FLAVORS:
         tag = "arc"
     if recipe in CONFIG.SPATIAL_FLAVORS:
@@ -68,12 +70,22 @@ def get_tag(recipe):
     return tag
 
 def generate_cellranger_cmd(sample_ID, tag, genome, fastq_file_path, sequencer_and_run):
+    vdj = False
+    if tag == "vdj_t" or tag == "vdj_b":
+        vdj = True
+        if tag == "vdj_t":
+            additional_option = " --chain TR"
+        if tag == "vdj_b":
+            additional_option = " --chain IG"
+        tag = "vdj"
+
     tool = CONFIG.config_dict[tag]["tool"]
     transcriptome = CONFIG.config_dict[tag]["genome"][genome]
     project_ID = "Project_" + "_".join(sample_ID.split("_")[sample_ID.split("_").index("IGO") + 1:-1])
     cellranger_cmd = "{}--id=Sample_{}__{}".format(tool, sample_ID, tag) + transcriptome + "--fastqs=" + ",".join(fastq_file_path) + CONFIG.OPTIONS
-    if tag == "vdj":
+    if vdj:
         cellranger_cmd = cellranger_cmd.replace(" --create-bam=true", "")
+        cellranger_cmd = cellranger_cmd + additional_option
     job_name = "{}_{}_{}_{}_cellranger".format(sequencer_and_run, project_ID, sample_ID, tag)
     bsub_cmd = "bsub -J {} -o {}.out{}".format(job_name, job_name, cellranger_cmd) 
     return bsub_cmd
@@ -219,6 +231,8 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
             cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
             print(cmd)
             subprocess.run(cmd, shell=True)
+            if tag == "vdj_t" or tag == "vdj_b":
+                tag = "vdj"
             send_json["samples"].append({"sample":"Sample_" + sample, "type":tag, "project":project, "run":sequencer_and_run})
     
     if send_json["samples"]:
