@@ -242,7 +242,7 @@ class LaunchMetrics(object):
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
 		launch_dragen_methylation = "/opt/dragen/4.3.6/bin/dragen --force --enable-methylation-calling true --methylation-protocol directional --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} {} --enable-duplicate-marking true --enable-sort true --enable-map-align true --enable-map-align-output true --output-format cram --enable-bam-indexing true --bin_memory 70000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id, vcfFileOption)
-		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n48 -M4 {3}".format(dragen_methylation_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
+		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01\" -q dragen -n48 -M4 {3}".format(dragen_methylation_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		
