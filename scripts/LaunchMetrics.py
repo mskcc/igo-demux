@@ -254,7 +254,7 @@ class LaunchMetrics(object):
 		call(bsub_dragen_methylation_parse_dna, shell = True)
 		
 		# run HS metrics to get MTC for methyl_capture samples
-		if (sample.recipe == "Methyl_Capture"):
+		if (sample.recipe == "Methyl_Capture") and (sample.genome == "Human"):
 			hs_metrics_job_name_header = "{}___HS_METRICS___".format(run)
 			hs_metrics = "{0} CollectHsMetrics --INPUT {1}.cram --OUTPUT {6}{7}___{2}___HS.txt --REFERENCE_SEQUENCE {3} --BAIT_INTERVALS {4} --TARGET_INTERVALS {5}".format(PICARD_AND_JAR, sample.sample_id, PICARD_VERSION, sample_parameters["REFERENCE"], sample_parameters["BAITS"], sample_parameters["TARGETS"], work_directory, metric_file_prefix)
 			bsub_hs_metrics = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(hs_metrics_job_name_header, sample.sample_id, dragen_methylation_job_name_header, dragen_directory, hs_metrics)
