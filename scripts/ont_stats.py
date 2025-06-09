@@ -117,9 +117,11 @@ def push_to_lims(sample_dict):
     # Convert initial dictionary to a nested dictionary with parameter names
     converted_sample_dict = {}
     for key, values in sample_dict.items():
-        # Create a nested dictionary by zipping parameter names and values
-        values = values + (key,)
-        converted_sample_dict[key] = dict(zip(parameter_names, values))
+        # exclude the unclassified from lims
+        if "unclassified" not in key:
+            # Create a nested dictionary by zipping parameter names and values
+            values = values + (key,)
+            converted_sample_dict[key] = dict(zip(parameter_names, values))
     print(converted_sample_dict)
 
     # Write to LIMS endpoint with a GET:
