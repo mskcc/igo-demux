@@ -233,8 +233,14 @@ class LaunchMetrics(object):
 			dragen_path = "/igo/work/igo/dragen_hash_tables/4.3.6/hg38_methylated"
 			# vcfFileOption = "--qc-cross-cont-vcf /opt/edico/config/sample_cross_contamination_resource_hg38.vcf.gz"
 			vcfFileOption = "--qc-cross-cont-vcf /opt/dragen/4.3.6/resources/qc/sample_cross_contamination_resource_hg38.vcf.gz"
+		elif (sample.genome == "ecoli_GCF_000005845_2_ASM584v2_methylated"):
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.3.6/ecoli_GCF_000005845_2_ASM584v2_methylated"
+			vcfFileOption = ""
+		elif (sample.genome == "J02459_1_bacteriophage_lambda_methylated"):
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.3.6/J02459_1_bacteriophage_lambda_methylated"
+			vcfFileOption = ""
 		else:
-			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/grcm39_methylated"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.3.6/grcm39_methylated"
 			vcfFileOption = ""
 			
 		# HOLD THIS	
