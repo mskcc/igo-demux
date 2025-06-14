@@ -122,7 +122,7 @@ species_genome_mapping_UNORDERED = {
 		"Chicken": "Galgal4",
 		".*uberculosis": "mtubf11",
 		"S. cerevisiae": "sccer",
-		"other": "sccer",
+		"Other": "sccer",
 		"Synthetic": "GRCh38",
 		"Fungus": "sccer",
 		"E.coli": "ecolik12",
