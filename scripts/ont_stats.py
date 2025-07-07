@@ -107,7 +107,10 @@ def get_params_from_json(file_path):
         flowcell_id = json_data["protocol_run_info"]["flow_cell"]["flow_cell_id"]
     except (KeyError, TypeError):
         flowcell_id = json_data["protocol_run_info"]["flow_cell"]["user_specified_flow_cell_id"]
-    flowcell_type = json_data["protocol_run_info"]["flow_cell"]["product_code"]
+    try:
+        flowcell_type = json_data["protocol_run_info"]["flow_cell"]["product_code"]
+    except (KeyError, TypeError):
+        flowcell_type = json_data["protocol_run_info"]["flow_cell"]["user_specified_product_code"]
     kit_type = json_data["protocol_run_info"]["meta_info"]["tags"]["kit"]["string_value"]
     software_version = json_data["protocol_run_info"]["software_versions"]["distribution_version"]
     params_dict[flowcell_id] = [flowcell_type, kit_type, software_version]
