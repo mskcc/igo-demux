@@ -17,11 +17,11 @@ def get_numbers_from_string(input_string):
     return match.group() if match else None
 
 def get_project_ID_from_sample(sample_name):
-    match = re.match(r"^(\d+)(_([A-Za-z]))?", sample_name)
+    match = re.match(r"^(\d+)(?:_([A-Za-z]+))?", sample_name)
     if match:
-        if match.group(3):  # If the second part is a letter
-            return f"{match.group(1)}_{match.group(3)}"
-        else:  # Otherwise, return only the first part
+        if match.group(2):
+            return f"{match.group(1)}_{match.group(2)}"
+        else:
             return match.group(1)
     return None
 

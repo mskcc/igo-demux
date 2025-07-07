@@ -103,7 +103,10 @@ def get_params_from_json(file_path):
     params_dict = {}
     with open(file_path, 'r') as f:
         json_data = json.load(f)
-    flowcell_id = json_data["protocol_run_info"]["flow_cell"]["flow_cell_id"]
+    try:
+        flowcell_id = json_data["protocol_run_info"]["flow_cell"]["flow_cell_id"]
+    except (KeyError, TypeError):
+        flowcell_id = json_data["protocol_run_info"]["flow_cell"]["user_specified_flow_cell_id"]
     flowcell_type = json_data["protocol_run_info"]["flow_cell"]["product_code"]
     kit_type = json_data["protocol_run_info"]["meta_info"]["tags"]["kit"]["string_value"]
     software_version = json_data["protocol_run_info"]["software_versions"]["distribution_version"]
