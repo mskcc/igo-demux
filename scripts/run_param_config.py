@@ -136,6 +136,7 @@ species_genome_mapping_UNORDERED = {
 		"N. glabratus": "cbs138",
 		"C. parapsilosis": "cdc317",
 		"Metagenomic": "ecolik12",
+		"S. aureus": "s_aureus",
 		# FOR NEW ENTRIES
 		# "{regex}": "{GENOME}"
 	
@@ -425,6 +426,13 @@ genome_reference_mapping_UNORDERED = {
 				DEFAULT: {
 						GENOME: "/igo/work/genomes/viruses/LAMBDA/Enterobacteriophage_lambda.fa",
 						REFERENCE: "/igo/work/genomes/viruses/LAMBDA/Enterobacteriophage_lambda.fa"
+				}
+		},
+		"s_aureus": {
+				DEFAULT: {
+						GENOME: "/igo/work/nabors/genomes/S.aureus/RefSeq/GCF_000013425.1_ASM1342v1_genomic.fa",
+						REFERENCE: "/igo/work/nabors/genomes/S.aureus/RefSeq/GCF_000013425.1_ASM1342v1_genomic.fa",
+						GTAG: "s_aureus"
 				}
 		},
 		"ct24": {
