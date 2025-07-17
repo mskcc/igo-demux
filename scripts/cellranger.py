@@ -156,11 +156,13 @@ def config_file_generation(project_id, sample_name, genome, fastq_list):
     subprocess.run(cmd, shell=True)
     in_file_location = glob.glob("{}{}/*.xlsx".format(CONFIG.DRIVE_LOCATION, project_id[8:]))[0]
     with open(in_file_location, "rb") as f:
-        df = pd.read_excel(f, engine="openpyxl")
-    line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
+        df_all = pd.read_excel(f, engine="openpyxl")
+    line_number = df_all[df_all[df_all.columns[0]] == "Your Submission:"].index.values[0]
     print("starting from line {}".format(line_number))
-    with open(in_file_location, "rb") as f:
-        df = pd.read_excel(f, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
+    new_header = df_all.iloc[line_number + 1]
+    df = df_all.iloc[line_number + 2:].copy()
+    df.columns = new_header
+    df = df.reset_index(drop=True)
 
     # update column name for new template
     df.columns = ['Sample Name' if col == 'Sample Name Pre-Hashing' else col for col in df.columns]
@@ -169,24 +171,24 @@ def config_file_generation(project_id, sample_name, genome, fastq_list):
     sample_tag_dict = pd.Series(df['Hashtag Name'].values,index=df['Sample Name']).to_dict()
 
     sub_sample_dict = {}
-    sub_sample_lst = df[df["Sample Name in IGO"].astype(str) == str(sample_name)]["Sample Name"].tolist()
+    sub_sample_lst = df[df["Sample Name in IGO"].astype(str) == str(sample_name.split("_IGO_")[0])]["Sample Name"].tolist()
     for item in sub_sample_lst:
         sub_sample_dict[item] = sample_tag_dict[item]
 
     # write config file for this sample
-    file_name = "{}Project_{}/Project_{}_{}.csv".format(CONFIG.CONFIG_AREA, project_id, project_id, sample_name)
+    file_name = "{}{}/{}_{}.csv".format(CONFIG.CONFIG_AREA, project_id, project_id, sample_name)
     try:
         os.makedirs(os.path.dirname(file_name))
     except OSError as error:
         print(error) 
     with open(file_name,'w') as file:
         file.write("[gene-expression]\n")
-        file.write("reference,{}}\n".format(CONFIG.config_dict["count"]["genome"][genome][17:]))
+        file.write("reference,{}\n".format(CONFIG.config_dict["count"]["genome"][genome][17:]))
         file.write("create-bam,true\n")
 
         file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
-        for file in fastq_list:
-            file.write("{},{},Gene Expression\n".format(sample_name, file))
+        for file_path in fastq_list:
+            file.write("{},{},Gene Expression\n".format(sample_name, file_path))
 
         file.write("\n[samples]\nsample_id,ocm_barcode_ids\n")
         for key, value in sub_sample_dict.items():
@@ -269,7 +271,7 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
             file_path = config_file_generation(project, sample, sample_genome_dict[sample], sample_fastqfile_dict[sample])
             # launch pipeline /igo/work/nabors/tools/cellranger-9.0.1/cellranger multi --id=20250508_DY_OCM_1_IGO_17326_1 --csv=/igo/stats/Multi_config/Project_17326/20250508_DY_OCM_1_IGO_17326_1.csv --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200
             tool = CONFIG.config_dict[tag]["tool"]
-            cmd = "{}--id=Sample_{}".format(tool, sample) + "--csv=={}".format(file_path) + CONFIG.ARC_OPTIONS
+            cmd = "{}--id=Sample_{}".format(tool, sample) + " --csv={}".format(file_path) + CONFIG.ARC_OPTIONS
             bsub_cmd = "bsub -J {}_{}_{}_OCM -o {}_OCM.out{}".format(sequencer_and_run, project, sample, sample, cmd)
             print(bsub_cmd)
             # subprocess.run(bsub_cmd, shell=True)
