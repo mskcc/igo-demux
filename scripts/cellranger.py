@@ -154,7 +154,7 @@ def config_file_generation(project_id, sample_name, genome, fastq_list):
     cmd = "cp -R {}{} {}".format(CONFIG.ORIGIN_DRIVE_LOCATION, project_id[8:], CONFIG.DRIVE_LOCATION)
     print(cmd)
     subprocess.run(cmd, shell=True)
-    in_file_location = glob.glob("{}{}/*.xlsx".format(CONFIG.DRIVE_LOCATION, project_id))[0]
+    in_file_location = glob.glob("{}{}/*.xlsx".format(CONFIG.DRIVE_LOCATION, project_id[8:]))[0]
     with open(in_file_location, "rb") as f:
         df = pd.read_excel(f, engine="openpyxl")
     line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
