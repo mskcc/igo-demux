@@ -274,7 +274,7 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
             cmd = "{}--id=Sample_{}".format(tool, sample) + " --csv={}".format(file_path) + CONFIG.ARC_OPTIONS
             bsub_cmd = "bsub -J {}_{}_{}_OCM -o {}_OCM.out{}".format(sequencer_and_run, project, sample, sample, cmd)
             print(bsub_cmd)
-            # subprocess.run(bsub_cmd, shell=True)
+            subprocess.run(bsub_cmd, shell=True)
 
         elif tag != "Skip":
             cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
