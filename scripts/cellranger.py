@@ -158,6 +158,7 @@ def config_file_generation(project_id, sample_name, genome, fastq_list):
     with open(in_file_location, "rb") as f:
         df = pd.read_excel(f, engine="openpyxl")
     line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
+    print("starting from line {}".format(line_number))
     with open(in_file_location, "rb") as f:
         df = pd.read_excel(f, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
 
