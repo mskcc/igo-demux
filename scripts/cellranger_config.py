@@ -54,8 +54,8 @@ ARC_OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjo
 TAG_DICT = {
     "SC_Chromium-GEX-3": "count",
     "SC_Chromium-GEX-5": "count",
-    "SC_Chromium-TCR": "vdj-t",
-    "SC_Chromium-BCR": "vdj-b",
+    "SC_Chromium-TCR": "vdj_t",
+    "SC_Chromium-BCR": "vdj_b",
     "SC_Chromium-Multiome": "arc", 
     "SC_Chromium-Multiome-ATAC": "arc", 
     "SC_Chromium-Multiome-GEX": "arc",
