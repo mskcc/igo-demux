@@ -10,6 +10,7 @@ import shutil
 import scripts.get_sequencing_read_data
 import scripts.cellranger_spatial
 import scripts.cellranger_config as CONFIG
+import glob
 
 """
 input: sample_sheet object(for sample list and essential info), sequencer_and_run(for stats folder and fastq file location)
@@ -57,16 +58,8 @@ def find_fastq_file(sample_ID_list, archive = False):
 
 def get_tag(recipe):
     tag = "Skip"
-    if recipe in CONFIG.COUNT_FLAVORS:
-        tag = "count"
-    if recipe in CONFIG.VDJ_T_FLAVORS:
-        tag = "vdj_t"
-    if recipe in CONFIG.VDJ_B_FLAVORS:
-        tag = "vdj_b"
-    if recipe in CONFIG.ARC_FLAVORS:
-        tag = "arc"
-    if recipe in CONFIG.SPATIAL_FLAVORS:
-        tag = "spaceranger"
+    if recipe in CONFIG.TAG_DICT.keys():
+        tag = CONFIG.TAG_DICT[recipe]
     return tag
 
 def generate_cellranger_cmd(sample_ID, tag, genome, fastq_file_path, sequencer_and_run):
@@ -155,6 +148,50 @@ def multiome_valid(fastq_list):
     
     return [is_valid, ge_list, atac_list]
 
+def config_file_generation(project_id, sample_name, genome, fastq_list):
+    # first step of file processing can be replaced by lims endpoint in the future once lims wf ready
+    # copy file from share drive to cluster first
+    cmd = "cp -R {}{} {}".format(CONFIG.ORIGIN_DRIVE_LOCATION, project_id[8:], CONFIG.DRIVE_LOCATION)
+    print(cmd)
+    subprocess.run(cmd, shell=True)
+    in_file_location = glob.glob("{}{}/*.xlsx".format(CONFIG.DRIVE_LOCATION, project_id))[0]
+    with open(in_file_location, "rb") as f:
+        df = pd.read_excel(f, engine="openpyxl")
+    line_number = df[df[df.columns[0]] == "Your Submission:"].index.values
+    with open(in_file_location, "rb") as f:
+        df = pd.read_excel(f, engine="openpyxl", skiprows=line_number + 1, header=line_number + 1)
+
+    # update column name for new template
+    df.columns = ['Sample Name' if col == 'Sample Name Pre-Hashing' else col for col in df.columns]
+    df.columns = ['Sample Name in IGO' if col == 'Sample ID from Sample Submission' else col for col in df.columns]
+
+    sample_tag_dict = pd.Series(df['Hashtag Name'].values,index=df['Sample Name']).to_dict()
+
+    sub_sample_dict = {}
+    sub_sample_lst = df[df["Sample Name in IGO"].astype(str) == str(sample_name)]["Sample Name"].tolist()
+    for item in sub_sample_lst:
+        sub_sample_dict[item] = sample_tag_dict[item]
+
+    # write config file for this sample
+    file_name = "{}Project_{}/Project_{}_{}.csv".format(CONFIG.CONFIG_AREA, project_id, project_id, sample_name)
+    try:
+        os.makedirs(os.path.dirname(file_name))
+    except OSError as error:
+        print(error) 
+    with open(file_name,'w') as file:
+        file.write("[gene-expression]\n")
+        file.write("reference,{}}\n".format(CONFIG.config_dict["count"]["genome"][genome][17:]))
+        file.write("create-bam,true\n")
+
+        file.write("\n[libraries]\nfastq_id,fastqs,feature_types\n")
+        for file in fastq_list:
+            file.write("{},{},Gene Expression\n".format(sample_name, file))
+
+        file.write("\n[samples]\nsample_id,ocm_barcode_ids\n")
+        for key, value in sub_sample_dict.items():
+            file.write("{},{}\n".format(key, value))
+    return file_name
+
 # lanuch cellranger per project
 def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_dict, sample_recipe_dict, archive = False):
     sample_fastqfile_dict = find_fastq_file(sample_id_list, archive)
@@ -226,6 +263,15 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
                 bsub_cmd = "bsub -J {}_{}_{}_SPATIAL -o {}_SPATIAL.out{}{}".format(sequencer_and_run, project, sample, sample, cmd, CONFIG.OPTIONS)
                 print(bsub_cmd)
                 subprocess.run(bsub_cmd, shell=True)
+        elif tag == "ocm":
+            # create config csv file by reading in template file like multi
+            file_path = config_file_generation(project, sample, sample_genome_dict[sample], sample_fastqfile_dict[sample])
+            # launch pipeline /igo/work/nabors/tools/cellranger-9.0.1/cellranger multi --id=20250508_DY_OCM_1_IGO_17326_1 --csv=/igo/stats/Multi_config/Project_17326/20250508_DY_OCM_1_IGO_17326_1.csv --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200
+            tool = CONFIG.config_dict[tag]["tool"]
+            cmd = "{}--id=Sample_{}".format(tool, sample) + "--csv=={}".format(file_path) + CONFIG.ARC_OPTIONS
+            bsub_cmd = "bsub -J {}_{}_{}_OCM -o {}_OCM.out{}".format(sequencer_and_run, project, sample, sample, cmd)
+            print(bsub_cmd)
+            # subprocess.run(bsub_cmd, shell=True)
 
         elif tag != "Skip":
             cmd = generate_cellranger_cmd(sample, tag, sample_genome_dict[sample], sample_fastqfile_dict[sample], sequencer_and_run)
