@@ -32,7 +32,7 @@ config_dict = {
         }
     },
     "spaceranger": {
-        "tool": " /igo/work/nabors/tools/spaceranger-3.1.2/spaceranger count ",
+        "tool": " /igo/work/nabors/tools/spaceranger-4.0.1/spaceranger count ",
         "genome": {
             "Human": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
             "Mouse": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/spatial_gex/refdata-gex-mm10-2020-A "
