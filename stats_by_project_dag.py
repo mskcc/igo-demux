@@ -69,6 +69,7 @@ with DAG(
 
             sample_list_ori = os.listdir(project_directory)
             sample_list = []
+            sample_name = ""
             for sample in sample_list_ori:
                 # remove Sample_ prefix
                 sample_list.append(sample[7:])
