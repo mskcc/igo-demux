@@ -220,7 +220,7 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
                 create_library_csv_file(validation[1], validation[2], sample)
                 tool = CONFIG.config_dict[tag]["tool"]
                 transcriptome = CONFIG.config_dict[tag]["genome"][sample_genome_dict[sample]]
-                cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--libraries={}Sample_{}.csv".format(work_area, sample) + CONFIG.ARC_OPTIONS
+                cmd = "{}--id=Sample_{}_multiome{}".format(tool, sample, transcriptome) + "--libraries={}Sample_{}.csv".format(work_area, sample) + CONFIG.ARC_OPTIONS
                 bsub_cmd = "bsub -J {}_{}_{}_ARC -o {}_ARC.out{}".format(sequencer_and_run, project, sample, sample, cmd)
                 print(bsub_cmd)
                 subprocess.run(bsub_cmd, shell=True)
@@ -233,10 +233,10 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
             else:
                 tool = CONFIG.config_dict[tag]["tool"]
                 transcriptome = CONFIG.config_dict[tag]["genome"][sample_genome_dict[sample]]
-                cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --image={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
+                cmd = "{}--id=Sample_{}_visium{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --image={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
                 
                 if sample_info.cytAssist:
-                    cmd = "{}--id=Sample_{}{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --cytaimage={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
+                    cmd = "{}--id=Sample_{}_visium{}".format(tool, sample, transcriptome) + "--fastqs=" + ",".join(sample_fastqfile_dict[sample]) + " --cytaimage={} --slide={} --area={}".format(sample_info.tiff_image, sample_info.chip_id, sample_info.chip_position)
                     if sample_genome_dict[sample] == "Human":
                         probe = CONFIG.config_dict[tag]["probe"]["Human_CytAssist"]
                     elif sample_genome_dict[sample] == "Mouse":
