@@ -124,7 +124,7 @@ def push_to_lims(sample_dict):
     converted_sample_dict = {}
     for key, values in sample_dict.items():
         # exclude the unclassified from lims
-        if "unclassified" not in key:
+        if "unclassified" not in key or "barcode" not in key:
             # Create a nested dictionary by zipping parameter names and values
             values = values + (key,)
             converted_sample_dict[key] = dict(zip(parameter_names, values))
