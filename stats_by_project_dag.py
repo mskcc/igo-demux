@@ -21,7 +21,7 @@ with DAG(
         import scripts.calculate_stats
         import scripts.cellranger
         import subprocess
-        import scripts.cellranger_multi
+        import scripts.cellranger_multi_v9
         import os
         import scripts.get_total_reads_from_demux
 
@@ -36,66 +36,7 @@ with DAG(
         project_id = project_directory.split("/")[-1]
 
         if recipe == "10X_multi":
-            # copy the multi config from shared drive to cluster
-            cmd = "cp -R {}{} {}".format(scripts.cellranger_multi.ORIGIN_DRIVE_LOCATION, project_id[8:], scripts.cellranger_multi.DRIVE_LOCATION)
-            print(cmd)
-            subprocess.run(cmd, shell=True)
-            # add file checking for ch and fb because lims request info not accurate at this moment
-            file_lst = []
-            file_prefix = scripts.cellranger_multi.DRIVE_LOCATION + project_id[8:]
-            file_lst = os.listdir(file_prefix)
-            print(file_lst)
-            ch = False
-            fb = False
-            for i in file_lst:
-                file_path = file_prefix + "/" + i
-                file_type = scripts.cellranger_multi.check_file_type(file_path)
-                if file_type == "ch":
-                    ch = True
-                    ch_file_name = "{}/{}_cell_hash.xlsx".format(file_prefix, project_id)
-                    os.rename(file_path, ch_file_name)
-                    print(f"File renamed from {file_path} to {ch_file_name}")
-                elif file_type == "fb":
-                    fb = True
-                    fb_file_name = "{}/{}_feature_barcoding.xlsx".format(file_prefix, project_id)
-                    os.rename(file_path, fb_file_name)
-                    print(f"File renamed from {file_path} to {fb_file_name}")
-
-            os.chdir(scripts.cellranger_multi.STATS_AREA)
-            # gather sample set info from LIMS for each sample
-            archive = False
-            if "delivery" in project_directory:
-                archive = True
-
-            sample_list_ori = os.listdir(project_directory)
-            sample_list = []
-            sample_name = ""
-            for sample in sample_list_ori:
-                # remove Sample_ prefix
-                sample_list.append(sample[7:])
-            for sample in sample_list:
-                sample_set = scripts.cellranger_multi.gather_sample_set_info(sample)
-                cmd = "bsub -J {}_{}_multi -o {}_{}_multi.out /igo/work/nabors/tools/venvpy3/bin/python /igo/work/igo/igo-demux/scripts/cellranger_multi.py ".format(project_id, sample, project_id, sample)
-                # update sample_set based on file checking result
-                if sample_set["ch"] is not None:
-                    sample_name = sample_set["ch"]
-                elif sample_set["fb"] is not None:
-                    sample_name = sample_set["fb"]
-                del sample_set["fb"]
-                del sample_set["ch"]
-                if ch:
-                    sample_set["ch"] = sample_name
-                if fb:
-                    sample_set["fb"] = sample_name
-
-                for key, value in sample_set.items():
-                    if value is not None:
-                        cmd = cmd + "-{}={} ".format(key, value)
-                cmd = cmd + "-genome={}".format(species)
-                if archive:
-                    cmd = cmd + " -archive"
-                print(cmd)
-                subprocess.run(cmd, shell=True)
+            scripts.cellranger_multi_v9.main(project_directory, species)
 
         elif "SC_Chromium" in recipe or "ST_Visium" in recipe:
             scripts.cellranger.launch_cellranger_by_project_location(project_directory, recipe, species)
