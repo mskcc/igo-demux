@@ -1,5 +1,6 @@
 # work folder
 STATS_AREA = "/igo/staging/CELLRANGER/"
+MULTI_STATS_AREA = "/igo/staging/PIPELINE/"
 
 # config info 
 ACCESS = 0o775
@@ -49,6 +50,7 @@ config_dict = {
 # cellranger command line options
 OPTIONS = " --create-bam=true --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"
 ARC_OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"
+MULTI_OPTIONS = " --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200"
 
 # 10X recipe list for different pipelines
 TAG_DICT = {
@@ -71,6 +73,8 @@ SAIL = "15500"
 DO_NOT_PROCESS = [SCRI, SAIL, "16364"]
 
 VISIUM_ENDPOINT = "https://igolims.mskcc.org:8443/LimsRest/getConfig?igoId="
+MULTI_ENDPOINT= "https://igolims.mskcc.org:8443/LimsRest/getTenxSampleInfo?requestId="
+
 original_tiff_images_directory = "/rtssdc/mohibullahlab/IGO_Pipeline_Results/Single_Cell/10X_Genomics/TIFF_Images/"
 tiff_images_directory = "/igo/work/igo/TIFF_Images/"
 CONFIG_AREA = "/igo/stats/Multi_config/"
