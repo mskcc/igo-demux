@@ -36,7 +36,7 @@ with DAG(
         project_id = project_directory.split("/")[-1]
 
         if recipe == "10X_multi":
-            scripts.cellranger_multi_v9.main(project_directory, species)
+            scripts.cellranger_multi_v9.launch_multi_by_project_location(project_directory, species)
 
         elif "SC_Chromium" in recipe or "ST_Visium" in recipe:
             scripts.cellranger.launch_cellranger_by_project_location(project_directory, recipe, species)
