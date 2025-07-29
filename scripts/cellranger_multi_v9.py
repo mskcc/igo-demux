@@ -58,11 +58,11 @@ class Multi_Config:
             elif key == "fb":
                 self.lirbaries[value] = [fastq_list[value], "Antibody Capture"]
                 self.ch_project_id = "_".join(value.split("IGO_")[1].split("_")[:-1])
-                fb = True
+                self.fb = True
             elif key =="ch":
                 self.lirbaries[value] = [fastq_list[value], "Antibody Capture"]
                 self.ch_project_id = "_".join(value.split("IGO_")[1].split("_")[:-1])
-                ch = True
+                self.ch = True
 
         
     # read ch/fb file from shared drive and generate config/ch file per sample and return sample to sub sample info
@@ -93,7 +93,7 @@ class Multi_Config:
                 self.samples[item] = sample_tag_dict[item]
         
         # fb file
-        if self.fb > 0:      
+        if self.fb:      
             in_file_location = glob.glob("{}{}/*feature_barcoding.xlsx".format(CONFIG.DRIVE_LOCATION, self.ge_project_id))[0]  
             with open(in_file_location, "rb") as f:
                 df_all = pd.read_excel(f, engine="openpyxl")
@@ -225,7 +225,7 @@ def launch_pipeline_by_sample(sample_set, genome, archive):
     os.chdir(work_area)
     print("Start cellranger from {}".format(work_area))
     print(cmd)
-    subprocess.run(cmd, shell=True)
+    # subprocess.run(cmd, shell=True)
 
 def launch_multi_by_project_location(project_directory, genome):
     project_id = project_directory.split("/")[-1]
