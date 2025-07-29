@@ -64,7 +64,6 @@ class Multi_Config:
                 self.ch_project_id = "_".join(value.split("IGO_")[1].split("_")[:-1])
                 self.ch = True
 
-        
     # read ch/fb file from shared drive and generate config/ch file per sample and return sample to sub sample info
     # default all hash tag are totalseq B from biolegend
     def reference_file_generation(self):
@@ -277,6 +276,8 @@ def launch_multi_by_project_location(project_directory, genome):
             sample_set["ch"] = sample_name
         if fb:
             sample_set["fb"] = sample_name
+        
+        print(sample_set)
         launch_pipeline_by_sample(sample_set, genome, archive)
 
 if __name__ == '__main__':
