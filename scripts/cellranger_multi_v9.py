@@ -277,6 +277,11 @@ def launch_multi_by_project_location(project_directory, genome):
         if fb:
             sample_set["fb"] = sample_name
         
+        # remove None value
+        for key, value in sample_set.items():
+            if value is None:
+                del sample_set[key]
+                
         print(sample_set)
         launch_pipeline_by_sample(sample_set, genome, archive)
 
