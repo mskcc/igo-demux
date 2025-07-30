@@ -209,7 +209,7 @@ def launch_pipeline_by_sample(sample_set, genome, archive):
     sample = Multi_Config(sample_set, genome, archive)
     os.chdir(CONFIG.MULTI_STATS_AREA)
     # create project folder if not exists
-    project = "Project_" + sample.ch_project_ID
+    project = "Project_" + sample.ch_project_id
     try:
         os.mkdir(project, CONFIG.ACCESS)
     except OSError as error:
