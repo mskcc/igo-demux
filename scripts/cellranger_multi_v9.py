@@ -278,10 +278,8 @@ def launch_multi_by_project_location(project_directory, genome):
             sample_set["fb"] = sample_name
         
         # remove None value
-        for key, value in sample_set.items():
-            if value is None:
-                del sample_set[key]
-                
+        sample_set = {k: v for k, v in sample_set.items() if v is not None}
+
         print(sample_set)
         launch_pipeline_by_sample(sample_set, genome, archive)
 
