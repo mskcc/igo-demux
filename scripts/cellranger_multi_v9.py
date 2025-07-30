@@ -39,7 +39,7 @@ class Multi_Config:
         self.features = "{}Project_{}/Project{}_reference_{}.csv".format(CONFIG.CONFIG_AREA, self.ge_project_id, self.ge_project_id, self.username)
         self.name = sample_set["ge"]
         self.genome = CONFIG.config_dict["count"]["genome"][genome][17:]
-        if sample_set["vdj_t"] is not None or sample_set["vdj_b"] is not None:
+        if "vdj-t" in sample_set or "vdj-b" in sample_set:
             self.vdj = CONFIG.config_dict["vdj"]["genome"][genome][13:]
         
         # find fastq files for each sample and append information into config["libraries"]
