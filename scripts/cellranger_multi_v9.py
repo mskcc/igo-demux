@@ -39,7 +39,7 @@ class Multi_Config:
         self.features = "{}Project_{}/Project{}_reference_{}.csv".format(CONFIG.CONFIG_AREA, self.ge_project_id, self.ge_project_id, self.username)
         self.name = sample_set["ge"]
         self.genome = CONFIG.config_dict["count"]["genome"][genome][17:]
-        if "vdj-t" in sample_set or "vdj-b" in sample_set:
+        if "vdj_t" in sample_set or "vdj_b" in sample_set:
             self.vdj = CONFIG.config_dict["vdj"]["genome"][genome][13:]
         
         # find fastq files for each sample and append information into config["libraries"]
@@ -217,16 +217,17 @@ def launch_pipeline_by_sample(sample_set, genome, archive):
     sample.reference_file_generation()
     file_name = sample.write_to_csv()
 
-    cmd = "bsub -J {}_multi -o {}_multi.out{}--id={} --csv={}{}".format(sample.name, sample.name, CONFIG.config_dict["multi"]["tool"], sample.name, file_name, CONFIG.MULTI_OPTIONS)
+    cmd = "bsub -J {}_multi -o {}_multi.out{}--id={}_multi --csv={}{}".format(sample.name, sample.name, CONFIG.config_dict["multi"]["tool"], sample.name, file_name, CONFIG.MULTI_OPTIONS)
 
     work_area = CONFIG.MULTI_STATS_AREA + project + "/" 
     # GO TO project ID LOCATION to start cellranger command
     os.chdir(work_area)
     print("Start cellranger from {}".format(work_area))
     print(cmd)
-    # subprocess.run(cmd, shell=True)
+    subprocess.run(cmd, shell=True)
 
 def launch_multi_by_project_location(project_directory, genome):
+    project_directory = project_directory.rstrip("/")
     project_id = project_directory.split("/")[-1]
     # copy the multi config from shared drive to cluster
     cmd = "cp -R {}{} {}".format(CONFIG.ORIGIN_DRIVE_LOCATION, project_id[8:], CONFIG.DRIVE_LOCATION)
