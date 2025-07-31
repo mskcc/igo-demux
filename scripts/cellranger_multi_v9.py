@@ -261,6 +261,10 @@ def launch_multi_by_project_location(project_directory, genome):
 
     sample_list_ori = os.listdir(project_directory)
     sample_list = []
+    
+    #declare the sample_name variable 
+    sample_name = ""
+    
     # remove Sample_ prefix
     for sample in sample_list_ori:
         sample_list.append(sample[7:])
