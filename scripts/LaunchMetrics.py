@@ -62,9 +62,13 @@ class LaunchMetrics(object):
 			igo_storage_location = "staging"
 		
 		for sample in all_samples:
-			# check for names in the bait_ste column
+			# check for names in the bait_set column
 			if len(sample.bait_set) != 0:
 				sample = replace(sample, recipe = sample.bait_set)
+				
+			# check for the "Mouse_GeneticallyModified" organism in the sample.genome entry int he dataclass
+			if (sample.genome is "Mouse_GeneticallyModified"):
+				sample = replace(sample, genome = "Mouse")
 			
 			# test to see if there are some samples that this script will not process
 			if any(s in sample.recipe for s in DO_NOT_PROCESS):
