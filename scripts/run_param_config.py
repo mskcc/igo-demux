@@ -116,7 +116,7 @@ recipe_overrides = {
 species_genome_mapping_UNORDERED = {
 		"Human": "GRCh38",
 		"Mouse": "grcm39",
-		"Mouse_GeneticallyModified": "grcm39",
+		# "Mouse_GeneticallyModified": "grcm39",
 		"Drosophila": "dm6",
 		"Zebrafish": "grcz11",
 		"Chicken": "Galgal4",
