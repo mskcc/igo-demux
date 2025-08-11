@@ -10,7 +10,7 @@ def get_sequencing_read_data(sequencer_path):
 	""" method to check the read lengths in the RunInfo.xml file """
 	
 	# compare tag
-	atac_reads = [[51, 8, 24, 50], [51, 8, 16, 50], [51, 8, 24, 51]]
+	atac_reads = [[51, 8, 24, 50], [51, 8, 16, 51], [51, 8, 24, 51]]
 	
 	
 	# set variables to parge the XML file

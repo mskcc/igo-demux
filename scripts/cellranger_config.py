@@ -40,9 +40,9 @@ config_dict = {
         },
         "probe": {
             "Human": "/igo/work/nabors/genomes/10X_Genomics/spatial_gex/Visium_Human_Transcriptome_Probe_Set_v1.0_GRCh38-2020-A.csv",
-            "Human_CytAssist": "/igo/work/genomes/10X_Genomics/spaceranger/Visium_Human_Transcriptome_Probe_Set_v2.0_GRCh38-2020-A.csv",
+            "Human_CytAssist": "/igo/work/nabors/tools/spaceranger-4.0.1/probe_sets/Visium_Human_Transcriptome_Probe_Set_v2.1.0_GRCh38-2024-A.csv",
             "Mouse": "/igo/work/nabors/tools/spaceranger-3.0.0/external/tenx_feature_references/targeted_panels/Visium_Mouse_Transcriptome_Probe_Set_v1.0_mm10-2020-A.csv",
-            "Mouse_HD": "/igo/work/nabors/tools/spaceranger-3.0.0/external/tenx_feature_references/targeted_panels/Visium_Mouse_Transcriptome_Probe_Set_v2.0_mm10-2020-A.csv"
+            "Mouse_HD": "/igo/work/nabors/tools/spaceranger-4.0.1/probe_sets/Visium_Mouse_Transcriptome_Probe_Set_v2.1.0_GRCm39-2024-A.csv"
         }
     }
 }
