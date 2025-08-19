@@ -63,8 +63,8 @@ TAG_DICT = {
     "SC_Chromium-Multiome-GEX": "arc",
     "ST_Visium": "spaceranger",
     "ST_Visium-HD": "spaceranger",
-    "SC_Chromium-OCM": "ocm",
-    "SC_Chromium-Flex": "flex"
+    "SC_Chromium-OCM": "ocm"
+    #"SC_Chromium-Flex": "flex"
 }
 
 # we do not want to PROCESS SAIL (15500) or SCRI (12437) projects, adding new chemistry for SAIL, 16364
