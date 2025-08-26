@@ -42,7 +42,7 @@ class LaunchTCRSeq(object):
 				# this will combine the fastq data to run
 				self.combined_fastq_directory = self.combine_tcrseq_fastq_data(tcr_project.project_id)
 				os.chdir("/igo/work/igo/TCR_preprocessing")
-				launch_trcseq_analysis = "/igo/work/igo/mini3/bin/conda run -p /igo/work/igo/mini3/envs/TCRSeq python /igo/work/igo/TCR_preprocessing/manager.py -p {} -m /igo/work/nabors/TCRSeq/Manifest/{} -species human".format(self.combined_fastq_directory, tcr_project.project_id)
+				launch_trcseq_analysis = "/igo/work/igo/mini3/bin/conda run -p /igo/work/igo/mini3/envs/TCRSeq python /igo/work/igo/TCR_preprocessing/manager.py -p {} -m /igo/work/nabors/TCRSeq/Manifest/{} -species {}".format(self.combined_fastq_directory, tcr_project.project_id, tcr_project.genome)
 				print(launch_trcseq_analysis)
 				call(launch_trcseq_analysis, shell = True)
 			
