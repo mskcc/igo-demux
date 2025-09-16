@@ -253,11 +253,6 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
                 # Eventhough HE image is required internal, the pipeline doesn't need it. Add it if exists
                 if sample_info.HE_tiff_image != "EMPTY":
                     cmd = cmd + " --image={}".format(sample_info.HE_tiff_image)
-                    # copy microsope image here in sub folder for delivery 
-                    HE_folder_loc = work_area + "Microscope/"
-                    if not os.path.exists(HE_folder_loc):
-                        os.makedirs(HE_folder_loc)
-                    shutil.copy(sample_info.HE_tiff_image , HE_folder_loc)
                 
                 # if there is manual alignment json file availabe, add that to the cmd
                 if sample_info.json != "EMPTY":
