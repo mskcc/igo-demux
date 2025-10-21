@@ -60,7 +60,7 @@ class DragenStats:
         newline = "\n"
         header = "CATEGORY{0}TOTAL_READS{0}PF_READS{0}PCT_PF_READS{0}PF_NOISE_READS{0}PF_READS_ALIGNED{0}PCT_PF_READS_ALIGNED{0}PF_ALIGNED_BASES{0}PF_HQ_ALIGNED_READS{0}PF_HQ_ALIGNED_BASES{0}PF_HQ_ALIGNED_Q20_BASES{0}PF_HQ_MEDIAN_MISMATCHES{0}PF_MISMATCH_RATE{0}PF_HQ_ERROR_RATE{0}PF_INDEL_RATE{0}MEAN_READ_LENGTH{0}READS_ALIGNED_IN_PAIRS{0}PCT_READS_ALIGNED_IN_PAIRS{0}PF_READS_IMPROPER_PAIRS{0}PCT_PF_READS_IMPROPER_PAIRS{0}BAD_CYCLES{0}STRAND_BALANCE{0}PCT_CHIMERAS{0}PCT_ADAPTER{0}SAMPLE{0}LIBRARY{0}READ_GROUP".format(tab)
 
-        write_to_file ="{}/{}___DRAGEN3_10_8___AM.txt".format(output_folder, metrics_file_prefix)
+        write_to_file ="{}/{}___DRAGEN_4_2_7___AM.txt".format(output_folder, metrics_file_prefix)
         print("Writing: " + write_to_file)
         data_line = ""
         for i in data_list_to_write:
@@ -86,7 +86,7 @@ class DragenStats:
         newline = "\n"
         header = "LIBRARY{0}UNPAIRED_READS_EXAMINED{0}READ_PAIRS_EXAMINED{0}SECONDARY_OR_SUPPLEMENTARY_RDS{0}UNMAPPED_READS{0}UNPAIRED_READ_DUPLICATES{0}READ_PAIR_DUPLICATES{0}READ_PAIR_OPTICAL_DUPLICATES{0}PERCENT_DUPLICATION{0}ESTIMATED_LIBRARY_SIZE".format(tab)
         
-        write_to_file = "{}/{}___DRAGEN3_10_8___MD.txt".format(output_folder, metrics_file_prefix)
+        write_to_file = "{}/{}___DRAGEN_4_2_7___MD.txt".format(output_folder, metrics_file_prefix)
         print("Writing: " + write_to_file)
         data_line = ""
         for i in data_list_to_write:
@@ -112,7 +112,7 @@ class DragenStats:
         newline = "\n"
         header = "GENOME_TERRITORY{0}MEAN_COVERAGE{0}SD_COVERAGE{0}MEDIAN_COVERAGE{0}MAD_COVERAGE{0}PCT_EXC_ADAPTER{0}PCT_EXC_MAPQ{0}PCT_EXC_DUPE{0}PCT_EXC_UNPAIRED{0}PCT_EXC_BASEQ{0}PCT_EXC_OVERLAP{0}PCT_EXC_CAPPED{0}PCT_EXC_TOTAL{0}PCT_1X{0}PCT_5X{0}PCT_10X{0}PCT_15X{0}PCT_20X{0}PCT_25X{0}PCT_30X{0}PCT_40X{0}PCT_50X{0}PCT_60X{0}PCT_70X{0}PCT_80X{0}PCT_90X{0}PCT_100X{0}FOLD_80_BASE_PENALTY{0}FOLD_90_BASE_PENALTY{0}FOLD_95_BASE_PENALTY{0}HET_SNP_SENSITIVITY{0}HET_SNP_Q".format(tab)
         
-        write_to_file = "{}/{}___DRAGEN3_10_8___WGS.txt".format(output_folder, metrics_file_prefix)
+        write_to_file = "{}/{}___DRAGEN_4_2_7___WGS.txt".format(output_folder, metrics_file_prefix)
         print("Writing: " + write_to_file)
         data_line = ""
         for i in data_list_to_write:
