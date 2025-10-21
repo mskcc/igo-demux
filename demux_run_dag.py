@@ -12,6 +12,7 @@ import scripts.calculate_stats
 import scripts.get_sequencing_read_data
 import scripts.upload_stats
 import Fingerprinting.fingerprinting_dag
+import scripts.launch_tcrseq_analysis
 
 from airflow import DAG
 from airflow.operators.python import PythonOperator
@@ -200,7 +201,11 @@ with DAG(
             # launch_wgs_stats(sample_sheet, sequencer_and_run)
             # print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
+        # this routuine start the DRAGENand Picard Analysis after the run has demuxed
         scripts.calculate_stats.main(samplesheet_path)
+        
+        # use sample sheet to go ahead and start the TCRSeq analysis after fastqs have been created
+        scripts.launch_tcrseq_analysis.main(samplesheet_path)
 
         # add DONE file when all the stats finished, -K to wait until finish
         cmd = 'bsub -K -J wait_stats_done_for_{} -w \"done(uplaodWGSstats{}*)\" touch /igo/staging/stats/{}/DONE'.format(sequencer_and_run, sequencer_and_run, sequencer_and_run)
