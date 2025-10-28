@@ -14,7 +14,7 @@ import scripts.get_total_reads_from_demux
 
 
 # Global Variable : we do not want to process these experiments in this script
-DO_NOT_PROCESS = ["SC_DLP"]
+DO_NOT_PROCESS = ["SC_DLP", "SC_SCD-WGS"]
 # These recipes will be evaluated using DRAGEN because of their larger size of fastqs
 # RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "WGS", "ChIP", "CUT&RUN", "Amplicon", "User_ERIL"]
 RUN_ON_DRAGEN = ["MissionBio", "SingleCellCNV", "WGS", "ChIP", "WES_Human", "User_ERIL"]

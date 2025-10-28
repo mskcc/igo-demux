@@ -67,7 +67,7 @@ with DAG(
         
         # check if the sample sheet contains DLP project
         is_DLP = False
-        if "SC_DLP" in sample_sheet.recipe_set:
+        if "SC_DLP" in sample_sheet.recipe_set or "SC_SCD-WGS" in sample_sheet.recipe_set:
             is_DLP = True
             dragen_demux = True
         
@@ -109,7 +109,7 @@ with DAG(
     def get_dlp_chip(samplesheet, project):
         samplesheet.df_ss_data.reset_index()
         for index, row in samplesheet.df_ss_data.iterrows():
-            if row['Sample_Well'] == 'SC_DLP' and project == row['Sample_Project']:
+            if (row['Sample_Well'] == 'SC_DLP' or row['Sample_Well'] == 'SC_SCD-WGS') and project == row['Sample_Project']:
                 # return chip from 071PP_DLP_UNSORTED_128624A_13_12_IGO_09443_CU_1_1_121
                 sample = row['Sample_ID']
                 return get_dlp_chip_from_sample_name(sample)
@@ -137,7 +137,7 @@ with DAG(
         if "REFERENCE" in samplesheet_path:
             return "No stats for reference "  + samplesheet_path
 
-        if "SC_DLP" in sample_sheet.recipe_set:
+        if "SC_DLP" in sample_sheet.recipe_set or "SC_SCD-WGS" in sample_sheet.recipe_set:
             scripts.get_total_reads_from_demux.run_DLP(sample_sheet, sequencer_and_run)
             scripts.upload_stats.upload_stats(sequencer_and_run)
             
