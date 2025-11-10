@@ -52,7 +52,7 @@ def copy_run_stats(run_id):
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print("Usage: python3 copy_run_stats.py <RunID>")
+        print("Usage: python3 move_novaseqx_analysis_files.py <RunID>")
         sys.exit(1)
 
     run_id = sys.argv[1].strip()
