@@ -30,18 +30,7 @@ def create_fastq_folders(run_demux_dir):
                 move_fastq_2_folder = "mv " + all_fastqs_of_one_sample + " " + fastq_folder
                 print(move_fastq_2_folder)
                 call(move_fastq_2_folder, shell = True)
-                # Special behavior for 08822 projects, create merged R1 fastq.gz & merged R2 fastq.gz for bwamem2 consumption
-                if "_IGO_08822" in fastq_folder and not "_RNA_IGO_" in fastq_folder:
-                    ppg_dir = run_demux_dir +"_PPG/" + project + "/" + fastq_folder + "/"
-                    print("Creating PPG fastq dirs: " + ppg_dir)
-                    os.makedirs(ppg_dir)
-                    cat_r1_cmd = "cat " + fastq_folder + "/*_R1_001.fastq.gz > " + ppg_dir + "/" + sample_name + "_S01_R1_001.fastq.gz"
-                    print(cat_r1_cmd)
-                    call(cat_r1_cmd, shell = True)
-                    cat_r2_cmd = "cat " + fastq_folder + "/*_R2_001.fastq.gz > " + ppg_dir + "/" + sample_name + "_S01_R2_001.fastq.gz"
-                    print(cat_r2_cmd)
-                    call(cat_r2_cmd, shell = True)
-
+               
 
 # regex. regular expression
 # ^ = start at beginning of string. $ = start at end of string
