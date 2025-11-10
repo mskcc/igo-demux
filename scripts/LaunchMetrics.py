@@ -192,7 +192,12 @@ class LaunchMetrics(object):
 			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/{}".format(sample_parameters["GTAG"])
 			vcfFileOption = ""
 			
-			# /opt/dragen/4.3.6/bin/dragen # we may need this later
+		# /opt/dragen/4.3.6/bin/dragen # we may need this later
+		# Check to see if 08822 WGS
+		if ("08822" in sample.project) and ("_RNA_" not in sample.sample_id):
+			# run this routine to align a downsampled bam
+			LaunchMetrics.ppg_dragen(sample, run, sample_parameters, work_directory, dragen_directory, fastq_list, dragen_path)
+			return(None)
 			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
 		launch_dragen = "/opt/edico/bin/dragen --force --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} {} --enable-duplicate-marking true --enable-sort true --enable-map-align true --enable-map-align-output true --output-format cram --enable-bam-indexing true --bin_memory 70000000000 ".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id, vcfFileOption)
@@ -205,16 +210,6 @@ class LaunchMetrics(object):
 		bsub_dragen_parse_dna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(dragen_parse_header, sample.sample_id, dragen_job_name_header, dragen_directory, dragen_parse_dna)
 		print(bsub_dragen_parse_dna)
 		call(bsub_dragen_parse_dna, shell = True)
-		
-		# launch special BWA_MEM2 script to create PED PEG samples
-		if ("08822" in sample.project) and ("_RNA_" not in sample.sample_id):
-			# create directory 
-			output_dir = "{}{}".format(work_directory, sample.project)
-			pathlib.Path(output_dir).mkdir(parents = True, exist_ok = True)
-			sample_dir = "/igo/staging/FASTQ/{}_PPG/{}/Sample_{}".format(run, sample.project, sample.sample_id)
-			run_bwa_mem = "/home/igo/miniconda_airflow/bin/python3 /igo/work/igo/igo-demux/scripts/bwa_mem2_only_per_sample.py {} {}".format(sample_dir, output_dir)
-			print(run_bwa_mem)
-			call(run_bwa_mem, shell = True)
 			
 		if ("BAITS" in sample_parameters.keys()):
 			hs_metrics_job_name_header = "{}___HS_METRICS___".format(run)
@@ -222,9 +217,33 @@ class LaunchMetrics(object):
 			bsub_hs_metrics = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n8 -M8 {4}".format(hs_metrics_job_name_header, sample.sample_id, dragen_job_name_header, dragen_directory, hs_metrics)
 			print(bsub_hs_metrics)
 			call(bsub_hs_metrics, shell = True)
+
+
+	@staticmethod
+	def ppg_dragen(sample, run, sample_parameters, work_directory, dragen_directory, fastq_list, dragen_path):
+		#
+		os.chdir(dragen_directory)
+		dragen_job_name_header = "{}___DRAGEN_for_PPG___".format(run)
 		
+		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
+		launch_dragen = "/opt/edico/bin/dragen --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} --qc-cross-cont-vcf /opt/edico/config/sample_cross_contamination_resource_hg38.vcf.gz --enable-duplicate-marking true --enable-sort true --enable-map-align true --enable-map-align-output true --output-format cram --enable-bam-indexing true --bin_memory 70000000000 --enable-down-sampler true --down-sampler-coverage 120 --enable-down-sampler-fastq true".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id)
+		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n 48 -M 4 {3}".format(dragen_job_name_header, sample.sample_id, dragen_directory, launch_dragen)
+		print(bsub_launch_dragen)
+		call(bsub_launch_dragen, shell = True)
 		
+		dragen_parse_header = "{}___DRAGEN_for_PPG_PARSE___".format(run)
+		dragen_parse_dna = "/home/igo/miniconda_airflow/bin/python3 /igo/work/igo/igo-demux/scripts/dragen_csv_to_picard.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
+		bsub_dragen_parse_dna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(dragen_parse_header, sample.sample_id, dragen_job_name_header, dragen_directory, dragen_parse_dna)
+		print(bsub_dragen_parse_dna)
+		call(bsub_dragen_parse_dna, shell = True)
 		
+		# let's generate the BWA-MEM2 BAM for PPG using the newly downsasmpled fastqs
+		bwa_mem2 = "/igo/work/nabors/tools/venvpy3/bin/python /igo/staging/stats/naborsd_workspace/Testing_Metrics_Launch_Airflow/AUTOMATIC_DOWNSAMPLE/bwa_mem2_only_per_sample.py {} {} {} {}".format(sample.sample_id, sample.project, dragen_directory, dragen_job_name_header)
+		bsub_bwa_mem2 = "bsub -w \"ended({3}{1})\" -J {0}___BWA_MEM2_for_PPG___{1} -o {0}___BWA_MEM2_for_PPG___{1}.out -n32 -M8 {2}".format(run, sample.sample_id, bwa_mem2, dragen_job_name_header)
+		print(bsub_bwa_mem2)
+		call(bsub_bwa_mem2, shell = True)
+		
+
 	@staticmethod
 	def dragen_methylation(sample, run, sample_parameters, work_directory, dragen_directory, fastq_list):
 		#
