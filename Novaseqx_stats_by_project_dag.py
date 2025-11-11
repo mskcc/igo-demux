@@ -29,7 +29,7 @@ dag = DAG(
     tags=["igo", "sequencer", "copy"],
 )
 
-copy_script = "/igo-demux/scripts/move_novaseqx_analysis_files.py"
+copy_script = "/igo/work/igo/igo-demux/scripts/move_novaseqx_analysis_files.py"
 
 
 def get_latest_completed_runs(**context):

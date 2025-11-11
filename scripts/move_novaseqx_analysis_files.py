@@ -5,15 +5,13 @@ import subprocess
 
 def move_novaseqx_analysis_files(run_id: str):
     """
-    Move sequencing analysis results from:
+    Move all germline_seq files from:
       /igo/sequencers/<sequencer>/<RunID>/Analysis/1/Data/Project_*/DragenGermline/*_IGO_*/germline_seq/
-    to:
-      /igo/staging/stats/<sequencer>_<RunID>/Project_*/<_IGO_*>
-
-    The project and sample directory names are preserved exactly as they appear in the source.
+    into a single flat destination folder:
+      /igo/staging/stats/<sequencer>_<RunID>/DRAGEN/
     """
 
-    # Normalize RunID and detect sequencer
+    # Detect sequencer automatically from RunID
     run_id_upper = run_id.upper()
     if "BONO" in run_id_upper:
         sequencer = "bono"
@@ -23,64 +21,46 @@ def move_novaseqx_analysis_files(run_id: str):
         print(f"❌ ERROR: Unknown sequencer in RunID: {run_id}")
         sys.exit(1)
 
-    # Define base source and destination directories
     base_src = f"/igo/sequencers/{sequencer}/{run_id}/Analysis/1/Data"
-    base_dest = f"/igo/staging/stats/{sequencer}_{run_id}"
+    base_dest = f"/igo/staging/stats/{sequencer}_{run_id}/DRAGEN"
 
-    # Validate source existence
     if not os.path.exists(base_src):
         print(f"❌ Source directory not found: {base_src}")
         sys.exit(1)
 
     os.makedirs(base_dest, exist_ok=True)
-    print(f"✅ Created or verified destination root: {base_dest}")
+    print(f"✅ Destination directory ready: {base_dest}")
 
-    # Find all project-level directories
-    project_dirs = sorted(glob.glob(os.path.join(base_src, "Project_*")))
-    if not project_dirs:
-        print(f"⚠️ No Project_* directories found under {base_src}")
+    # Find all germline_seq folders under Project_*/DragenGermline/*_IGO_*/
+    search_pattern = os.path.join(base_src, "Project_*", "DragenGermline", "*_IGO_*", "germline_seq")
+    germline_dirs = sorted(glob.glob(search_pattern))
+
+    if not germline_dirs:
+        print(f"⚠️ No germline_seq directories found under {base_src}")
         sys.exit(0)
 
-    for project_dir in project_dirs:
-        project_name = os.path.basename(project_dir)
-        project_dest = os.path.join(base_dest, project_name)
-        os.makedirs(project_dest, exist_ok=True)
+    print(f"🔍 Found {len(germline_dirs)} germline_seq directories to copy.")
 
-        print(f"\n Processing project: {project_name}")
+    for src_dir in germline_dirs:
+        project_name = src_dir.split("/")[-4]   # Project_*
+        sample_name = src_dir.split("/")[-2]    # *_IGO_*
+        print(f"  Copying {project_name}/{sample_name}")
 
-        # Find all sample directories (matching *_IGO_*)
-        sample_dirs = sorted(glob.glob(os.path.join(project_dir, "DragenGermline", "*_IGO_*")))
-        if not sample_dirs:
-            print(f"  ⚠️ No *_IGO_* directories found under {project_dir}/DragenGermline/")
-            continue
+        rsync_cmd = [
+            "rsync",
+            "-avh",
+            "--progress",
+            f"{src_dir}/",
+            f"{base_dest}/"
+        ]
 
-        for sample_dir in sample_dirs:
-            sample_name = os.path.basename(sample_dir)
-            sample_dest = os.path.join(project_dest, sample_name)
-            os.makedirs(sample_dest, exist_ok=True)
+        try:
+            subprocess.run(rsync_cmd, check=True)
+            print(f"  ✅ Done copying {project_name}/{sample_name}")
+        except subprocess.CalledProcessError as e:
+            print(f"  ❌ rsync failed for {project_name}/{sample_name}: {e}")
 
-            src_germline_seq = os.path.join(sample_dir, "germline_seq")
-            if not os.path.exists(src_germline_seq):
-                print(f"  ⚠️ germline_seq directory missing in {sample_dir}")
-                continue
-
-            # rsync copy while preserving all files inside germline_seq
-            rsync_cmd = [
-                "rsync",
-                "-avh",
-                "--progress",
-                f"{src_germline_seq}/",
-                f"{sample_dest}/"
-            ]
-
-            print(f" Copying sample {sample_name} ...")
-            try:
-                subprocess.run(rsync_cmd, check=True)
-                print(f"  ✅ Copied {sample_name} → {sample_dest}")
-            except subprocess.CalledProcessError as e:
-                print(f"  ❌ rsync failed for {sample_name}: {e}")
-
-    print("\n All eligible project/sample directories processed successfully.")
+    print("\n All files successfully copied into DRAGEN folder.")
 
 
 if __name__ == "__main__":
