@@ -30,8 +30,6 @@ dag = DAG(
 )
 
 copy_script = "/igo/work/igo/igo-demux/scripts/move_novaseqx_analysis_files.py"
-
-
 completed_runs_file = "/igo/sequencers/completed_runs.json"
 
 
@@ -81,6 +79,21 @@ def copy_runs_to_staging(**context):
         except subprocess.CalledProcessError as e:
             print(f"❌ Copy failed for {run_id}: {e}")
 
+def clear_completed_runs_file(**context):
+    """
+    Clears the contents of /igo/sequencers/completed_runs.json after successful copy.
+    """
+    if not os.path.exists(completed_runs_file):
+        print("No completed_runs.json file found to clear.")
+        return
+
+    try:
+        with open(completed_runs_file, "w") as f:
+            json.dump({"timestamp": datetime.now().isoformat(), "completed_runs": []}, f, indent=2)
+        print(f"Cleared completed runs in {completed_runs_file}")
+    except Exception as e:
+        print(f"Failed to clear completed_runs.json: {e}")
+
 
 get_runs_task = PythonOperator(
     task_id="get_completed_runs_from_file",
@@ -96,4 +109,11 @@ copy_runs_task = PythonOperator(
     dag=dag,
 )
 
-get_runs_task >> copy_runs_task
+clear_file_task = PythonOperator(
+    task_id="clear_completed_runs_file",
+    python_callable=clear_completed_runs_file,
+    provide_context=True,
+    dag=dag,
+)
+
+get_runs_task >> copy_runs_task >> clear_file_task
