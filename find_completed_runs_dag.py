@@ -64,6 +64,7 @@ sequencers = {
    ]
 }
 
+completed_runs_file = "/igo/sequencers/completed_runs.json"
 
 """
 Find recently completed runs by looking for the last file written by the sequencers,
@@ -160,3 +161,17 @@ with DAG(
 
       # Airflow can only call the demux endpoint once at a specific time, do not allow demux endpoint calls to overlap
       time.sleep(5)
+
+      if completed_run_ids:
+         try:
+            data = {
+               "timestamp": datetime.datetime.now().isoformat(),
+               "completed_runs": completed_run_ids,
+            }
+            with open(completed_runs_file, "w") as f:
+               json.dump(data, f, indent=2)
+            print(f"Saved completed runs to {completed_runs_file}: {completed_run_ids}")
+         except Exception as e:
+            print(f"Failed to write completed runs file: {e}")
+   else:
+      print("No new completed runs found, skipping file write.")

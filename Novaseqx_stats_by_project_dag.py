@@ -32,45 +32,40 @@ dag = DAG(
 copy_script = "/igo/work/igo/igo-demux/scripts/move_novaseqx_analysis_files.py"
 
 
-def get_latest_completed_runs(**context):
-    """
-    Fetch list of completed runs from the latest successful
-    find_completed_runs_dag execution via XCom.
-    """
-    session = context["session"]
-    dag_runs = (
-        session.query(DagRun)
-        .filter(DagRun.dag_id == "find_completed_runs_dag", DagRun.state == State.SUCCESS)
-        .order_by(DagRun.execution_date.desc())
-        .all()
-    )
+completed_runs_file = "/igo/sequencers/completed_runs.json"
 
-    if not dag_runs:
-        print("⚠️ No successful find_completed_runs_dag runs found.")
+
+def get_completed_runs_from_file(**context):
+    """
+    Reads completed runs from a JSON file written by the find_completed_runs DAG.
+    Example file content:
+    {
+        "timestamp": "2025-11-06T12:00:00",
+        "completed_runs": ["FAUCI2_0073_B232GYLLT3", "BONO_0123_AHJKLXYZ"]
+    }
+    """
+    if not os.path.exists(completed_runs_file):
+        print(f"Completed runs file not found: {completed_runs_file}")
         return []
 
-    latest = dag_runs[0]
-    ti = latest.get_task_instances()
-    completed_runs = None
-
-    for t in ti:
-        if t.task_id == "find_completed_runs":
-            completed_runs = t.xcom_pull(task_ids="find_completed_runs", key="completed_runs")
-            break
-
-    if not completed_runs:
-        print("⚠️ No completed_runs XCom found in the last successful run.")
+    try:
+        with open(completed_runs_file, "r") as f:
+            data = json.load(f)
+        completed_runs = data.get("completed_runs", [])
+        print(f"✅ Found {len(completed_runs)} completed runs: {completed_runs}")
+        return completed_runs
+    except Exception as e:
+        print(f"❌ Error reading completed runs file: {e}")
         return []
-
-    print(f"✅ Found completed runs: {completed_runs}")
-    return completed_runs
 
 
 def copy_runs_to_staging(**context):
     """
-    Execute move_novaseqx_analysis_files.py for each completed run.
+    Runs the copy script for each completed run ID found in the file.
     """
-    completed_runs = context["ti"].xcom_pull(task_ids="get_latest_completed_runs")
+    ti = context["ti"]
+    completed_runs = ti.xcom_pull(task_ids="get_completed_runs_from_file")
+
     if not completed_runs:
         print("No completed runs found.")
         return
@@ -78,15 +73,18 @@ def copy_runs_to_staging(**context):
     for run_id in completed_runs:
         print(f"Copying run {run_id} to staging...")
         try:
-            subprocess.run(["/home/igo/miniconda_airflow/bin/python3.9 ", copy_script, run_id], check=True)
+            subprocess.run(
+                ["/home/igo/miniconda_airflow/bin/python3.9", copy_script, run_id],
+                check=True,
+            )
             print(f"✅ Successfully copied {run_id}")
         except subprocess.CalledProcessError as e:
             print(f"❌ Copy failed for {run_id}: {e}")
 
 
 get_runs_task = PythonOperator(
-    task_id="get_latest_completed_runs",
-    python_callable=get_latest_completed_runs,
+    task_id="get_completed_runs_from_file",
+    python_callable=get_completed_runs_from_file,
     provide_context=True,
     dag=dag,
 )
