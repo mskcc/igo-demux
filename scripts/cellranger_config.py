@@ -6,24 +6,24 @@ MULTI_STATS_AREA = "/igo/staging/PIPELINE/"
 ACCESS = 0o775
 config_dict = {
     "count": {
-        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger count ",
+        "tool": " /igo/work/nabors/tools/cellranger-10.0.0/cellranger count ",
         "genome": {
             "Human": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
             "Mouse": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A "
         }
     },
     "vdj": {
-        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger vdj ",
+        "tool": " /igo/work/nabors/tools/cellranger-10.0.0/cellranger vdj ",
         "genome": {
             "Human": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0 ",
             "Mouse": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-7.0.0 "
         }
     },
     "multi": {
-        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger multi "
+        "tool": " /igo/work/nabors/tools/cellranger-10.0.0/cellranger multi "
     },
     "ocm": {
-        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger multi "
+        "tool": " /igo/work/nabors/tools/cellranger-10.0.0/cellranger multi "
     },
     "arc": {
         "tool": " /igo/work/nabors/tools/cellranger-arc-2.0.2/cellranger-arc count ",
