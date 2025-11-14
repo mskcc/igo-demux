@@ -264,7 +264,7 @@ def lanuch_by_project(sequencer_and_run, project, sample_id_list, sample_genome_
         elif tag == "ocm":
             # create config csv file by reading in template file like multi
             file_path = config_file_generation(project, sample, sample_genome_dict[sample], sample_fastqfile_dict[sample])
-            # launch pipeline /igo/work/nabors/tools/cellranger-9.0.1/cellranger multi --id=20250508_DY_OCM_1_IGO_17326_1 --csv=/igo/stats/Multi_config/Project_17326/20250508_DY_OCM_1_IGO_17326_1.csv --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200
+            # launch pipeline /igo/work/nabors/tools/cellranger-10.0.0/cellranger multi --id=20250508_DY_OCM_1_IGO_17326_1 --csv=/igo/stats/Multi_config/Project_17326/20250508_DY_OCM_1_IGO_17326_1.csv --nopreflight --jobmode=lsf --mempercore=64 --disable-ui --maxjobs=200
             tool = CONFIG.config_dict[tag]["tool"]
             cmd = "{}--id=Sample_{}".format(tool, sample) + " --csv={}".format(file_path) + CONFIG.ARC_OPTIONS
             bsub_cmd = "bsub -J {}_{}_{}_OCM -o {}_OCM.out{}".format(sequencer_and_run, project, sample, sample, cmd)
