@@ -12,21 +12,21 @@ import openpyxl
 ACCESS = 0o775
 config_dict = {
     "count": {
-        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger count ",
+        "tool": " /igo/work/nabors/tools/cellranger-10.0.0/cellranger count ",
         "genome": {
             "Human": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-GRCh38-2020-A ",
             "Mouse": " --transcriptome=/igo/work/nabors/genomes/10X_Genomics/GEX/refdata-gex-mm10-2020-A "
         }
     },
     "vdj": {
-        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger vdj ",
+        "tool": " /igo/work/nabors/tools/cellranger-10.0.0/cellranger vdj ",
         "genome": {
             "Human": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCh38-alts-ensembl-7.0.0 ",
             "Mouse": " --reference=/igo/work/genomes/10X_Genomics/VDJ/refdata-cellranger-vdj-GRCm38-alts-ensembl-7.0.0 "
         }
     },
     "multi": {
-        "tool": " /igo/work/nabors/tools/cellranger-9.0.1/cellranger multi "
+        "tool": " /igo/work/nabors/tools/cellranger-10.0.0/cellranger multi "
     }
 }
 
@@ -69,7 +69,7 @@ def find_fastq_file(sample_ID_list, archive = False):
 CONFIG_AREA = "/igo/stats/Multi_config/"
 DRIVE_LOCATION = "/igo/work/igo/Cellranger_Multi_Config/"
 ORIGIN_DRIVE_LOCATION = "/rtssdc/mohibullahlab/LIMS/LIMS_cellranger_multi/"
-BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-7.0.0/lib/bin/bamtofastq"
+BAMTOFASTQ = "/igo/work/nabors/tools/cellranger-10.0.0/lib/bin/bamtofastq"
 STATS_AREA = "/igo/staging/PIPELINE/"
 # endpoint for cellranger multi
 ENDPOINT= "https://igolims.mskcc.org:8443/LimsRest/getTenxSampleInfo?requestId="
