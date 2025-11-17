@@ -1,72 +1,106 @@
 import os
-import sys
-import glob
+import re
 import subprocess
+from pathlib import Path
 
-def move_novaseqx_analysis_files(run_id: str):
+SEQUENCERS = ["bono", "fauci2"]
+
+SEQUENCER_BASE = "/igo/sequencers"
+STATS_BASE = "/igo/staging/stats"
+FASTQ_BASE = "/igo/staging/FASTQ"
+
+def run_cmd(cmd):
+    print(f"Running: {cmd}")
+    subprocess.run(cmd, shell=True, check=True)
+
+def discover_runs():
     """
-    Move all germline_seq files from:
-      /igo/sequencers/<sequencer>/<RunID>/Analysis/1/Data/Project_*/DragenGermline/*_IGO_*/germline_seq/
-    into a single flat destination folder:
-      /igo/staging/stats/<sequencer>_<RunID>/DRAGEN/
+    Find all run folders under each sequencer.
+    A run folder looks like: yymmdd_SEQUENCERNAME_RUNID
     """
+    runs = []
+    pattern = re.compile(r"^\d{6}_(?P<seq>[A-Za-z0-9]+)_(?P<runid>.+)$")
 
-    # Detect sequencer automatically from RunID
-    run_id_upper = run_id.upper()
-    if "BONO" in run_id_upper:
-        sequencer = "bono"
-    elif "FAUCI2" in run_id_upper:
-        sequencer = "fauci2"
-    else:
-        print(f"❌ ERROR: Unknown sequencer in RunID: {run_id}")
-        sys.exit(1)
+    for seq in SEQUENCERS:
+        seq_path = Path(SEQUENCER_BASE) / seq
+        if not seq_path.exists():
+            continue
 
-    base_src = f"/igo/sequencers/{sequencer}/{run_id}/Analysis/1/Data"
-    base_dest = f"/igo/staging/stats/{sequencer}_{run_id}/DRAGEN"
+        for entry in seq_path.iterdir():
+            if entry.is_dir():
+                m = pattern.match(entry.name)
+                if m:
+                    sequencer = m.group("seq")
+                    run_id = m.group("runid")
+                    runs.append((seq, sequencer, run_id, entry))
+    return runs
 
-    if not os.path.exists(base_src):
-        print(f"❌ Source directory not found: {base_src}")
-        sys.exit(1)
 
-    os.makedirs(base_dest, exist_ok=True)
-    print(f"✅ Destination directory ready: {base_dest}")
+def copy_analysis_files(source_run_path, dest_stats_dir):
+    """
+    Copy ALL files under:
+        Analysis/1/Data/Project_*/DragenGermline/*_IGO_*/
+    into DRAGEN folder (flat).
+    """
+    dragen_dir = Path(dest_stats_dir) / "DRAGEN"
+    dragen_dir.mkdir(parents=True, exist_ok=True)
 
-    # Find all germline_seq folders under Project_*/DragenGermline/*_IGO_*/
-    search_pattern = os.path.join(base_src, "Project_*", "DragenGermline", "*_IGO_*", "germline_seq")
-    germline_dirs = sorted(glob.glob(search_pattern))
+    search_root = Path(source_run_path) / "Analysis" / "1" / "Data"
 
-    if not germline_dirs:
-        print(f"⚠️ No germline_seq directories found under {base_src}")
-        sys.exit(0)
+    for project_dir in search_root.glob("Project_*"):
+        dragen_germline_root = project_dir / "DragenGermline"
 
-    print(f"🔍 Found {len(germline_dirs)} germline_seq directories to copy.")
+        for sample_dir in dragen_germline_root.glob("*_IGO_*"):
+            # Copy files inside sample folder
+            for root, dirs, files in os.walk(sample_dir):
+                for f in files:
+                    src_file = Path(root) / f
+                    cmd = f'rsync -avh "{src_file}" "{dragen_dir}/"'
+                    run_cmd(cmd)
 
-    for src_dir in germline_dirs:
-        project_name = src_dir.split("/")[-4]   # Project_*
-        sample_name = src_dir.split("/")[-2]    # *_IGO_*
-        print(f"  Copying {project_name}/{sample_name}")
 
-        rsync_cmd = [
-            "rsync",
-            "-avh",
-            "--progress",
-            f"{src_dir}/",
-            f"{base_dest}/"
-        ]
+def copy_fastqs(source_run_path, dest_fastq_dir):
+    """
+    Copy all FASTQ files under:
+        Analysis/1/Data/Project_*/DragenGermline/fastq/*.fastq.gz
+    """
+    dest_fastq_dir.mkdir(parents=True, exist_ok=True)
 
-        try:
-            subprocess.run(rsync_cmd, check=True)
-            print(f"  ✅ Done copying {project_name}/{sample_name}")
-        except subprocess.CalledProcessError as e:
-            print(f"  ❌ rsync failed for {project_name}/{sample_name}: {e}")
+    search_root = Path(source_run_path) / "Analysis" / "1" / "Data"
 
-    print("\n All files successfully copied into DRAGEN folder.")
+    for project_dir in search_root.glob("Project_*"):
+        fastq_dir = project_dir / "DragenGermline" / "fastq"
+        if fastq_dir.exists():
+            for fastq in fastq_dir.glob("*.fastq.gz"):
+                cmd = f'rsync -avh "{fastq}" "{dest_fastq_dir}/"'
+                run_cmd(cmd)
+
+
+def main():
+    runs = discover_runs()
+    if not runs:
+        print("No runs found.")
+        return
+
+    for seq, seq_name, run_id, run_path in runs:
+        seq_upper = seq_name.upper()
+        dest_stats_dir = Path(STATS_BASE) / f"{seq_upper}_{run_id}"
+        dest_fastq_dir = Path(FASTQ_BASE) / f"{seq_upper}_{run_id}"
+
+        print(f"\n=== Processing {run_path} ===")
+        print(f"Stats dir:   {dest_stats_dir}")
+        print(f"FASTQ dir:   {dest_fastq_dir}")
+
+        dest_stats_dir.mkdir(parents=True, exist_ok=True)
+
+        # 1. Copy analysis → DRAGEN folder
+        copy_analysis_files(run_path, dest_stats_dir)
+
+        # 2. Copy fastqs → FASTQ folder
+        copy_fastqs(run_path, dest_fastq_dir)
+
+        print(f"✔ Completed copying for {seq_upper}_{run_id}\n")
 
 
 if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        print("Usage: python3 scripts/move_novaseqx_analysis_files.py <RunID>")
-        sys.exit(1)
-
-    run_id = sys.argv[1].strip()
-    move_novaseqx_analysis_files(run_id)
+    main()
