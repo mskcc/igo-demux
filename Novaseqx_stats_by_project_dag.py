@@ -1,14 +1,10 @@
 from datetime import datetime, timedelta
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from airflow.models import DagRun
-from airflow.utils.state import State
+import os
 import subprocess
-
-"""
-This DAG triggers automatically after find_completed_runs_dag identifies completed runs.
-It uses the existing find_completed_runs_dag output instead of duplicating its logic.
-"""
+from pathlib import Path
+import re
 
 default_args = {
     "owner": "igo",
@@ -21,8 +17,8 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id="auto_copy_after_find_runs",
-    description="Automatically copy sequencing analysis files after find_completed_runs_dag completes.",
+    dag_id="copy_novaseqx_fastqs_and_analysis",
+    description="Automatically copy analysis and FASTQ files after CopyComplete.txt appears.",
     schedule_interval='@hourly',
     start_date=datetime(2025, 1, 1),
     catchup=False,
@@ -30,90 +26,84 @@ dag = DAG(
 )
 
 copy_script = "/igo/work/igo/igo-demux/scripts/move_novaseqx_analysis_files.py"
-completed_runs_file = "/igo/sequencers/completed_runs.json"
+
+SEQUENCERS = ["bono", "fauci2"]  # Extend if needed
+SEQUENCER_BASE = "/igo/sequencers"
 
 
-def get_completed_runs_from_file(**context):
+def find_runs_ready_for_copy(**context):
     """
-    Reads completed runs from a JSON file written by the find_completed_runs DAG.
-    Example file content:
-    {
-        "timestamp": "2025-11-06T12:00:00",
-        "completed_runs": ["FAUCI2_0073_B232GYLLT3", "BONO_0123_AHJKLXYZ"]
-    }
+    Scans sequencer directories for run folders and checks if:
+        Analysis/1/CopyComplete.txt exists.
+    Returns list of full run paths ready for copying.
     """
-    if not os.path.exists(completed_runs_file):
-        print(f"Completed runs file not found: {completed_runs_file}")
-        return []
 
-    try:
-        with open(completed_runs_file, "r") as f:
-            data = json.load(f)
-        completed_runs = data.get("completed_runs", [])
-        print(f"✅ Found {len(completed_runs)} completed runs: {completed_runs}")
-        return completed_runs
-    except Exception as e:
-        print(f"❌ Error reading completed runs file: {e}")
-        return []
+    ready_runs = []
+
+    run_pattern = re.compile(r"^\d{6}_(?P<seq>[A-Za-z0-9]+)_(?P<runid>.+)$")
+
+    for seq in SEQUENCERS:
+        seq_dir = Path(SEQUENCER_BASE) / seq
+
+        if not seq_dir.exists():
+            continue
+
+        for run_folder in seq_dir.iterdir():
+            if not run_folder.is_dir():
+                continue
+
+            m = run_pattern.match(run_folder.name)
+            if not m:
+                continue
+
+            # CopyComplete checking path
+            cc_path = run_folder / "Analysis" / "1" / "CopyComplete.txt"
+
+            if cc_path.exists():
+                print(f"✅ Found CopyComplete.txt: {cc_path}")
+                ready_runs.append(str(run_folder))
+            else:
+                print(f"⏳ Not complete: {cc_path}")
+
+    print(f"Total runs ready for copying: {len(ready_runs)}")
+    return ready_runs
 
 
-def copy_runs_to_staging(**context):
+def run_copy_script(**context):
     """
-    Runs the copy script for each completed run ID found in the file.
+    Executes the copy script one time.
+    The script itself discovers all sequencers and runs independently.
     """
-    ti = context["ti"]
-    completed_runs = ti.xcom_pull(task_ids="get_completed_runs_from_file")
+    ready_runs = context["ti"].xcom_pull(task_ids="find_runs_ready_for_copy")
 
-    if not completed_runs:
-        print("No completed runs found.")
+    if not ready_runs:
+        print("No completed runs detected. Nothing to copy.")
         return
 
-    for run_id in completed_runs:
-        print(f"Copying run {run_id} to staging...")
-        try:
-            subprocess.run(
-                ["/home/igo/miniconda_airflow/bin/python3.9", copy_script, run_id],
-                check=True,
-            )
-            print(f"✅ Successfully copied {run_id}")
-        except subprocess.CalledProcessError as e:
-            print(f"❌ Copy failed for {run_id}: {e}")
-
-def clear_completed_runs_file(**context):
-    """
-    Clears the contents of /igo/sequencers/completed_runs.json after successful copy.
-    """
-    if not os.path.exists(completed_runs_file):
-        print("No completed_runs.json file found to clear.")
-        return
+    print("Starting copy script...")
 
     try:
-        with open(completed_runs_file, "w") as f:
-            json.dump({"timestamp": datetime.now().isoformat(), "completed_runs": []}, f, indent=2)
-        print(f"Cleared completed runs in {completed_runs_file}")
-    except Exception as e:
-        print(f"Failed to clear completed_runs.json: {e}")
+        subprocess.run(
+            ["/home/igo/miniconda_airflow/bin/python3.9", copy_script],
+            check=True,
+        )
+        print("✅ Copy script executed successfully.")
+    except subprocess.CalledProcessError as e:
+        print(f"❌ Copy script failed: {e}")
 
 
-get_runs_task = PythonOperator(
-    task_id="get_completed_runs_from_file",
-    python_callable=get_completed_runs_from_file,
+find_runs_task = PythonOperator(
+    task_id="find_runs_ready_for_copy",
+    python_callable=find_runs_ready_for_copy,
     provide_context=True,
     dag=dag,
 )
 
 copy_runs_task = PythonOperator(
-    task_id="copy_runs_to_staging",
-    python_callable=copy_runs_to_staging,
+    task_id="run_copy_script",
+    python_callable=run_copy_script,
     provide_context=True,
     dag=dag,
 )
 
-clear_file_task = PythonOperator(
-    task_id="clear_completed_runs_file",
-    python_callable=clear_completed_runs_file,
-    provide_context=True,
-    dag=dag,
-)
-
-get_runs_task >> copy_runs_task >> clear_file_task
+find_runs_task >> copy_runs_task
