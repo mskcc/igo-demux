@@ -17,7 +17,7 @@ default_args = {
 }
 
 dag = DAG(
-    dag_id="auto_copy_after_copycomplete",
+    dag_id="copy_novaseqx_fastqs_and_analysis",
     description="Automatically copy analysis and FASTQ files after CopyComplete.txt appears.",
     schedule_interval='@hourly',
     start_date=datetime(2025, 1, 1),
