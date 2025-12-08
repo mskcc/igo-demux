@@ -125,8 +125,12 @@ def push_to_lims(sample_dict):
     for key, values in sample_dict.items():
         # exclude the unclassified from lims
         if "unclassified" not in key and "barcode" not in key:
+            # if folder contain reRun, remove it before pushing to lims
+            if "rerun" in key.lower():
             # Create a nested dictionary by zipping parameter names and values
-            values = values + (key,)
+               values = values + (re.sub(r"rerun", "", key, flags=re.IGNORECASE),)
+            else:
+                values = values + (key,)
             converted_sample_dict[key] = dict(zip(parameter_names, values))
     print(converted_sample_dict)
 
