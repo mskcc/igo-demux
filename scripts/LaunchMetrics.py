@@ -252,33 +252,28 @@ class LaunchMetrics(object):
 		
 		# get the correct path for the reference
 		if (sample_parameters["GTAG"] == "GRCh38") or (sample.genome == "Synthetic"):
-			# dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38_methylated"
-			dragen_path = "/igo/work/igo/dragen_hash_tables/4.3.6/hg38_methylated"
-			# vcfFileOption = "--qc-cross-cont-vcf /opt/edico/config/sample_cross_contamination_resource_hg38.vcf.gz"
-			vcfFileOption = "--qc-cross-cont-vcf /opt/dragen/4.3.6/resources/qc/sample_cross_contamination_resource_hg38.vcf.gz"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/hg38_methylated"
+			vcfFileOption = "--qc-cross-cont-vcf /opt/edico/config/sample_cross_contamination_resource_hg38.vcf.gz"
 		elif (sample.genome == "ecoli_GCF_000005845_2_ASM584v2_methylated"):
-			dragen_path = "/igo/work/igo/dragen_hash_tables/4.3.6/ecoli_GCF_000005845_2_ASM584v2_methylated"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/ecoli_GCF_000005845_2_ASM584v2_methylated"
 			vcfFileOption = ""
 		elif (sample.genome == "J02459_1_bacteriophage_lambda_methylated"):
-			dragen_path = "/igo/work/igo/dragen_hash_tables/4.3.6/J02459_1_bacteriophage_lambda_methylated"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/J02459_1_bacteriophage_lambda_methylated"
 			vcfFileOption = ""
 		else:
-			dragen_path = "/igo/work/igo/dragen_hash_tables/4.3.6/grcm39_methylated"
+			dragen_path = "/igo/work/igo/dragen_hash_tables/4.2/grcm39_methylated"
 			vcfFileOption = ""
 			
-		# HOLD THIS	
-		# /opt/edico/bin/dragen
-			
 		metric_file_prefix = "{}___P{}___{}___{}".format(run, sample.project[8:], sample.sample_id, sample_parameters["GTAG"])
-		launch_dragen_methylation = "/opt/dragen/4.3.6/bin/dragen --force --enable-methylation-calling true --methylation-protocol directional --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} {} --enable-duplicate-marking true --enable-sort true --enable-map-align true --enable-map-align-output true --output-format cram --enable-bam-indexing true --bin_memory 70000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id, vcfFileOption)
-		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id01\" -q dragen -n48 -M4 {3}".format(dragen_methylation_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
+		launch_dragen_methylation = "/opt/edico/bin/dragen --force --enable-methylation-calling true --methylation-protocol directional --ref-dir {} --fastq-list {} --fastq-list-sample-id {} --intermediate-results-dir /staging/temp --output-directory {} --output-file-prefix {} {} --enable-duplicate-marking true --enable-sort true --enable-map-align true --enable-map-align-output true --output-format cram --enable-bam-indexing true --bin_memory 70000000000".format(dragen_path, fastq_list, sample.sample_id, dragen_directory, sample.sample_id, vcfFileOption)
+		bsub_launch_dragen = "bsub -J {0}{1} -o {0}{1}.out -cwd \"{2}\" -m \"id02 id03\" -q dragen -n48 -M4 {3}".format(dragen_methylation_job_name_header, sample.sample_id, dragen_directory, launch_dragen_methylation)
 		print(bsub_launch_dragen)
 		call(bsub_launch_dragen, shell = True)
 		
 		# launch DRAGEN PARSER
 		dragen_methylation_parse_header = "{}___DRAGEN_METHYLATION_PARSE___".format(run)
 		dragen_methylation_parse_dna = "/home/igo/miniconda_airflow/bin/python3 /igo/work/igo/igo-demux/scripts/dragen_csv_to_picard.py {} {} {} {}".format(dragen_directory, work_directory, metric_file_prefix, sample_parameters["TYPE"])
-		bsub_dragen_methylation_parse_dna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(dragen_methylation_parse_header, sample.sample_id, dragen_methylation_job_name_header, dragen_directory, dragen_methylation_parse_dna)
+		bsub_dragen_methylation_parse_dna = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n8 -M8 {4}".format(dragen_methylation_parse_header, sample.sample_id, dragen_methylation_job_name_header, dragen_directory, dragen_methylation_parse_dna)
 		print(bsub_dragen_methylation_parse_dna)
 		call(bsub_dragen_methylation_parse_dna, shell = True)
 		
@@ -286,7 +281,7 @@ class LaunchMetrics(object):
 		if (sample.recipe == "Methyl_Capture") and (sample.genome == "Human"):
 			hs_metrics_job_name_header = "{}___HS_METRICS___".format(run)
 			hs_metrics = "{0} CollectHsMetrics --INPUT {1}.cram --OUTPUT {6}{7}___{2}___HS.txt --REFERENCE_SEQUENCE {3} --BAIT_INTERVALS {4} --TARGET_INTERVALS {5}".format(PICARD_AND_JAR, sample.sample_id, PICARD_VERSION, sample_parameters["REFERENCE"], sample_parameters["BAITS"], sample_parameters["TARGETS"], work_directory, metric_file_prefix)
-			bsub_hs_metrics = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n 8 -M 8 {4}".format(hs_metrics_job_name_header, sample.sample_id, dragen_methylation_job_name_header, dragen_directory, hs_metrics)
+			bsub_hs_metrics = "bsub -J {0}{1} -o {0}{1}.out -w \"done({2}{1})\" -cwd \"{3}\" -n8 -M8 {4}".format(hs_metrics_job_name_header, sample.sample_id, dragen_methylation_job_name_header, dragen_directory, hs_metrics)
 			print(bsub_hs_metrics)
 			call(bsub_hs_metrics, shell = True)
 			
