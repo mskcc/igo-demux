@@ -56,13 +56,13 @@ with DAG(
         sample_sheet = SampleSheet(samplesheet_path)
         output_directory = "/igo/staging/FASTQ/" + sequencer_and_run
 
-        # if output directory alrady exists, delete it before start demux
+        # if output directory already exists, delete it before start demux
         if os.path.exists(output_directory):
             remove_cmd = "rm -rf {}".format(output_directory) 
             print(remove_cmd)
             subprocess.run(remove_cmd, shell=True)
 
-        # Let's check to see if this run is an Cellranger ATAC run
+        # Let's check to see if this run is a Cellranger ATAC run
         atac, use_bases_mask = scripts.get_sequencing_read_data.main(sequencer_path)
         
         # check if the sample sheet contains DLP project
@@ -161,7 +161,7 @@ with DAG(
                 fld_file = Path(fld_file_path)
                 response = requests.get(fld_endpoint, auth = ("pms", "tiagostarbuckslightbike"), verify = False)
                 fld_file.write_bytes(response.content)
-                if ("BONO" in sequencer_and_run) or ("FAUCI2" in sequencer_and_run) or ("ORION" in sequencer_and_run):
+                if ("ORION" in sequencer_and_run):
                     python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + fld_file_path + " " + project + " " + output_yaml
                 else:
                     python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + fld_file_path + " " + project + " " + output_yaml + " --revcomp_i5"
@@ -201,7 +201,7 @@ with DAG(
             # launch_wgs_stats(sample_sheet, sequencer_and_run)
             # print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
-        # this routuine start the DRAGENand Picard Analysis after the run has demuxed
+        # this routine start the DRAGENand Picard Analysis after the run has demuxed
         scripts.calculate_stats.main(samplesheet_path)
         
         # use sample sheet to go ahead and start the TCRSeq analysis after fastqs have been created
