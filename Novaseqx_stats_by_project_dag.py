@@ -159,9 +159,9 @@ def stats(ds, **kwargs):
             # if is atac run, demux is using cellranger mkfastq
 
             # step 1, generate txt files containing total reads and upload to qc website
-            # if atac:
-            #     scripts.get_total_reads_from_demux.by_json(sequencer_and_run)
-            if not atac:
+            if atac:
+                scripts.get_total_reads_from_demux.by_json(sequencer_and_run)
+            else:
                 scripts.get_total_reads_from_demux.run(sample_sheet, sequencer_and_run)
 
             scripts.upload_stats.upload_stats(sequencer_and_run)

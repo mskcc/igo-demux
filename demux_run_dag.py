@@ -161,7 +161,7 @@ with DAG(
                 fld_file = Path(fld_file_path)
                 response = requests.get(fld_endpoint, auth = ("pms", "tiagostarbuckslightbike"), verify = False)
                 fld_file.write_bytes(response.content)
-                if ("ORION" in sequencer_and_run):
+                if ("BONO" in sequencer_and_run) or ("FAUCI2" in sequencer_and_run) or ("ORION" in sequencer_and_run):
                     python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + fld_file_path + " " + project + " " + output_yaml
                 else:
                     python_cmd = "python scripts/yaml/generate_metadata.py " + fastq_project_dir + " " + sample_sheet_path + " " + stats + " " + run_info + " " + fld_file_path + " " + project + " " + output_yaml + " --revcomp_i5"
