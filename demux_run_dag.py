@@ -56,13 +56,13 @@ with DAG(
         sample_sheet = SampleSheet(samplesheet_path)
         output_directory = "/igo/staging/FASTQ/" + sequencer_and_run
 
-        # if output directory alrady exists, delete it before start demux
+        # if output directory already exists, delete it before start demux
         if os.path.exists(output_directory):
             remove_cmd = "rm -rf {}".format(output_directory) 
             print(remove_cmd)
             subprocess.run(remove_cmd, shell=True)
 
-        # Let's check to see if this run is an Cellranger ATAC run
+        # Let's check to see if this run is a Cellranger ATAC run
         atac, use_bases_mask = scripts.get_sequencing_read_data.main(sequencer_path)
         
         # check if the sample sheet contains DLP project
@@ -201,7 +201,7 @@ with DAG(
             # launch_wgs_stats(sample_sheet, sequencer_and_run)
             # print("DRAGEN WGS stats are running for {}".format(sequencer_and_run))
 
-        # this routuine start the DRAGENand Picard Analysis after the run has demuxed
+        # this routine start the DRAGENand Picard Analysis after the run has demuxed
         scripts.calculate_stats.main(samplesheet_path)
         
         # use sample sheet to go ahead and start the TCRSeq analysis after fastqs have been created
