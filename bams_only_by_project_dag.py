@@ -36,7 +36,6 @@ with DAG(
     generate_bams_only_by_project = PythonOperator(
         task_id='bams_only_by_project',
         python_callable=generate_bams,
-        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag

@@ -35,7 +35,6 @@ with DAG(
     deliver_pipeline_output = PythonOperator(
         task_id='deliver_pipeline',
         python_callable=deliver,
-        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag

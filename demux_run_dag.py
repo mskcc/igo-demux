@@ -264,7 +264,6 @@ with DAG(
     demux_run = PythonOperator(
         task_id='start_the_demux',
         python_callable=demux,
-        provide_context=True,
         retries=2, 
         retry_delay=timedelta(seconds=60),
         email_on_retry=True, 
@@ -276,7 +275,6 @@ with DAG(
     launch_stats = PythonOperator(
         task_id='launch_stats',
         python_callable=stats,
-        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag
@@ -286,7 +284,6 @@ with DAG(
     launch_fingerprinting = PythonOperator(
         task_id='launch_fingerprinting',
         python_callable=fingerprinting,
-        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag
@@ -296,7 +293,6 @@ with DAG(
     send_stats_email = PythonOperator(
         task_id='send_stats_email',
         python_callable=email_notifier,
-        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag

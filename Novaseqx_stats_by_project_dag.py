@@ -277,26 +277,22 @@ def email_notifier(ds, **kwargs):
 find_runs_task = PythonOperator(
     task_id="find_runs_ready_for_copy",
     python_callable=find_runs_ready_for_copy,
-    provide_context=True,
     dag=dag,
 )
 
 copy_runs_task = PythonOperator(
     task_id="run_copy_script",
     python_callable=run_copy_script,
-    provide_context=True,
     dag=dag,
 )
 check_stats_not_done = ShortCircuitOperator(
     task_id="check_stats_not_done",
     python_callable=should_run_stats,
-    provide_context=True,
     dag=dag,
 )
 launch_stats = PythonOperator(
     task_id='launch_stats',
     python_callable=stats,
-    provide_context=True,
     email_on_failure=True,
     email='skigodata@mskcc.org',
     dag=dag
@@ -306,7 +302,6 @@ launch_stats = PythonOperator(
 launch_fingerprinting = PythonOperator(
     task_id='launch_fingerprinting',
     python_callable=fingerprinting,
-    provide_context=True,
     email_on_failure=True,
     email='skigodata@mskcc.org',
     dag=dag
@@ -316,7 +311,6 @@ launch_fingerprinting = PythonOperator(
 send_stats_email = PythonOperator(
     task_id='send_stats_email',
     python_callable=email_notifier,
-    provide_context=True,
     email_on_failure=True,
     email='skigodata@mskcc.org',
     dag=dag

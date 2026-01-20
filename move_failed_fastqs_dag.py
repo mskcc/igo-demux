@@ -32,7 +32,6 @@ with DAG(
     move_failed_fastqs = PythonOperator(
         task_id='move_failed_fastqs',
         python_callable=move_fastqs,
-        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag

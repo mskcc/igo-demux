@@ -54,7 +54,6 @@ with DAG(
     run_stats_by_project = PythonOperator(
         task_id='stats_by_project',
         python_callable=run_stats,
-        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag
