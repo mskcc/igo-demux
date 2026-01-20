@@ -1,7 +1,6 @@
 from airflow.decorators import dag, task
 from airflow.models import DagBag
 from find_completed_runs_dag import *
-from airflow.sdk.dag import dag; from airflow.sdk.task import task
 
 def skip_test_no_import_errors():
     dag_bag = DagBag()

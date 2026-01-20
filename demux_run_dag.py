@@ -30,7 +30,7 @@ from airflow.utils.email import send_email
 """
 with DAG(
     dag_id="demux_run",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["demux_run"],

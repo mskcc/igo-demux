@@ -8,7 +8,7 @@ Airflow DAG to generate bams only by project giving projectID, recipe parameters
 """
 with DAG(
     dag_id="bams_only_by_project",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2023, 1, 1),
     catchup=False,
     tags=["bams_only_by_project"],

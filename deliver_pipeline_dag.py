@@ -11,7 +11,7 @@ Airflow DAG to call the deliver_pipeline.py code.
 """
 with DAG(
     dag_id="deliver_pipeline",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["deliver_pipeline"],

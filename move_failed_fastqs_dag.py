@@ -10,7 +10,7 @@ DAG to wraps the Python script which removes failed fastqs and .bams
 """
 with DAG(
     dag_id="move_failed_fastqs",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["move_failed_fastqs"],

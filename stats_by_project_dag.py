@@ -6,7 +6,7 @@ Airflow DAG to run stats by project giving projectID, recipe parameters
 """
 with DAG(
     dag_id="stats_by_project",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["stats_by_project"],
