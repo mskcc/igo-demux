@@ -6,7 +6,7 @@ import time
 
 from SampleSheet import SampleSheet
 
-from airflow.providers.http.operators.http import SimpleHttpOperator
+from airflow.providers.http.operators.http import HttpOperator
 from airflow.operators.bash import BashOperator
 from airflow import DAG
 from airflow.models import Variable
