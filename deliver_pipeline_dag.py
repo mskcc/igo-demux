@@ -3,7 +3,7 @@ from datetime import datetime
 import scripts.deliver_pipeline
 
 from airflow import DAG
-from airflow.operators.python import PythonOperator
+from airflow.providers.standard.operators.python import PythonOperator
 
 
 """

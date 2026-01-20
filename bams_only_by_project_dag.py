@@ -1,7 +1,6 @@
 from datetime import datetime
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-import scripts.alignment_only
+from airflow.providers.standard.operators.python import PythonOperator
 import scripts.cellranger
 
 """

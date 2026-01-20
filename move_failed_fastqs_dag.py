@@ -3,8 +3,7 @@ from datetime import datetime
 import scripts.move_failed_fastqs
 
 from airflow import DAG
-from airflow.operators.python import PythonOperator
-
+from airflow.providers.standard.operators.python import PythonOperator
 
 """
 DAG to wraps the Python script which removes failed fastqs and .bams
