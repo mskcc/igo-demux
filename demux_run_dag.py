@@ -16,7 +16,7 @@ import scripts.launch_tcrseq_analysis
 
 from airflow import DAG
 from airflow.providers.standard.operators.python import PythonOperator
-from airflow.providers.smtp.operators.email import EmailOperator
+from airflow.operators.email import EmailOperator
 from airflow.models import Variable
 from airflow.utils.email import send_email
 

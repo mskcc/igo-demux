@@ -11,7 +11,7 @@ from airflow.operators.bash import BashOperator
 from airflow import DAG
 from airflow.models import Variable
 from airflow.decorators import task
-from airflow.providers.smtp.operators.email import EmailOperator
+from airflow.operators.email import EmailOperator
 from airflow.sdk.dag import dag; from airflow.sdk.task import task
 
 # defines the list of all sequencers and for each sequencer 1) name 2) location it writes runs to and 3) the last file the sequencer writes when a run is completed to signal demux can begin
