@@ -3,14 +3,15 @@ from datetime import datetime
 import scripts.move_failed_fastqs
 
 from airflow import DAG
-from airflow.providers.standard.operators.python import PythonOperator
+from airflow.operators.python import PythonOperator
+
 
 """
 DAG to wraps the Python script which removes failed fastqs and .bams
 """
 with DAG(
     dag_id="move_failed_fastqs",
-    schedule=None,
+    schedule_interval=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["move_failed_fastqs"],
@@ -32,6 +33,7 @@ with DAG(
     move_failed_fastqs = PythonOperator(
         task_id='move_failed_fastqs',
         python_callable=move_fastqs,
+        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag

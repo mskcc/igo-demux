@@ -3,7 +3,7 @@ from datetime import datetime
 import scripts.deliver_pipeline
 
 from airflow import DAG
-from airflow.providers.standard.operators.python import PythonOperator
+from airflow.operators.python import PythonOperator
 
 
 """
@@ -11,7 +11,7 @@ Airflow DAG to call the deliver_pipeline.py code.
 """
 with DAG(
     dag_id="deliver_pipeline",
-    schedule=None,
+    schedule_interval=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["deliver_pipeline"],
@@ -35,6 +35,7 @@ with DAG(
     deliver_pipeline_output = PythonOperator(
         task_id='deliver_pipeline',
         python_callable=deliver,
+        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag

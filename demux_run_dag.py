@@ -15,8 +15,8 @@ import Fingerprinting.fingerprinting_dag
 import scripts.launch_tcrseq_analysis
 
 from airflow import DAG
-from airflow.providers.standard.operators.python import PythonOperator
-from airflow.operators.email import EmailOperator
+from airflow.operators.python import PythonOperator
+from airflow.operators.email_operator import EmailOperator
 from airflow.models import Variable
 from airflow.utils.email import send_email
 
@@ -30,7 +30,7 @@ from airflow.utils.email import send_email
 """
 with DAG(
     dag_id="demux_run",
-    schedule=None,
+    schedule_interval=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["demux_run"],
@@ -264,6 +264,7 @@ with DAG(
     demux_run = PythonOperator(
         task_id='start_the_demux',
         python_callable=demux,
+        provide_context=True,
         retries=2, 
         retry_delay=timedelta(seconds=60),
         email_on_retry=True, 
@@ -275,6 +276,7 @@ with DAG(
     launch_stats = PythonOperator(
         task_id='launch_stats',
         python_callable=stats,
+        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag
@@ -284,6 +286,7 @@ with DAG(
     launch_fingerprinting = PythonOperator(
         task_id='launch_fingerprinting',
         python_callable=fingerprinting,
+        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag
@@ -293,6 +296,7 @@ with DAG(
     send_stats_email = PythonOperator(
         task_id='send_stats_email',
         python_callable=email_notifier,
+        provide_context=True,
         email_on_failure=True,
         email='skigodata@mskcc.org',
         dag=dag
