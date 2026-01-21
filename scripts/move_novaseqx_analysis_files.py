@@ -114,7 +114,7 @@ def copy_analysis_files(source_run_path: Path, dest_stats_dir: Path):
             for root, dirs, files in os.walk(sample_dir):
                 for f in files:
                     src = Path(root) / f
-                    cmd = f'rsync -avh "{src}" "{dragen_dir}/"'
+                    cmd = f'rsync -avhc "{src}" "{dragen_dir}/"'
                     run_cmd(cmd)
 
 
@@ -141,7 +141,7 @@ def copy_demux_files(source_run_path: Path, dest_fastq_root: Path):
     for filename in DEMUX_FILES:
         src = demux_dir / filename
         if src.exists():
-            cmd = f'rsync -avh "{src}" "{dest_fastq_root}/"'
+            cmd = f'rsync -avhc "{src}" "{dest_fastq_root}/"'
             run_cmd(cmd)
         else:
             logger.info(f"Demux file not found: {src}")
@@ -177,7 +177,7 @@ def copy_fastqs(source_run_path: Path, dest_fastq_root: Path):
             dest_sample.mkdir(parents=True, exist_ok=True)
 
             for fastq in sample_dir.glob("*.fastq.gz"):
-                cmd = f'rsync -avh "{fastq}" "{dest_sample}/"'
+                cmd = f'rsync -avhc "{fastq}" "{dest_sample}/"'
                 run_cmd(cmd)
 
 
