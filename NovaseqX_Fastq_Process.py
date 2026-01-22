@@ -6,7 +6,7 @@ import subprocess
 from pathlib import Path
 import re
 from airflow.utils.email import send_email
-from airflow.operators.branch_operator import BranchOperator
+from airflow.operators.python_operator import BranchPythonOperator
 from airflow.operators.dummy_operator import DummyOperator
 
 
@@ -243,7 +243,7 @@ copy_runs_task = PythonOperator(
     dag=dag,
 )
 
-check_stats_not_done = BranchOperator(
+check_stats_not_done = BranchPythonOperator(
     task_id="check_stats_not_done",
     python_callable=should_run_stats,
     provide_context=True,
