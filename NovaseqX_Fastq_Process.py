@@ -229,13 +229,6 @@ def email_notifier(ds, **kwargs):
         html_content=content
     )
 
-find_runs_task = PythonOperator(
-    task_id="find_runs_ready_for_copy",
-    python_callable=find_runs_ready_for_copy,
-    provide_context=True,
-    dag=dag,
-)
-
 copy_runs_task = PythonOperator(
     task_id="run_copy_script",
     python_callable=run_copy_script,
@@ -282,7 +275,7 @@ end = DummyOperator(
     dag=dag,
 )
 
-find_runs_task >> copy_runs_task >> check_stats_not_done
+copy_runs_task >> check_stats_not_done
 
 check_stats_not_done >> launch_stats >> launch_fingerprinting >> send_stats_email
 check_stats_not_done >> end
