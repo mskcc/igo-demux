@@ -6,7 +6,9 @@ import subprocess
 from pathlib import Path
 import re
 from airflow.utils.email import send_email
-from airflow.operators.short_circuit import ShortCircuitOperator
+from airflow.operators.branch_operator import BranchPythonOperator
+from airflow.operators.dummy_operator import DummyOperator
+
 
 from SampleSheet import SampleSheet
 import scripts.cellranger
@@ -66,7 +68,7 @@ def stats(ds, **kwargs):
     samplesheet_no_ext = os.path.splitext(samplesheet)[0]  # SampleSheet_210331_MICHELLE_0360_BH5KFYDRXY
     sequencer_and_run = samplesheet_no_ext[19:]            # remove 'SampleSheet_210331_'
 
-    done = Path("/igo/staging/stats/{sequencer_and_run}/DONE")
+    done = Path(f"/igo/staging/stats/{sequencer_and_run}/DONE")
     if done.exists():
         return f"Stats already completed for {sequencer_and_run}"
 
@@ -171,15 +173,15 @@ def should_run_stats(**kwargs):
     samplesheet = os.path.basename(samplesheet_path)
     run = os.path.splitext(samplesheet)[0][19:]
 
-    stats_done = Path("/igo/staging/stats/{run}/DONE")
-    cellranger_done = Path("/igo/staging/CELLRANGER/{'_'.join(run.split('_')[:3])}/DONE")
+    stats_done = Path(f"/igo/staging/stats/{run}/DONE")
+    cellranger_done = Path(f"/igo/staging/CELLRANGER/{'_'.join(run.split('_')[:3])}/DONE")
 
     if stats_done.exists() or cellranger_done.exists():
         print(f"⏭ Stats already completed for {run}, skipping.")
-        return False
+        return "end"
 
     print(f"▶ Stats not done yet for {run}, continuing.")
-    return True
+    return "launch_stats"
 
 def fingerprinting(ds, **kwargs):
     # read in sample sheet as arguments, filter out projects that need to run fingerprinting
@@ -240,12 +242,14 @@ copy_runs_task = PythonOperator(
     provide_context=True,
     dag=dag,
 )
-check_stats_not_done = ShortCircuitOperator(
+
+check_stats_not_done = BranchPythonOperator(
     task_id="check_stats_not_done",
     python_callable=should_run_stats,
     provide_context=True,
     dag=dag,
 )
+
 launch_stats = PythonOperator(
     task_id='launch_stats',
     python_callable=stats,
@@ -255,7 +259,6 @@ launch_stats = PythonOperator(
     dag=dag
 )
 
-# step for calling fingerprinting if needed
 launch_fingerprinting = PythonOperator(
     task_id='launch_fingerprinting',
     python_callable=fingerprinting,
@@ -265,7 +268,6 @@ launch_fingerprinting = PythonOperator(
     dag=dag
 )
 
-# step for sending email on stats finish successfully
 send_stats_email = PythonOperator(
     task_id='send_stats_email',
     python_callable=email_notifier,
@@ -275,5 +277,12 @@ send_stats_email = PythonOperator(
     dag=dag
 )
 
+end = DummyOperator(
+    task_id='end',
+    dag=dag,
+)
+
 find_runs_task >> copy_runs_task >> check_stats_not_done
+
 check_stats_not_done >> launch_stats >> launch_fingerprinting >> send_stats_email
+check_stats_not_done >> end
